@@ -1,0 +1,188 @@
+name: flashchords
+description: Flutter chord learning app
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.10.0 <4.0.0"
+
+dependencies:
+
+  record: ^6.1.1
+  fftea: ^1.5.0+1
+
+  flutter:
+    sdk: flutter
+
+  # Localization
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+
+  # State management
+  hooks_riverpod: ^3.0.3
+
+  # Data parsing
+  xml: ^6.5.0
+
+  # Persistence
+  shared_preferences: ^2.2.2
+
+  # Functional utilities
+  freezed_annotation: ^3.1.0
+
+  # UI utilities
+  flutter_hooks: ^0.21.3+1
+
+  flutter_html: ^3.0.0-alpha.6     # <── add here
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # Code generation
+  build_runner: ^2.10.4
+  freezed: ^3.2.3
+
+  # L10n generation config
+  flutter_lints: ^3.0.0
+
+flutter:
+  generate: true        # enables gen‑l10n
+  uses-material-design: true
+  assets:
+    - assets/Chords/
+    - assets/Chords.xml
+    - assets/Chords/A_Chords/
+    - assets/Chords/A_Chords/A_Diminished/
+    - assets/Chords/A_Chords/A_Dominant_7th/
+    - assets/Chords/A_Chords/A_Major/
+    - assets/Chords/A_Chords/A_Major_6th/
+    - assets/Chords/A_Chords/A_Major_7th/
+    - assets/Chords/A_Chords/A_Augmented/
+    - assets/Chords/A_Chords/A_Major_Sus_2/
+    - assets/Chords/A_Chords/A_Major_Sus_4/
+    - assets/Chords/A_Chords/A_Minor/
+    - assets/Chords/A_Chords/A_Minor_7th/
+    - assets/Chords/Ab_Chords/
+    - assets/Chords/Ab_Chords/Ab_Diminished/
+    - assets/Chords/Ab_Chords/Ab_Dominant_7th/
+    - assets/Chords/Ab_Chords/Ab_Major/
+    - assets/Chords/Ab_Chords/Ab_Major_6th/
+    - assets/Chords/Ab_Chords/Ab_Major_7th/
+    - assets/Chords/Ab_Chords/Ab_Augmented/
+    - assets/Chords/Ab_Chords/Ab_Major_Sus_2/
+    - assets/Chords/Ab_Chords/Ab_Major_Sus_4/
+    - assets/Chords/Ab_Chords/Ab_Minor/
+    - assets/Chords/Ab_Chords/Ab_Minor_7th/
+    - assets/Chords/B_Chords/
+    - assets/Chords/B_Chords/B_Diminished/
+    - assets/Chords/B_Chords/B_Dominant_7th/
+    - assets/Chords/B_Chords/B_Major/
+    - assets/Chords/B_Chords/B_Major_6th/
+    - assets/Chords/B_Chords/B_Major_7th/
+    - assets/Chords/B_Chords/B_Augmented/
+    - assets/Chords/B_Chords/B_Major_Sus_2/
+    - assets/Chords/B_Chords/B_Major_Sus_4/
+    - assets/Chords/B_Chords/B_Minor/
+    - assets/Chords/B_Chords/B_Minor_7th/
+    - assets/Chords/Bb_Chords/
+    - assets/Chords/Bb_Chords/Bb_Diminished/
+    - assets/Chords/Bb_Chords/Bb_Dominant_7th/
+    - assets/Chords/Bb_Chords/Bb_Major/
+    - assets/Chords/Bb_Chords/Bb_Major_6th/
+    - assets/Chords/Bb_Chords/Bb_Major_7th/
+    - assets/Chords/Bb_Chords/Bb_Augmented/
+    - assets/Chords/Bb_Chords/Bb_Major_Sus_2/
+    - assets/Chords/Bb_Chords/Bb_Major_Sus_4/
+    - assets/Chords/Bb_Chords/Bb_Minor/
+    - assets/Chords/Bb_Chords/Bb_Minor_7th/
+    - assets/Chords/build/
+    - assets/Chords/C_Chords/
+    - assets/Chords/C_Chords/C_Diminished/
+    - assets/Chords/C_Chords/C_Dominant_7th/
+    - assets/Chords/C_Chords/C_Major/
+    - assets/Chords/C_Chords/C_Major_6th/
+    - assets/Chords/C_Chords/C_Major_7th/
+    - assets/Chords/C_Chords/C_Augmented/
+    - assets/Chords/C_Chords/C_Major_Sus_2/
+    - assets/Chords/C_Chords/C_Major_Sus_4/
+    - assets/Chords/C_Chords/C_Minor/
+    - assets/Chords/C_Chords/C_Minor_7th/
+    - assets/Chords/Db_Chords/
+    - assets/Chords/Db_Chords/Db_Diminished/
+    - assets/Chords/Db_Chords/Db_Dominant_7th/
+    - assets/Chords/Db_Chords/Db_Major/
+    - assets/Chords/Db_Chords/Db_Major_6th/
+    - assets/Chords/Db_Chords/Db_Major_7th/
+    - assets/Chords/Db_Chords/Db_Augmented/
+    - assets/Chords/Db_Chords/Db_Major_Sus_2/
+    - assets/Chords/Db_Chords/Db_Major_Sus_4/
+    - assets/Chords/Db_Chords/Db_Minor/
+    - assets/Chords/Db_Chords/Db_Minor_7th/
+    - assets/Chords/D_Chords/
+    - assets/Chords/D_Chords/D_Diminished/
+    - assets/Chords/D_Chords/D_Dominant_7th/
+    - assets/Chords/D_Chords/D_Major/
+    - assets/Chords/D_Chords/D_Major_6th/
+    - assets/Chords/D_Chords/D_Major_7th/
+    - assets/Chords/D_Chords/D_Augmented/
+    - assets/Chords/D_Chords/D_Major_Sus_2/
+    - assets/Chords/D_Chords/D_Major_Sus_4/
+    - assets/Chords/D_Chords/D_Minor/
+    - assets/Chords/D_Chords/D_Minor_7th/
+    - assets/Chords/E_Chords/
+    - assets/Chords/E_Chords/E_Diminished/
+    - assets/Chords/E_Chords/E_Dominant_7th/
+    - assets/Chords/E_Chords/E_Major/
+    - assets/Chords/E_Chords/E_Major_6th/
+    - assets/Chords/E_Chords/E_Major_7th/
+    - assets/Chords/E_Chords/E_Augmented/
+    - assets/Chords/E_Chords/E_Major_Sus_2/
+    - assets/Chords/E_Chords/E_Major_Sus_4/
+    - assets/Chords/E_Chords/E_Minor/
+    - assets/Chords/E_Chords/E_Minor_7th/
+    - assets/Chords/Eb_Chords/
+    - assets/Chords/Eb_Chords/Eb_Major_6th/
+    - assets/Chords/Eb_Chords/Eb_Diminished/
+    - assets/Chords/Eb_Chords/Eb_Dominant_7th/
+    - assets/Chords/Eb_Chords/Eb_Major/
+    - assets/Chords/Eb_Chords/Eb_Major_7th/
+    - assets/Chords/Eb_Chords/Eb_Augmented/
+    - assets/Chords/Eb_Chords/Eb_Major_Sus_2/
+    - assets/Chords/Eb_Chords/Eb_Major_Sus_4/
+    - assets/Chords/Eb_Chords/Eb_Minor/
+    - assets/Chords/Eb_Chords/Eb_Minor_7th/
+    - assets/Chords/F_Chords/
+    - assets/Chords/F_Chords/F_Diminished/
+    - assets/Chords/F_Chords/F_Dominant_7th/
+    - assets/Chords/F_Chords/F_Major/
+    - assets/Chords/F_Chords/F_Major_6th/
+    - assets/Chords/F_Chords/F_Major_7th/
+    - assets/Chords/F_Chords/F_Augmented/
+    - assets/Chords/F_Chords/F_Major_Sus_2/
+    - assets/Chords/F_Chords/F_Major_Sus_4/
+    - assets/Chords/F_Chords/F_Minor/
+    - assets/Chords/F_Chords/F_Minor_7th/
+    - assets/Chords/Gb_Chords/
+    - assets/Chords/Gb_Chords/Gb_Diminished/
+    - assets/Chords/Gb_Chords/Gb_Dominant_7th/
+    - assets/Chords/Gb_Chords/Gb_Major/
+    - assets/Chords/Gb_Chords/Gb_Major_6th/
+    - assets/Chords/Gb_Chords/Gb_Major_7th/
+    - assets/Chords/Gb_Chords/Gb_Augmented/
+    - assets/Chords/Gb_Chords/Gb_Major_Sus_2/
+    - assets/Chords/Gb_Chords/Gb_Major_Sus_4/
+    - assets/Chords/Gb_Chords/Gb_Minor/
+    - assets/Chords/Gb_Chords/Gb_Minor_7th/
+    - assets/Chords/G_Chords/
+    - assets/Chords/G_Chords/G_Diminished/
+    - assets/Chords/G_Chords/G_Dominant_7th/
+    - assets/Chords/G_Chords/G_Major/
+    - assets/Chords/G_Chords/G_Major_6th/
+    - assets/Chords/G_Chords/G_Major_7th/
+    - assets/Chords/G_Chords/G_Augmented/
+    - assets/Chords/G_Chords/G_Major_Sus_2/
+    - assets/Chords/G_Chords/G_Major_Sus_4/
+    - assets/Chords/G_Chords/G_Minor/
+    - assets/Chords/G_Chords/G_Minor_7th/

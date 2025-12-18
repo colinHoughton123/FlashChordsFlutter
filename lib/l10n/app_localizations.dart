@@ -1,0 +1,555 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart' as intl;
+
+import 'app_localizations_en.dart';
+import 'app_localizations_es.dart';
+
+// ignore_for_file: type=lint
+
+/// Callers can lookup localized strings with an instance of AppLocalizations
+/// returned by `AppLocalizations.of(context)`.
+///
+/// Applications need to include `AppLocalizations.delegate()` in their app's
+/// `localizationDelegates` list, and the locales they support in the app's
+/// `supportedLocales` list. For example:
+///
+/// ```dart
+/// import 'l10n/app_localizations.dart';
+///
+/// return MaterialApp(
+///   localizationsDelegates: AppLocalizations.localizationsDelegates,
+///   supportedLocales: AppLocalizations.supportedLocales,
+///   home: MyApplicationHome(),
+/// );
+/// ```
+///
+/// ## Update pubspec.yaml
+///
+/// Please make sure to update your pubspec.yaml to include the following
+/// packages:
+///
+/// ```yaml
+/// dependencies:
+///   # Internationalization support.
+///   flutter_localizations:
+///     sdk: flutter
+///   intl: any # Use the pinned version from flutter_localizations
+///
+///   # Rest of dependencies
+/// ```
+///
+/// ## iOS Applications
+///
+/// iOS applications define key application metadata, including supported
+/// locales, in an Info.plist file that is built into the application bundle.
+/// To configure the locales supported by your app, you’ll need to edit this
+/// file.
+///
+/// First, open your project’s ios/Runner.xcworkspace Xcode workspace file.
+/// Then, in the Project Navigator, open the Info.plist file under the Runner
+/// project’s Runner folder.
+///
+/// Next, select the Information Property List item, select Add Item from the
+/// Editor menu, then select Localizations from the pop-up menu.
+///
+/// Select and expand the newly-created Localizations item then, for each
+/// locale your application supports, add a new item and select the locale
+/// you wish to add from the pop-up menu in the Value field. This list should
+/// be consistent with the languages listed in the AppLocalizations.supportedLocales
+/// property.
+abstract class AppLocalizations {
+  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+
+  final String localeName;
+
+  static AppLocalizations? of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations);
+  }
+
+  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
+
+  /// A list of this localizations delegate along with the default localizations
+  /// delegates.
+  ///
+  /// Returns a list of localizations delegates containing this delegate along with
+  /// GlobalMaterialLocalizations.delegate, GlobalCupertinoLocalizations.delegate,
+  /// and GlobalWidgetsLocalizations.delegate.
+  ///
+  /// Additional delegates can be added by appending to this list in
+  /// MaterialApp. This list does not have to be used at all if a custom list
+  /// of delegates is preferred or required.
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+    delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ];
+
+  /// A list of this localizations delegate's supported locales.
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
+    Locale('es')
+  ];
+
+  /// No description provided for @welcomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to FlashChords'**
+  String get welcomeTitle;
+
+  /// No description provided for @start.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get start;
+
+  /// No description provided for @configure.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure'**
+  String get configure;
+
+  /// No description provided for @selectLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Language'**
+  String get selectLanguage;
+
+  /// No description provided for @configTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Configuration'**
+  String get configTitle;
+
+  /// No description provided for @configSelectRoots.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Chords'**
+  String get configSelectRoots;
+
+  /// No description provided for @configSelectChordTypes.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Chord Types'**
+  String get configSelectChordTypes;
+
+  /// No description provided for @configSelectInversions.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Inversions'**
+  String get configSelectInversions;
+
+  /// No description provided for @configEnableTimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Timer'**
+  String get configEnableTimer;
+
+  /// No description provided for @configTimerSeconds.
+  ///
+  /// In en, this message translates to:
+  /// **'Timer (seconds)'**
+  String get configTimerSeconds;
+
+  /// No description provided for @saveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get saveButton;
+
+  /// No description provided for @configAtLeastOneOption.
+  ///
+  /// In en, this message translates to:
+  /// **'At least one option must be selected in this section. Re-selecting the last option. Please try again.'**
+  String get configAtLeastOneOption;
+
+  /// No description provided for @configEnableListening.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Listening Mode (Future Feature)'**
+  String get configEnableListening;
+
+  /// No description provided for @configEnableListeningDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically mark chord correct when audio detection matches.'**
+  String get configEnableListeningDesc;
+
+  /// No description provided for @chord_major.
+  ///
+  /// In en, this message translates to:
+  /// **'Major'**
+  String get chord_major;
+
+  /// No description provided for @chord_minor.
+  ///
+  /// In en, this message translates to:
+  /// **'Minor'**
+  String get chord_minor;
+
+  /// No description provided for @chord_diminished.
+  ///
+  /// In en, this message translates to:
+  /// **'Diminished'**
+  String get chord_diminished;
+
+  /// No description provided for @chord_dominant7.
+  ///
+  /// In en, this message translates to:
+  /// **'Dominant 7th'**
+  String get chord_dominant7;
+
+  /// No description provided for @chord_major7.
+  ///
+  /// In en, this message translates to:
+  /// **'Major 7th'**
+  String get chord_major7;
+
+  /// No description provided for @chord_minor7.
+  ///
+  /// In en, this message translates to:
+  /// **'Minor 7th'**
+  String get chord_minor7;
+
+  /// No description provided for @chord_suspended2.
+  ///
+  /// In en, this message translates to:
+  /// **'Suspended 2'**
+  String get chord_suspended2;
+
+  /// No description provided for @chord_suspended4.
+  ///
+  /// In en, this message translates to:
+  /// **'Suspended 4'**
+  String get chord_suspended4;
+
+  /// No description provided for @chord_augmented.
+  ///
+  /// In en, this message translates to:
+  /// **'Augmented'**
+  String get chord_augmented;
+
+  /// No description provided for @inv_root.
+  ///
+  /// In en, this message translates to:
+  /// **'Root position'**
+  String get inv_root;
+
+  /// No description provided for @inv_first.
+  ///
+  /// In en, this message translates to:
+  /// **'1st inversion'**
+  String get inv_first;
+
+  /// No description provided for @inv_second.
+  ///
+  /// In en, this message translates to:
+  /// **'2nd inversion'**
+  String get inv_second;
+
+  /// No description provided for @configCardOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Card Order'**
+  String get configCardOrder;
+
+  /// No description provided for @configCardOrderRandom.
+  ///
+  /// In en, this message translates to:
+  /// **'Random'**
+  String get configCardOrderRandom;
+
+  /// No description provided for @configCardOrderSorted.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorted'**
+  String get configCardOrderSorted;
+
+  /// No description provided for @flash_incorrectCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect count'**
+  String get flash_incorrectCountLabel;
+
+  /// No description provided for @flash_correctCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct count'**
+  String get flash_correctCountLabel;
+
+  /// No description provided for @flash_playingMainDeck.
+  ///
+  /// In en, this message translates to:
+  /// **'Playing the main deck'**
+  String get flash_playingMainDeck;
+
+  /// No description provided for @flash_playingErrorDeck.
+  ///
+  /// In en, this message translates to:
+  /// **'Playing the error deck'**
+  String get flash_playingErrorDeck;
+
+  /// No description provided for @flash_redoButton.
+  ///
+  /// In en, this message translates to:
+  /// **'REDO'**
+  String get flash_redoButton;
+
+  /// No description provided for @flash_playedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'played'**
+  String get flash_playedLabel;
+
+  /// No description provided for @flash_toGoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'to go'**
+  String get flash_toGoLabel;
+
+  /// No description provided for @flash_averageTimeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Average Time:'**
+  String get flash_averageTimeLabel;
+
+  /// No description provided for @flash_timeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get flash_timeLabel;
+
+  /// No description provided for @flash_timerCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Timer cancelled'**
+  String get flash_timerCancelled;
+
+  /// No description provided for @flash_play_instruction.
+  ///
+  /// In en, this message translates to:
+  /// **'Play the following chord\nselected randomly from the main deck'**
+  String get flash_play_instruction;
+
+  /// No description provided for @flash_swipe_right.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe right if you played it correctly'**
+  String get flash_swipe_right;
+
+  /// No description provided for @flash_swipe_left.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe left if you played it incorrectly'**
+  String get flash_swipe_left;
+
+  /// No description provided for @flash_not_sure.
+  ///
+  /// In en, this message translates to:
+  /// **'Not sure? Tap the flashcard to see the fingering'**
+  String get flash_not_sure;
+
+  /// No description provided for @flash_welcome1.
+  ///
+  /// In en, this message translates to:
+  /// **'A chord name will display here'**
+  String get flash_welcome1;
+
+  /// No description provided for @flash_welcome2.
+  ///
+  /// In en, this message translates to:
+  /// **'Play it on your piano'**
+  String get flash_welcome2;
+
+  /// No description provided for @flash_incorrect_count.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect count'**
+  String get flash_incorrect_count;
+
+  /// No description provided for @flash_correct_count.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct count'**
+  String get flash_correct_count;
+
+  /// No description provided for @flash_playing_main.
+  ///
+  /// In en, this message translates to:
+  /// **'Playing the main deck'**
+  String get flash_playing_main;
+
+  /// No description provided for @flash_playing_wrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Playing the errors'**
+  String get flash_playing_wrong;
+
+  /// No description provided for @flash_play_again.
+  ///
+  /// In en, this message translates to:
+  /// **'Play again'**
+  String get flash_play_again;
+
+  /// No description provided for @flash_average_time.
+  ///
+  /// In en, this message translates to:
+  /// **'Average time'**
+  String get flash_average_time;
+
+  /// No description provided for @flash_cards_played.
+  ///
+  /// In en, this message translates to:
+  /// **'{played} played {remaining} to go'**
+  String flash_cards_played(Object played, Object remaining);
+
+  /// No description provided for @flash_mainDeck.
+  ///
+  /// In en, this message translates to:
+  /// **'Main Deck'**
+  String get flash_mainDeck;
+
+  /// No description provided for @flash_errorDeck.
+  ///
+  /// In en, this message translates to:
+  /// **'Errors Deck'**
+  String get flash_errorDeck;
+
+  /// No description provided for @flash_correct.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct'**
+  String get flash_correct;
+
+  /// No description provided for @flash_incorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect'**
+  String get flash_incorrect;
+
+  /// No description provided for @flash_of.
+  ///
+  /// In en, this message translates to:
+  /// **'of'**
+  String get flash_of;
+
+  /// No description provided for @flash_next.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get flash_next;
+
+  /// No description provided for @summary_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary'**
+  String get summary_title;
+
+  /// No description provided for @summary_correct.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct'**
+  String get summary_correct;
+
+  /// No description provided for @summary_incorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect'**
+  String get summary_incorrect;
+
+  /// No description provided for @summary_cards.
+  ///
+  /// In en, this message translates to:
+  /// **'Cards'**
+  String get summary_cards;
+
+  /// No description provided for @summary_average_time.
+  ///
+  /// In en, this message translates to:
+  /// **'Average Time'**
+  String get summary_average_time;
+
+  /// No description provided for @summary_seconds.
+  ///
+  /// In en, this message translates to:
+  /// **'seconds'**
+  String get summary_seconds;
+
+  /// No description provided for @summary_from_main_deck.
+  ///
+  /// In en, this message translates to:
+  /// **'Main deck'**
+  String get summary_from_main_deck;
+
+  /// No description provided for @summary_from_error_deck.
+  ///
+  /// In en, this message translates to:
+  /// **'Errors deck'**
+  String get summary_from_error_deck;
+
+  /// No description provided for @summary_play_again.
+  ///
+  /// In en, this message translates to:
+  /// **'Play again'**
+  String get summary_play_again;
+
+  /// No description provided for @summary_done.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get summary_done;
+
+  /// No description provided for @summary_accuracy.
+  ///
+  /// In en, this message translates to:
+  /// **'Accuracy'**
+  String get summary_accuracy;
+
+  /// No description provided for @listeningActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Listening…'**
+  String get listeningActive;
+
+  /// No description provided for @listeningInactive.
+  ///
+  /// In en, this message translates to:
+  /// **'Listening paused'**
+  String get listeningInactive;
+}
+
+class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
+  const _AppLocalizationsDelegate();
+
+  @override
+  Future<AppLocalizations> load(Locale locale) {
+    return SynchronousFuture<AppLocalizations>(lookupAppLocalizations(locale));
+  }
+
+  @override
+  bool isSupported(Locale locale) => <String>['en', 'es'].contains(locale.languageCode);
+
+  @override
+  bool shouldReload(_AppLocalizationsDelegate old) => false;
+}
+
+AppLocalizations lookupAppLocalizations(Locale locale) {
+
+
+  // Lookup logic when only language code is specified.
+  switch (locale.languageCode) {
+    case 'en': return AppLocalizationsEn();
+    case 'es': return AppLocalizationsEs();
+  }
+
+  throw FlutterError(
+    'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.'
+  );
+}

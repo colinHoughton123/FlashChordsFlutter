@@ -1,0 +1,88 @@
+{
+  "@@locale": "es",
+
+  "welcomeTitle": "Bienvenido a FlashChords",
+  "start": "Comenzar",
+  "configure": "Configurar",
+  "selectLanguage": "Seleccionar idioma",
+
+  "configTitle": "Configuración",
+  "configSelectRoots": "Seleccione notas raíz",
+  "configSelectChordTypes": "Seleccione tipos de acordes",
+  "configSelectInversions": "Seleccione inversiones",
+  "configEnableTimer": "Activar temporizador",
+  "configTimerSeconds": "Temporizador (segundos)",
+  "saveButton": "Guardar",
+
+  "configEnableListening": "Activar modo de escucha (función futura)",
+  "configEnableListeningDesc": "Marcado automático como correcto si la detección coincide.",
+  "configAtLeastOneOption": "Debe haber al menos una opción seleccionada en esta sección. Re–seleccionando la última opción. Por favor, inténtelo de nuevo.",
+
+  "flash_welcome1": "El nombre del acorde se mostrará aquí",
+  "flash_welcome2": "Toca el acorde en tu piano",
+
+  "configCardOrder": "Orden de tarjetas",
+  "configCardOrderRandom": "Aleatorio",
+  "configCardOrderSorted": "Ordenado",
+
+  "chord_major": "Mayor",
+  "chord_minor": "Menor",
+  "chord_diminished": "Disminuido",
+  "chord_augmented": "Aumentado",
+  "chord_dominant7": "Séptima dominante",
+  "chord_major7": "Séptima mayor",
+  "chord_minor7": "Séptima menor",
+  "chord_suspended2": "Suspensión 2",
+  "chord_suspended4": "Suspensión 4",
+
+  "inv_root": "Posición fundamental",
+  "inv_first": "Primera inversión",
+  "inv_second": "Segunda inversión",
+
+  "flash_incorrectCountLabel": "Incorrectas",
+  "flash_correctCountLabel": "Correctas",
+  "flash_playingMainDeck": "Jugando el mazo principal",
+  "flash_playingErrorDeck": "Jugando el mazo de errores",
+  "flash_redoButton": "REPETIR",
+  "flash_playedLabel": "jugadas",
+  "flash_toGoLabel": "restantes",
+  "flash_averageTimeLabel": "Tiempo promedio:",
+  "flash_timeLabel": "Tiempo",
+  "flash_timerCancelled": "sp=Timer cancelled",
+
+  "flash_play_instruction": "Toque el siguiente acorde seleccionado aleatoriamente",
+  "flash_swipe_right": "Deslice a la derecha si lo tocó correctamente",
+  "flash_swipe_left": "Deslice a la izquierda si lo tocó incorrectamente",
+  "flash_not_sure": "¿No está seguro? Toque aquí para ver la digitación",
+
+  "flash_incorrect_count": "Incorrectas",
+  "flash_correct_count": "Correctas",
+  "flash_playing_main": "Jugando mazo principal",
+  "flash_playing_wrong": "Jugando errores",
+  "flash_play_again": "Jugar de nuevo",
+  "flash_average_time": "Tiempo promedio",
+
+  "flash_cards_played": "{played} jugadas, {remaining} restantes",
+
+  "flash_mainDeck": "Mazo principal",
+  "flash_errorDeck": "Mazo de errores",
+  "flash_correct": "Correcto",
+  "flash_incorrect": "Incorrecto",
+  "flash_of": "de",
+  "flash_next": "Siguiente",
+
+  "summary_title": "Resumen",
+  "summary_correct": "Correctas",
+  "summary_incorrect": "Incorrectas",
+  "summary_cards": "Tarjetas",
+  "summary_average_time": "Tiempo promedio",
+  "summary_seconds": "segundos",
+  "summary_from_main_deck": "Mazo principal",
+  "summary_from_error_deck": "Mazo de errores",
+  "summary_play_again": "Jugar otra vez",
+  "summary_done": "Listo",
+  "summary_accuracy": "Precisión",
+
+  "es- listeningActive": "Listening…",
+  "es- listeningInactive": "Listening paused"
+}

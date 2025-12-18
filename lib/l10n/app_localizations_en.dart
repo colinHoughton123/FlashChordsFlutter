@@ -1,0 +1,225 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for English (`en`).
+class AppLocalizationsEn extends AppLocalizations {
+  AppLocalizationsEn([String locale = 'en']) : super(locale);
+
+  @override
+  String get welcomeTitle => 'Welcome to FlashChords';
+
+  @override
+  String get start => 'Start';
+
+  @override
+  String get configure => 'Configure';
+
+  @override
+  String get selectLanguage => 'Select Language';
+
+  @override
+  String get configTitle => 'Configuration';
+
+  @override
+  String get configSelectRoots => 'Select Chords';
+
+  @override
+  String get configSelectChordTypes => 'Select Chord Types';
+
+  @override
+  String get configSelectInversions => 'Select Inversions';
+
+  @override
+  String get configEnableTimer => 'Enable Timer';
+
+  @override
+  String get configTimerSeconds => 'Timer (seconds)';
+
+  @override
+  String get saveButton => 'Save';
+
+  @override
+  String get configAtLeastOneOption => 'At least one option must be selected in this section. Re-selecting the last option. Please try again.';
+
+  @override
+  String get configEnableListening => 'Enable Listening Mode (Future Feature)';
+
+  @override
+  String get configEnableListeningDesc => 'Automatically mark chord correct when audio detection matches.';
+
+  @override
+  String get chord_major => 'Major';
+
+  @override
+  String get chord_minor => 'Minor';
+
+  @override
+  String get chord_diminished => 'Diminished';
+
+  @override
+  String get chord_dominant7 => 'Dominant 7th';
+
+  @override
+  String get chord_major7 => 'Major 7th';
+
+  @override
+  String get chord_minor7 => 'Minor 7th';
+
+  @override
+  String get chord_suspended2 => 'Suspended 2';
+
+  @override
+  String get chord_suspended4 => 'Suspended 4';
+
+  @override
+  String get chord_augmented => 'Augmented';
+
+  @override
+  String get inv_root => 'Root position';
+
+  @override
+  String get inv_first => '1st inversion';
+
+  @override
+  String get inv_second => '2nd inversion';
+
+  @override
+  String get configCardOrder => 'Card Order';
+
+  @override
+  String get configCardOrderRandom => 'Random';
+
+  @override
+  String get configCardOrderSorted => 'Sorted';
+
+  @override
+  String get flash_incorrectCountLabel => 'Incorrect count';
+
+  @override
+  String get flash_correctCountLabel => 'Correct count';
+
+  @override
+  String get flash_playingMainDeck => 'Playing the main deck';
+
+  @override
+  String get flash_playingErrorDeck => 'Playing the error deck';
+
+  @override
+  String get flash_redoButton => 'REDO';
+
+  @override
+  String get flash_playedLabel => 'played';
+
+  @override
+  String get flash_toGoLabel => 'to go';
+
+  @override
+  String get flash_averageTimeLabel => 'Average Time:';
+
+  @override
+  String get flash_timeLabel => 'Time';
+
+  @override
+  String get flash_timerCancelled => 'Timer cancelled';
+
+  @override
+  String get flash_play_instruction => 'Play the following chord\nselected randomly from the main deck';
+
+  @override
+  String get flash_swipe_right => 'Swipe right if you played it correctly';
+
+  @override
+  String get flash_swipe_left => 'Swipe left if you played it incorrectly';
+
+  @override
+  String get flash_not_sure => 'Not sure? Tap the flashcard to see the fingering';
+
+  @override
+  String get flash_welcome1 => 'A chord name will display here';
+
+  @override
+  String get flash_welcome2 => 'Play it on your piano';
+
+  @override
+  String get flash_incorrect_count => 'Incorrect count';
+
+  @override
+  String get flash_correct_count => 'Correct count';
+
+  @override
+  String get flash_playing_main => 'Playing the main deck';
+
+  @override
+  String get flash_playing_wrong => 'Playing the errors';
+
+  @override
+  String get flash_play_again => 'Play again';
+
+  @override
+  String get flash_average_time => 'Average time';
+
+  @override
+  String flash_cards_played(Object played, Object remaining) {
+    return '$played played $remaining to go';
+  }
+
+  @override
+  String get flash_mainDeck => 'Main Deck';
+
+  @override
+  String get flash_errorDeck => 'Errors Deck';
+
+  @override
+  String get flash_correct => 'Correct';
+
+  @override
+  String get flash_incorrect => 'Incorrect';
+
+  @override
+  String get flash_of => 'of';
+
+  @override
+  String get flash_next => 'Next';
+
+  @override
+  String get summary_title => 'Summary';
+
+  @override
+  String get summary_correct => 'Correct';
+
+  @override
+  String get summary_incorrect => 'Incorrect';
+
+  @override
+  String get summary_cards => 'Cards';
+
+  @override
+  String get summary_average_time => 'Average Time';
+
+  @override
+  String get summary_seconds => 'seconds';
+
+  @override
+  String get summary_from_main_deck => 'Main deck';
+
+  @override
+  String get summary_from_error_deck => 'Errors deck';
+
+  @override
+  String get summary_play_again => 'Play again';
+
+  @override
+  String get summary_done => 'Done';
+
+  @override
+  String get summary_accuracy => 'Accuracy';
+
+  @override
+  String get listeningActive => 'Listening…';
+
+  @override
+  String get listeningInactive => 'Listening paused';
+}
