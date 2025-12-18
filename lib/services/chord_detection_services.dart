@@ -294,6 +294,7 @@ if (_setsEqual(detected, _lastStable)) {
 }
 
 
+//t this is a git test.
 
   // 3) Stability
 // 3) Stability
