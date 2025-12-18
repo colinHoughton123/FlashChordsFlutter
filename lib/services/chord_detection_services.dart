@@ -294,6 +294,7 @@ if (_setsEqual(detected, _lastStable)) {
 }
 
 
+
   // 3) Stability
 // 3) Stability
 final requiredStableFrames = detected.length >= 4 ? 2 : 3;
