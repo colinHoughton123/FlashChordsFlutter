@@ -101,6 +101,12 @@ abstract class AppLocalizations {
   /// **'Welcome to FlashChords'**
   String get welcomeTitle;
 
+  /// No description provided for @loadingChords.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get loadingChords;
+
   /// No description provided for @start.
   ///
   /// In en, this message translates to:
@@ -520,6 +526,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Listening paused'**
   String get listeningInactive;
+
+  /// No description provided for @flash_error_101.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio input is not permitted.'**
+  String get flash_error_101;
+
+  /// No description provided for @flash_error_101_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'FlashChords does not have permission to access the microphone. Please enable microphone access in your device settings and restart the app.'**
+  String get flash_error_101_hint;
+
+  /// No description provided for @flash_error_102.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to start audio listening.'**
+  String get flash_error_102;
+
+  /// No description provided for @flash_error_102_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'FlashChords could not initialize the audio system. Please check that no other app is using the microphone and restart the app.'**
+  String get flash_error_102_hint;
+
+  /// No description provided for @flash_error_103.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio input was interrupted.'**
+  String get flash_error_103;
+
+  /// No description provided for @flash_error_103_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Listening has stopped due to an audio interruption. Please check your microphone connection and restart listening.'**
+  String get flash_error_103_hint;
+
+  /// No description provided for @flash_error_201.
+  ///
+  /// In en, this message translates to:
+  /// **'An internal error occurred.'**
+  String get flash_error_201;
+
+  /// No description provided for @flash_error_201_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'FlashChords encountered an unexpected error. Please restart the app. If the problem persists, contact support with this error code.'**
+  String get flash_error_201_hint;
+
+  /// No description provided for @flash_error_301.
+  ///
+  /// In en, this message translates to:
+  /// **'At least one value must be selected.'**
+  String get flash_error_301;
+
+  /// No description provided for @flash_error_301_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your last de-select has been reselected to ensure one value is selected.  To deselect it, select another value first.'**
+  String get flash_error_301_hint;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

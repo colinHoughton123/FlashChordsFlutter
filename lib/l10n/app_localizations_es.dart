@@ -12,6 +12,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get welcomeTitle => 'Bienvenido a FlashChords';
 
   @override
+  String get loadingChords => 'es -Loading...';
+
+  @override
   String get start => 'Comenzar';
 
   @override
@@ -218,8 +221,38 @@ class AppLocalizationsEs extends AppLocalizations {
   String get summary_accuracy => 'Precisión';
 
   @override
-  String get listeningActive => 'Listening…';
+  String get listeningActive => 'es - Listening…';
 
   @override
-  String get listeningInactive => 'Listening paused';
+  String get listeningInactive => 'es - Listening paused';
+
+  @override
+  String get flash_error_101 => 'es - Audio input is not permitted.';
+
+  @override
+  String get flash_error_101_hint => 'es - FlashChords does not have permission to access the microphone. Please enable microphone access in your device settings and restart the app.';
+
+  @override
+  String get flash_error_102 => 'es - Unable to start audio listening.';
+
+  @override
+  String get flash_error_102_hint => 'es - FlashChords could not initialize the audio system. Please check that no other app is using the microphone and restart the app.';
+
+  @override
+  String get flash_error_103 => 'es - Audio input was interrupted.';
+
+  @override
+  String get flash_error_103_hint => 'es - Listening has stopped due to an audio interruption. Please check your microphone connection and restart listening.';
+
+  @override
+  String get flash_error_201 => 'An internal error occurred.';
+
+  @override
+  String get flash_error_201_hint => 'es - FlashChords encountered an unexpected error. Please restart the app. If the problem persists, contact support with this error code.';
+
+  @override
+  String get flash_error_301 => 'es - At least one value must be selected.';
+
+  @override
+  String get flash_error_301_hint => 'es - Your last de-select has been reselected to ensure one value is selected.  To deselect it, select another value first.';
 }

@@ -1,3 +1,4 @@
+// THIS FILE IS NO LONGER NEEDED / USED
 import 'dart:async';
 import 'dart:math' as math;
 import 'dart:typed_data';
@@ -5,9 +6,7 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:record/record.dart';
 import 'package:fftea/fftea.dart';
-import 'package:flashchords/core/system_error.dart';
-
-
+import 'package:flashchords/core/system_error_code.dart';
 
 /// How strictly detected notes are compared to the target chord
 enum ListenerComparisonMode {
@@ -37,22 +36,44 @@ class ChordDetectionService {
   static final ChordDetectionService instance =
       ChordDetectionService._internal();
 
-  // ---------------
-  // 
-  // 
+  // ------------------------------------------------------------
+  // Public helpers
+  // ------------------------------------------------------------
 
-bool matchesTarget({
-  required Set<String> detected,
-  required Set<String> target,
-}) {
-  // forgiving match: target ⊆ detected
-  return detected.containsAll(target);
+  bool matchesTarget({
+    required Set<String> detected,
+    required Set<String> target,
+  }) {
+    return detected.containsAll(target);
+  }
+
+
+Future<void> reset() async {
+  debugPrint('🎙 Resetting audio engine');
+
+  _isRunning = false;
+  _startFuture = null;
+  _lastStable.clear();
+  _stableCount = 0;
+  _cooldownFrames = 0;
+  _sampleBuffer.clear();
+
+  await _audioSub?.cancel();
+  _audioSub = null;
+
+  try {
+    await _recorder.stop();
+  } catch (_) {}
+
+  // Important: recreate recorder instance
+  // (record plugin *needs* this after device changes)
+  // ignore: invalid_use_of_visible_for_testing_member
+  // _recorder.dispose(); ← if supported later
+
+  debugPrint('🎙 Audio engine reset complete');
 }
 
-
-
-
-  // --------------------------------------------
+  // ------------------------------------------------------------
   // State
   // ------------------------------------------------------------
 
@@ -97,6 +118,7 @@ bool matchesTarget({
   // ------------------------------------------------------------
 
   Future<void> start() {
+    
     if (_isRunning) return Future.value();
     if (_startFuture != null) return _startFuture!;
 
@@ -105,11 +127,11 @@ bool matchesTarget({
   }
 
   Future<void> _startImpl() async {
+   
     try {
       final hasPermission = await _recorder.hasPermission();
       if (!hasPermission) {
-        SystemError.report(101);
-        return;
+        throw const SystemErrorCode(101);
       }
 
       final configs = <RecordConfig>[
@@ -134,8 +156,8 @@ bool matchesTarget({
 
           _audioSub = stream.listen(
             _onAudioData,
-            onError: (e, st) {
-              SystemError.report(103);
+            onError: (_, __) {
+              throw const SystemErrorCode(103);
             },
           );
 
@@ -149,10 +171,11 @@ bool matchesTarget({
         }
       }
 
-      SystemError.report(102);
       debugPrint('Audio init failed: $lastError');
-    } catch (_) {
-      SystemError.report(201);
+      throw const SystemErrorCode(102);
+    } catch (e) {
+      if (e.toString().contains('ERR_')) rethrow;
+      throw const SystemErrorCode(201);
     } finally {
       if (!_isRunning) _startFuture = null;
     }
@@ -236,8 +259,7 @@ bool matchesTarget({
   // FFT → pitch classes
   // ------------------------------------------------------------
 
-  Map<String, double> _detectPitchClassesWithEnergy(
-      List<double> chunk) {
+  Map<String, double> _detectPitchClassesWithEnergy(List<double> chunk) {
     Float64List? mags;
 
     _stft.run(chunk, (Float64x2List freq) {

@@ -16,6 +16,9 @@ import 'package:flashchords/features/flashcard/flashcard_widget.dart';
 import 'package:flashchords/features/summary/flashcard_summary_screen.dart';
 
 import 'package:flashchords/services/chord_detection_services.dart';
+import 'package:flashchords/core/system_error.dart';
+import 'package:flashchords/core/system_error_code.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 ///
 /// ---------- Localization helpers (OK outside class) ----------
@@ -40,17 +43,26 @@ String _localizedChordName(AppLocalizations t, String chordName) {
 /// ---------- Widget ----------
 ///
 
-class FlashcardScreen extends StatefulWidget {
-  const FlashcardScreen({super.key});
+class FlashcardScreen extends ConsumerStatefulWidget {
+  final List<FlashcardItem> items;
+
+  const FlashcardScreen({
+    super.key,
+    required this.items,
+  });
 
   @override
-  State<FlashcardScreen> createState() => _FlashcardScreenState();
+  ConsumerState<FlashcardScreen> createState() =>
+      _FlashcardScreenState();
 }
 
-class _FlashcardScreenState extends State<FlashcardScreen> {
+class _FlashcardScreenState
+    extends ConsumerState<FlashcardScreen> {
 
 
   // 🔎 Debug / diagnostics
+bool _loadingChords = true;
+
 bool _subscribedToListener = false;
 int _detectionCount = 0;
 DateTime? _lastDetectionAt;
@@ -139,12 +151,25 @@ int get _lastMatchMsAgo {
   @override
   void initState() {
     super.initState();
-    debugPrint('FlashcardScreen initState');
+    _preloadChords();
+    debugPrint('FlashcardScreen initState .  preload of xml chords finished');
     _setup();
 
-
-
   }
+
+  Future<void> _preloadChords() async {
+  try {
+    setState(() => _loadingChords = true);
+
+    // await FlashcardEngine.instance.loadChords(); // or wherever XML loads
+
+  } catch (e) {
+    SystemError.report(201, ref);
+  } finally {
+    setState(() => _loadingChords = false);
+  }
+}
+
 
   @override
   void didChangeDependencies() {
@@ -211,11 +236,20 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
 
   Future.delayed(const Duration(milliseconds: 300), () async {
     try {
+      // 🔁 ALWAYS reset before starting
+      await ChordDetectionService.instance.reset();
       await ChordDetectionService.instance.start();
+
       _subscribeToDetectedNotesIfNeeded();
-      _subscribeToFramesIfNeeded(); // NEW
+      _subscribeToFramesIfNeeded();
     } catch (e) {
-      debugPrint('🎙 MIC START FAILED in _setup screen: $e');
+      if (e is SystemErrorCode) {
+        // 🔴 UI boundary: convert domain error → global UI error
+        SystemError.report(e.code, ref);
+      } else {
+        // 🔴 unexpected crash
+        SystemError.report(201, ref);
+      }
     }
   });
 });
@@ -235,15 +269,22 @@ void _subscribeToFramesIfNeeded() {
 
 
 Future<void> _startListeningIfNeeded() async {
-  if (!_listeningEnabled) return;
+  if (_loadingChords) return; // ✅ correct place
 
   try {
+    await ChordDetectionService.instance.reset(); // ✅ ALWAYS reset first
     await ChordDetectionService.instance.start();
+
+    _subscribeToDetectedNotesIfNeeded();
+    _subscribeToFramesIfNeeded();
   } catch (e) {
-    debugPrint('🎙 MIC START FAILED in screen: $e');
+    if (e is SystemErrorCode) {
+      SystemError.report(e.code, ref);
+    } else {
+      SystemError.report(201, ref);
+    }
   }
 }
-
   Future<void> _loadSettings() async {
     final repo = SettingsRepository();
     final (timerEnabled, seconds) = await repo.loadTimer();
@@ -258,7 +299,8 @@ Future<void> _startListeningIfNeeded() async {
   }
 
   Future<void> _initEngine() async {
-    final allItems = await loadFlashcardsFromXml();
+    // final allItems = await loadFlashcardsFromXml();
+    final allItems = widget.items;
     final repo = SettingsRepository();
 
     final selectedRoots = await repo.loadRoots();
@@ -300,7 +342,7 @@ Future<void> _startListeningIfNeeded() async {
     }
 
     setState(() {
-      _engine = FlashcardEngine(filtered.isEmpty ? allItems : filtered);
+      _engine = FlashcardEngine(filtered.isEmpty ? widget.items : filtered);
       _startTimingForCurrentCard();
     });
   }

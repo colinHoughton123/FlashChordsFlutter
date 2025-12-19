@@ -7,6 +7,7 @@ import 'package:flashchords/features/flashcard/flashcard_screen.dart'; // <-- ad
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flashchords/core/system_error_listener.dart';
+import 'package:flashchords/core/system_error_overlay.dart';
 
 class FlashChordsApp extends StatefulWidget {
   final String? initialLocaleCode;
@@ -44,39 +45,44 @@ class _FlashChordsAppState extends State<FlashChordsApp> {
 
   @override
 Widget build(BuildContext context) {
-  return MaterialApp(
-    debugShowCheckedModeBanner: false,
-    title: 'FlashChords',
+return MaterialApp(
+  debugShowCheckedModeBanner: false,
+  title: 'FlashChords',
 
-    // current locale (saved or default)
-    locale: _locale,
+  locale: _locale,
 
-    localizationsDelegates: const [
-      AppLocalizations.delegate,
-      GlobalMaterialLocalizations.delegate,
-      GlobalCupertinoLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate,
-    ],
-    supportedLocales: AppLocalizations.supportedLocales,
+  localizationsDelegates: const [
+    AppLocalizations.delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ],
+  supportedLocales: AppLocalizations.supportedLocales,
 
-    // ⬇️ This Builder ensures the context has a Navigator
-   home: Builder(
-  builder: (context) {
-    return WelcomeScreen(
-      onStart: () {
-        debugPrint('START BUTTON PRESSED');
+  builder: (context, child) {
+    return Stack(
+      children: [
+        if (child != null) child,
+        const SystemErrorOverlay(), // ✅ GLOBAL ERROR LAYER
+      ],
+    );
+  },
 
+  home: Builder(
+    builder: (context) {
+      return WelcomeScreen(
+      onStart: (items) {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const FlashcardScreen(),
+            builder: (context) => FlashcardScreen(items: items),
           ),
         );
       },
-      onLanguageChanged: updateLocale,
-    );
-  },
-),
-  );
+        onLanguageChanged: updateLocale,
+      );
+    },
+  ),
+);
 }
 }

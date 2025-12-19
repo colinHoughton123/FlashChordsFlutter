@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flashchords/l10n/app_localizations.dart';
 import 'package:flashchords/data/settings_repository.dart';
+import 'package:flashchords/core/system_error.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flashchords/l10n/app_localizations_extensions.dart';
 
-class ConfigScreen extends StatefulWidget {
+
+class ConfigScreen extends ConsumerStatefulWidget {
   const ConfigScreen({super.key});
 
   @override
-  State<ConfigScreen> createState() => _ConfigScreenState();
+  ConsumerState<ConfigScreen> createState() => _ConfigScreenState();
 }
 
-class _ConfigScreenState extends State<ConfigScreen> {
+class _ConfigScreenState extends ConsumerState<ConfigScreen> {
 
     List<String> _sanitizeList(List<String> loaded, List<String> allowed) {
     // Keep only values that are actually in the allowed list
@@ -59,6 +63,9 @@ class _ConfigScreenState extends State<ConfigScreen> {
 
   /// NEW: card order
   String _cardOrder = "random"; // or "sorted"
+
+
+
 
   @override
   void initState() {
@@ -113,11 +120,9 @@ class _ConfigScreenState extends State<ConfigScreen> {
     required String message,
   }) {
     if (!isChecked && list.length == 1) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message)),
-      );
-      return;
-    }
+  SystemError.report(301, ref);
+  return;
+}
 
     if (isChecked) {
       list.add(value);
@@ -307,9 +312,8 @@ Widget _sectionTitle(String txt) => Padding(
 
     if (isTryingToUnselect && isLastSelected) {
       // Trying to remove the final remaining item → block it
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(t.configAtLeastOneOption)),
-      );
+
+        SystemError.report(301, ref);
       return;
     }
 

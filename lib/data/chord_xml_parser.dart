@@ -227,7 +227,7 @@ Future<List<FlashcardItem>> loadFlashcardsFromXml() async {
         //    '\n fingering: $fingering');
           final noteSet = _parseNoteSet(noteSetAttr); 
 
-          debugPrint('NOTESET: ${noteSet.join(", ")}');
+          // debugPrint('NOTESET: ${noteSet.join(", ")}');
 
         result.add(
           FlashcardItem(
@@ -258,6 +258,7 @@ Future<List<FlashcardItem>> loadFlashcardsFromXml() async {
       }
     }
   }
+  debugPrint('XML Parsing complete.');
 
   return result;
 }

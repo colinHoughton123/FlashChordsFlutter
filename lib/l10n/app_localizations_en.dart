@@ -12,6 +12,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get welcomeTitle => 'Welcome to FlashChords';
 
   @override
+  String get loadingChords => 'Loading...';
+
+  @override
   String get start => 'Start';
 
   @override
@@ -222,4 +225,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get listeningInactive => 'Listening paused';
+
+  @override
+  String get flash_error_101 => 'Audio input is not permitted.';
+
+  @override
+  String get flash_error_101_hint => 'FlashChords does not have permission to access the microphone. Please enable microphone access in your device settings and restart the app.';
+
+  @override
+  String get flash_error_102 => 'Unable to start audio listening.';
+
+  @override
+  String get flash_error_102_hint => 'FlashChords could not initialize the audio system. Please check that no other app is using the microphone and restart the app.';
+
+  @override
+  String get flash_error_103 => 'Audio input was interrupted.';
+
+  @override
+  String get flash_error_103_hint => 'Listening has stopped due to an audio interruption. Please check your microphone connection and restart listening.';
+
+  @override
+  String get flash_error_201 => 'An internal error occurred.';
+
+  @override
+  String get flash_error_201_hint => 'FlashChords encountered an unexpected error. Please restart the app. If the problem persists, contact support with this error code.';
+
+  @override
+  String get flash_error_301 => 'At least one value must be selected.';
+
+  @override
+  String get flash_error_301_hint => 'Your last de-select has been reselected to ensure one value is selected.  To deselect it, select another value first.';
 }
