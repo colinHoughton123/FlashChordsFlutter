@@ -83,6 +83,18 @@
   "summary_done": "Listo",
   "summary_accuracy": "Precisión",
 
-  "es- listeningActive": "Listening…",
-  "es- listeningInactive": "Listening paused"
+  "listeningActive": "es - Listening…",
+  "listeningInactive": "es - Listening paused",
+
+
+flash_error_101 = "es - Audio input is not permitted.",
+flash_error_101_hint = "es - FlashChords does not have permission to access the microphone. Please enable microphone access in your device settings and restart the app.",
+flash_error_102 = "es - Unable to start audio listening.",
+flash_error_102_hint = "es - FlashChords could not initialize the audio system. Please check that no other app is using the microphone and restart the app.",
+flash_error_103 = "es - Audio input was interrupted."
+fflash_error_103_hint = "es - Listening has stopped due to an audio interruption. Please check your microphone connection and restart listening.",
+flash_error_201 = "es - An internal error occurred.",
+flash_error_201_hint = "es - FlashChords encountered an unexpected error. Please restart the app. If the problem persists, contact support with this error code."
+
+
 }

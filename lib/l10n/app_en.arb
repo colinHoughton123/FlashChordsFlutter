@@ -82,6 +82,16 @@
 "summary_accuracy": "Accuracy",
 
 "listeningActive": "Listening…",
-"listeningInactive": "Listening paused"
+"listeningInactive": "Listening paused",
+
+flash_error_101 = "Audio input is not permitted.",
+flash_error_101_hint = "FlashChords does not have permission to access the microphone. Please enable microphone access in your device settings and restart the app.",
+flash_error_102 = "Unable to start audio listening.",
+flash_error_102_hint = "FlashChords could not initialize the audio system. Please check that no other app is using the microphone and restart the app.",
+flash_error_103 = "Audio input was interrupted."
+fflash_error_103_hint = "Listening has stopped due to an audio interruption. Please check your microphone connection and restart listening.",
+flash_error_201 = "An internal error occurred.",
+flash_error_201_hint = "FlashChords encountered an unexpected error. Please restart the app. If the problem persists, contact support with this error code."
+
 
 }

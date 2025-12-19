@@ -6,6 +6,7 @@ import 'package:flashchords/features/config/config_screen.dart';
 import 'package:flashchords/features/flashcard/flashcard_screen.dart'; // <-- add
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flashchords/core/system_error_listener.dart';
 
 class FlashChordsApp extends StatefulWidget {
   final String? initialLocaleCode;
