@@ -405,7 +405,7 @@ void _revealBackDueToTimeout() {
   _cardKey.currentState?.flipToBack();
 
   setState(() {
-    _timerCancelled = true;
+    _timerCancelled = false;
     _remainingSeconds = 0;
   });
 }
@@ -842,36 +842,41 @@ Widget build(BuildContext context) {
         Text(t.flash_cards_played(played, remaining)),
 
         Expanded(
-          child: Center(
-            child: card == null
-                ? const SizedBox.shrink()
-                : Stack(
-                    children: [
-                      FlashcardWidget(
-                         key: ValueKey(
-    '${card.root}_${card.chordType}_${card.inversion.index}_${played}',
-  ),
-  cardId:
-      '${card.root}_${card.chordType}_${card.inversion.index}_${played}',
-                        cardTitle:
-                            _localizedChordName(t, card.chordName),
-                        chordLabel: card.writtenAs,
-                        inversion: card.inversion,
-                        imageAssetPaths: card.imagePaths,
+  child: Builder(
+    builder: (context) {
+      if (card == null) {
+        return const SizedBox.shrink();
+      }
 
-                        onSwipeLeft: _handleIncorrect,
-                        onSwipeRight: _handleCorrect,
-                        onRevealRequested: _revealBackDueToTimeout,
-                        onFrontShown: _onCardFrontShown,
-                        onBackShown: _onCardBackShown,
-                      ),
+      final cardKeyString =
+          '${card.root}_${card.chordType}_${card.inversion.index}_${played}';
 
-                      // 🔎 TEMP DEBUG OVERLAY
-                      _buildDebugOverlay(),
-                    ],
-                  ),
+      return Stack(
+        children: [
+          KeyedSubtree(
+            key: ValueKey(cardKeyString),
+            child: FlashcardWidget(
+              key: _cardKey,
+              cardId: cardKeyString,
+              chordLabel: card.writtenAs,
+              cardTitle: _localizedChordName(t, card.chordName),
+              inversion: card.inversion,
+              imageAssetPaths: card.imagePaths,
+              onSwipeLeft: _handleIncorrect,
+              onSwipeRight: _handleCorrect,
+              onRevealRequested: _revealBackDueToTimeout,
+              onFrontShown: _onCardFrontShown,
+              onBackShown: _onCardBackShown,
+            ),
           ),
-        ),
+
+          // debug overlay stays untouched
+          _buildDebugOverlay(),
+        ],
+      );
+    },
+  ),
+),
 
         if (_timerEnabled)
   Padding(

@@ -59,7 +59,7 @@ void didUpdateWidget(covariant FlashcardWidget oldWidget) {
 
 bool _firstBuild = true;
 
-bool _lockFront = false;
+
 
   // ---------------------------------------------------------------------------
   //  LOCALIZED INVERSION LABEL
@@ -101,18 +101,7 @@ void initState() {
     duration: const Duration(milliseconds: 450),
   );
 
-  // 🔑 HARD FIX: force clean animation state after first frame
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    if (!mounted) return;
 
-    if (_firstBuild) {
-      _controller.stop();
-      _controller.reset();
-      _dragOffset = Offset.zero;
-      _rotation = 0;
-      _firstBuild = false;
-    }
-  });
 }
 
   @override
@@ -136,47 +125,42 @@ void flipToBack() {
   // ANIMATION (swipe off screen)
   // ---------------------------------------------------------------------------
 void _animateOut(bool toRight) {
-  final endOffset = Offset(toRight ? 4.5 : -4.5, 0);
-  final endRotation = toRight ? 0.35 : -0.35;
+  final endOffset = Offset(toRight ? 1.2 : -1.2, 0);
+  final endRotation = toRight ? 0.25 : -0.25;
 
-  _lockFront = true;
-
-  _slideAnimation = Tween(begin: Offset.zero, end: endOffset).animate(
+  _slideAnimation = Tween(
+    begin: Offset.zero,
+    end: endOffset,
+  ).animate(
     CurvedAnimation(parent: _controller, curve: Curves.easeOut),
   );
 
-  _rotationAnimation = Tween(begin: 0.0, end: endRotation).animate(
+  _rotationAnimation = Tween(
+    begin: 0.0,
+    end: endRotation,
+  ).animate(
     CurvedAnimation(parent: _controller, curve: Curves.easeOut),
   );
 
-  _controller.reset();
+  _controller.forward().whenComplete(() {
+    if (!mounted) return;
 
-  late final AnimationStatusListener listener;
-  listener = (status) {
-    if (status == AnimationStatus.completed) {
-      _controller.removeStatusListener(listener);
+    // Reset visual state AFTER animation completes
+    setState(() {
+      _dragOffset = Offset.zero;
+      _rotation = 0;
+      _showBack = false;
+    });
 
-      setState(() {
-        _dragOffset = Offset.zero;
-        _rotation = 0;
-        _showBack = false;
-      });
+    _controller.reset();
 
-      // 🔥 NOW advance deck (after animation is visible)
-      if (toRight) {
-        widget.onSwipeRight();
-      } else {
-        widget.onSwipeLeft();
-      }
+    // Advance deck
+    if (toRight) {
+      widget.onSwipeRight();
+    } else {
+      widget.onSwipeLeft();
     }
-  };
-
-  _controller.addStatusListener(listener);
-
-  _controller.stop();     // ✅ cancel any stale ticker state
-  _controller.reset();    // ✅ force value = 0.0
-  _controller.addStatusListener(listener);
-  _controller.forward();
+  });
 }
 
 void forceShowFront() {
@@ -199,6 +183,7 @@ void forceShowFront() {
 
 
       child: GestureDetector(
+         behavior: HitTestBehavior.opaque,
         onTap: () {
   if (!_showBack) {
     widget.onRevealRequested?.call();
