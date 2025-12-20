@@ -29,11 +29,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
     bool _loadingChords = false;
   List<FlashcardItem>? _preloadedItems;
-    @override
-  void initState() {
-    super.initState();
-    _loadChords();
-  }
+ @override
+        void initState() {
+          super.initState();
+          _loadChords();
+          WidgetsBinding.instance.addPostFrameCallback((_) async {
+           
+          });
+        }
 
       Future<void> _loadChords() async {
         setState(() => _loadingChords = true);
@@ -44,7 +47,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         try {
 
           // 👇 FORCE UI TO SHOW LOADING
-  await Future.delayed(const Duration(milliseconds: 600));
+            // await Future.delayed(const Duration(milliseconds: 600));  // use this to force visibliting of Loading Chords...
 
           _preloadedItems = await loadFlashcardsFromXml();
 
@@ -171,8 +174,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   else
                     ElevatedButton(
                       onPressed: () async {
+                        if (_preloadedItems == null) return;
                         debugPrint('WELCOME SCREEN: START PRESSED');
-
                         // await _loadChords();
                         widget.onStart(_preloadedItems!);
                       },

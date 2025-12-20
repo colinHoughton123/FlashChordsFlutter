@@ -61,9 +61,10 @@ class _FlashcardScreenState
 
 
   // 🔎 Debug / diagnostics
-bool _loadingChords = true;
+
 
 bool _subscribedToListener = false;
+bool _firstFrameSeen = false;
 int _detectionCount = 0;
 DateTime? _lastDetectionAt;
 String _lastDecision = '-';
@@ -144,60 +145,114 @@ int get _lastMatchMsAgo {
 }
 
 
+//void _beginSession() {
+ // _engineArmTime = DateTime.now(); // ⏱ START CLOCK
+ // _engine.armForChord(_currentChord);
+// }
+
+
+
   // ============================================================
   // Lifecycle
   // ============================================================
 
-  @override
-  void initState() {
-    super.initState();
-    _preloadChords();
-    debugPrint('FlashcardScreen initState .  preload of xml chords finished');
-    _setup();
+// ============================================================
+// Lifecycle
+// ============================================================
 
-  }
+@override
+void initState() {
+  super.initState();
 
-  Future<void> _preloadChords() async {
-  try {
-    setState(() => _loadingChords = true);
+  // Build engine using settings-filtered deck
+  _initEngine().then((_) {
+    _engineReady = true;
+    
 
-    // await FlashcardEngine.instance.loadChords(); // or wherever XML loads
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      try {
+        await ChordDetectionService.instance.start();
+        _subscribeToDetectedNotesIfNeeded();
+        _subscribeToFramesIfNeeded();
+        setState(() {
+          _engineReady = true;
+          _startTimingForCurrentCard();
+        });
+      } catch (e) {
+        if (e is SystemErrorCode) {
+          SystemError.report(e.code, ref);
+        } else {
+          SystemError.report(201, ref);
+        }
+      }
+    });
 
-  } catch (e) {
-    SystemError.report(201, ref);
-  } finally {
-    setState(() => _loadingChords = false);
-  }
+    setState(() {});
+  });
 }
 
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _loadSettings();
-  }
+@override
+void didChangeDependencies() {
+  super.didChangeDependencies();
+  _loadSettings();
+}
 
 @override
 void dispose() {
   _timer?.cancel();
 
   _listenerSub?.cancel();
-  _listenerSub = null; // ⭐ CRITICAL LINE
+  _listenerSub = null;
 
   _frameSub?.cancel();
-_frameSub = null;
+  _frameSub = null;
 
-
-  _subscribedToListener = false;
-
-  // ChordDetectionService.instance.stop();
   super.dispose();
 }
+
+
+
 
   // ============================================================
   // Setup
   // ============================================================
 
+bool _isStrictSuperset(Set<String> a, Set<String> b) {
+  return a.length > b.length && a.containsAll(b);
+}
+
+bool _shouldSwapForReleaseSafety(
+  FlashcardItem current,
+  FlashcardItem next,
+) {
+  final a = current.noteSet;
+  final b = next.noteSet;
+
+  // Swap if:
+  // current ⊃ next   (A7 → A, Amaj7 → A)
+  return a.containsAll(b) && a.length > b.length;
+}
+
+
+
+void reorderDeckForReleaseSafety(List<FlashcardItem> deck) {
+  bool changed;
+
+  do {
+    changed = false;
+
+    for (int i = 0; i < deck.length - 1; i++) {
+      final a = deck[i];
+      final b = deck[i + 1];
+
+      if (_shouldSwapForReleaseSafety(a, b)) {
+        deck[i] = b;
+        deck[i + 1] = a;
+        changed = true;
+      }
+    }
+  } while (changed);
+}
 
 void _subscribeToDetectedNotesIfNeeded() {
   if (!_listeningEnabled) return;
@@ -230,29 +285,6 @@ Future<void> _setup() async {
     _resetListeningAndEvaluationState();
 
   });
-  
-WidgetsBinding.instance.addPostFrameCallback((_) {
-  if (!_listeningEnabled) return;
-
-  Future.delayed(const Duration(milliseconds: 300), () async {
-    try {
-      // 🔁 ALWAYS reset before starting
-      await ChordDetectionService.instance.reset();
-      await ChordDetectionService.instance.start();
-
-      _subscribeToDetectedNotesIfNeeded();
-      _subscribeToFramesIfNeeded();
-    } catch (e) {
-      if (e is SystemErrorCode) {
-        // 🔴 UI boundary: convert domain error → global UI error
-        SystemError.report(e.code, ref);
-      } else {
-        // 🔴 unexpected crash
-        SystemError.report(201, ref);
-      }
-    }
-  });
-});
 }
 
 
@@ -260,6 +292,15 @@ void _subscribeToFramesIfNeeded() {
   if (_frameSub != null) return;
 
   _frameSub = ChordDetectionService.instance.detectedFrameStream.listen((frame) {
+       if (!_firstFrameSeen) {
+      _firstFrameSeen = true;
+      debugPrint(
+        '🎧 FIRST AUDIO FRAME '
+        ' | t=${frame.at.toIso8601String()}'
+        ' | sr=${frame.sampleRate}'
+      );
+    }
+   
     _lastFrame = frame;
 
     // Optional: trigger overlay repaint (cheap)
@@ -268,23 +309,6 @@ void _subscribeToFramesIfNeeded() {
 }
 
 
-Future<void> _startListeningIfNeeded() async {
-  if (_loadingChords) return; // ✅ correct place
-
-  try {
-    await ChordDetectionService.instance.reset(); // ✅ ALWAYS reset first
-    await ChordDetectionService.instance.start();
-
-    _subscribeToDetectedNotesIfNeeded();
-    _subscribeToFramesIfNeeded();
-  } catch (e) {
-    if (e is SystemErrorCode) {
-      SystemError.report(e.code, ref);
-    } else {
-      SystemError.report(201, ref);
-    }
-  }
-}
   Future<void> _loadSettings() async {
     final repo = SettingsRepository();
     final (timerEnabled, seconds) = await repo.loadTimer();
@@ -341,7 +365,12 @@ Future<void> _startListeningIfNeeded() async {
       filtered.shuffle();
     }
 
+    reorderDeckForReleaseSafety(filtered);
+
+
+
     setState(() {
+      
       _engine = FlashcardEngine(filtered.isEmpty ? widget.items : filtered);
       _startTimingForCurrentCard();
     });
@@ -483,6 +512,7 @@ void _resetListeningAndEvaluationState() {
   _lastDetectedNotes = const <String>{};
   _lastDetectionAt = null;
   _lastDecision = 'reset';
+  _firstFrameSeen = false;
 
   // Safety: any illegal partial-lock state is gone
 }
@@ -510,6 +540,7 @@ void _checkForChordRelease(Set<String> detected) {
   // ============================================================
 
 void _startTimingForCurrentCard() {
+  debugPrint('⏱ CARD TIMING STARTED');
   _timer?.cancel();
 _timedOut = false; 
 _frontEverShown = false;

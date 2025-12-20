@@ -112,7 +112,7 @@ void flipToBack() {
   // ---------------------------------------------------------------------------
   // ANIMATION (swipe off screen)
   // ---------------------------------------------------------------------------
-void _animateOut(bool toRight) {
+Future<void> _animateOut(bool toRight) async {
   final endOffset = Offset(toRight ? 4.5 : -4.5, 0);
   final endRotation = toRight ? 0.35 : -0.35;
 
@@ -127,7 +127,8 @@ void _animateOut(bool toRight) {
     CurvedAnimation(parent: _controller, curve: Curves.easeOut),
   );
 
-_controller.forward().then((_) {
+  _controller.reset();
+await _controller.forward().then((_) {
   // FIRST reset the card state
   setState(() {
     _dragOffset = Offset.zero;
@@ -135,7 +136,6 @@ _controller.forward().then((_) {
     _showBack = false;   // <-- IMPORTANT happens before next card
   });
 
-  _controller.reset();
 
   // THEN tell parent to advance to next card
   if (toRight) {
