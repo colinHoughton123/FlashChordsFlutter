@@ -7,7 +7,11 @@ import 'package:flutter_html/flutter_html.dart';
 
 import 'package:flutter/services.dart';
 
+
+
+
 class FlashcardWidget extends StatefulWidget {
+  
   final String chordLabel;              // e.g. "C Major"
   final String cardTitle;
   final InversionType inversion;        // root / first / second
@@ -46,6 +50,15 @@ class FlashcardWidgetState extends State<FlashcardWidget>
     with SingleTickerProviderStateMixin {
 
 
+@override
+void didUpdateWidget(covariant FlashcardWidget oldWidget) {
+  super.didUpdateWidget(oldWidget);
+
+
+}
+
+bool _firstBuild = true;
+
 bool _lockFront = false;
 
   // ---------------------------------------------------------------------------
@@ -79,18 +92,28 @@ bool _lockFront = false;
   // ---------------------------------------------------------------------------
   // init / dispose
   // ---------------------------------------------------------------------------
-  @override
-  void initState() {
-    super.initState();
+@override
+void initState() {
+  super.initState();
 
+  _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 450),
+  );
 
+  // 🔑 HARD FIX: force clean animation state after first frame
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    if (!mounted) return;
 
-
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 350),
-    );
-  }
+    if (_firstBuild) {
+      _controller.stop();
+      _controller.reset();
+      _dragOffset = Offset.zero;
+      _rotation = 0;
+      _firstBuild = false;
+    }
+  });
+}
 
   @override
   void dispose() {
@@ -112,11 +135,10 @@ void flipToBack() {
   // ---------------------------------------------------------------------------
   // ANIMATION (swipe off screen)
   // ---------------------------------------------------------------------------
-Future<void> _animateOut(bool toRight) async {
+void _animateOut(bool toRight) {
   final endOffset = Offset(toRight ? 4.5 : -4.5, 0);
   final endRotation = toRight ? 0.35 : -0.35;
 
-  // Lock showing the back
   _lockFront = true;
 
   _slideAnimation = Tween(begin: Offset.zero, end: endOffset).animate(
@@ -128,22 +150,33 @@ Future<void> _animateOut(bool toRight) async {
   );
 
   _controller.reset();
-await _controller.forward().then((_) {
-  // FIRST reset the card state
-  setState(() {
-    _dragOffset = Offset.zero;
-    _rotation = 0;
-    _showBack = false;   // <-- IMPORTANT happens before next card
-  });
 
+  late final AnimationStatusListener listener;
+  listener = (status) {
+    if (status == AnimationStatus.completed) {
+      _controller.removeStatusListener(listener);
 
-  // THEN tell parent to advance to next card
-  if (toRight) {
-    widget.onSwipeRight();
-  } else {
-    widget.onSwipeLeft();
-  }
-});
+      setState(() {
+        _dragOffset = Offset.zero;
+        _rotation = 0;
+        _showBack = false;
+      });
+
+      // 🔥 NOW advance deck (after animation is visible)
+      if (toRight) {
+        widget.onSwipeRight();
+      } else {
+        widget.onSwipeLeft();
+      }
+    }
+  };
+
+  _controller.addStatusListener(listener);
+
+  _controller.stop();     // ✅ cancel any stale ticker state
+  _controller.reset();    // ✅ force value = 0.0
+  _controller.addStatusListener(listener);
+  _controller.forward();
 }
 
 void forceShowFront() {
@@ -207,8 +240,8 @@ if (_dragOffset.dx > threshold){
 
             final screenWidth = MediaQuery.of(context).size.width;
 
-return Transform.translate(
-  offset: Offset(offset.dx * screenWidth, offset.dy * 1),
+            return FractionalTranslation(
+              translation: offset,
               child: Transform.rotate(
                 angle: rot,
                 child: child!,

@@ -43,6 +43,8 @@ String _localizedChordName(AppLocalizations t, String chordName) {
 /// ---------- Widget ----------
 ///
 
+
+
 class FlashcardScreen extends ConsumerStatefulWidget {
   final List<FlashcardItem> items;
 
@@ -62,7 +64,7 @@ class _FlashcardScreenState
 
   // 🔎 Debug / diagnostics
 
-
+bool _firstCardAfterStart = true;
 bool _subscribedToListener = false;
 bool _firstFrameSeen = false;
 int _detectionCount = 0;
@@ -80,7 +82,8 @@ StreamSubscription<DetectedNotesFrame>? _frameSub;
     return DateTime.now().difference(t).inMilliseconds;
   }
 
-
+static const Duration _betweenCardDelay =
+    Duration(milliseconds: 250); // tune later
 
 bool _timerCancelled = false;
 bool _timedOut = false;
@@ -164,31 +167,28 @@ int get _lastMatchMsAgo {
 void initState() {
   super.initState();
 
+ _firstCardAfterStart = true; // ✅ ONLY here 
   // Build engine using settings-filtered deck
-  _initEngine().then((_) {
-    _engineReady = true;
-    
+ _initEngine().then((_) {
+  WidgetsBinding.instance.addPostFrameCallback((_) async {
+    try {
+      await ChordDetectionService.instance.start();
+      _subscribeToDetectedNotesIfNeeded();
+      _subscribeToFramesIfNeeded();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      try {
-        await ChordDetectionService.instance.start();
-        _subscribeToDetectedNotesIfNeeded();
-        _subscribeToFramesIfNeeded();
-        setState(() {
-          _engineReady = true;
-          _startTimingForCurrentCard();
-        });
-      } catch (e) {
-        if (e is SystemErrorCode) {
-          SystemError.report(e.code, ref);
-        } else {
-          SystemError.report(201, ref);
-        }
+      setState(() {
+        _engineReady = true;          // ✅ only here
+        _startTimingForCurrentCard();
+      });
+    } catch (e) {
+      if (e is SystemErrorCode) {
+        SystemError.report(e.code, ref);
+      } else {
+        SystemError.report(201, ref);
       }
-    });
-
-    setState(() {});
+    }
   });
+});
 }
 
 @override
@@ -275,6 +275,7 @@ Future<void> _setup() async {
   await _loadSettings();
   await _initEngine();
  // START has been PRESSED
+ 
    setState(() {
     // 🔄 HARD RESET of listening / evaluation state
 
@@ -353,13 +354,18 @@ void _subscribeToFramesIfNeeded() {
       return rootOk && typeOk && invOk;
     }).toList();
 
-    filtered.sort((a, b) {
-      final r = a.root.compareTo(b.root);
-      if (r != 0) return r;
-      final c = a.chordType.compareTo(b.chordType);
-      if (c != 0) return c;
-      return a.inversion.index.compareTo(b.inversion.index);
-    });
+      filtered.sort((a, b) {
+        // 1️⃣ inversion first (root → first → second)
+        final inv = a.inversion.index.compareTo(b.inversion.index);
+        if (inv != 0) return inv;
+
+        // 2️⃣ chord type next
+        final type = a.chordType.compareTo(b.chordType);
+        if (type != 0) return type;
+
+        // 3️⃣ root last
+        return a.root.compareTo(b.root);
+      });
 
     if (orderMode == 'random') {
       filtered.shuffle();
@@ -842,9 +848,11 @@ Widget build(BuildContext context) {
                 : Stack(
                     children: [
                       FlashcardWidget(
-                        key: _cardKey,
-                        cardId:
-                            '${card.root}_${card.chordType}_${card.inversion.index}_${played}',
+                         key: ValueKey(
+    '${card.root}_${card.chordType}_${card.inversion.index}_${played}',
+  ),
+  cardId:
+      '${card.root}_${card.chordType}_${card.inversion.index}_${played}',
                         cardTitle:
                             _localizedChordName(t, card.chordName),
                         chordLabel: card.writtenAs,
