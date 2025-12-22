@@ -47,6 +47,8 @@
 "flash_timeLabel": "Time",
 "flash_timerCancelled": "Timer cancelled",
 
+
+
 "flash_play_instruction": "Play the following chord\nselected randomly from the main deck",
 "flash_swipe_right": "Swipe right if you played it correctly",
 "flash_swipe_left": "Swipe left if you played it incorrectly",
@@ -81,6 +83,11 @@
 "summary_play_again": "Play again",
 "summary_done": "Done",
 "summary_accuracy": "Accuracy",
+  "summary_average_time_correct": "Average time (correct chords)",
+  "summary_average_time_all": "Average time (all chords)",
+  "summary_seconds": "seconds",
+
+
 "listeningActive": "Listening…",
 "listeningInactive": "Listening paused",
 "flash_error_101": "Audio input is not permitted.",

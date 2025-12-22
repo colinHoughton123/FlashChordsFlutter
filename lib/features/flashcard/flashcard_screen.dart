@@ -43,8 +43,6 @@ String _localizedChordName(AppLocalizations t, String chordName) {
 /// ---------- Widget ----------
 ///
 
-
-
 class FlashcardScreen extends ConsumerStatefulWidget {
   final List<FlashcardItem> items;
 
@@ -54,74 +52,63 @@ class FlashcardScreen extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<FlashcardScreen> createState() =>
-      _FlashcardScreenState();
+  ConsumerState<FlashcardScreen> createState() => _FlashcardScreenState();
 }
 
-class _FlashcardScreenState
-    extends ConsumerState<FlashcardScreen> {
-
-
+class _FlashcardScreenState extends ConsumerState<FlashcardScreen> {
   // 🔎 Debug / diagnostics
 
-bool _firstCardAfterStart = true;
-bool _subscribedToListener = false;
-bool _firstFrameSeen = false;
-int _detectionCount = 0;
-DateTime? _lastDetectionAt;
-String _lastDecision = '-';
-// Optional: show raw vs filtered mags from ChordDetectionService
-DetectedNotesFrame? _lastFrame;
-StreamSubscription<DetectedNotesFrame>? _frameSub;
+  static const Duration _detectionBaseline =
+      Duration(milliseconds: 300); // tune later
 
+  bool _firstCardAfterStart = true;
+  bool _subscribedToListener = false;
+  bool _firstFrameSeen = false;
+  int _detectionCount = 0;
+  DateTime? _lastDetectionAt;
+  String _lastDecision = '-';
+  // Optional: show raw vs filtered mags from ChordDetectionService
+  DetectedNotesFrame? _lastFrame;
+  StreamSubscription<DetectedNotesFrame>? _frameSub;
 
-   // ⏱ How long since last detection (for overlay)
+  // ⏱ How long since last detection (for overlay)
   int get _lastDetectionMsAgo {
     final t = _lastDetectionAt;
     if (t == null) return -1;
     return DateTime.now().difference(t).inMilliseconds;
   }
 
-static const Duration _betweenCardDelay =
-    Duration(milliseconds: 250); // tune later
+  static const Duration _betweenCardDelay =
+      Duration(milliseconds: 250); // tune later
 
-bool _timerCancelled = false;
-bool _timedOut = false;
+  bool _timerCancelled = false;
+  bool _timedOut = false;
 
-Set<String>? _lastDetectedNotes;
+  Set<String>? _lastDetectedNotes;
 
-Set<String>? _previousCorrectTargetNotes; // null until we have an auto/manual correct
-
-
-
+  Set<String>?
+      _previousCorrectTargetNotes; // null until we have an auto/manual correct
 
   // ---------- Core state ----------
   late FlashcardEngine _engine;
   bool _engineReady = false;
 
- // bool _evaluationEnabled = true;
-// bool _cardFrontVisible = true;
-// bool _autoMarked = false;
-
-// Set<String>? _previousChordNotes;
-
-
   // --- Previous chord release gating ---
-
-bool _waitingForPreviousRelease = false;
+  bool _waitingForPreviousRelease = false;
 
   // ---------- Card + timing ----------
   final GlobalKey<FlashcardWidgetState> _cardKey =
       GlobalKey<FlashcardWidgetState>();
 
+static const bool _showDebugOverlay = false; // 👈 flip to true anytime
+
   DateTime? _cardShownAt;
   Timer? _timer;
 
   DateTime? _lastMatchAt;
-Set<String>? _lastMatchDetected;
-Set<String>? _lastMatchTarget;
-String? _lastMatchCardLabel; // optional (e.g. "A7")
-
+  Set<String>? _lastMatchDetected;
+  Set<String>? _lastMatchTarget;
+  String? _lastMatchCardLabel; // optional (e.g. "A7")
 
   bool _timerEnabled = false;
   int _timerSeconds = 5;
@@ -134,181 +121,157 @@ String? _lastMatchCardLabel; // optional (e.g. "A7")
   bool _autoMarked = false;
 
   // --- New gating state ---
-Set<String>? _previousChordNotes;
-bool _evaluationEnabled = true;  
-bool _cardFrontVisible = true;
-bool _frontEverShown = false;
+  Set<String>? _previousChordNotes;
+  bool _evaluationEnabled = true;
+  bool _cardFrontVisible = true;
+  bool _frontEverShown = false;
 
-
-
-int get _lastMatchMsAgo {
-  final t = _lastMatchAt;
-  if (t == null) return -1;
-  return DateTime.now().difference(t).inMilliseconds;
-}
-
-
-//void _beginSession() {
- // _engineArmTime = DateTime.now(); // ⏱ START CLOCK
- // _engine.armForChord(_currentChord);
-// }
-
-
+  int get _lastMatchMsAgo {
+    final t = _lastMatchAt;
+    if (t == null) return -1;
+    return DateTime.now().difference(t).inMilliseconds;
+  }
 
   // ============================================================
   // Lifecycle
   // ============================================================
 
-// ============================================================
-// Lifecycle
-// ============================================================
+  @override
+  void initState() {
+    super.initState();
 
-@override
-void initState() {
-  super.initState();
+    _firstCardAfterStart = true; // ✅ ONLY here
+    // Build engine using settings-filtered deck
+    _initEngine().then((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        try {
+          await ChordDetectionService.instance.start();
+          _subscribeToDetectedNotesIfNeeded();
+          _subscribeToFramesIfNeeded();
 
- _firstCardAfterStart = true; // ✅ ONLY here 
-  // Build engine using settings-filtered deck
- _initEngine().then((_) {
-  WidgetsBinding.instance.addPostFrameCallback((_) async {
-    try {
-      await ChordDetectionService.instance.start();
-      _subscribeToDetectedNotesIfNeeded();
-      _subscribeToFramesIfNeeded();
-
-      setState(() {
-        _engineReady = true;          // ✅ only here
-        _startTimingForCurrentCard();
+          setState(() {
+            _engineReady = true; // ✅ only here
+            _startTimingForCurrentCard();
+          });
+        } catch (e) {
+          if (e is SystemErrorCode) {
+            SystemError.report(e.code, ref);
+          } else {
+            SystemError.report(201, ref);
+          }
+        }
       });
-    } catch (e) {
-      if (e is SystemErrorCode) {
-        SystemError.report(e.code, ref);
-      } else {
-        SystemError.report(201, ref);
-      }
-    }
-  });
-});
-}
+    });
+  }
 
-@override
-void didChangeDependencies() {
-  super.didChangeDependencies();
-  _loadSettings();
-}
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _loadSettings();
+  }
 
-@override
-void dispose() {
-  _timer?.cancel();
+  @override
+  void dispose() {
+    _timer?.cancel();
 
-  _listenerSub?.cancel();
-  _listenerSub = null;
+    _listenerSub?.cancel();
+    _listenerSub = null;
 
-  _frameSub?.cancel();
-  _frameSub = null;
+    _frameSub?.cancel();
+    _frameSub = null;
 
-  super.dispose();
-}
-
-
-
+    super.dispose();
+  }
 
   // ============================================================
   // Setup
   // ============================================================
 
-bool _isStrictSuperset(Set<String> a, Set<String> b) {
-  return a.length > b.length && a.containsAll(b);
-}
+  bool _isStrictSuperset(Set<String> a, Set<String> b) {
+    return a.length > b.length && a.containsAll(b);
+  }
 
-bool _shouldSwapForReleaseSafety(
-  FlashcardItem current,
-  FlashcardItem next,
-) {
-  final a = current.noteSet;
-  final b = next.noteSet;
+  bool _shouldSwapForReleaseSafety(
+    FlashcardItem current,
+    FlashcardItem next,
+  ) {
+    final a = current.noteSet;
+    final b = next.noteSet;
 
-  // Swap if:
-  // current ⊃ next   (A7 → A, Amaj7 → A)
-  return a.containsAll(b) && a.length > b.length;
-}
+    // Swap if:
+    // current ⊃ next   (A7 → A, Amaj7 → A)
+    return a.containsAll(b) && a.length > b.length;
+  }
 
+  void reorderDeckForReleaseSafety(List<FlashcardItem> deck) {
+    bool changed;
 
+    do {
+      changed = false;
 
-void reorderDeckForReleaseSafety(List<FlashcardItem> deck) {
-  bool changed;
+      for (int i = 0; i < deck.length - 1; i++) {
+        final a = deck[i];
+        final b = deck[i + 1];
 
-  do {
-    changed = false;
-
-    for (int i = 0; i < deck.length - 1; i++) {
-      final a = deck[i];
-      final b = deck[i + 1];
-
-      if (_shouldSwapForReleaseSafety(a, b)) {
-        deck[i] = b;
-        deck[i + 1] = a;
-        changed = true;
+        if (_shouldSwapForReleaseSafety(a, b)) {
+          deck[i] = b;
+          deck[i + 1] = a;
+          changed = true;
+        }
       }
-    }
-  } while (changed);
-}
+    } while (changed);
+  }
 
-void _subscribeToDetectedNotesIfNeeded() {
-  if (!_listeningEnabled) return;
-  if (_listenerSub != null) return;
+  void _subscribeToDetectedNotesIfNeeded() {
+    if (!_listeningEnabled) return;
+    if (_listenerSub != null) return;
 
-  _listenerSub =
-      ChordDetectionService.instance.detectedNotesStream.listen((detected) {
-    _detectionCount++;
-    _lastDetectionAt = DateTime.now();
-        // 👇 Let overlay repaint in response to decision changes
-    setState(() {
-      _handleDetectedNotes(detected);
+    _listenerSub =
+        ChordDetectionService.instance.detectedNotesStream.listen((detected) {
+      _detectionCount++;
+      _lastDetectionAt = DateTime.now();
+      // 👇 Let overlay repaint in response to decision changes
+      setState(() {
+        _handleDetectedNotes(detected);
+      });
     });
-  });
 
-  _subscribedToListener = true;
-}
+    _subscribedToListener = true;
+  }
 
-Future<void> _setup() async {
-  await _loadSettings();
-  await _initEngine();
- // START has been PRESSED
- 
-   setState(() {
-    // 🔄 HARD RESET of listening / evaluation state
+  Future<void> _setup() async {
+    await _loadSettings();
+    await _initEngine();
+    // START has been PRESSED
 
+    setState(() {
+      // 🔄 HARD RESET of listening / evaluation state
 
-    _frontEverShown = false;
-    _engineReady = true;
+      _frontEverShown = false;
+      _engineReady = true;
 
-    _resetListeningAndEvaluationState();
+      _resetListeningAndEvaluationState();
+    });
+  }
 
-  });
-}
+  void _subscribeToFramesIfNeeded() {
+    if (_frameSub != null) return;
 
+    _frameSub =
+        ChordDetectionService.instance.detectedFrameStream.listen((frame) {
+      if (!_firstFrameSeen) {
+        _firstFrameSeen = true;
+        debugPrint('🎧 FIRST AUDIO FRAME '
+            ' | t=${frame.at.toIso8601String()}'
+            ' | sr=${frame.sampleRate}');
+      }
 
-void _subscribeToFramesIfNeeded() {
-  if (_frameSub != null) return;
+      _lastFrame = frame;
 
-  _frameSub = ChordDetectionService.instance.detectedFrameStream.listen((frame) {
-       if (!_firstFrameSeen) {
-      _firstFrameSeen = true;
-      debugPrint(
-        '🎧 FIRST AUDIO FRAME '
-        ' | t=${frame.at.toIso8601String()}'
-        ' | sr=${frame.sampleRate}'
-      );
-    }
-   
-    _lastFrame = frame;
-
-    // Optional: trigger overlay repaint (cheap)
-    if (mounted) setState(() {});
-  });
-}
-
+      // Optional: trigger overlay repaint (cheap)
+      if (mounted) setState(() {});
+    });
+  }
 
   Future<void> _loadSettings() async {
     final repo = SettingsRepository();
@@ -345,8 +308,7 @@ void _subscribeToFramesIfNeeded() {
     }
 
     final filtered = allItems.where((item) {
-      final rootOk =
-          selectedRoots.isEmpty || selectedRoots.contains(item.root);
+      final rootOk = selectedRoots.isEmpty || selectedRoots.contains(item.root);
       final typeOk =
           selectedTypes.isEmpty || selectedTypes.contains(item.chordType);
       final invOk = selectedInversions.isEmpty ||
@@ -354,18 +316,18 @@ void _subscribeToFramesIfNeeded() {
       return rootOk && typeOk && invOk;
     }).toList();
 
-      filtered.sort((a, b) {
-        // 1️⃣ inversion first (root → first → second)
-        final inv = a.inversion.index.compareTo(b.inversion.index);
-        if (inv != 0) return inv;
+    filtered.sort((a, b) {
+      // 1️⃣ inversion first (root → first → second)
+      final inv = a.inversion.index.compareTo(b.inversion.index);
+      if (inv != 0) return inv;
 
-        // 2️⃣ chord type next
-        final type = a.chordType.compareTo(b.chordType);
-        if (type != 0) return type;
+      // 2️⃣ chord type next
+      final type = a.chordType.compareTo(b.chordType);
+      if (type != 0) return type;
 
-        // 3️⃣ root last
-        return a.root.compareTo(b.root);
-      });
+      // 3️⃣ root last
+      return a.root.compareTo(b.root);
+    });
 
     if (orderMode == 'random') {
       filtered.shuffle();
@@ -373,10 +335,7 @@ void _subscribeToFramesIfNeeded() {
 
     reorderDeckForReleaseSafety(filtered);
 
-
-
     setState(() {
-      
       _engine = FlashcardEngine(filtered.isEmpty ? widget.items : filtered);
       _startTimingForCurrentCard();
     });
@@ -385,20 +344,18 @@ void _subscribeToFramesIfNeeded() {
   // ============================================================
   // Listening
   // ============================================================
-
 void _revealBackDueToTimeout() {
   _timedOut = true;
-  // Stop timer
   _timer?.cancel();
 
-  // Disable evaluation + auto marking
+  // IMPORTANT: DO NOT mark incorrect here.
+  // We only reveal the back; the user decides correct/incorrect afterwards.
+
   _evaluationEnabled = false;
   _autoMarked = false;
-
-  // Stop listening logic (but DO NOT stop mic)
   _cardFrontVisible = false;
 
-  // Clear any pending previous-chord state
+  // (keep previous chord gating cleared if you want)
   _previousChordNotes = null;
 
   // Flip card
@@ -410,275 +367,304 @@ void _revealBackDueToTimeout() {
   });
 }
 
-void _handleDetectedNotes(Set<String> detected) {
-  _lastDetectedNotes = detected;
-  _lastDetectionAt = DateTime.now();
+  void _handleDetectedNotes(Set<String> detected) {
+    _lastDetectedNotes = detected;
+    _lastDetectionAt = DateTime.now();
 
-  // --------------------------------------------------
-  // Hard guards
-  // --------------------------------------------------
-  if (!_listeningEnabled) {
-    _lastDecision = 'blocked: listening off';
-    return;
-  }
-
-  if (!_cardFrontVisible) {
-    _lastDecision = 'blocked: back shown';
-    return;
-  }
-
-  // --------------------------------------------------
-  // 1️⃣ Waiting for previous chord release
-  // --------------------------------------------------
-  if (_previousChordNotes != null) {
-    final stillHoldingPrevious =
-        detected.containsAll(_previousChordNotes!);
-
-    _lastDecision = stillHoldingPrevious
-        ? 'blocked: waiting release ${_previousChordNotes!.join(",")}'
-        : 'release detected';
-
-    if (!stillHoldingPrevious) {
-      _previousChordNotes = null;
-      _autoMarked = false;
+    // --------------------------------------------------
+    // Hard guards
+    // --------------------------------------------------
+    if (!_listeningEnabled) {
+      _lastDecision = 'blocked: listening off';
+      return;
     }
-    return;
-  }
 
-  // --------------------------------------------------
-  // 2️⃣ Normal evaluation
-  // --------------------------------------------------
-  if (_autoMarked) {
-    _lastDecision = 'blocked: autoMarked';
-    return;
-  }
+    if (!_cardFrontVisible) {
+      _lastDecision = 'blocked: back shown';
+      return;
+    }
 
-  final card = _engine.currentCard;
-  if (card == null) {
-    _lastDecision = 'blocked: no card';
-    return;
-  }
 
-  final target = card.noteSet;
+    if (!_evaluationEnabled) {
+      _lastDecision = 'blocked: eval off';
+      return;
+    }
 
-  _lastDecision = 'evaluating det=${detected.join(",")}';
+    // --------------------------------------------------
+    // 1️⃣ Waiting for previous chord release
+    // --------------------------------------------------
+    if (_previousChordNotes != null) {
+      final stillHoldingPrevious = detected.containsAll(_previousChordNotes!);
 
-  // --- Subset-transition protection ---
-  if (_previousCorrectTargetNotes != null) {
-    final prev = _previousCorrectTargetNotes!;
-    if (prev.containsAll(target) && prev.length > target.length) {
-      final extras = prev.difference(target);
-      if (detected.intersection(extras).isNotEmpty) {
-        _lastDecision = 'blocked: extras still ${extras.join(",")}';
-        return;
+      _lastDecision = stillHoldingPrevious
+          ? 'blocked: waiting release ${_previousChordNotes!.join(",")}'
+          : 'release detected';
+
+      if (!stillHoldingPrevious) {
+        _previousChordNotes = null;
+        _autoMarked = false;
+      }
+      return;
+    }
+
+    // --------------------------------------------------
+    // 2️⃣ Normal evaluation
+    // --------------------------------------------------
+    if (_autoMarked) {
+      _lastDecision = 'blocked: autoMarked';
+      return;
+    }
+
+    final card = _engine.currentCard;
+    if (card == null) {
+      _lastDecision = 'blocked: no card';
+      return;
+    }
+
+    final target = card.noteSet;
+
+    debugPrint('🎼 TARGET=${target.join(",")}');
+
+    _lastDecision = 'evaluating det=${detected.join(",")}';
+
+    // --- Subset-transition protection ---
+    if (_previousCorrectTargetNotes != null) {
+      final prev = _previousCorrectTargetNotes!;
+      if (prev.containsAll(target) && prev.length > target.length) {
+        final extras = prev.difference(target);
+        if (detected.intersection(extras).isNotEmpty) {
+          _lastDecision = 'blocked: extras still ${extras.join(",")}';
+          return;
+        }
       }
     }
+
+    // --------------------------------------------------
+    // 3️⃣ Candidate evaluation (NEW)
+    // --------------------------------------------------
+    final confirmedAt = ChordDetectionService.instance.evaluateCandidate(
+      detected,
+    );
+
+    if (confirmedAt == null) {
+      _lastDecision = 'candidate pending';
+      return;
+    }
+
+    if (_cardShownAt == null) {
+      debugPrint('⚠️ cardShownAt missing');
+      return;
+    }
+
+    // Raw elapsedOverride: time from "card shown" to "confirmedAt"
+    final elapsedOverride = confirmedAt.isAfter(_cardShownAt!)
+        ? confirmedAt.difference(_cardShownAt!)
+        : Duration.zero;
+
+    // --------------------------------------------------
+    // 4️⃣ CONFIRMED MATCH
+    // --------------------------------------------------
+    _lastDecision = 'MATCH ✅';
+    debugPrint('MATCH confirmed');
+
+    _lastMatchAt = DateTime.now();
+    _lastMatchDetected = Set.of(detected);
+    _lastMatchTarget = Set.of(target);
+    _lastMatchCardLabel = card.writtenAs;
+
+    _autoMarked = true;
+    _evaluationEnabled = false;
+    _previousChordNotes = target;
+    _previousCorrectTargetNotes = target;
+
+    _handleCorrect(
+      autoTriggered: true,
+      elapsedOverride: elapsedOverride,
+    );
   }
 
-  final matches = ChordDetectionService.instance.matchesTarget(
-    detected: detected,
-    target: target,
-  );
-
-  if (!matches) {
-    _lastDecision = 'no match';
-    return;
-  }
-
-  // --------------------------------------------------
-  // 3️⃣ MATCH
-  // --------------------------------------------------
-    // ✅ record match for overlay *immediately*
-  _lastDecision = 'MATCH ✅';
-    debugPrint('MATCH found ');
-  _lastMatchAt = DateTime.now();
-  _lastMatchDetected = Set.of(detected);
-  _lastMatchTarget = Set.of(target);
-  _lastMatchCardLabel = card.writtenAs;
-
-  _autoMarked = true;
-  _evaluationEnabled = false;        // lock until next card front shown
-  _previousChordNotes = target;      // (optional: if you still use release gating)
-  _previousCorrectTargetNotes = target;
-
-  _handleCorrect(autoTriggered: true);
-}
-
-
-void _resetListeningAndEvaluationState() {
-  // Evaluation / gating
-  _evaluationEnabled = true;
-  _autoMarked = false;
-  _cardFrontVisible = true;
-
-  _previousChordNotes = null;
-  _previousCorrectTargetNotes = null;
-
-  // Debug / overlay
-  _lastDetectedNotes = const <String>{};
-  _lastDetectionAt = null;
-  _lastDecision = 'reset';
-  _firstFrameSeen = false;
-
-  // Safety: any illegal partial-lock state is gone
-}
-
-
-void _checkForChordRelease(Set<String> detected) {
-  if (_previousChordNotes == null) return;
-
-  final stillHeld =
-      detected.intersection(_previousChordNotes!);
-
-  if (stillHeld.isEmpty) {
-    // Player released at least one note
-    _previousChordNotes = null;
-    //. _evaluationEnabled = true;   // xxx
+  void _resetListeningAndEvaluationState() {
+    // Evaluation / gating
+    _evaluationEnabled = true;
     _autoMarked = false;
+    _cardFrontVisible = true;
 
-    debugPrint('🎧 Ready for next chord');
+    _previousChordNotes = null;
+    _previousCorrectTargetNotes = null;
+
+    // Debug / overlay
+    _lastDetectedNotes = const <String>{};
+    _lastDetectionAt = null;
+    _lastDecision = 'reset';
+    _firstFrameSeen = false;
+
+    // Safety: any illegal partial-lock state is gone
   }
-}
 
+  void _checkForChordRelease(Set<String> detected) {
+    if (_previousChordNotes == null) return;
+
+    final stillHeld = detected.intersection(_previousChordNotes!);
+
+    if (stillHeld.isEmpty) {
+      // Player released at least one note
+      _previousChordNotes = null;
+      _autoMarked = false;
+
+      debugPrint('🎧 Ready for next chord');
+    }
+  }
 
   // ============================================================
   // Timing + game logic
   // ============================================================
 
-void _startTimingForCurrentCard() {
-  debugPrint('⏱ CARD TIMING STARTED');
-  _timer?.cancel();
-_timedOut = false; 
-_frontEverShown = false;
+  void _startTimingForCurrentCard() {
+    debugPrint('⏱ CARD TIMING STARTED');
 
+    // Arm detection service for THIS card
+    final currentCard = _engine.currentCard;
+    if (currentCard != null) {
+      ChordDetectionService.instance.armForChord(
+        currentCard.noteSet,
+        previousChordNotes: _previousCorrectTargetNotes,
+      );
+      debugPrint('🎼 TARGET=${currentCard.noteSet.join(",")}');
+    }
 
-  //_cardShownAt = DateTime.now();
-  _cardShownAt = null;
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-  _cardShownAt = DateTime.now();
-});
-  _timerCancelled = false;
-
-  _remainingSeconds = _timerSeconds;
-  _initialSeconds = _timerSeconds;
-
-  // ✅ HARD RESET for every new card
-  _cardFrontVisible = true;
-  _evaluationEnabled = true;
-  _previousChordNotes = null;
-  _autoMarked = false;
-  // _frontEverShown = false;
-
-  if (!_timerEnabled) return;
-
-  _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-    if (!mounted) return;
-
-    setState(() => _remainingSeconds--);
-
-if (_remainingSeconds <= 0) {
-  timer.cancel();              // 🛑 stop further ticks
-  
-  _revealBackDueToTimeout();    // 🔄 transition exactly once
-}
-  });
-}
-
-Future<void> _handleCorrect({bool autoTriggered = false}) async {
-  // --------------------------------------------------
-  // ⏱ DEBUG: timing at entry
-  // --------------------------------------------------
-  final nowAtEntry = DateTime.now();
-  final cardShownAt = _cardShownAt ?? nowAtEntry;
-  final elapsedAtEntry = nowAtEntry.difference(cardShownAt);
-
-  debugPrint(
-    '⏱ CORRECT entry'
-    ' | auto=$autoTriggered'
-    ' | elapsed=${elapsedAtEntry.inMilliseconds}ms'
-  );
-
-  // --------------------------------------------------
-  // Stop timer & normalize card state
-  // --------------------------------------------------
-  _timer?.cancel();
-  _cardKey.currentState?.forceShowFront();
-
-  _evaluationEnabled = false;
-  _cardFrontVisible = true;
-
-  // --------------------------------------------------
-  // Capture previous chord state (for subset logic)
-  // --------------------------------------------------
-  final solvedCard = _engine.currentCard;
-  if (solvedCard != null) {
-    _previousChordNotes = Set.of(solvedCard.noteSet);
-    _previousCorrectTargetNotes = solvedCard.noteSet;
-  }
-
-  // --------------------------------------------------
-  // 🧮 Compute elapsed ONCE (this is what engine records)
-  // --------------------------------------------------
- // final elapsedForEngine = (_timerEnabled && _remainingSeconds <= 0)
- //     ? Duration(seconds: _initialSeconds)
- //     : DateTime.now().difference(cardShownAt);
-
-      final now = DateTime.now();
-final shownAt = _cardShownAt ?? now;
-final elapsed = _timedOut
-    ? Duration(seconds: _initialSeconds)
-    : DateTime.now().difference(_cardShownAt!);
-
-  debugPrint(
-  '⏱ CORRECT engine-mark'
-  ' | elapsed=${elapsed.inMilliseconds}ms'
-  ' | delta=${elapsed.inMilliseconds - elapsedAtEntry.inMilliseconds}ms'
-);
-
-  // --------------------------------------------------
-  // Record result
-  // --------------------------------------------------
-  _engine.markCorrect(elapsed);
-
-  // --------------------------------------------------
-  // Deck finished?
-  // --------------------------------------------------
-  if (_engine.deckFinished) {
-    await _showSummaryScreen();
-    return;
-  }
-
-  // --------------------------------------------------
-  // Prepare next card
-  // --------------------------------------------------
-  setState(() {
-    _autoMarked = false;
-    _startTimingForCurrentCard();
-  });
-
-
-
-}
-
-  Future<void> _handleIncorrect() async {
-    _evaluationEnabled = false;
-_cardFrontVisible = true;
-    _cardKey.currentState?.forceShowFront();
     _timer?.cancel();
-    _engine.markIncorrect();
+    _timedOut = false;
+    _frontEverShown = false;
 
+    _cardShownAt = null;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _cardShownAt = DateTime.now();
+    });
+
+    _timerCancelled = false;
+
+    _remainingSeconds = _timerSeconds;
+    _initialSeconds = _timerSeconds;
+
+    // ✅ HARD RESET for every new card
+    _cardFrontVisible = true;
+    _evaluationEnabled = true;
+    _previousChordNotes = null;
+    _autoMarked = false;
+
+    if (!_timerEnabled) return;
+
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) return;
+
+      setState(() => _remainingSeconds--);
+
+      if (_remainingSeconds <= 0) {
+        timer.cancel(); // 🛑 stop further ticks
+        _revealBackDueToTimeout(); // 🔄 transition exactly once
+      }
+    });
+  }
+
+  Future<void> _handleCorrect({
+    bool autoTriggered = false,
+    Duration? elapsedOverride,
+  }) async {
+    // --------------------------------------------------
+    // ⏱ DEBUG: timing at entry (confirm time, not charged time)
+    // --------------------------------------------------
+    final nowAtEntry = DateTime.now();
+    final shownAtForConfirm = _cardShownAt ?? nowAtEntry;
+    final confirmElapsed = nowAtEntry.difference(shownAtForConfirm);
+
+    debugPrint('⏱ CORRECT entry'
+        ' | auto=$autoTriggered'
+        ' | elapsed=${confirmElapsed.inMilliseconds}ms');
+
+    // --------------------------------------------------
+    // Stop timer & normalize card state
+    // --------------------------------------------------
+    _timer?.cancel();
+    _cardKey.currentState?.forceShowFront();
+
+    _evaluationEnabled = false;
+    _cardFrontVisible = true;
+
+    // --------------------------------------------------
+    // Capture previous chord state (for subset logic)
+    // --------------------------------------------------
+    final solvedCard = _engine.currentCard;
+    if (solvedCard != null) {
+      _previousChordNotes = Set.of(solvedCard.noteSet);
+      _previousCorrectTargetNotes = solvedCard.noteSet;
+    }
+
+    // --------------------------------------------------
+    // 🧮 Compute RAW elapsed ONCE (what detection said, or fallback)
+    // --------------------------------------------------
+    final rawElapsed = elapsedOverride ??
+        (_timedOut
+            ? Duration(seconds: _initialSeconds)
+            : DateTime.now().difference(_cardShownAt!));
+
+    // Apply baseline subtraction (clamp to zero)
+    final chargedElapsed =
+    (elapsedOverride != null && !_timedOut)
+        ? (rawElapsed > _detectionBaseline
+            ? rawElapsed - _detectionBaseline
+            : Duration.zero)
+        : rawElapsed;
+
+    debugPrint('⏱ CORRECT'
+        ' | auto=$autoTriggered'
+        ' | confirm=${rawElapsed.inMilliseconds}ms'
+        ' | charged=${chargedElapsed.inMilliseconds}ms');
+
+    // --------------------------------------------------
+    // Record result
+    // --------------------------------------------------
+    _engine.markCorrect(chargedElapsed);
+
+    // --------------------------------------------------
+    // Deck finished?
+    // --------------------------------------------------
     if (_engine.deckFinished) {
       await _showSummaryScreen();
       return;
     }
 
-    setState(() => _startTimingForCurrentCard());
+    // --------------------------------------------------
+    // Prepare next card
+    // --------------------------------------------------
+    setState(() {
+      _autoMarked = false;
+      _startTimingForCurrentCard();
+    });
   }
+
+Future<void> _handleIncorrect() async {
+  _timer?.cancel();
+
+  final elapsed = _timedOut
+      ? Duration(seconds: _initialSeconds)
+      : (_cardShownAt != null
+          ? DateTime.now().difference(_cardShownAt!)
+          : Duration.zero);
+
+  _engine.markIncorrect(elapsed: elapsed);
+
+  if (_engine.deckFinished) {
+    await _showSummaryScreen();
+    return;
+  }
+
+  setState(() => _startTimingForCurrentCard());
+}
 
   Future<void> _showSummaryScreen() async {
     if (!mounted) return;
 
-_previousCorrectTargetNotes = null;
+    _previousCorrectTargetNotes = null;
     final choice = await Navigator.push<String>(
       context,
       MaterialPageRoute(
@@ -686,11 +672,12 @@ _previousCorrectTargetNotes = null;
           totalCorrect: _engine.totalCorrect,
           totalIncorrect: _engine.totalIncorrect,
           totalCards: _engine.totalCorrect + _engine.totalIncorrect,
-          averageSeconds: _engine.averageSecondsPerCard,
+          averageSecondsCorrect: _engine.averageSecondsCorrect,
+          averageSecondsAll: _engine.averageSecondsAll,
           showAverage: _timerEnabled,
           hadErrors: _engine.hasErrorsForNextRound,
           isErrorDeck: _engine.usingErrorDeck,
-        ),
+        )
       ),
     );
 
@@ -711,184 +698,171 @@ _previousCorrectTargetNotes = null;
   // UI helpers
   // ============================================================
 
+  Widget _buildDebugOverlay() {
+    final det = _lastDetectedNotes?.join(',') ?? '-';
+    final last = _lastDetectionMsAgo < 0 ? '-' : '${_lastDetectionMsAgo}ms';
 
+    final matchAgo = _lastMatchMsAgo;
+    final matchLine = matchAgo < 0
+        ? 'lastMatch=-'
+        : 'lastMatch=${matchAgo}ms\n'
+            'mDet=${_lastMatchDetected?.join(",") ?? "-"}\n'
+            'mTgt=${_lastMatchTarget?.join(",") ?? "-"}';
 
+    // Optional raw/filtered magnitudes (top 6 strongest)
+    String magsLine(Map<String, double>? m) {
+      if (m == null || m.isEmpty) return '-';
+      final entries = m.entries.toList()
+        ..sort((a, b) => b.value.compareTo(a.value));
+      return entries
+          .take(6)
+          .map((e) => '${e.key}:${e.value.toStringAsFixed(3)}')
+          .join(' ');
+    }
 
-Widget _buildDebugOverlay() {
-  final det = _lastDetectedNotes?.join(',') ?? '-';
-  final last = _lastDetectionMsAgo < 0 ? '-' : '${_lastDetectionMsAgo}ms';
+    final raw = magsLine(_lastFrame?.raw);
+    final filt = magsLine(_lastFrame?.filtered);
 
-
-final matchAgo = _lastMatchMsAgo;
-final matchLine = matchAgo < 0
-    ? 'lastMatch=-'
-    : 'lastMatch=${matchAgo}ms\n'
-      'mDet=${_lastMatchDetected?.join(",") ?? "-"}\n'
-      'mTgt=${_lastMatchTarget?.join(",") ?? "-"}';
-
-
-  // Optional raw/filtered magnitudes (top 6 strongest)
-  String magsLine(Map<String, double>? m) {
-    if (m == null || m.isEmpty) return '-';
-    final entries = m.entries.toList()
-      ..sort((a, b) => b.value.compareTo(a.value));
-    return entries.take(6).map((e) => '${e.key}:${e.value.toStringAsFixed(3)}').join(' ');
+    return Positioned(
+      top: 8,
+      left: 8,
+      child: Container(
+        padding: const EdgeInsets.all(6),
+        decoration: BoxDecoration(
+          color: Colors.black.withOpacity(0.6),
+          borderRadius: BorderRadius.circular(6),
+        ),
+        child: Text(
+          'front=$_cardFrontVisible  eval=$_evaluationEnabled\n'
+          'auto=$_autoMarked\n  prev=${_previousChordNotes?.join(",") ?? "-"}\n'
+          'last=$last  det=$det\n'
+          'decision=$_lastDecision\n'
+          '$matchLine\n'
+          'raw=$raw\n'
+          'filt=$filt',
+          style: const TextStyle(color: Colors.white, fontSize: 11),
+        ),
+      ),
+    );
   }
 
-  final raw = magsLine(_lastFrame?.raw);
-  final filt = magsLine(_lastFrame?.filtered);
+  Widget _buildListeningIndicator(AppLocalizations t) {
+    if (!_listeningEnabled || !_evaluationEnabled || !_cardFrontVisible) {
+      return const SizedBox.shrink();
+    }
 
-  return Positioned(
-    top: 8,
-    left: 8,
-    child: Container(
-      padding: const EdgeInsets.all(6),
-      decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.6),
-        borderRadius: BorderRadius.circular(6),
-      ),
-      child: Text(
-        'front=$_cardFrontVisible  eval=$_evaluationEnabled\n'
-        'auto=$_autoMarked\n  prev=${_previousChordNotes?.join(",") ?? "-"}\n'
-        'last=$last  det=$det\n'
-        'decision=$_lastDecision\n'
-        'matchLine\n'
-        'raw=$raw\n'
-        'filt=$filt',
-        style: const TextStyle(color: Colors.white, fontSize: 11),
-      ),
-    ),
-  );
-}
-
-
-Widget _buildListeningIndicator(AppLocalizations t) {
-  if (!_listeningEnabled ||
-      !_evaluationEnabled ||
-      !_cardFrontVisible) {
-    return const SizedBox.shrink();
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Icon(Icons.headphones, size: 16, color: Colors.green),
+        const SizedBox(width: 6),
+        Text(
+          t.listeningActive,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Colors.green,
+                fontStyle: FontStyle.italic,
+              ),
+        ),
+      ],
+    );
   }
 
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      const Icon(Icons.headphones, size: 16, color: Colors.green),
-      const SizedBox(width: 6),
-      Text(
-        t.listeningActive,
-        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: Colors.green,
-              fontStyle: FontStyle.italic,
-            ),
-      ),
-    ],
-  );
-}
   // ============================================================
   // BUILD
   // ============================================================
 
-void _onCardFrontShown() {
-  // 🔒 Guard: only once per card
-  if (_frontEverShown) return;
-  _frontEverShown = true;
+  void _onCardFrontShown() {
+    // 🔒 Guard: only once per card
+    if (_frontEverShown) return;
+    _frontEverShown = true;
 
-  _cardFrontVisible = true;
-  _lastDecision = 'front shown';
-}
-
-void _onCardBackShown() {
-  // 🛑 Ignore spurious initial build callback
-    if (!_frontEverShown) {
-    // ⛔ Ignore phantom back during initial layout
-    return;
+    _cardFrontVisible = true;
+    _lastDecision = 'front shown';
   }
-  if (_evaluationEnabled) return;
 
-  _cardFrontVisible = false;
-}
+  void _onCardBackShown() {
+    // 🛑 Ignore spurious initial build callback
+    if (!_frontEverShown) {
+      // ⛔ Ignore phantom back during initial layout
+      return;
+    }
+    if (_evaluationEnabled) return;
 
-
+    _cardFrontVisible = false;
+  }
 
   @override
-Widget build(BuildContext context) {
-  final t = AppLocalizations.of(context)!;
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
 
-  if (!_engineReady) {
-    return const Scaffold(
-      body: Center(child: CircularProgressIndicator()),
-    );
-  }
+    if (!_engineReady) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
 
-  final card = _engine.currentCard;
-  final played = _engine.playedInCurrentDeck;
-  final remaining = _engine.totalInCurrentDeck - played;
+    final card = _engine.currentCard;
+    final played = _engine.playedInCurrentDeck;
+    final remaining = _engine.totalInCurrentDeck - played;
 
-  return Scaffold(
-    backgroundColor: Colors.grey.shade100,
-    appBar: AppBar(
-      title: Text(
-        _engine.usingErrorDeck
-            ? t.flash_playing_wrong
-            : t.flash_playing_main,
+    return Scaffold(
+      backgroundColor: Colors.grey.shade100,
+      appBar: AppBar(
+        title: Text(
+          _engine.usingErrorDeck ? t.flash_playing_wrong : t.flash_playing_main,
+        ),
       ),
-    ),
-
-    // ✅ BODY BELONGS TO SCAFFOLD
-    body: Column(
-      children: [
-        _buildListeningIndicator(t),
-        const SizedBox(height: 8),
-        Text(t.flash_cards_played(played, remaining)),
-
-        Expanded(
-  child: Builder(
-    builder: (context) {
-      if (card == null) {
-        return const SizedBox.shrink();
-      }
-
-      final cardKeyString =
-          '${card.root}_${card.chordType}_${card.inversion.index}_${played}';
-
-      return Stack(
+      body: Column(
         children: [
-          KeyedSubtree(
-            key: ValueKey(cardKeyString),
-            child: FlashcardWidget(
-              key: _cardKey,
-              cardId: cardKeyString,
-              chordLabel: card.writtenAs,
-              cardTitle: _localizedChordName(t, card.chordName),
-              inversion: card.inversion,
-              imageAssetPaths: card.imagePaths,
-              onSwipeLeft: _handleIncorrect,
-              onSwipeRight: _handleCorrect,
-              onRevealRequested: _revealBackDueToTimeout,
-              onFrontShown: _onCardFrontShown,
-              onBackShown: _onCardBackShown,
+          _buildListeningIndicator(t),
+          const SizedBox(height: 8),
+          Text(t.flash_cards_played(played, remaining)),
+          Expanded(
+            child: Builder(
+              builder: (context) {
+                if (card == null) {
+                  return const SizedBox.shrink();
+                }
+
+                final cardKeyString =
+  '${card.root}_${card.chordType}_${card.inversion.index}';
+
+                return Stack(
+                  children: [
+                    KeyedSubtree(
+                      key: ValueKey(cardKeyString),
+                      child: FlashcardWidget(
+                        key: _cardKey,
+                        cardId: cardKeyString,
+                        chordLabel: card.writtenAs,
+                        cardTitle: _localizedChordName(t, card.chordName),
+                        inversion: card.inversion,
+                        imageAssetPaths: card.imagePaths,
+                        onSwipeLeft: _handleIncorrect,
+                        onSwipeRight: _handleCorrect,
+                        onRevealRequested: _revealBackDueToTimeout,
+                        onFrontShown: _onCardFrontShown,
+                        onBackShown: _onCardBackShown,
+                      ),
+                    ),
+                    
+                    if (_showDebugOverlay) _buildDebugOverlay(),
+                  ],
+                );
+              },
             ),
           ),
-
-          // debug overlay stays untouched
-          _buildDebugOverlay(),
+          if (_timerEnabled)
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: Text(
+                _timerCancelled
+                    ? t.flash_timerCancelled
+                    : '${t.flash_timeLabel}: $_remainingSeconds s',
+              ),
+            ),
         ],
-      );
-    },
-  ),
-),
-
-        if (_timerEnabled)
-  Padding(
-    padding: const EdgeInsets.all(8),
-    child: Text(
-      _timerCancelled
-          ? t.flash_timerCancelled
-          : '${t.flash_timeLabel}: $_remainingSeconds s',
-    ),
-  ),
-      ],
-    ),
-  );
-}
+      ),
+    );
+  }
 }

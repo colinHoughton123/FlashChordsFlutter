@@ -18,7 +18,10 @@ class FlashcardEngine {
   int _currentIndex = 0;
   int totalCorrect = 0;
   int totalIncorrect = 0;
-  final List<Duration> _allTimes = [];
+  // final List<Duration> _allTimes = [];
+  final List<Duration> _correctTimes = [];
+  final List<Duration> _allAttemptTimes = [];
+  
 
   bool usingErrorDeck = false;
 
@@ -46,13 +49,23 @@ class FlashcardEngine {
 
   bool get hasErrorsForNextRound => _errorDeck.isNotEmpty;
 
-  double get averageSecondsPerCard {
-    if (_allTimes.isEmpty) return 0.0;
-    final totalSeconds = _allTimes
+  double get averageSecondsCorrect {
+    if (_correctTimes.isEmpty) return 0.0;
+    final totalSeconds = _correctTimes
         .map((d) => d.inMilliseconds / 1000.0)
         .fold<double>(0.0, (a, b) => a + b);
-    return totalSeconds / _allTimes.length;
+    return totalSeconds / _correctTimes.length;
   }
+
+  double get averageSecondsAll {
+    if (_allAttemptTimes.isEmpty) return 0.0;
+    final totalSeconds = _allAttemptTimes
+        .map((d) => d.inMilliseconds / 1000.0)
+        .fold<double>(0.0, (a, b) => a + b);
+    return totalSeconds / _allAttemptTimes.length;
+  }
+
+  
 
   void _advance() {
     _currentIndex++;
@@ -60,17 +73,22 @@ class FlashcardEngine {
   
 void markCorrect(Duration elapsed) {
   if (elapsed.inMilliseconds > 200) {   // ignore “instant” presses
-    _allTimes.add(elapsed);
+    _correctTimes.add(elapsed);
+    _allAttemptTimes.add(elapsed);
   }
 
   totalCorrect++;
   _advance();
 }
 
-void markIncorrect() {
+void markIncorrect({Duration? elapsed}) {
   totalIncorrect++;
-  // Add the current card to the error deck before advancing
   _errorDeck.add(_currentDeck[_currentIndex]);
+
+  if (elapsed != null) {
+    _allAttemptTimes.add(elapsed);
+  }
+
   _advance();
 }
 
@@ -101,7 +119,7 @@ void markIncorrect() {
       totalCorrect = 0;
       totalIncorrect = 0;
       totalCorrect = 0;
-      _allTimes.clear();
+      _correctTimes.clear();
       print("DEBUG ENGINE.DART error deck is empty it seems" );
     }
   }

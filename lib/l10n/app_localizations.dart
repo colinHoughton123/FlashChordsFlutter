@@ -104,7 +104,7 @@ abstract class AppLocalizations {
   /// No description provided for @loadingChords.
   ///
   /// In en, this message translates to:
-  /// **'Loading...'**
+  /// **'Loading chords...'**
   String get loadingChords;
 
   /// No description provided for @start.
@@ -514,6 +514,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Accuracy'**
   String get summary_accuracy;
+
+  /// No description provided for @summary_average_time_correct.
+  ///
+  /// In en, this message translates to:
+  /// **'Average time (correct chords)'**
+  String get summary_average_time_correct;
+
+  /// No description provided for @summary_average_time_all.
+  ///
+  /// In en, this message translates to:
+  /// **'Average time (all chords)'**
+  String get summary_average_time_all;
 
   /// No description provided for @listeningActive.
   ///

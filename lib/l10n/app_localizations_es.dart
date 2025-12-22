@@ -12,7 +12,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get welcomeTitle => 'Bienvenido a FlashChords';
 
   @override
-  String get loadingChords => 'es -Loading...';
+  String get loadingChords => 'es -Loading. chords..';
 
   @override
   String get start => 'Comenzar';
@@ -203,7 +203,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get summary_average_time => 'Tiempo promedio';
 
   @override
-  String get summary_seconds => 'segundos';
+  String get summary_seconds => 'es -seconds';
 
   @override
   String get summary_from_main_deck => 'Mazo principal';
@@ -219,6 +219,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get summary_accuracy => 'Precisión';
+
+  @override
+  String get summary_average_time_correct => 'es- Average time (correct chords)';
+
+  @override
+  String get summary_average_time_all => 'es- Average time (all chords)';
 
   @override
   String get listeningActive => 'es - Listening…';

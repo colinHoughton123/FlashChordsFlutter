@@ -14,6 +14,8 @@ enum ListenerComparisonMode {
   strict,
 }
 
+
+
 /// Debug frame emitted for overlay / diagnostics.
 class DetectedNotesFrame {
   final DateTime at;
@@ -33,12 +35,14 @@ class DetectedNotesFrame {
 
 class ChordDetectionService {
   ChordDetectionService._internal();
-  static final ChordDetectionService instance =
-      ChordDetectionService._internal();
+  static final ChordDetectionService instance = ChordDetectionService._internal();
 
   // ------------------------------------------------------------
   // Public helpers
   // ------------------------------------------------------------
+
+
+
 
   bool matchesTarget({
     required Set<String> detected,
@@ -47,35 +51,56 @@ class ChordDetectionService {
     return detected.containsAll(target);
   }
 
+  Future<void> reset() async {
+    debugPrint('🎙 Resetting audio engine');
 
-Future<void> reset() async {
-  debugPrint('🎙 Resetting audio engine');
+    _isRunning = false;
+    _startFuture = null;
 
-  _isRunning = false;
-  _startFuture = null;
-  _lastStable.clear();
-  _stableCount = 0;
-  _cooldownFrames = 0;
-  _sampleBuffer.clear();
+    _lastStable.clear();
+    _stableCount = 0;
+    _cooldownFrames = 0;
+    _sampleBuffer.clear();
 
-  await _audioSub?.cancel();
-  _audioSub = null;
+    // Candidate timing (NEW)
+    _armedTarget = null;
+    _armedPrevious = null;
+    _candidateStartedAt = null;
+    _candidateOkFrames = 0;
+  
 
-  try {
-    await _recorder.stop();
-  } catch (_) {}
+    await _audioSub?.cancel();
+    _audioSub = null;
 
-  // Important: recreate recorder instance
-  // (record plugin *needs* this after device changes)
-  // ignore: invalid_use_of_visible_for_testing_member
-  // _recorder.dispose(); ← if supported later
+    try {
+      await _recorder.stop();
+    } catch (_) {}
 
-  debugPrint('🎙 Audio engine reset complete');
-}
+    debugPrint('🎙 Audio engine reset complete');
+  }
 
   // ------------------------------------------------------------
   // State
   // ------------------------------------------------------------
+
+  // ------------------------------------------------------------
+  // Chord timing / candidate state (NEW)
+  // ------------------------------------------------------------
+
+  DateTime? _firstCorrectFrameAt;
+
+  Set<String>? _armedTarget;
+  Set<String>? _armedPrevious;
+
+  DateTime? _candidateStartedAt;
+  int _candidateOkFrames = 0;
+
+  // How many consecutive “candidate OK” frames before we consider it fair to start charging time
+  static const int _requiredCandidateFrames = 2;
+
+  // The “fair” elapsed we computed for the next emitted match.
+  // FlashcardScreen reads this via evaluateCandidate(detected).
+ 
 
   final AudioRecorder _recorder = AudioRecorder();
   StreamSubscription<Uint8List>? _audioSub;
@@ -87,13 +112,11 @@ Future<void> reset() async {
 
   final StreamController<Set<String>> _detectedNotesController =
       StreamController<Set<String>>.broadcast();
-  Stream<Set<String>> get detectedNotesStream =>
-      _detectedNotesController.stream;
+  Stream<Set<String>> get detectedNotesStream => _detectedNotesController.stream;
 
   final StreamController<DetectedNotesFrame> _detectedFrameController =
       StreamController<DetectedNotesFrame>.broadcast();
-  Stream<DetectedNotesFrame> get detectedFrameStream =>
-      _detectedFrameController.stream;
+  Stream<DetectedNotesFrame> get detectedFrameStream => _detectedFrameController.stream;
 
   // ------------------------------------------------------------
   // Audio / FFT configuration
@@ -118,16 +141,13 @@ Future<void> reset() async {
   // ------------------------------------------------------------
 
   Future<void> start() {
-    
     if (_isRunning) return Future.value();
     if (_startFuture != null) return _startFuture!;
-
     _startFuture = _startImpl();
     return _startFuture!;
   }
 
   Future<void> _startImpl() async {
-   
     try {
       final hasPermission = await _recorder.hasPermission();
       if (!hasPermission) {
@@ -200,6 +220,66 @@ Future<void> reset() async {
   }
 
   // ------------------------------------------------------------
+  // Public API (NEW)
+  // ------------------------------------------------------------
+
+  /// Call this each time a new card becomes active.
+void armForChord(Set<String> targetNotes, {Set<String>? previousChordNotes}) {
+  _armedTarget = Set.of(targetNotes);
+  _armedPrevious = previousChordNotes != null
+      ? Set.of(previousChordNotes)
+      : null;
+
+  _candidateStartedAt = null;
+  _firstCorrectFrameAt = null;
+  _candidateOkFrames = 0;
+}
+
+DateTime? evaluateCandidate(Set<String> detected) {
+  if (_armedTarget == null) return null;
+
+  // 1️⃣ Must contain all target notes
+  if (!detected.containsAll(_armedTarget!)) {
+    _candidateStartedAt = null;
+    _firstCorrectFrameAt = null;
+    _candidateOkFrames = 0;
+    return null;
+  }
+
+  // 2️⃣ First correct frame → capture reaction time anchor
+  _firstCorrectFrameAt ??= DateTime.now();
+
+  // 3️⃣ Stability tracking
+  if (_candidateStartedAt == null) {
+    _candidateStartedAt = DateTime.now();
+    _candidateOkFrames = 1;
+    return null;
+  }
+
+  _candidateOkFrames++;
+
+  // 4️⃣ Confirm after enough stable frames
+  if (_candidateOkFrames >= _requiredCandidateFrames) {
+  final confirmedAt = _firstCorrectFrameAt;
+
+  debugPrint(
+    '⏱ CANDIDATE CONFIRMED '
+    '| at=${confirmedAt?.toIso8601String()} '
+    '| frames=$_candidateOkFrames',
+  );
+
+  // Reset for next card
+  _candidateStartedAt = null;
+  _firstCorrectFrameAt = null;
+  _candidateOkFrames = 0;
+
+  return confirmedAt;
+}
+
+  return null;
+}
+
+  // ------------------------------------------------------------
   // Audio processing
   // ------------------------------------------------------------
 
@@ -216,8 +296,12 @@ Future<void> reset() async {
       _sampleBuffer.removeRange(0, _hopSize);
 
       final pcRaw = _detectPitchClassesWithEnergy(chunk);
-      final detected = _topPitchClasses(pcRaw, maxNotes: 4);
 
+      // Use target length if armed, otherwise default to 4 to keep behaviour similar
+      final maxNotes = (_armedTarget?.length ?? 4);
+      final detected = _topPitchClasses(pcRaw, maxNotes: maxNotes);
+
+      // Emit debug frame for overlay
       _detectedFrameController.add(
         DetectedNotesFrame(
           at: DateTime.now(),
@@ -228,13 +312,15 @@ Future<void> reset() async {
         ),
       );
 
+      // Candidate tracking happens regardless of stability/cooldown
+      _updateCandidateTracking(detected);
+
       if (_cooldownFrames > 0) {
         _cooldownFrames--;
         continue;
       }
 
-      final requiredStableFrames =
-          detected.length >= 4 ? 2 : 3;
+      final requiredStableFrames = detected.length >= 4 ? 2 : 3;
 
       if (_setsEqual(detected, _lastStable)) {
         _stableCount++;
@@ -243,17 +329,60 @@ Future<void> reset() async {
         _stableCount = 1;
       }
 
-      if (_stableCount >= requiredStableFrames &&
-          detected.isNotEmpty) {
+      debugPrint(
+        '🎧 FRAME det=${detected.join(",")} '
+        'stable=$_stableCount cooldown=$_cooldownFrames',
+      );
+
+      if (_stableCount >= requiredStableFrames && detected.isNotEmpty) {
+        // If we currently have a valid candidate running, capture fair elapsed now.
+        
+
+        debugPrint('🎯 EMIT detected=${detected.join(",")}');
         _detectedNotesController.add(detected);
 
         _sampleBuffer.clear();
-        _lastStable = {};
+        _lastStable = <String>{};
         _stableCount = 0;
         _cooldownFrames = 8;
       }
     }
   }
+
+  // ------------------------------------------------------------
+  // Candidate timing internals (NEW)
+  // ------------------------------------------------------------
+
+  void _updateCandidateTracking(Set<String> detected) {
+    if (_armedTarget == null) {
+      _candidateStartedAt = null;
+      _candidateOkFrames = 0;
+      return;
+    }
+
+    // 1) Superset OK
+    if (!detected.containsAll(_armedTarget!)) {
+      _candidateStartedAt = null;
+      _candidateOkFrames = 0;
+      return;
+    }
+
+    // 2) Release safety: candidate must not include notes from previous chord that are NOT in target
+    if (_armedPrevious != null) {
+      final illegalCarry =
+          detected.difference(_armedTarget!).intersection(_armedPrevious!);
+      if (illegalCarry.isNotEmpty) {
+        _candidateStartedAt = null;
+        _candidateOkFrames = 0;
+        return;
+      }
+    }
+
+    // Candidate OK this frame
+    _candidateStartedAt ??= DateTime.now();
+    _candidateOkFrames++;
+  }
+
 
   // ------------------------------------------------------------
   // FFT → pitch classes
@@ -290,7 +419,7 @@ Future<void> reset() async {
     Map<String, double> pcMags, {
     required int maxNotes,
   }) {
-    if (pcMags.isEmpty) return {};
+    if (pcMags.isEmpty) return <String>{};
 
     final entries = pcMags.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value));
@@ -324,16 +453,13 @@ Future<void> reset() async {
   }) {
     final peaks = <_Peak>[];
 
-    final minBin =
-        (minHz * _fftSize / _activeSampleRate).floor();
-    final maxBin =
-        (maxHz * _fftSize / _activeSampleRate).ceil();
+    final minBin = (minHz * _fftSize / _activeSampleRate).floor();
+    final maxBin = (maxHz * _fftSize / _activeSampleRate).ceil();
 
     for (int i = minBin; i <= maxBin; i++) {
       final m = magnitudes[i];
       if (m < magThreshold) continue;
-      if (m > magnitudes[i - 1] &&
-          m > magnitudes[i + 1]) {
+      if (m > magnitudes[i - 1] && m > magnitudes[i + 1]) {
         peaks.add(
           _Peak(
             freq: i * _activeSampleRate / _fftSize,
@@ -349,8 +475,7 @@ Future<void> reset() async {
 
   String? _freqToPitchClass(double freq) {
     if (freq <= 0) return null;
-    final note =
-        69 + 12 * (math.log(freq / 440) / math.ln2);
+    final note = 69 + 12 * (math.log(freq / 440) / math.ln2);
     const pcs = [
       'C', 'C#', 'D', 'D#', 'E', 'F',
       'F#', 'G', 'G#', 'A', 'A#', 'B'
