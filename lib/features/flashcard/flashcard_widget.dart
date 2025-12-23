@@ -51,6 +51,9 @@ class FlashcardWidgetState extends State<FlashcardWidget>
 
 late final String _dbg;
 
+bool _isAnimatingOut = false;
+bool _blankWhileAnimatingOut = false;
+
 // late Animation<Offset> _slideAnimation;
 // Offset _dragOffset = Offset.zero;
 bool _hasEverAnimated = false;
@@ -61,6 +64,13 @@ late final String _debugInstanceId =
 
 bool _suppressFlipForNextBuild = false;
 
+void animateCorrect() {
+  _animateOut(true);
+}
+
+void animateIncorrect() {
+  _animateOut(false);
+}
 
 
 @override
@@ -124,30 +134,32 @@ bool _firstBuild = true;
 @override
 void initState() {
   super.initState();
-debugPrint('🟢 INIT  $_debugInstanceId');
- _dbg = '${widget.cardId} @ ${identityHashCode(this)}';
+
+  //debugPrint('🟢 INIT  $_debugInstanceId');
+  _dbg = '${widget.cardId} @ ${identityHashCode(this)}';
+
   _controller = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 450),
   );
-// 🔥 CRITICAL: identity slide on first frame
-  _slideAnimation = const AlwaysStoppedAnimation(Offset.zero);
 
+  // ✅ Safe defaults so AnimatedBuilder can always read .value
+  _slideAnimation = const AlwaysStoppedAnimation<Offset>(Offset.zero);
+  _rotationAnimation = const AlwaysStoppedAnimation<double>(0.0);
 }
 
-  @override
-  void dispose() {
-    debugPrint('🔴 DISPOSE $_debugInstanceId');
-    _controller.dispose();
-    super.dispose();
-  }
-
+@override
+void dispose() {
+ // debugPrint('🔴 DISPOSE $_debugInstanceId');
+  _controller.dispose();
+  super.dispose();
+}
 
   // ---------------------------------------------------------------------------
   // Flip to back (used by timer)
   // ---------------------------------------------------------------------------
-void flipToBack() {
-debugPrint('🔄 FLIP → BACK $_debugInstanceId');
+  void flipToBack() {
+  //// debugPrint('🔄 FLIP → BACK $_debugInstanceId');
   setState(() {
     _showBack = true;
   });
@@ -158,26 +170,20 @@ debugPrint('🔄 FLIP → BACK $_debugInstanceId');
   // ANIMATION (swipe off screen)
   // ---------------------------------------------------------------------------
 void _animateOut(bool toRight) {
-  _hasEverAnimated = true;
 
-  // ✅ Force front before swipe animation
-  if (_showBack) {
-    setState(() {
-      _showBack = false;
-    });
-  }
+  debugPrint('➡️ _animateOut(toRight=$toRight) showBack=$_showBack controllerValue=${_controller.value}');
 
   final endOffset = Offset(toRight ? 1.2 : -1.2, 0);
   final endRotation = toRight ? 0.25 : -0.25;
 
-  _slideAnimation = Tween(
+  _slideAnimation = Tween<Offset>(
     begin: Offset.zero,
     end: endOffset,
   ).animate(
     CurvedAnimation(parent: _controller, curve: Curves.easeOut),
   );
 
-  _rotationAnimation = Tween(
+  _rotationAnimation = Tween<double>(
     begin: 0.0,
     end: endRotation,
   ).animate(
@@ -187,7 +193,6 @@ void _animateOut(bool toRight) {
   _controller.forward().whenComplete(() {
     if (!mounted) return;
 
-    // Reset visual state AFTER animation completes
     setState(() {
       _dragOffset = Offset.zero;
       _rotation = 0;
@@ -196,17 +201,12 @@ void _animateOut(bool toRight) {
 
     _controller.reset();
 
-    // Advance deck
-    if (toRight) {
-      widget.onSwipeRight();
-    } else {
-      widget.onSwipeLeft();
-    }
+    toRight ? widget.onSwipeRight() : widget.onSwipeLeft();
   });
 }
 
 void forceShowFront() {
-  debugPrint('🔄 FORCE FRONT $_debugInstanceId');
+ // debugPrint('🔄 FORCE FRONT $_debugInstanceId');
   setState(() {
     _showBack = false;
   });
@@ -228,10 +228,10 @@ void forceShowFront() {
       child: GestureDetector(
          behavior: HitTestBehavior.opaque,
         onTap: () {
-  if (!_showBack) {
-    widget.onRevealRequested?.call();
-  }
-},
+        if (!_showBack) {
+          widget.onRevealRequested?.call();
+        }
+  },
 
         onPanUpdate: (details) {
           setState(() {
@@ -259,13 +259,10 @@ if (_dragOffset.dx > threshold){
         animation: _controller,
         builder: (_, child) {
           // ✅ FIRST CARD: absolutely no translation
-          final offset = (!_hasEverAnimated || !_controller.isAnimating)
-              ? Offset.zero
-              : _slideAnimation.value;
+         final inFlight = _controller.value > 0.0;
 
-          final rot = (!_hasEverAnimated || !_controller.isAnimating)
-              ? 0.0
-              : _rotationAnimation.value;
+final offset = inFlight ? _slideAnimation.value : _dragOffset;
+final rot = inFlight ? _rotationAnimation.value : _rotation;
           final screenWidth = MediaQuery.of(context).size.width;
 
           return FractionalTranslation(
@@ -285,39 +282,38 @@ if (_dragOffset.dx > threshold){
   // -----------------------------------------------------------------------------
   // CARD SURFACE
   // -----------------------------------------------------------------------------
+Widget _buildCard() {
+  final bool macSafe = false; // as you currently have
 
-  Widget _buildCard() {
-   // final bool macSafe =
-   //     !kIsWeb && defaultTargetPlatform == TargetPlatform.macOS;
-
-    final bool macSafe = false;
-    return Container(
-      width: 330,
-      height: 480,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        boxShadow: const [
-          BoxShadow(
-            blurRadius: 12,
-            offset: Offset(0, 6),
-            color: Colors.black26,
-          )
-        ],
-      ),
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          Expanded(
-            child: macSafe ? _buildMacSafeFlip() : _buildAnimatedFlip(),
-          ),
-          const SizedBox(height: 12),
-          _buildButtons(),
-        ],
-      ),
-    );
-  }
-
+  return Container(
+    width: 330,
+    height: 480,
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(18),
+      boxShadow: const [
+        BoxShadow(
+          blurRadius: 12,
+          offset: Offset(0, 6),
+          color: Colors.black26,
+        )
+      ],
+    ),
+    padding: const EdgeInsets.all(16),
+    child: Column(
+      children: [
+        Expanded(
+          child: _blankWhileAnimatingOut
+              ? const SizedBox.expand() // ✅ blank only the CONTENTS
+              : (macSafe ? _buildMacSafeFlip() : _buildAnimatedFlip()),
+        ),
+        const SizedBox(height: 12),
+        _buildButtons(),
+      ],
+    ),
+  );
+}
+  
   // -----------------------------------------------------------------------------
   // BUTTON ROW
   // -----------------------------------------------------------------------------
@@ -364,66 +360,43 @@ if (_dragOffset.dx > threshold){
   }
 
 Widget _buildAnimatedFlip() {
-  return AnimatedSwitcher(
-    duration: _suppressFlipForNextBuild
-        ? Duration.zero
-        : const Duration(milliseconds: 250),
+  return KeyedSubtree(
+    key: ValueKey(widget.cardId), // 🔥 resets flip state per card
+    child: AnimatedSwitcher(
+      duration: const Duration(milliseconds: 250),
+      switchInCurve: Curves.easeInOut,
+      switchOutCurve: Curves.easeInOut,
 
-    switchInCurve: Curves.easeInOut,
-    switchOutCurve: Curves.easeInOut,
+      transitionBuilder: (child, anim) {
+        final rotate = Tween<double>(
+          begin: pi / 2,
+          end: 0.0,
+        ).animate(anim);
 
-    // ✅ This is the key: when suppressed, do NOT render outgoing child at all
-    layoutBuilder: (currentChild, previousChildren) {
+        return AnimatedBuilder(
+          animation: rotate,
+          builder: (_, __) {
+            final isBack =
+                child.key is ValueKey && (child.key as ValueKey).value == 'back';
 
-        debugPrint(
-    '🧩 LAYOUT $_dbg '
-    'suppress=$_suppressFlipForNextBuild '
-    'prev=${previousChildren.length}'
-  );
+            final angle = isBack ? -rotate.value : rotate.value;
 
+            return Transform(
+              transform: Matrix4.rotationY(angle),
+              alignment: Alignment.center,
+              child: child,
+            );
+          },
+        );
+      },
 
-      if (_suppressFlipForNextBuild) {
-        return currentChild ?? const SizedBox.shrink();
-      }
-      return Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          ...previousChildren,
-          if (currentChild != null) currentChild,
-        ],
-      );
-    },
-
-    transitionBuilder: (child, anim) {
-      if (_suppressFlipForNextBuild) return child;
-
-      final rotate = Tween<double>(begin: pi / 2, end: 0.0).animate(anim);
-
-      return AnimatedBuilder(
-        animation: rotate,
-        builder: (_, __) {
-          final key = child.key;
-          final isBack = key is ValueKey && key.value == 'back';
-          final angle = isBack ? -rotate.value : rotate.value;
-
-          return Transform(
-            transform: Matrix4.rotationY(angle),
-            alignment: Alignment.center,
-            child: child,
-          );
-        },
-      );
-    },
-
-    child: KeyedSubtree(
-      key: ValueKey(_showBack ? 'back' : 'front'),
-      child: _showBack ? _buildBack() : _buildFront(),
-
-
+      child: KeyedSubtree(
+        key: ValueKey(_showBack ? 'back' : 'front'),
+        child: _showBack ? _buildBack() : _buildFront(),
+      ),
     ),
   );
 }
-
 
   // -----------------------------------------------------------------------------
   // FRONT & BACK CONTENT

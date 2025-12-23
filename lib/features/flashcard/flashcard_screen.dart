@@ -476,10 +476,10 @@ void _revealBackDueToTimeout() {
     _previousChordNotes = target;
     _previousCorrectTargetNotes = target;
 
-    _handleCorrect(
-      autoTriggered: true,
-      elapsedOverride: elapsedOverride,
-    );
+    // 🔄 Let the card animate out to the right.
+    // When animation completes, FlashcardWidget
+    // will call onSwipeRight → _handleCorrect().
+    _cardKey.currentState?.animateCorrect();
   }
 
   void _resetListeningAndEvaluationState() {
