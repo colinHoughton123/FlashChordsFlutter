@@ -122,7 +122,9 @@ bool _firstBuild = true;
   double _rotation = 0;
 
   late AnimationController _controller;
-  late Animation<Offset> _slideAnimation;
+
+//  late Animation<Offset> _slideAnimation;
+  late Animation<double> _slideX; 
   late Animation<double> _rotationAnimation;
 
 
@@ -144,7 +146,8 @@ void initState() {
   );
 
   // ✅ Safe defaults so AnimatedBuilder can always read .value
-  _slideAnimation = const AlwaysStoppedAnimation<Offset>(Offset.zero);
+ // _slideAnimation = const AlwaysStoppedAnimation<Offset>(Offset.zero);
+  _slideX = const AlwaysStoppedAnimation(0.0);
   _rotationAnimation = const AlwaysStoppedAnimation<double>(0.0);
 }
 
@@ -176,19 +179,30 @@ void _animateOut(bool toRight) {
   final endOffset = Offset(toRight ? 1.2 : -1.2, 0);
   final endRotation = toRight ? 0.25 : -0.25;
 
-  _slideAnimation = Tween<Offset>(
-    begin: Offset.zero,
-    end: endOffset,
+ // _slideAnimation = Tween<Offset>(
+ //   begin: Offset.zero,
+ //   end: endOffset,
+ // ).animate(
+ //   CurvedAnimation(parent: _controller, curve: Curves.easeOut),
+ // );
+
+  final screenWidth = MediaQuery.of(context).size.width;
+  final travel = screenWidth + 100; // extra buffer
+
+  _slideX = Tween<double>(
+    begin: 0.0,
+    end: toRight ? travel : -travel,
   ).animate(
     CurvedAnimation(parent: _controller, curve: Curves.easeOut),
   );
 
-  _rotationAnimation = Tween<double>(
-    begin: 0.0,
-    end: endRotation,
-  ).animate(
-    CurvedAnimation(parent: _controller, curve: Curves.easeOut),
-  );
+ _rotationAnimation = Tween<double>(
+  begin: 0.0,
+  end: toRight ? 0.25 : -0.25,
+).animate(
+  CurvedAnimation(parent: _controller, curve: Curves.easeOut),
+);
+
 
   _controller.forward().whenComplete(() {
     if (!mounted) return;
@@ -261,17 +275,23 @@ if (_dragOffset.dx > threshold){
           // ✅ FIRST CARD: absolutely no translation
          final inFlight = _controller.value > 0.0;
 
-final offset = inFlight ? _slideAnimation.value : _dragOffset;
+//final offset = inFlight ? _slideAnimation.value : _dragOffset;
+final dx = inFlight ? _slideX.value : _dragOffset.dx;
+final dy = _dragOffset.dy;
+
 final rot = inFlight ? _rotationAnimation.value : _rotation;
           final screenWidth = MediaQuery.of(context).size.width;
 
-          return FractionalTranslation(
-            translation: offset,
-            child: Transform.rotate(
-              angle: rot,
-              child: child!,
-            ),
-          );
+          return Transform.translate(
+  offset: Offset(
+    _controller.value > 0 ? _slideX.value : _dragOffset.dx,
+    _dragOffset.dy,
+  ),
+  child: Transform.rotate(
+    angle: _controller.value > 0 ? _rotationAnimation.value : _rotation,
+    child: child,
+  ),
+);
         },
         child: _buildCard(),
       )
