@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flashchords/l10n/app_localizations.dart';
+import 'package:flashchords/features/welcome/welcome_screen.dart';
+import 'package:flashchords/app/app.dart';
 
 class FlashcardSummaryScreen extends StatelessWidget {
   final int totalCorrect;
@@ -105,17 +107,17 @@ class FlashcardSummaryScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context, 'restart');
-                  },
-                  child: Text(t.summary_play_again),
-                ),
-                OutlinedButton(
-                  onPressed: () {
-                    Navigator.pop(context, 'done');
-                  },
-                  child: Text(t.summary_done),
-                ),
+  onPressed: () {
+    Navigator.pop(context, 'restart');
+  },
+  child: Text(t.summary_play_again),
+),
+                   OutlinedButton(
+  onPressed: () {
+    Navigator.pop(context, 'done');
+  },
+  child: Text(t.summary_done),
+),
               ],
             ),
           ],

@@ -12,12 +12,12 @@ import 'package:flashchords/data/chord_xml_parser.dart';
 
 
 class WelcomeScreen extends StatefulWidget {
-  final void Function(List<FlashcardItem>) onStart;
+  //final void Function(List<FlashcardItem>) onStart;
   final Future<void> Function(String) onLanguageChanged;
 
   const WelcomeScreen({
     super.key,
-    required this.onStart,
+    //required this.onStart,
     required this.onLanguageChanged,
   });
 
@@ -173,21 +173,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     )
                   else
                     ElevatedButton(
-                      onPressed: () async {
-                        if (_preloadedItems == null) return;
-                        debugPrint('WELCOME SCREEN: START PRESSED');
-                        // await _loadChords();
-                        widget.onStart(_preloadedItems!);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 40,
-                          vertical: 16,
+                    onPressed: () {
+                      if (_preloadedItems == null) return;
+
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => FlashcardScreen(items: _preloadedItems!),
                         ),
-                        textStyle: const TextStyle(fontSize: 20),
-                      ),
-                      child: Text(t.start),
-                    ),
+                      );
+                    },
+                    child: Text(t.start),
+                  ),
                 ],
               ),
             ),

@@ -8,81 +8,61 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flashchords/core/system_error_listener.dart';
 import 'package:flashchords/core/system_error_overlay.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart'; // ✅ ProviderScope
+
+
 
 class FlashChordsApp extends StatefulWidget {
-  final String? initialLocaleCode;
+  const FlashChordsApp({super.key});
 
-  const FlashChordsApp({
-    super.key,
-    required this.initialLocaleCode,
-  });
-
-  @override
-  State<FlashChordsApp> createState() => _FlashChordsAppState();
-}
-
-class _FlashChordsAppState extends State<FlashChordsApp> {
-  Locale? _locale;
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Initialize starting locale once
-    if (widget.initialLocaleCode != null) {
-      _locale = Locale(widget.initialLocaleCode!);
-    }
+  /// Optional helper (still fine to keep)
+  static FlashChordsAppState of(BuildContext context) {
+    return context.findAncestorStateOfType<FlashChordsAppState>()!;
   }
 
-  Future<void> updateLocale(String code) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('preferred_language', code);
+  @override
+  FlashChordsAppState createState() => FlashChordsAppState();
+}
 
+class FlashChordsAppState extends State<FlashChordsApp> {
+  Locale? _locale;
+
+  Future<void> updateLocale(String languageCode) async {
     setState(() {
-      _locale = Locale(code);
+      _locale = Locale(languageCode);
     });
   }
 
   @override
-Widget build(BuildContext context) {
-return MaterialApp(
-  debugShowCheckedModeBanner: false,
-  title: 'FlashChords',
+  Widget build(BuildContext context) {
+    return ProviderScope(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'FlashChords',
+        locale: _locale,
 
-  locale: _locale,
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: AppLocalizations.supportedLocales,
 
-  localizationsDelegates: const [
-    AppLocalizations.delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-  ],
-  supportedLocales: AppLocalizations.supportedLocales,
+        builder: (context, child) {
+          return Stack(
+            children: [
+              if (child != null) child,
+              const SystemErrorOverlay(),
+            ],
+          );
+        },
 
-  builder: (context, child) {
-    return Stack(
-      children: [
-        if (child != null) child,
-        const SystemErrorOverlay(), // ✅ GLOBAL ERROR LAYER
-      ],
+        // ✅ WelcomeScreen exists only here
+        home: WelcomeScreen(
+          onLanguageChanged: updateLocale,
+        ),
+      ),
     );
-  },
-
-  home: Builder(
-    builder: (context) {
-      return WelcomeScreen(
-      onStart: (items) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => FlashcardScreen(items: items),
-          ),
-        );
-      },
-        onLanguageChanged: updateLocale,
-      );
-    },
-  ),
-);
-}
+  }
 }

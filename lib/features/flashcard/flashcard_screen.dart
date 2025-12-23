@@ -19,6 +19,7 @@ import 'package:flashchords/services/chord_detection_services.dart';
 import 'package:flashchords/core/system_error.dart';
 import 'package:flashchords/core/system_error_code.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flashchords/features/welcome/welcome_screen.dart';
 
 ///
 /// ---------- Localization helpers (OK outside class) ----------
@@ -348,25 +349,23 @@ void _revealBackDueToTimeout() {
   _timedOut = true;
   _timer?.cancel();
 
-  // IMPORTANT: DO NOT mark incorrect here.
-  // We only reveal the back; the user decides correct/incorrect afterwards.
-
-  _evaluationEnabled = false;
-  _autoMarked = false;
-  _cardFrontVisible = false;
-
-  // (keep previous chord gating cleared if you want)
-  _previousChordNotes = null;
-
-  // Flip card
-  _cardKey.currentState?.flipToBack();
-
   setState(() {
+    // Stop evaluation while back is showing
+    _evaluationEnabled = false;
+    _autoMarked = false;
+
+    // Logical state
+    _cardFrontVisible = false;
+    _previousChordNotes = null;
+
+    // Timer UI
     _timerCancelled = false;
     _remainingSeconds = 0;
   });
-}
 
+  // ✅ THIS is required — tell the card to flip
+  _cardKey.currentState?.flipToBack();
+}
   void _handleDetectedNotes(Set<String> detected) {
     _lastDetectedNotes = detected;
     _lastDetectionAt = DateTime.now();
@@ -585,7 +584,7 @@ void _revealBackDueToTimeout() {
     // Stop timer & normalize card state
     // --------------------------------------------------
     _timer?.cancel();
-    _cardKey.currentState?.forceShowFront();
+    // _cardKey.currentState?.forceShowFront();
 
     _evaluationEnabled = false;
     _cardFrontVisible = true;
@@ -661,38 +660,40 @@ Future<void> _handleIncorrect() async {
   setState(() => _startTimingForCurrentCard());
 }
 
-  Future<void> _showSummaryScreen() async {
-    if (!mounted) return;
+Future<void> _showSummaryScreen() async {
+  if (!mounted) return;
 
-    _previousCorrectTargetNotes = null;
-    final choice = await Navigator.push<String>(
-      context,
-      MaterialPageRoute(
-        builder: (_) => FlashcardSummaryScreen(
-          totalCorrect: _engine.totalCorrect,
-          totalIncorrect: _engine.totalIncorrect,
-          totalCards: _engine.totalCorrect + _engine.totalIncorrect,
-          averageSecondsCorrect: _engine.averageSecondsCorrect,
-          averageSecondsAll: _engine.averageSecondsAll,
-          showAverage: _timerEnabled,
-          hadErrors: _engine.hasErrorsForNextRound,
-          isErrorDeck: _engine.usingErrorDeck,
-        )
+  _previousCorrectTargetNotes = null;
+
+  final choice = await Navigator.push<String>(
+    context,
+    MaterialPageRoute(
+      builder: (_) => FlashcardSummaryScreen(
+        totalCorrect: _engine.totalCorrect,
+        totalIncorrect: _engine.totalIncorrect,
+        totalCards: _engine.totalCorrect + _engine.totalIncorrect,
+        averageSecondsCorrect: _engine.averageSecondsCorrect,
+        averageSecondsAll: _engine.averageSecondsAll,
+        showAverage: _timerEnabled,
+        hadErrors: _engine.hasErrorsForNextRound,
+        isErrorDeck: _engine.usingErrorDeck,
       ),
-    );
+    ),
+  );
 
-    if (!mounted) return;
+  if (!mounted) return;
 
-    if (choice == 'restart') {
-      _resetListeningAndEvaluationState();
-      setState(() {
-        _engine.startErrorsDeckOrRestartMain();
-        _startTimingForCurrentCard();
-      });
-    } else {
-      Navigator.pop(context);
-    }
-  }
+  if (choice == 'restart') {
+  setState(() {
+    _resetListeningAndEvaluationState();
+    _engine.startErrorsDeckOrRestartMain();
+    _startTimingForCurrentCard();
+  });
+} else {
+  // DONE
+  Navigator.of(context).popUntil((route) => route.isFirst);
+}
+}
 
   // ============================================================
   // UI helpers
@@ -802,6 +803,16 @@ Future<void> _handleIncorrect() async {
     }
 
     final card = _engine.currentCard;
+if (card == null) {
+  return const SizedBox.shrink();
+}
+
+final cardKeyString =
+    '${card.root}_${card.chordType}_${card.inversion.index}';
+
+
+
+
     final played = _engine.playedInCurrentDeck;
     final remaining = _engine.totalInCurrentDeck - played;
 
@@ -817,41 +828,37 @@ Future<void> _handleIncorrect() async {
           _buildListeningIndicator(t),
           const SizedBox(height: 8),
           Text(t.flash_cards_played(played, remaining)),
-          Expanded(
-            child: Builder(
-              builder: (context) {
-                if (card == null) {
-                  return const SizedBox.shrink();
-                }
+       Expanded(
+  child: Builder(
+    builder: (context) {
+      if (card == null) {
+        return const SizedBox.shrink();
+      }
 
-                final cardKeyString =
-  '${card.root}_${card.chordType}_${card.inversion.index}';
+      final cardKeyString =
+          '${card.root}_${card.chordType}_${card.inversion.index}';
 
-                return Stack(
-                  children: [
-                    KeyedSubtree(
-                      key: ValueKey(cardKeyString),
-                      child: FlashcardWidget(
-                        key: _cardKey,
-                        cardId: cardKeyString,
-                        chordLabel: card.writtenAs,
-                        cardTitle: _localizedChordName(t, card.chordName),
-                        inversion: card.inversion,
-                        imageAssetPaths: card.imagePaths,
-                        onSwipeLeft: _handleIncorrect,
-                        onSwipeRight: _handleCorrect,
-                        onRevealRequested: _revealBackDueToTimeout,
-                        onFrontShown: _onCardFrontShown,
-                        onBackShown: _onCardBackShown,
-                      ),
-                    ),
-                    
-                    if (_showDebugOverlay) _buildDebugOverlay(),
-                  ],
-                );
-              },
-            ),
-          ),
+      return Stack(
+        children: [
+          FlashcardWidget(
+    key: _cardKey,                  // ✅ keep this
+  cardId: cardKeyString,        // optional, but fine to keep
+  chordLabel: card.writtenAs,
+  cardTitle: _localizedChordName(t, card.chordName),
+  inversion: card.inversion,
+  imageAssetPaths: card.imagePaths,
+  onSwipeLeft: _handleIncorrect,
+  onSwipeRight: _handleCorrect,
+  onRevealRequested: _revealBackDueToTimeout,
+  onFrontShown: _onCardFrontShown,
+  onBackShown: _onCardBackShown,
+),
+          if (_showDebugOverlay) _buildDebugOverlay(),
+        ],
+      );
+    },
+  ),
+),
           if (_timerEnabled)
             Padding(
               padding: const EdgeInsets.all(8),
