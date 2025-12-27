@@ -258,7 +258,7 @@ Future<List<FlashcardItem>> loadFlashcardsFromXml() async {
       }
     }
   }
-  debugPrint('XML Parsing complete.');
+  // debugPrint('XML Parsing complete.');
 
   return result;
 }

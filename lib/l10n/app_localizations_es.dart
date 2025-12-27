@@ -227,6 +227,18 @@ class AppLocalizationsEs extends AppLocalizations {
   String get summary_average_time_all => 'es- Average time (all chords)';
 
   @override
+  String get summary_unsaved_changes_title => 'You have not saved your changes';
+
+  @override
+  String get summary_unsaved_changes_body => 'You made a change in the configuration.  If you want to save, press CANCEL now, then press SAVE.';
+
+  @override
+  String get summary_discard => 'Discard changes';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
   String get listeningActive => 'es - Listening…';
 
   @override

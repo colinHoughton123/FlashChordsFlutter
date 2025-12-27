@@ -262,9 +262,9 @@ static const bool _showDebugOverlay = false; // 👈 flip to true anytime
         ChordDetectionService.instance.detectedFrameStream.listen((frame) {
       if (!_firstFrameSeen) {
         _firstFrameSeen = true;
-        debugPrint('🎧 FIRST AUDIO FRAME '
-            ' | t=${frame.at.toIso8601String()}'
-            ' | sr=${frame.sampleRate}');
+       // debugPrint('🎧 FIRST AUDIO FRAME '
+       //     ' | t=${frame.at.toIso8601String()}'
+       //     ' | sr=${frame.sampleRate}');
       }
 
       _lastFrame = frame;
@@ -287,60 +287,106 @@ static const bool _showDebugOverlay = false; // 👈 flip to true anytime
     });
   }
 
-  Future<void> _initEngine() async {
-    // final allItems = await loadFlashcardsFromXml();
-    final allItems = widget.items;
-    final repo = SettingsRepository();
 
-    final selectedRoots = await repo.loadRoots();
-    final selectedTypes = await repo.loadChordTypes();
-    final selectedInversions = await repo.loadInversions();
-    final orderMode = await repo.loadCardOrder();
+int _pitchClassForRoot(String root) {
+  final r = root.trim()
+      .replaceAll('♭', 'b')
+      .replaceAll('♯', '#');
 
-    String inversionKey(InversionType inv) {
-      switch (inv) {
-        case InversionType.root:
-          return 'root';
-        case InversionType.first:
-          return 'first';
-        case InversionType.second:
-          return 'second';
-      }
-    }
-
-    final filtered = allItems.where((item) {
-      final rootOk = selectedRoots.isEmpty || selectedRoots.contains(item.root);
-      final typeOk =
-          selectedTypes.isEmpty || selectedTypes.contains(item.chordType);
-      final invOk = selectedInversions.isEmpty ||
-          selectedInversions.contains(inversionKey(item.inversion));
-      return rootOk && typeOk && invOk;
-    }).toList();
-
-    filtered.sort((a, b) {
-      // 1️⃣ inversion first (root → first → second)
-      final inv = a.inversion.index.compareTo(b.inversion.index);
-      if (inv != 0) return inv;
-
-      // 2️⃣ chord type next
-      final type = a.chordType.compareTo(b.chordType);
-      if (type != 0) return type;
-
-      // 3️⃣ root last
-      return a.root.compareTo(b.root);
-    });
-
-    if (orderMode == 'random') {
-      filtered.shuffle();
-    }
-
-    reorderDeckForReleaseSafety(filtered);
-
-    setState(() {
-      _engine = FlashcardEngine(filtered.isEmpty ? widget.items : filtered);
-      _startTimingForCurrentCard();
-    });
+  switch (r) {
+    case 'C': return 0;
+    case 'C#':
+    case 'Db': return 1;
+    case 'D': return 2;
+    case 'D#':
+    case 'Eb': return 3;
+    case 'E': return 4;
+    case 'F': return 5;
+    case 'F#':
+    case 'Gb': return 6;
+    case 'G': return 7;
+    case 'G#':
+    case 'Ab': return 8;
+    case 'A': return 9;
+    case 'A#':
+    case 'Bb': return 10;
+    case 'B':
+    case 'Cb': return 11;
+    default:
+      return 999; // safety fallback
   }
+}
+
+int _aFirstKey(String root) {
+  final pc = _pitchClassForRoot(root);
+  if (pc == 999) return 999;
+  return (pc - 9) % 12; // rotate so A = 0
+}
+
+
+  Future<void> _initEngine() async {
+  final allItems = widget.items;
+  final repo = SettingsRepository();
+
+  final selectedRoots = await repo.loadRoots();
+  final selectedTypes = await repo.loadChordTypes();
+  final selectedInversions = await repo.loadInversions();
+  final orderMode = await repo.loadCardOrder();
+
+  String inversionKey(InversionType inv) {
+    switch (inv) {
+      case InversionType.root:
+        return 'root';
+      case InversionType.first:
+        return 'first';
+      case InversionType.second:
+        return 'second';
+    }
+  }
+
+  final filtered = allItems.where((item) {
+    final rootOk =
+        selectedRoots.isEmpty || selectedRoots.contains(item.root);
+    final typeOk =
+        selectedTypes.isEmpty || selectedTypes.contains(item.chordType);
+    final invOk =
+        selectedInversions.isEmpty ||
+        selectedInversions.contains(inversionKey(item.inversion));
+    return rootOk && typeOk && invOk;
+  }).toList();
+
+  filtered.sort((a, b) {
+    // 1️⃣ inversion first (root → first → second)
+    final inv = a.inversion.index.compareTo(b.inversion.index);
+    if (inv != 0) return inv;
+
+    // 2️⃣ chord type next
+    final type = a.chordType.compareTo(b.chordType);
+    if (type != 0) return type;
+
+    // 3️⃣ root last — MUSICAL ORDER (A, Bb, B, C, Db…)
+    final ra = _aFirstKey(a.root);
+    final rb = _aFirstKey(b.root);
+    final byRoot = ra.compareTo(rb);
+    if (byRoot != 0) return byRoot;
+
+    // stable tie-breaker
+    return a.root.compareTo(b.root);
+  });
+
+  if (orderMode == 'random') {
+    filtered.shuffle();
+  }
+
+  reorderDeckForReleaseSafety(filtered);
+
+  setState(() {
+    _engine = FlashcardEngine(
+      filtered.isEmpty ? widget.items : filtered,
+    );
+    _startTimingForCurrentCard();
+  });
+}
 
   // ============================================================
   // Listening
@@ -422,7 +468,7 @@ void _revealBackDueToTimeout() {
 
     final target = card.noteSet;
 
-    debugPrint('🎼 TARGET=${target.join(",")}');
+    //debugPrint('🎼 TARGET=${target.join(",")}');
 
     _lastDecision = 'evaluating det=${detected.join(",")}';
 
@@ -451,7 +497,7 @@ void _revealBackDueToTimeout() {
     }
 
     if (_cardShownAt == null) {
-      debugPrint('⚠️ cardShownAt missing');
+      //debugPrint('⚠️ cardShownAt missing');
       return;
     }
 
@@ -464,7 +510,7 @@ void _revealBackDueToTimeout() {
     // 4️⃣ CONFIRMED MATCH
     // --------------------------------------------------
     _lastDecision = 'MATCH ✅';
-    debugPrint('MATCH confirmed');
+    //debugPrint('MATCH confirmed');
 
     _lastMatchAt = DateTime.now();
     _lastMatchDetected = Set.of(detected);
@@ -510,7 +556,7 @@ void _revealBackDueToTimeout() {
       _previousChordNotes = null;
       _autoMarked = false;
 
-      debugPrint('🎧 Ready for next chord');
+      //debugPrint('🎧 Ready for next chord');
     }
   }
 
@@ -519,7 +565,7 @@ void _revealBackDueToTimeout() {
   // ============================================================
 
   void _startTimingForCurrentCard() {
-    debugPrint('⏱ CARD TIMING STARTED');
+    //debugPrint('⏱ CARD TIMING STARTED');
 
     // Arm detection service for THIS card
     final currentCard = _engine.currentCard;
@@ -576,9 +622,9 @@ void _revealBackDueToTimeout() {
     final shownAtForConfirm = _cardShownAt ?? nowAtEntry;
     final confirmElapsed = nowAtEntry.difference(shownAtForConfirm);
 
-    debugPrint('⏱ CORRECT entry'
-        ' | auto=$autoTriggered'
-        ' | elapsed=${confirmElapsed.inMilliseconds}ms');
+    //debugPrint('⏱ CORRECT entry'
+    //    ' | auto=$autoTriggered'
+    //    ' | elapsed=${confirmElapsed.inMilliseconds}ms');
 
     // --------------------------------------------------
     // Stop timer & normalize card state
@@ -614,10 +660,10 @@ void _revealBackDueToTimeout() {
             : Duration.zero)
         : rawElapsed;
 
-    debugPrint('⏱ CORRECT'
-        ' | auto=$autoTriggered'
-        ' | confirm=${rawElapsed.inMilliseconds}ms'
-        ' | charged=${chargedElapsed.inMilliseconds}ms');
+    //debugPrint('⏱ CORRECT'
+     //   ' | auto=$autoTriggered'
+     //   ' | confirm=${rawElapsed.inMilliseconds}ms'
+     //   ' | charged=${chargedElapsed.inMilliseconds}ms');
 
     // --------------------------------------------------
     // Record result

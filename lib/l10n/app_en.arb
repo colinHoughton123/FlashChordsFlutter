@@ -86,7 +86,10 @@
   "summary_average_time_correct": "Average time (correct chords)",
   "summary_average_time_all": "Average time (all chords)",
   "summary_seconds": "seconds",
-
+  "summary_unsaved_changes_title": "You have not saved your changes",
+  "summary_unsaved_changes_body": "You made a change in the configuration.  If you want to save, press CANCEL now, then press SAVE.",
+  "summary_discard": "Discard changes",
+  "cancel": "Cancel",
 
 "listeningActive": "Listening…",
 "listeningInactive": "Listening paused",

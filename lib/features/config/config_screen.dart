@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart'; // ✅ REQUIRED for listEquals
 import 'package:flashchords/l10n/app_localizations.dart';
 import 'package:flashchords/data/settings_repository.dart';
 import 'package:flashchords/core/system_error.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flashchords/l10n/app_localizations_extensions.dart';
-
 
 class ConfigScreen extends ConsumerStatefulWidget {
   const ConfigScreen({super.key});
@@ -14,15 +14,13 @@ class ConfigScreen extends ConsumerStatefulWidget {
 }
 
 class _ConfigScreenState extends ConsumerState<ConfigScreen> {
+  // --------------------------
+  // HELPERS
+  // --------------------------
 
-    List<String> _sanitizeList(List<String> loaded, List<String> allowed) {
-    // Keep only values that are actually in the allowed list
+  List<String> _sanitizeList(List<String> loaded, List<String> allowed) {
     final cleaned = loaded.where((v) => allowed.contains(v)).toList();
-
-    // If everything was invalid / legacy, fall back to full set
-    if (cleaned.isEmpty) {
-      return [...allowed];
-    }
+    if (cleaned.isEmpty) return [...allowed];
     return cleaned;
   }
 
@@ -58,14 +56,14 @@ class _ConfigScreenState extends ConsumerState<ConfigScreen> {
 
   bool _timerEnabled = false;
   int _timerSeconds = 5;
-
   bool _listenEnabled = false;
+  String _cardOrder = "random";
 
-  /// NEW: card order
-  String _cardOrder = "random"; // or "sorted"
+  late _ConfigSnapshot _initialConfig;
 
-
-
+  // --------------------------
+  // LIFECYCLE
+  // --------------------------
 
   @override
   void initState() {
@@ -73,187 +71,334 @@ class _ConfigScreenState extends ConsumerState<ConfigScreen> {
     _loadSavedConfig();
   }
 
-  // --------------------------
-  // LOAD SAVED STATE
-  // --------------------------
   Future<void> _loadSavedConfig() async {
     final repo = SettingsRepository();
 
-    // ----- ROOTS -----
-    _selectedRoots = await repo.loadRoots();
-    _selectedRoots = _sanitizeList(_selectedRoots, _roots);
+    _selectedRoots = _sanitizeList(await repo.loadRoots(), _roots);
+    _selectedChordTypes =
+        _sanitizeList(await repo.loadChordTypes(), _chordTypes);
+    _selectedInversions =
+        _sanitizeList(await repo.loadInversions(), _inversions);
 
-    // ----- CHORD TYPES -----
-    _selectedChordTypes = await repo.loadChordTypes();
-    _selectedChordTypes = _sanitizeList(_selectedChordTypes, _chordTypes);
-
-    // ----- INVERSIONS -----
-    _selectedInversions = await repo.loadInversions();
-    _selectedInversions = _sanitizeList(_selectedInversions, _inversions);
-
-    // DEBUG to confirm we’re clean now
-    print("SANITIZED inversions: $_selectedInversions");
-    print("SANITIZED chordTypes: $_selectedChordTypes");
-    print("SANITIZED roots: $_selectedRoots");
-
-    // ----- TIMER -----
     final timer = await repo.loadTimer();
     _timerEnabled = timer.$1;
     _timerSeconds = timer.$2;
 
-    // ----- LISTEN MODE -----
     _listenEnabled = await repo.loadListenMode();
-
-    // ----- CARD ORDER -----
     _cardOrder = await repo.loadCardOrder();
+
+    _initialConfig = _ConfigSnapshot.fromState(this);
 
     setState(() {});
   }
 
   // --------------------------
-  // GUARD LOGIC FOR CHECKBOXES
+  // UNSAVED CHANGES
   // --------------------------
-  void _toggleWithGuard({
+
+  bool get _hasUnsavedChanges =>
+      !_ConfigSnapshot.fromState(this).equals(_initialConfig);
+
+  Future<bool> _confirmDiscardChanges(AppLocalizations t) async {
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text(t.summary_unsaved_changes_title),
+        content: Text(t.summary_unsaved_changes_body),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(t.cancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(t.summary_discard),
+          ),
+        ],
+      ),
+    );
+    return result ?? false;
+  }
+
+  // --------------------------
+  // BUILD
+  // --------------------------
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+
+    return WillPopScope(
+      onWillPop: () async {
+        if (!_hasUnsavedChanges) return true;
+        return await _confirmDiscardChanges(t);
+      },
+      child: Scaffold(
+        backgroundColor: Colors.grey.shade100,
+        appBar: AppBar(
+          title: Text(t.configTitle),
+        ),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildChickletGroup(
+  values: _roots,
+  selected: _selectedRoots,
+  labelBuilder: (v) => v,
+),
+
+                const SizedBox(height: 24),
+
+                _sectionTitle(t.configSelectChordTypes),
+               // Chord types
+
+_buildChickletGroup(
+  values: _chordTypes,
+  selected: _selectedChordTypes,
+  labelBuilder: (v) => _localizedChordType(v, t),
+),
+                const SizedBox(height: 24),
+
+                _sectionTitle(t.configSelectInversions),
+_buildChickletGroup(
+  values: _inversions,
+  selected: _selectedInversions,
+  labelBuilder: (v) => _localizedInversion(v, t),
+),
+
+                const Divider(height: 36),
+
+                _sectionTitle(t.configCardOrder),
+
+                RadioListTile(
+                  title: Text(t.configCardOrderRandom),
+                  value: "random",
+                  groupValue: _cardOrder,
+                  onChanged: (v) => setState(() => _cardOrder = v!),
+                ),
+                RadioListTile(
+                  title: Text(t.configCardOrderSorted),
+                  value: "sorted",
+                  groupValue: _cardOrder,
+                  onChanged: (v) => setState(() => _cardOrder = v!),
+                ),
+
+                const Divider(height: 36),
+
+                _buildTimerEnableCheckbox(),
+
+                if (_timerEnabled)
+                  _buildTimerSlider(t.configTimerSeconds),
+
+                const Divider(),
+
+                _buildListenModeCheckbox(),
+
+                const SizedBox(height: 36),
+
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      final repo = SettingsRepository();
+
+                      await repo.saveRoots(_selectedRoots);
+                      await repo.saveChordTypes(_selectedChordTypes);
+                      await repo.saveInversions(_selectedInversions);
+                      await repo.saveTimer(_timerEnabled, _timerSeconds);
+                      await repo.saveListenMode(_listenEnabled);
+                      await repo.saveCardOrder(_cardOrder);
+
+                      Navigator.pop(context);
+                    },
+                    child: Text(t.saveButton),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // --------------------------
+  // CHICKLET UI
+  // --------------------------
+
+Widget _buildChickletGroup({
+  required List<String> values,
+  required List<String> selected,
+  required String Function(String) labelBuilder,
+}) {
+  final t = AppLocalizations.of(context)!;
+
+  return Wrap(
+    spacing: 14,
+    runSpacing: 14,
+    children: values.map((value) {
+      final isSelected = selected.contains(value);
+
+      return InkWell(
+        borderRadius: BorderRadius.circular(10),
+        onTap: () {
+          setState(() {
+            _toggleChipWithGuard(
+              list: selected,
+              value: value,
+              selected: !isSelected,
+              t: t,
+            );
+          });
+        },
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOut,
+
+          // ───────────────── OUTER SHADOW (lift)
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.20),
+                blurRadius: 8,
+                offset: const Offset(3, 5), // bottom-right only
+              ),
+            ],
+          ),
+
+          // ───────────────── EDGE RING
+          child: Container(
+            padding: const EdgeInsets.all(2),
+            decoration: BoxDecoration(
+              color: const Color(0xFFE0E0E5), // light grey edge
+              borderRadius: BorderRadius.circular(10),
+            ),
+
+            // ───────────────── INNER FACE (indent)
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 18,
+                vertical: 10,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+
+                // 🔑 INNER GRADIENT = INDENT
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: isSelected
+                      ? const [
+                          Color(0xFFF4F0FF), // light purple highlight (top)
+                          Color(0xFFE1DBFA), // darker bottom
+                        ]
+                      : const [
+                          Color(0xFFFFFFFF), // light grey highlight (top)
+                          Color(0xFFF0F0F3), // darker bottom
+                        ],
+                ),
+              ),
+              child: Text(
+                labelBuilder(value),
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: isSelected
+                      ? const Color(0xFF4B3FBF)
+                      : const Color(0xFF3A3A3C),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    }).toList(),
+  );
+}
+// --------------------------
+  // TOGGLE GUARD
+  // --------------------------
+
+  void _toggleChipWithGuard({
     required List<String> list,
     required String value,
-    required bool isChecked,
-    required String message,
+    required bool selected,
+    required AppLocalizations t,
   }) {
-    if (!isChecked && list.length == 1) {
-  SystemError.report(301, ref);
-  return;
-}
+    final wasSelected = list.contains(value);
+    final isLastSelected = list.length == 1 && wasSelected;
 
-    if (isChecked) {
+    if (!selected && isLastSelected) {
+      SystemError.report(301, ref);
+      return;
+    }
+
+    if (selected && !wasSelected) {
       list.add(value);
-    } else {
+    } else if (!selected && wasSelected) {
       list.remove(value);
     }
   }
 
   // --------------------------
-  // BUILD UI
+  // OTHER UI
   // --------------------------
 
-@override
-Widget build(BuildContext context) {
-  final t = AppLocalizations.of(context)!;
-
- return Scaffold(
-  backgroundColor: Colors.grey.shade100,
-  appBar: AppBar(
-    title: Text(t.configTitle),
-  ),
-    body: SafeArea(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-
-            // ----- Select Chords -----
-            _sectionTitle(t.configSelectRoots),
-            _buildNoteSelectors(),
-            const SizedBox(height: 22),
-
-            // ----- Select Chord Types -----
-            _sectionTitle(t.configSelectChordTypes),
-            _buildChordTypeSelectors(),
-            const SizedBox(height: 22),
-
-            // ----- Select Inversions -----
-            _sectionTitle(t.configSelectInversions),
-            _buildInversionSelectors(),
-            const SizedBox(height: 22),
-
-            const Divider(height: 36),
-
-
-
-_sectionTitle(t.configCardOrder),
-
-RadioListTile<String>(
-  title: Text(t.configCardOrderRandom),
-  value: "random",
-  groupValue: _cardOrder,
-  onChanged: (value) {
-    setState(() {
-      _cardOrder = value!;
-    });
-  },
-),
-
-RadioListTile<String>(
-  title: Text(t.configCardOrderSorted),
-  value: "sorted",
-  groupValue: _cardOrder,
-  onChanged: (value) {
-    setState(() {
-      _cardOrder = value!;
-    });
-  },
-),
-
-
-                        const Divider(height: 36),
-
-            _buildTimerEnableCheckbox(),
-
-if (_timerEnabled)
-  _buildTimerSlider(t.configTimerSeconds),
-
-Divider(),
-
-_buildListenModeCheckbox(),
-
-            // ----- Timer -----
-         
-            //_buildTimerEnableCheckbox(),
-
-
-            const Divider(height: 36),
-
-            const SizedBox(height: 30),
-
-            // SAVE BUTTON
-          
-SizedBox(
-  width: double.infinity,
-  child: ElevatedButton(
-    onPressed: () async {
-      final repo = SettingsRepository();
-
-      await repo.saveRoots(_selectedRoots);
-      await repo.saveChordTypes(_selectedChordTypes);
-      await repo.saveInversions(_selectedInversions);
-      await repo.saveTimer(_timerEnabled, _timerSeconds);
-      await repo.saveListenMode(_listenEnabled);   // exists already
-      await repo.saveCardOrder(_cardOrder);
-
-      Navigator.pop(context);
-    },
-    child: Text(t.saveButton),
-  ),
-),
-            const SizedBox(height: 40),
-          ],
+  Widget _sectionTitle(String txt) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Text(
+          txt,
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-      ),
-    ),
-  );
-}
+      );
 
-// ---------- Shared title widget ----------
-Widget _sectionTitle(String txt) => Padding(
-  padding: const EdgeInsets.symmetric(vertical: 8),
-  child: Text(
-    txt,
-    style: const TextStyle(
-      fontSize: 20,
-      fontWeight: FontWeight.bold,
-    ),
-  ),
-);
+  Widget _buildTimerEnableCheckbox() {
+    return CheckboxListTile(
+      title: Text(AppLocalizations.of(context)!.configEnableTimer),
+      value: _timerEnabled,
+      onChanged: (v) => setState(() => _timerEnabled = v ?? false),
+    );
+  }
+
+  Widget _buildListenModeCheckbox() {
+    return CheckboxListTile(
+      title: const Text("Enable Listening Mode (Future Feature)"),
+      value: _listenEnabled,
+      onChanged: (v) => setState(() => _listenEnabled = v ?? false),
+    );
+  }
+
+  Widget _buildTimerSlider(String label) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label),
+        Slider(
+          value: _timerSeconds.toDouble(),
+          min: 1,
+          max: 30,
+          divisions: 29,
+          label: _timerSeconds.toString(),
+          onChanged: (value) {
+            setState(() => _timerSeconds = value.round());
+          },
+        ),
+        Text(
+          _timerSeconds.toString(),
+          style: const TextStyle(fontSize: 18),
+        ),
+      ],
+    );
+  }
+
   // --------------------------
   // LOCALIZATION HELPERS
   // --------------------------
@@ -295,159 +440,50 @@ Widget _sectionTitle(String txt) => Padding(
         return inv;
     }
   }
-  // ------------new toggleguard ------
-  void _toggleChipWithGuard({
-    required List<String> list,
-    required String value,
-    required bool selected,   // this is the new state from FilterChip
-    required AppLocalizations t,
-  }) {
-    final wasSelected = list.contains(value);
-    final isTryingToUnselect = !selected;
-    final isLastSelected = list.length == 1 && wasSelected;
-
-    // DEBUG
-    print(
-        "TOGGLE GUARD → value=$value, selected=$selected, wasSelected=$wasSelected, len=${list.length}, isTryingToUnselect=$isTryingToUnselect, isLastSelected=$isLastSelected");
-
-    if (isTryingToUnselect && isLastSelected) {
-      // Trying to remove the final remaining item → block it
-
-        SystemError.report(301, ref);
-      return;
-    }
-
-    // Normal toggle behavior
-    if (selected && !wasSelected) {
-      list.add(value);
-    } else if (!selected && wasSelected) {
-      list.remove(value);
-    }
-
-    print("AFTER TOGGLE → list=$list");
-  }
-
-  // --- SELECT ROOTS ---
-Widget _buildNoteSelectors() {
-  final t = AppLocalizations.of(context)!;   //<-- ADD THIS
-  return Wrap(
-    spacing: 6,
-    runSpacing: 6,
-    children: _roots.map((root) {
-      return FilterChip(
-        label: Text(root),
-        selected: _selectedRoots.contains(root),
-          onSelected: (checked) {
-          setState(() {
-           _toggleChipWithGuard(
-                list: _selectedRoots,
-                value: root,
-                selected: checked,
-                t: t,
-              );
-          });
-        },
-      );
-    }).toList(),
-  );
 }
 
-// --- SELECT CHORD TYPES ---
-Widget _buildChordTypeSelectors() {
-  final t = AppLocalizations.of(context)!;
+// --------------------------
+// SNAPSHOT
+// --------------------------
 
-  return Wrap(
-    spacing: 6,
-    runSpacing: 6,
-    children: _chordTypes.map((type) {
-      return FilterChip(
-        label: Text(_localizedChordType(type, t)),
-        selected: _selectedChordTypes.contains(type),
-                onSelected: (checked) {
-          setState(() {
-           _toggleChipWithGuard(
-                list: _selectedChordTypes,
-                value: type,
-                selected: checked,
-                t: t,
-              );
-          });
-        },
-      );
-    }).toList(),
-  );
-}
+class _ConfigSnapshot {
+  final List<String> roots;
+  final List<String> types;
+  final List<String> inversions;
+  final bool timerEnabled;
+  final int timerSeconds;
+  final bool listenEnabled;
+  final String cardOrder;
 
-// --- SELECT INVERSIONS ---
-  // --- SELECT INVERSIONS ---
-  Widget _buildInversionSelectors() {
-    final t = AppLocalizations.of(context)!;
+  _ConfigSnapshot({
+    required this.roots,
+    required this.types,
+    required this.inversions,
+    required this.timerEnabled,
+    required this.timerSeconds,
+    required this.listenEnabled,
+    required this.cardOrder,
+  });
 
-    return Wrap(
-      spacing: 6,
-      runSpacing: 6,
-      children: _inversions.map((inv) {
-        return FilterChip(
-          label: Text(_localizedInversion(inv, t)),
-          selected: _selectedInversions.contains(inv),
-          onSelected: (checked) {
-            setState(() {
-              _toggleChipWithGuard(
-                list: _selectedInversions,
-                value: inv,
-                selected: checked,
-                t: t,
-              );
-            });
-          },
-        );
-      }).toList(),
+  factory _ConfigSnapshot.fromState(_ConfigScreenState s) {
+    return _ConfigSnapshot(
+      roots: [...s._selectedRoots]..sort(),
+      types: [...s._selectedChordTypes]..sort(),
+      inversions: [...s._selectedInversions]..sort(),
+      timerEnabled: s._timerEnabled,
+      timerSeconds: s._timerSeconds,
+      listenEnabled: s._listenEnabled,
+      cardOrder: s._cardOrder,
     );
   }
 
-Widget _buildTimerEnableCheckbox() {
-  return CheckboxListTile(
-    title: Text(AppLocalizations.of(context)!.configEnableTimer),
-    value: _timerEnabled,
-    onChanged: (v) {
-      setState(() => _timerEnabled = v ?? false);
-    },
-  );
-}
-
-Widget _buildListenModeCheckbox() {
-  return CheckboxListTile(
-    title: const Text("Enable Listening Mode (Future Feature)"),
-    value: _listenEnabled,
-    onChanged: (v) {
-      setState(() => _listenEnabled = v ?? false);
-    },
-  );
-}
-
-
-Widget _buildTimerSlider(String label) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(label),
-      Slider(
-        value: _timerSeconds.toDouble(),
-        min: 1,
-        max: 30,
-        divisions: 29,
-        label: _timerSeconds.toString(),
-        onChanged: (value) {
-          setState(() => _timerSeconds = value.round());
-        },
-      ),
-      Text(
-        _timerSeconds.toString(),
-        style: const TextStyle(fontSize: 18),
-      ),
-    ],
-  );
-}
-
-
+  bool equals(_ConfigSnapshot other) {
+    return listEquals(roots, other.roots) &&
+        listEquals(types, other.types) &&
+        listEquals(inversions, other.inversions) &&
+        timerEnabled == other.timerEnabled &&
+        timerSeconds == other.timerSeconds &&
+        listenEnabled == other.listenEnabled &&
+        cardOrder == other.cardOrder;
+  }
 }

@@ -527,6 +527,30 @@ abstract class AppLocalizations {
   /// **'Average time (all chords)'**
   String get summary_average_time_all;
 
+  /// No description provided for @summary_unsaved_changes_title.
+  ///
+  /// In en, this message translates to:
+  /// **'You have not saved your changes'**
+  String get summary_unsaved_changes_title;
+
+  /// No description provided for @summary_unsaved_changes_body.
+  ///
+  /// In en, this message translates to:
+  /// **'You made a change in the configuration.  If you want to save, press CANCEL now, then press SAVE.'**
+  String get summary_unsaved_changes_body;
+
+  /// No description provided for @summary_discard.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard changes'**
+  String get summary_discard;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
   /// No description provided for @listeningActive.
   ///
   /// In en, this message translates to:

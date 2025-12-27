@@ -76,12 +76,12 @@ void animateIncorrect() {
 @override
 void didUpdateWidget(covariant FlashcardWidget oldWidget) {
   super.didUpdateWidget(oldWidget);
-debugPrint(
-    '🔁 UPDATE $_debugInstanceId '
-    'oldCard=${oldWidget.cardId} '
-    'newCard=${widget.cardId} '
-    'showBack=$_showBack'
-  );
+//debugPrint(
+//    '🔁 UPDATE $_debugInstanceId '
+//    'oldCard=${oldWidget.cardId} '
+//    'newCard=${widget.cardId} '
+//    'showBack=$_showBack'
+//  );
   if (oldWidget.cardId != widget.cardId) {
     // New card → hard reset visual state
     setState(() {

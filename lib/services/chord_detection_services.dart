@@ -329,16 +329,16 @@ DateTime? evaluateCandidate(Set<String> detected) {
         _stableCount = 1;
       }
 
-      debugPrint(
-        '🎧 FRAME det=${detected.join(",")} '
-        'stable=$_stableCount cooldown=$_cooldownFrames',
-      );
+      //debugPrint(
+      //  '🎧 FRAME det=${detected.join(",")} '
+      //  'stable=$_stableCount cooldown=$_cooldownFrames',
+      //);
 
       if (_stableCount >= requiredStableFrames && detected.isNotEmpty) {
         // If we currently have a valid candidate running, capture fair elapsed now.
         
 
-        debugPrint('🎯 EMIT detected=${detected.join(",")}');
+        // debugPrint('🎯 EMIT detected=${detected.join(",")}');
         _detectedNotesController.add(detected);
 
         _sampleBuffer.clear();
