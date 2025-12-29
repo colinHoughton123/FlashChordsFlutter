@@ -184,7 +184,7 @@ Future<List<FlashcardItem>> loadFlashcardsFromXml() async {
       ? notePathAttr
       : titleAttr.split(' ').first,
 );
-    //debugPrint('NOTE FOUND: $titleAttr');
+    debugPrint('NOTE FOUND: $titleAttr');
 
     // ----- chords inside this note -----
     for (final chord in note.findElements('chord')) {

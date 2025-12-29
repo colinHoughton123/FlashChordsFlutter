@@ -51,6 +51,7 @@ class FlashcardWidgetState extends State<FlashcardWidget>
 
 late final String _dbg;
 
+bool _frontShownOnce = false;
 bool _isAnimatingOut = false;
 bool _blankWhileAnimatingOut = false;
 
@@ -76,23 +77,25 @@ void animateIncorrect() {
 @override
 void didUpdateWidget(covariant FlashcardWidget oldWidget) {
   super.didUpdateWidget(oldWidget);
-//debugPrint(
-//    '🔁 UPDATE $_debugInstanceId '
-//    'oldCard=${oldWidget.cardId} '
-//    'newCard=${widget.cardId} '
-//    'showBack=$_showBack'
-//  );
+debugPrint(
+    '🔁 UPDATE $_debugInstanceId '
+    'oldCard=${oldWidget.cardId} '
+    'newCard=${widget.cardId} '
+    'showBack=$_showBack'
+  );
   if (oldWidget.cardId != widget.cardId) {
+    
     // New card → hard reset visual state
     setState(() {
+      _frontShownOnce = false;
       _showBack = false;
       _dragOffset = Offset.zero;
       _rotation = 0;
     });
 
     _controller.reset();
-
-    widget.onFrontShown?.call();
+    debugPrint('🟢 no longer calling ... widget.onFrontShown?.call() from didUpdateWidget');
+    // widget.onFrontShown?.call();
   }
 }
 
@@ -137,7 +140,13 @@ bool _firstBuild = true;
 void initState() {
   super.initState();
 
-  //debugPrint('🟢 INIT  $_debugInstanceId');
+
+// 🔑 Fire once for the very first card render
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    widget.onFrontShown?.call();
+  });
+
+  debugPrint('🟢 INIT  $_debugInstanceId');
   _dbg = '${widget.cardId} @ ${identityHashCode(this)}';
 
   _controller = AnimationController(
@@ -153,7 +162,7 @@ void initState() {
 
 @override
 void dispose() {
- // debugPrint('🔴 DISPOSE $_debugInstanceId');
+  debugPrint('🔴 DISPOSE $_debugInstanceId');
   _controller.dispose();
   super.dispose();
 }
@@ -162,7 +171,7 @@ void dispose() {
   // Flip to back (used by timer)
   // ---------------------------------------------------------------------------
   void flipToBack() {
-  //// debugPrint('🔄 FLIP → BACK $_debugInstanceId');
+   debugPrint('🔄 FLIP → BACK $_debugInstanceId');
   setState(() {
     _showBack = true;
   });
@@ -173,6 +182,8 @@ void dispose() {
   // ANIMATION (swipe off screen)
   // ---------------------------------------------------------------------------
 void _animateOut(bool toRight) {
+
+  
 
   debugPrint('➡️ _animateOut(toRight=$toRight) showBack=$_showBack controllerValue=${_controller.value}');
 
@@ -196,13 +207,14 @@ void _animateOut(bool toRight) {
     CurvedAnimation(parent: _controller, curve: Curves.easeOut),
   );
 
- _rotationAnimation = Tween<double>(
-  begin: 0.0,
-  end: toRight ? 0.25 : -0.25,
-).animate(
-  CurvedAnimation(parent: _controller, curve: Curves.easeOut),
-);
+  _rotationAnimation = Tween<double>(
+    begin: 0.0,
+    end: toRight ? 0.25 : -0.25,
+  ).animate(
+    CurvedAnimation(parent: _controller, curve: Curves.easeOut),
+  );
 
+  final VoidCallback? onSwipeAnimationStarted;  // added to compenastion 1.14 sec delay
 
   _controller.forward().whenComplete(() {
     if (!mounted) return;
@@ -220,10 +232,13 @@ void _animateOut(bool toRight) {
 }
 
 void forceShowFront() {
- // debugPrint('🔄 FORCE FRONT $_debugInstanceId');
+  debugPrint('🔄 FORCE FRONT $_debugInstanceId');
   setState(() {
     _showBack = false;
   });
+
+  debugPrint('🟢 about to call widget.onFrontShown?.call() from forceShowFront');
+
   widget.onFrontShown?.call();
 }
   // -----------------------------------------------------------------------------
@@ -425,49 +440,61 @@ Widget _buildAnimatedFlip() {
 Widget _buildFront({Key? key}) {
   final t = AppLocalizations.of(context)!;
 
-  return Container(
-    key: key,
-    alignment: Alignment.center,
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-       
+  return Builder(
+    builder: (context) {
+      // 🔑 This runs AFTER the front face is actually rendered
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!_frontShownOnce) {
+          _frontShownOnce = true;
+          widget.onFrontShown?.call();
+        }
+      });
 
-          // New line: localized chord name
-        Html(
-          data: widget.cardTitle,
-          style: {
-            "*": Style(
-              fontSize: FontSize(30),
-              fontWeight: FontWeight.bold,
-              textAlign: TextAlign.center,
+      return Container(
+        key: key,
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Localized chord name
+            Html(
+              data: widget.cardTitle,
+              style: {
+                "*": Style(
+                  fontSize: FontSize(30),
+                  fontWeight: FontWeight.bold,
+                  textAlign: TextAlign.center,
+                ),
+              },
             ),
-          },
+
+            // Written-as (XML exact)
+            Html(
+              data: widget.chordLabel,
+              style: {
+                "*": Style(
+                  fontSize: FontSize(14),
+                  fontWeight: FontWeight.bold,
+                  textAlign: TextAlign.center,
+                ),
+              },
+            ),
+
+            const SizedBox(height: 8),
+
+            // Localized inversion
+            Text(
+              _localizedInversion(t),
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
         ),
-
-
-        // 1st line: writtenAs exactly from XML
-      Html(
-  data: widget.chordLabel,
-  style: {
-    "*": Style(
-      fontSize: FontSize(14),
-      fontWeight: FontWeight.bold,
-      textAlign: TextAlign.center,
-    ),
-  },
-),
-
-        const SizedBox(height: 8),
-
-        // 2nd line: localized inversion
-        Text(
-          _localizedInversion(t),
-          textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-        ),
-      ],
-    ),
+      );
+    },
   );
 }
 
