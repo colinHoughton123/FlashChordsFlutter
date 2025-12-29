@@ -373,10 +373,10 @@ debugPrint('✅ CANDIDATE CONFIRMED after candidateOKFrames incremented ');
       final maxNotes = (_armedTarget?.length ?? 4);
       final detected = _topPitchClasses(pcRaw, maxNotes: maxNotes);
 
-      debugPrint(
-        '🎧 FRAME det=${detected.join(",")} '
-        'armed=${_armedTarget?.join(",") ?? "NONE"}'
-      );
+     // debugPrint(
+     //   '🎧 FRAME det=${detected.join(",")} '
+     //   'armed=${_armedTarget?.join(",") ?? "NONE"}'
+     // );
 
       _detectedFrameController.add(
         DetectedNotesFrame(

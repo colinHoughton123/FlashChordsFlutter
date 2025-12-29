@@ -16,6 +16,7 @@ class FlashcardWidget extends StatefulWidget {
   final String cardTitle;
   final InversionType inversion;        // root / first / second
   final List<String> imageAssetPaths;
+  final bool showBack;
   final VoidCallback onSwipeLeft;
   final VoidCallback onSwipeRight;
   final VoidCallback? onFrontShown;
@@ -32,6 +33,7 @@ final VoidCallback? onBackShown;
     required this.cardTitle,  // NEW
     required this.inversion,
     required this.imageAssetPaths,
+    required this.showBack,          
     required this.onSwipeLeft,
     required this.onSwipeRight,
     required this.cardId,
@@ -69,36 +71,53 @@ late final String _debugInstanceId =
 bool _suppressFlipForNextBuild = false;
 
 void animateCorrect() {
-  _animateOut(true);
+ // _animateOut(true);
 }
 
 void animateIncorrect() {
-  _animateOut(false);
+ //  _animateOut(false);
 }
 
 
 @override
 void didUpdateWidget(covariant FlashcardWidget oldWidget) {
   super.didUpdateWidget(oldWidget);
-debugPrint(
+
+  debugPrint(
     '🔁 UPDATE $_debugInstanceId '
     'oldCard=${oldWidget.cardId} '
     'newCard=${widget.cardId} '
-    'showBack=$_showBack'
+    'oldShowBack=${oldWidget.showBack} '
+    'newShowBack=${widget.showBack}'
   );
+
+  // --------------------------------------------------
+  // 1️⃣ NEW CARD → hard reset visual state
+  // --------------------------------------------------
   if (oldWidget.cardId != widget.cardId) {
-    
-    // New card → hard reset visual state
+    debugPrint('🧹 RESET visual state for new card ${widget.cardId}');
+
     setState(() {
       _frontShownOnce = false;
-      _showBack = false;
+      _showBack = false;              // ✅ start on FRONT
       _dragOffset = Offset.zero;
       _rotation = 0;
+      _blankWhileAnimatingOut = false;
     });
 
     _controller.reset();
-    debugPrint('🟢 no longer calling ... widget.onFrontShown?.call() from didUpdateWidget');
-    // widget.onFrontShown?.call();
+    return;
+  }
+
+  // --------------------------------------------------
+  // 2️⃣ REVEAL requested by parent (timer or listener)
+  // --------------------------------------------------
+  if (!oldWidget.showBack && widget.showBack) {
+    debugPrint('🔄 revealBack via parent state');
+
+    setState(() {
+      _showBack = true;
+    });
   }
 }
 
@@ -145,9 +164,9 @@ void initState() {
 
 
 // 🔑 Fire once for the very first card render
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    widget.onFrontShown?.call();
-  });
+//  WidgetsBinding.instance.addPostFrameCallback((_) {
+//    widget.onFrontShown?.call();
+//   });
 
   debugPrint('🟢 INIT  $_debugInstanceId');
   _dbg = '${widget.cardId} @ ${identityHashCode(this)}';
@@ -184,24 +203,16 @@ void dispose() {
   // ---------------------------------------------------------------------------
   // ANIMATION (swipe off screen)
   // ---------------------------------------------------------------------------
-void _animateOut(bool toRight) {
+// ---------------------------------------------------------------------------
+// ANIMATION (swipe off screen)
+// ---------------------------------------------------------------------------
+Future<void> animateOut({required bool toRight}) async {
+  if (!mounted) return;
 
-  
-
-  debugPrint('➡️ _animateOut(toRight=$toRight) showBack=$_showBack controllerValue=${_controller.value}');
-
-  final endOffset = Offset(toRight ? 1.2 : -1.2, 0);
-  final endRotation = toRight ? 0.25 : -0.25;
-
- // _slideAnimation = Tween<Offset>(
- //   begin: Offset.zero,
- //   end: endOffset,
- // ).animate(
- //   CurvedAnimation(parent: _controller, curve: Curves.easeOut),
- // );
+  debugPrint('➡️ animateOut(toRight=$toRight)');
 
   final screenWidth = MediaQuery.of(context).size.width;
-  final travel = screenWidth + 100; // extra buffer
+  final travel = screenWidth + 100;
 
   _slideX = Tween<double>(
     begin: 0.0,
@@ -217,25 +228,26 @@ void _animateOut(bool toRight) {
     CurvedAnimation(parent: _controller, curve: Curves.easeOut),
   );
 
-  final VoidCallback? onSwipeAnimationStarted;  // added to compenastion 1.14 sec delay
-
-
-    // 🔥 START compensation while card is sliding off
-    widget.onSwipeAnimationStarted?.call();
-
-    _controller.forward().whenComplete(() {
-    if (!mounted) return;
-
-    setState(() {
-      _dragOffset = Offset.zero;
-      _rotation = 0;
-      _showBack = false;
-    });
-
-    _controller.reset();
-
-    toRight ? widget.onSwipeRight() : widget.onSwipeLeft();
+  // Prevent any ghosting while animating out
+  setState(() {
+    // _blankWhileAnimatingOut = true;
   });
+
+  await _controller.forward(from: 0.0);
+
+  debugPrint('🎬 ANIMATION COMPLETE for ${widget.cardId} (mounted=$mounted)');
+  if (!mounted) return;
+
+  // IMPORTANT:
+  // Do NOT trigger navigation here.
+  // Parent (FlashcardScreen) already awaited this Future.
+
+  // Reset local visual state quietly
+  _controller.reset();
+  _dragOffset = Offset.zero;
+  _rotation = 0;
+  _showBack = false;
+  _blankWhileAnimatingOut = false;
 }
 
 void forceShowFront() {
@@ -276,20 +288,22 @@ void forceShowFront() {
           });
         },
 
-        onPanEnd: (_) {
-          final threshold = MediaQuery.of(context).size.width * 0.25;
+       onPanEnd: (_) async {
+            final threshold = 120.0;
 
-if (_dragOffset.dx > threshold){
-            _animateOut(true);
-          } else if (_dragOffset.dx < -threshold) {
-            _animateOut(false);
-          } else {
-            setState(() {
-              _dragOffset = Offset.zero;
-              _rotation = 0;
-            });
-          }
-        },
+            if (_dragOffset.dx > threshold) {
+              await animateOut(toRight: true);
+              widget.onSwipeRight(); // ✅ correct // ✅ parent advances deck AFTER animation
+            } else if (_dragOffset.dx < -threshold) {
+              await animateOut(toRight: false);
+              widget.onSwipeLeft();
+            } else {
+              setState(() {
+                _dragOffset = Offset.zero;
+                _rotation = 0;
+              });
+            }
+          },
 
         child: AnimatedBuilder(
         animation: _controller,
@@ -360,25 +374,31 @@ Widget _buildCard() {
   // BUTTON ROW
   // -----------------------------------------------------------------------------
 
-  Widget _buildButtons() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        IconButton(
-          iconSize: 40,
-          color: Colors.red,
-          icon: const Icon(Icons.close),
-          onPressed: () => _animateOut(false),
-        ),
-        IconButton(
-          iconSize: 40,
-          color: Colors.green,
-          icon: const Icon(Icons.check),
-          onPressed: () => _animateOut(true),
-        ),
-      ],
-    );
-  }
+Widget _buildButtons() {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: [
+      IconButton(
+        iconSize: 40,
+        color: Colors.red,
+        icon: const Icon(Icons.close),
+        onPressed: () async {
+          await animateOut(toRight: false);
+          widget.onSwipeLeft();
+        },
+      ),
+      IconButton(
+        iconSize: 40,
+        color: Colors.green,
+        icon: const Icon(Icons.check),
+        onPressed: () async {
+          await animateOut(toRight: true);
+          widget.onSwipeRight();
+        },
+      ),
+    ],
+  );
+}
 
   // -----------------------------------------------------------------------------
   // FLIP BACK & FRONT

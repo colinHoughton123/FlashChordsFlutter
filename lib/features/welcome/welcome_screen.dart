@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flashchords/l10n/app_localizations.dart';
 import 'package:flashchords/features/config/config_screen.dart';
 import 'package:flashchords/features/flashcard/flashcard_screen.dart';
+import 'package:flashchords/features/welcome/welcome_screen.dart';
 import 'package:flashchords/models/flashcard_item.dart';
 import 'package:flashchords/data/chord_xml_parser.dart';
+
 
 class WelcomeScreen extends StatefulWidget {
   final Future<void> Function(String) onLanguageChanged;

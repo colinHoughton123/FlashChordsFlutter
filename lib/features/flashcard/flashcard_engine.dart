@@ -81,17 +81,14 @@ void markCorrect(Duration elapsed) {
   _advance();
 }
 
-void markIncorrect({Duration? elapsed}) {
+void markIncorrect(Duration elapsed) {
   totalIncorrect++;
   _errorDeck.add(_currentDeck[_currentIndex]);
 
-  if (elapsed != null) {
-    _allAttemptTimes.add(elapsed);
-  }
+  _allAttemptTimes.add(elapsed); // ✅ always record
 
   _advance();
 }
-
 
 
 
