@@ -43,6 +43,22 @@ class ChordDetectionService {
     return detected.containsAll(target);
   }
 
+
+void prepareForNextCard() {
+  // Clears candidate/stability state only.
+  // Does NOT stop audio, does NOT change armed target.
+  debugPrint('🧹 prepareForNextCard()');
+
+  _lastStable.clear();
+  _stableCount = 0;
+  _cooldownFrames = 0;
+  _sampleBuffer.clear();
+
+  _candidateStartedAt = null;
+  _candidateOkFrames = 0;
+  _firstCorrectFrameAt = null;
+}
+
   // ------------------------------------------------------------
   // State
   // ------------------------------------------------------------

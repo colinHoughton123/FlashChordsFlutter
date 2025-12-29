@@ -21,7 +21,8 @@ class FlashcardWidget extends StatefulWidget {
   final VoidCallback? onFrontShown;
 final VoidCallback? onBackShown;
   final VoidCallback? onRevealRequested;
-
+  // ✅ NEW — compensation hook
+  final VoidCallback? onSwipeAnimationStarted;
 
   final String cardId;                  // <-- NEW: unique ID per card
 
@@ -37,6 +38,8 @@ final VoidCallback? onBackShown;
         this.onFrontShown,
     this.onBackShown,
     this.onRevealRequested,
+     // ✅ IMPORTANT: initialize the final field
+    this.onSwipeAnimationStarted,
   });
 
   @override
@@ -216,7 +219,11 @@ void _animateOut(bool toRight) {
 
   final VoidCallback? onSwipeAnimationStarted;  // added to compenastion 1.14 sec delay
 
-  _controller.forward().whenComplete(() {
+
+    // 🔥 START compensation while card is sliding off
+    widget.onSwipeAnimationStarted?.call();
+
+    _controller.forward().whenComplete(() {
     if (!mounted) return;
 
     setState(() {

@@ -102,6 +102,20 @@ DetectedNotesFrame? _lastFrame;
   // Lifecycle
   // ============================================================
 
+
+    void _onSwipeAnimationStarted() {
+      debugPrint('🚀 Swipe animation started — prewarming next card');
+
+      // Stop timing the OLD card immediately
+      _cardShownAt = null;
+
+      // Reset detection buffers WITHOUT stopping audio
+      ChordDetectionService.instance.prepareForNextCard();
+
+      // 🔑 Start timing + arm the NEXT card NOW
+      _startTimingForCurrentCard();
+    }
+
   @override
   void initState() {
     super.initState();
@@ -460,6 +474,10 @@ void _startTimingForCurrentCard() {
               onRevealRequested: _revealBackDueToTimeout,
               onFrontShown: _onCardFrontShown,
               onBackShown: _onCardBackShown,
+
+              // ✅ NEW
+              onSwipeAnimationStarted: _onSwipeAnimationStarted,
+
             ),
 
             // 🐞 Optional debug overlay (unchanged)
