@@ -13,6 +13,9 @@ class FlashcardEngine {
 
   // Total time spent on cards answered CORRECTLY
   Duration _totalCorrectTime = Duration.zero;
+
+  
+
   int _correctCount = 0;
 
   int _currentIndex = 0;
@@ -28,7 +31,12 @@ class FlashcardEngine {
   FlashcardEngine(List<FlashcardItem> deck)
       : _mainDeck = List.unmodifiable(deck) {
     _currentDeck = List<FlashcardItem>.from(deck);
+
+    
   }
+
+int get deckSize => _currentDeck.length;
+
 
   FlashcardItem? get currentCard {
     if (_currentIndex < 0 || _currentIndex >= _currentDeck.length) {
@@ -70,6 +78,18 @@ class FlashcardEngine {
   void _advance() {
     _currentIndex++;
   }
+
+
+
+void _resetSessionStats() {
+  totalCorrect = 0;
+  totalIncorrect = 0;
+
+  _correctTimes.clear();
+  _allAttemptTimes.clear();
+}
+
+
   
 void markCorrect(Duration elapsed) {
   if (elapsed.inMilliseconds > 200) {   // ignore “instant” presses
@@ -97,27 +117,23 @@ void markIncorrect(Duration elapsed) {
 
 
    // if (_errorDeck.isNotEmpty) {
-   if (totalIncorrect > 0) {
-      _currentDeck = List<FlashcardItem>.from(_errorDeck);
-      _errorDeck.clear();
-      usingErrorDeck = true;
-      _currentIndex = 0;
-      totalIncorrect = 0;
-      totalCorrect = 0;
-      // Keep totals so summary across rounds still makes sense.
-      totalIncorrect = 0;  // reset the incorrect for the current deck
-      print("DEBUG ENGINE.DART errorDeck.isNotEmpty" );
+   if (_errorDeck.isNotEmpty) {
+  _currentDeck = List<FlashcardItem>.from(_errorDeck);
+  _errorDeck.clear();
+  usingErrorDeck = true;
+  _currentIndex = 0;
 
+  _resetSessionStats();   // ✅ RESET averages for error deck
 
-    } else {
-      _currentDeck = List<FlashcardItem>.from(_mainDeck);
-      usingErrorDeck = false;
-      _currentIndex = 0;
-      totalCorrect = 0;
-      totalIncorrect = 0;
-      totalCorrect = 0;
-      _correctTimes.clear();
-      print("DEBUG ENGINE.DART error deck is empty it seems" );
-    }
+  print('ENGINE: starting ERROR deck');
+} else {
+  _currentDeck = List<FlashcardItem>.from(_mainDeck);
+  usingErrorDeck = false;
+  _currentIndex = 0;
+
+  _resetSessionStats();   // ✅ RESET averages for new main run
+
+  print('ENGINE: starting MAIN deck');
+}
   }
 }

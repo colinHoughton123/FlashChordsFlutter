@@ -105,28 +105,29 @@ void _logState(String where) {
 
 Duration _ensureResolvedElapsed(String reason) {
   if (_resolvedElapsed != null) {
-    debugPrint('⏱ elapsed already resolved: ${_resolvedElapsed!.inMilliseconds} ms');
     return _resolvedElapsed!;
   }
 
-  final start = _timingStartedAt;
-  if (start == null) {
-    debugPrint('⚠️ elapsed unresolved (timing never started)');
+  if (_timingStartedAt == null) {
     _resolvedElapsed = Duration.zero;
     return _resolvedElapsed!;
   }
 
-  _resolvedElapsed = DateTime.now().difference(start);
+  _resolvedElapsed = DateTime.now().difference(_timingStartedAt!);
+
+  // 🎯 UX CLAMP: eliminate micro-latency when chord already held
+  if (_resolvedElapsed! < const Duration(milliseconds: 300)) {
+    _resolvedElapsed = Duration.zero;
+  }
 
   debugPrint(
     '⏱ resolveElapsed [$reason]: '
     '${_resolvedElapsed!.inMilliseconds} ms '
-    'startedAt=$start',
+    'startedAt=$_timingStartedAt'
   );
 
   return _resolvedElapsed!;
 }
-
   // ============================================================
   // Lifecycle
   // ============================================================
@@ -522,39 +523,126 @@ Future<void> _showSummary() async {
   final cardId = '${card.root}_${card.chordType}_${card.inversion.index}';
 
 
+            //final played = _engine.totalCorrect + _engine.totalIncorrect;
+           // final remaining = widget.items.length - played;
+final played = _engine.totalCorrect + _engine.totalIncorrect;
+final remaining = _engine.deckSize - played;
+return Scaffold(
+  backgroundColor: Colors.grey.shade100,
 
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_engine.usingErrorDeck
-            ? t.flash_playing_wrong
-            : t.flash_playing_main),
+  appBar: AppBar(
+    backgroundColor: const Color(0xFFF3E5F5), // 👈 washed purple
+    elevation: 0,
+    title: Text(
+      _engine.usingErrorDeck
+          ? t.flash_playing_wrong
+          : t.flash_playing_main,
+      style: const TextStyle(
+        color: Colors.black87,
+        fontWeight: FontWeight.w600,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: FlashcardWidget(
-              key: ValueKey(cardId),          // ✅ this replaces GlobalKey
-              cardId: cardId,                 // ✅ same id, passed separately
-              chordLabel: card.writtenAs,
-              cardTitle: _localizedChordName(t, card.chordName),
-              inversion: card.inversion,
-              imageAssetPaths: card.imagePaths,
-              showBack: !_cardFrontVisible,
-              onSwipeLeft: _handleIncorrect,
-              onSwipeRight: _handleCorrect,
-              onRevealRequested: _revealBack,
-              onFrontShown: _onCardFrontShown,
-              onSwipeAnimationStarted: _onSwipeAnimationStarted,
+    ),
+    iconTheme: const IconThemeData(color: Colors.black87),
+  ),
+
+  body: Column(
+    children: [
+      // ─────────────────────────────────────
+      // TOP STATUS BAR (single line)
+      // ─────────────────────────────────────
+      Container(
+        color: Colors.grey.shade100,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              '${t.flash_incorrectCountLabel}: ${_engine.totalIncorrect}',
+              style: const TextStyle(fontSize: 14),
+            ),
+            Text(
+              '$played ${t.flash_playedLabel} '
+              '$remaining ${t.flash_toGoLabel}',
+              style: const TextStyle(
+                fontSize: 13,
+                color: Colors.black54,
+              ),
+            ),
+            Text(
+              '${t.flash_correctCountLabel}: ${_engine.totalCorrect}',
+              style: const TextStyle(fontSize: 14),
+            ),
+          ],
+        ),
+      ),
+
+      // ─────────────────────────────────────
+      // FLASHCARD
+      // ─────────────────────────────────────
+      Expanded(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 6),
+          child: FlashcardWidget(
+            key: ValueKey(cardId),
+            cardId: cardId,
+            chordLabel: card.writtenAs,
+            cardTitle: _localizedChordName(t, card.chordName),
+            inversion: card.inversion,
+            imageAssetPaths: card.imagePaths,
+            showBack: !_cardFrontVisible,
+            onSwipeLeft: _handleIncorrect,
+            onSwipeRight: _handleCorrect,
+            onRevealRequested: _revealBack,
+            onFrontShown: _onCardFrontShown,
+            onSwipeAnimationStarted: _onSwipeAnimationStarted,
+          ),
+        ),
+      ),
+
+      // ─────────────────────────────────────
+      // LISTENER INDICATOR
+      // ─────────────────────────────────────
+      if (_listeningEnabled && _evaluationEnabled)
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: Text(
+            'Listening…',
+            style: TextStyle(
+              color: Colors.green.shade700,
+              fontStyle: FontStyle.italic,
             ),
           ),
-          if (_timerEnabled)
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: Text('${t.flash_timeLabel}: $_remainingSeconds s'),
-            ),
-        ],
-      ),
-    );
+        ),
+
+      // ─────────────────────────────────────
+      // SPACE BETWEEN CARD AND BOTTOM BAR
+      // ─────────────────────────────────────
+      const SizedBox(height: 6),
+
+      // ─────────────────────────────────────
+      // BOTTOM BAR: AVERAGE + TIMER
+      // ─────────────────────────────────────
+      if (_timerEnabled)
+        Container(
+          color: Colors.pink.shade50,
+          padding: const EdgeInsets.fromLTRB(12, 8, 12, 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '${t.flash_averageTimeLabel} '
+                '${_engine.averageSecondsAll.toStringAsFixed(1)} s',
+                style: const TextStyle(fontSize: 14),
+              ),
+              Text(
+                '${t.flash_timeLabel}: $_remainingSeconds s',
+                style: const TextStyle(fontSize: 14),
+              ),
+            ],
+          ),
+        ),
+    ],
+  ),
+);
   }
 }
