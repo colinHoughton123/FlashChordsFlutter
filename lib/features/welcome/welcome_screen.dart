@@ -26,7 +26,59 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   bool _loadingChords = false;
   List<FlashcardItem>? _preloadedItems;
 
+Widget _featureBox({
+  required IconData icon,
+  required Color iconColor,
+  required String title,
+  required String content,
+}) {
+  return Container(
+    width: double.infinity,
+    padding: const EdgeInsets.all(14),
+    decoration: BoxDecoration(
+      color: Colors.grey.shade100,
+      borderRadius: BorderRadius.circular(12),
+    ),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // ICON
+        Container(
+          margin: const EdgeInsets.only(right: 12, top: 2),
+          child: Icon(
+            icon,
+            size: 28,
+            color: iconColor,
+          ),
+        ),
 
+        // TEXT
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                content,
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Colors.black54,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
 
   @override
   void initState() {
@@ -93,94 +145,129 @@ return Scaffold(
                   ),
                 ],
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'FlashChords',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.teal.shade700,
+child: Column(
+  mainAxisSize: MainAxisSize.min,
+  children: [
+    // ─────────────────────────────
+    // TITLE
+    // ─────────────────────────────
+    Text(
+      'FlashChords',
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 28,
+        fontWeight: FontWeight.bold,
+        color: Colors.teal.shade700,
+      ),
+    ),
+
+    const SizedBox(height: 20),
+
+    // ─────────────────────────────
+    // START BUTTON
+    // ─────────────────────────────
+    SizedBox(
+      width: double.infinity,
+      child: ElevatedButton.icon(
+        icon: const Icon(Icons.flash_on),
+        onPressed: _preloadedItems == null
+            ? null
+            : () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => FlashcardScreen(
+                      items: _preloadedItems!,
+                      userPressedStart: true,
                     ),
                   ),
-                  const SizedBox(height: 30),
+                );
+              },
+        label: Text(t.start),
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 14),
+          textStyle: const TextStyle(fontSize: 18),
+        ),
+      ),
+    ),
 
-                  Text(
-                    t.flash_welcome1,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 22),
-                  ),
-                  const SizedBox(height: 12),
+    const SizedBox(height: 16),
 
-                  Text(
-                    t.flash_welcome2,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 20),
-                  ),
-                  const SizedBox(height: 30),
+    // ─────────────────────────────
+    // CATCH PHRASE
+    // ─────────────────────────────
+    Text(
+      t.mainCatchPhrase,
+      textAlign: TextAlign.center,
+      style: const TextStyle(
+        fontSize: 18,
+        color: Colors.black54,
+      ),
+    ),
 
-                  Text(
-                    t.flash_swipe_right,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 14, color: Colors.black54),
-                  ),
-                  const SizedBox(height: 8),
+    const SizedBox(height: 24),
 
-                  Text(
-                    t.flash_swipe_left,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 14, color: Colors.black54),
-                  ),
-                  const SizedBox(height: 8),
+    // ─────────────────────────────
+    // FEATURES
+    // ─────────────────────────────
+    Align(
+      alignment: Alignment.centerLeft,
+      child: Text(
+        t.mainFeaturesTitle,
+        style: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
 
-                  Text(
-                    t.flash_not_sure,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 14, color: Colors.black54),
-                  ),
-                  const SizedBox(height: 24),
+    const SizedBox(height: 12),
 
-                  if (_preloadedItems == null)
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const CircularProgressIndicator(),
-                        const SizedBox(height: 12),
-                        Text(t.loadingChords),
-                      ],
-                    )
-                  else ...[
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => FlashcardScreen(
-                              items: _preloadedItems!,
-                              userPressedStart: true,
-                            ),
-                          ),
-                        );
-                      },
-                      child: Text(t.start),
-                    ),
-                    const SizedBox(height: 12),
+_featureBox(
+  icon: Icons.music_note,
+  iconColor: Colors.deepPurple,
+  title: t.mainFeatures1Title,
+  content: t.mainFeatures1Content,
+),
 
-                    OutlinedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const ConfigScreen(),
-                          ),
-                        );
-                      },
-                      child: Text(t.configure), // ✅ .arb key
-                    ),
-                  ],
-                ],
-              ),
+const SizedBox(height: 10),
+
+_featureBox(
+  icon: Icons.timer_outlined,
+  iconColor: Colors.orange,
+  title: t.mainFeatures2Title,
+  content: t.mainFeatures2Content,
+),
+
+const SizedBox(height: 10),
+
+_featureBox(
+  icon: Icons.mic,
+  iconColor: Colors.green,
+  title: t.mainFeatures3Title,
+  content: t.mainFeatures3Content,
+),
+
+    const SizedBox(height: 24),
+
+    // ─────────────────────────────
+    // CONFIGURE BUTTON
+    // ─────────────────────────────
+    SizedBox(
+      width: double.infinity,
+      child: OutlinedButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const ConfigScreen(),
+            ),
+          );
+        },
+        child: Text(t.configure),
+      ),
+    ),
+  ],
+),
             ),
           ),
           const SizedBox(height: 32),

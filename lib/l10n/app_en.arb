@@ -6,13 +6,13 @@
   "start": "Start",
   "configure": "Configure",
   "mainCatchPhrase": "Learn chords in a flash!",
-  "mainFeaturesTitle: "Features",
-  "mainFeatures1Title: "Select your chords",
-  "mainFeatures1Content: "Configure which chords to focus on",
-  "mainFeatures2Title: "Timed Challenges",
-  "mainFeatures2Content: "Test yourself with customized timers",
-  "mainFeatures3Title: "Automatic Marking",
-  "mainFeatures3Content: "Let FlashChords listen to your piano",
+  "mainFeaturesTitle": "Features",
+  "mainFeatures1Title": "Select your chords",
+  "mainFeatures1Content": "Configure which chords to focus on",
+  "mainFeatures2Title": "Timed Challenges",
+  "mainFeatures2Content": "Test yourself with customized timers",
+  "mainFeatures3Title": "Automatic Marking",
+  "mainFeatures3Content": "Let FlashChords listen to your piano",
   
 
 

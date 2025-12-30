@@ -119,6 +119,54 @@ abstract class AppLocalizations {
   /// **'Configure'**
   String get configure;
 
+  /// No description provided for @mainCatchPhrase.
+  ///
+  /// In en, this message translates to:
+  /// **'Learn chords in a flash!'**
+  String get mainCatchPhrase;
+
+  /// No description provided for @mainFeaturesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Features'**
+  String get mainFeaturesTitle;
+
+  /// No description provided for @mainFeatures1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your chords'**
+  String get mainFeatures1Title;
+
+  /// No description provided for @mainFeatures1Content.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure which chords to focus on'**
+  String get mainFeatures1Content;
+
+  /// No description provided for @mainFeatures2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Timed Challenges'**
+  String get mainFeatures2Title;
+
+  /// No description provided for @mainFeatures2Content.
+  ///
+  /// In en, this message translates to:
+  /// **'Test yourself with customized timers'**
+  String get mainFeatures2Content;
+
+  /// No description provided for @mainFeatures3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic Marking'**
+  String get mainFeatures3Title;
+
+  /// No description provided for @mainFeatures3Content.
+  ///
+  /// In en, this message translates to:
+  /// **'Let FlashChords listen to your piano'**
+  String get mainFeatures3Content;
+
   /// No description provided for @language_picker_title.
   ///
   /// In en, this message translates to:

@@ -21,6 +21,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get configure => 'Configure';
 
   @override
+  String get mainCatchPhrase => 'Learn chords in a flash!';
+
+  @override
+  String get mainFeaturesTitle => 'Features';
+
+  @override
+  String get mainFeatures1Title => 'Select your chords';
+
+  @override
+  String get mainFeatures1Content => 'Configure which chords to focus on';
+
+  @override
+  String get mainFeatures2Title => 'Timed Challenges';
+
+  @override
+  String get mainFeatures2Content => 'Test yourself with customized timers';
+
+  @override
+  String get mainFeatures3Title => 'Automatic Marking';
+
+  @override
+  String get mainFeatures3Content => 'Let FlashChords listen to your piano';
+
+  @override
   String get language_picker_title => 'Select language';
 
   @override

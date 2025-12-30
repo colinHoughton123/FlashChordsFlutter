@@ -5,6 +5,16 @@
   "loadingChords": "es -Loading. chords..",
   "start": "Comenzar",
   "configure": "Configurar",
+    "mainCatchPhrase": "Learn chords in a flash!",
+  "mainFeaturesTitle": "Features",
+  "mainFeatures1Title": "Select your chords",
+  "mainFeatures1Content": "Configure which chords to focus on",
+  "mainFeatures2Title": "Timed Challenges",
+  "mainFeatures2Content": "Test yourself with customized timers",
+  "mainFeatures3Title": "Automatic Marking",
+  "mainFeatures3Content": "Let FlashChords listen to your piano",
+  
+
   "language_picker_title": "Ses- elect language",
   "language_change_tooltip": "es - Change language",
 
