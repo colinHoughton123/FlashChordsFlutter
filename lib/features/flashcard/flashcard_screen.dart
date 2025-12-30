@@ -79,6 +79,9 @@ void _logState(String where) {
 
   // 🔑 Timing (single source of truth)
   DateTime? _timingStartedAt;   // when time actually starts counting
+
+  DateTime? _firstMatchAt;
+
   DateTime? _cardShownAt;
   Duration? _resolvedElapsed;
 
@@ -260,6 +263,7 @@ void _startTimingForCurrentCard() {
 
   _lastNonNullCard = card;
 
+  _firstMatchAt = null;
   _resolvedElapsed = null;
   _timingStartedAt = null;   // 🔑 reset
 
@@ -311,27 +315,83 @@ void _revealBack() {
   // Detection
   // ============================================================
 
- void _handleDetectedNotes(Set<String> detected) {
+Future<void> _handleDetectedNotes(Set<String> detected) async {
   _logState('_handleDetectedNotes ENTER');
   _log('🎯 detected=$detected');
 
-  if (!_evaluationEnabled) { _log('🎯 ignore: evaluation disabled'); return; }
-  if (!_cardFrontVisible) { _log('🎯 ignore: front not visible'); return; }
-  if (_autoMarked) { _log('🎯 ignore: already autoMarked'); return; }
+  // ------------------------------------------------------------
+  // Guard rails
+  // ------------------------------------------------------------
+  if (!_evaluationEnabled) {
+    _log('🎯 ignore: evaluation disabled');
+    return;
+  }
+  if (!_cardFrontVisible) {
+    _log('🎯 ignore: front not visible');
+    return;
+  }
+  if (_autoMarked) {
+    _log('🎯 ignore: already autoMarked');
+    return;
+  }
 
-  final confirmedAt = ChordDetectionService.instance.evaluateCandidate(detected);
+  final card = _engine.currentCard;
+  if (card == null) {
+    _log('🎯 ignore: no current card');
+    return;
+  }
+
+  final targetNotes = card.noteSet;
+
+  // ------------------------------------------------------------
+  // 🔑 STEP 1: LOCK ELAPSED TIME ON *FIRST* MATCHING FRAME
+  // ------------------------------------------------------------
+  if (_firstMatchAt == null &&
+      _timingStartedAt != null &&
+      detected.containsAll(targetNotes)) {
+
+    _firstMatchAt = DateTime.now();
+
+    _resolvedElapsed =
+        _firstMatchAt!.difference(_timingStartedAt!);
+
+    _log(
+      '⏱ FIRST MATCH — elapsed locked at '
+      '${_resolvedElapsed!.inMilliseconds} ms '
+      '(startedAt=$_timingStartedAt firstMatchAt=$_firstMatchAt)'
+    );
+  }
+
+  // ------------------------------------------------------------
+  // STEP 2: RUN CONFIRMATION LOGIC (noise filtering)
+  // ------------------------------------------------------------
+  final confirmedAt =
+      ChordDetectionService.instance.evaluateCandidate(detected);
 
   if (confirmedAt == null) {
     _log('🎯 candidate not confirmed');
     return;
   }
 
+  // ------------------------------------------------------------
+  // STEP 3: CONFIRMED — AUTO-CORRECT
+  // ------------------------------------------------------------
   _log('✅ CONFIRMED by listener at $confirmedAt');
-  _autoMarked = true;
-  _previousCorrectTargetNotes = _engine.currentCard?.noteSet;
 
-  // reveal back, but DO NOT re-resolve elapsed if already resolved
-  _revealBack();
+  _autoMarked = true;
+  _previousCorrectTargetNotes = targetNotes;
+
+  // Safety: if for some reason first-match never fired,
+  // fall back to "now" exactly once (should be rare)
+  if (_resolvedElapsed == null) {
+    _log('⚠️ fallback: resolving elapsed at confirmation time');
+    _ensureResolvedElapsed('listenerConfirmedFallback');
+  }
+
+  _log('🧭 [FlashcardScreen] 🎯 AUTO-CORRECT by listener');
+
+  // Treat exactly like a correct swipe
+  await _handleCorrect();
 }
 
   // ============================================================
