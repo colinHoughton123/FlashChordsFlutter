@@ -1,36 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flashchords/l10n/app_localizations.dart';
+import 'package:flashchords/l10n/language_options.dart';
 
-import '../../app/localization/locale_provider.dart';
+class LanguagePickerDialog extends StatelessWidget {
+  final void Function(String code) onSelected;
 
-class LanguagePickerDialog extends ConsumerWidget {
-  const LanguagePickerDialog({super.key});
+  const LanguagePickerDialog({
+    super.key,
+    required this.onSelected,
+  });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final controller = ref.read(localeProvider.notifier);
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
 
     return AlertDialog(
-      title: const Text("Select Language / Seleccionar idioma"),
+      title: Text(t.language_picker_title),
       content: Column(
         mainAxisSize: MainAxisSize.min,
-        children: [
-          _buildOption(context, controller, 'en', 'English'),
-          _buildOption(context, controller, 'es', 'Español'),
- 
-        ],
+        children: kSupportedLanguages.map((lang) {
+          return ListTile(
+            title: Text(lang.label), // English / Español / Français
+            onTap: () {
+              onSelected(lang.code);
+              Navigator.pop(context);
+            },
+          );
+        }).toList(),
       ),
-    );
-  }
-
-  Widget _buildOption(
-      BuildContext context, LocaleController controller, String code, String label) {
-    return ListTile(
-      title: Text(label),
-      onTap: () {
-        controller.setLocale(Locale(code));
-        Navigator.pop(context);
-      },
     );
   }
 }

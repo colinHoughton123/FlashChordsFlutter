@@ -99,26 +99,26 @@ class _ConfigScreenState extends ConsumerState<ConfigScreen> {
   bool get _hasUnsavedChanges =>
       !_ConfigSnapshot.fromState(this).equals(_initialConfig);
 
-  Future<bool> _confirmDiscardChanges(AppLocalizations t) async {
-    final result = await showDialog<bool>(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: Text(t.summary_unsaved_changes_title),
-        content: Text(t.summary_unsaved_changes_body),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text(t.cancel),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: Text(t.summary_discard),
-          ),
-        ],
-      ),
-    );
-    return result ?? false;
-  }
+ Future<bool> _confirmDiscardChanges(AppLocalizations t) async {
+  final result = await showDialog<bool>(
+    context: context,
+    builder: (_) => AlertDialog(
+      title: Text(t.summary_unsaved_changes_title),
+      content: Text(t.summary_unsaved_changes_body),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context, false),
+          child: Text(t.cancel),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context, true),
+          child: Text(t.summary_discard),
+        ),
+      ],
+    ),
+  );
+  return result ?? false;
+}
 
   // --------------------------
   // BUILD
@@ -137,8 +137,19 @@ class _ConfigScreenState extends ConsumerState<ConfigScreen> {
       child: Scaffold(
         backgroundColor: Colors.grey.shade100,
         appBar: AppBar(
-          title: Text(t.configTitle),
-        ),
+  title: Text(t.configTitle),
+  leading: IconButton(
+    icon: const Icon(Icons.home),
+    // tooltip: t.home, // optional if you already have this key
+    onPressed: () async {
+      if (_hasUnsavedChanges) {
+        final discard = await _confirmDiscardChanges(t);
+        if (!discard) return;
+      }
+      Navigator.pop(context);
+    },
+  ),
+),
         body: SafeArea(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
@@ -369,13 +380,14 @@ Widget _buildChickletGroup({
   }
 
   Widget _buildListenModeCheckbox() {
-    return CheckboxListTile(
-      title: const Text("Enable Listening Mode (Future Feature)"),
-      value: _listenEnabled,
-      onChanged: (v) => setState(() => _listenEnabled = v ?? false),
-    );
-  }
+  final t = AppLocalizations.of(context)!;
 
+  return CheckboxListTile(
+    title: Text(t.configListener),
+    value: _listenEnabled,
+    onChanged: (v) => setState(() => _listenEnabled = v ?? false),
+  );
+}
   Widget _buildTimerSlider(String label) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

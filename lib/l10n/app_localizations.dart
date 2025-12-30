@@ -119,11 +119,17 @@ abstract class AppLocalizations {
   /// **'Configure'**
   String get configure;
 
-  /// No description provided for @selectLanguage.
+  /// No description provided for @language_picker_title.
   ///
   /// In en, this message translates to:
-  /// **'Select Language'**
-  String get selectLanguage;
+  /// **'Select language'**
+  String get language_picker_title;
+
+  /// No description provided for @language_change_tooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Change language'**
+  String get language_change_tooltip;
 
   /// No description provided for @configTitle.
   ///
@@ -166,6 +172,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save'**
   String get saveButton;
+
+  /// No description provided for @configListener.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable the microphone to listen and mark Correct'**
+  String get configListener;
 
   /// No description provided for @configAtLeastOneOption.
   ///

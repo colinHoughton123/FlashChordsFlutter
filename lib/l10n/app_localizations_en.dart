@@ -21,7 +21,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get configure => 'Configure';
 
   @override
-  String get selectLanguage => 'Select Language';
+  String get language_picker_title => 'Select language';
+
+  @override
+  String get language_change_tooltip => 'Change language';
 
   @override
   String get configTitle => 'Configuration';
@@ -43,6 +46,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get saveButton => 'Save';
+
+  @override
+  String get configListener => 'Enable the microphone to listen and mark Correct';
 
   @override
   String get configAtLeastOneOption => 'At least one option must be selected in this section. Re-selecting the last option. Please try again.';

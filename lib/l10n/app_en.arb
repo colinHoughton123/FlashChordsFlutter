@@ -5,7 +5,11 @@
   "loadingChords": "Loading chords...",
   "start": "Start",
   "configure": "Configure",
-  "selectLanguage": "Select Language",
+
+
+  "language_picker_title": "Select language",
+  "language_change_tooltip": "Change language",
+
 
   "configTitle": "Configuration",
   "configSelectRoots": "Select Chords",
@@ -14,6 +18,7 @@
   "configEnableTimer": "Enable Timer",
   "configTimerSeconds": "Timer (seconds)",
   "saveButton": "Save",
+  "configListener": "Enable the microphone to listen and mark Correct",
 
   "configAtLeastOneOption": "At least one option must be selected in this section. Re-selecting the last option. Please try again.",
 

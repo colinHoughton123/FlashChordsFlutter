@@ -21,7 +21,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get configure => 'Configurar';
 
   @override
-  String get selectLanguage => 'Seleccionar idioma';
+  String get language_picker_title => 'Ses- elect language';
+
+  @override
+  String get language_change_tooltip => 'es - Change language';
 
   @override
   String get configTitle => 'Configuración';
@@ -43,6 +46,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get saveButton => 'Guardar';
+
+  @override
+  String get configListener => 'es - Enable the microphone to listen and mark Correct';
 
   @override
   String get configAtLeastOneOption => 'Debe haber al menos una opción seleccionada en esta sección. Re–seleccionando la última opción. Por favor, inténtelo de nuevo.';
@@ -227,16 +233,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get summary_average_time_all => 'es- Average time (all chords)';
 
   @override
-  String get summary_unsaved_changes_title => 'You have not saved your changes';
+  String get summary_unsaved_changes_title => 'es -You have not saved your changes';
 
   @override
-  String get summary_unsaved_changes_body => 'You made a change in the configuration.  If you want to save, press CANCEL now, then press SAVE.';
+  String get summary_unsaved_changes_body => 'es -You made a change in the configuration.  If you want to save, press CANCEL now, then press SAVE.';
 
   @override
-  String get summary_discard => 'Discard changes';
+  String get summary_discard => 'es- Discard changes';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancel => 'es -Cancel';
 
   @override
   String get listeningActive => 'es - Listening…';

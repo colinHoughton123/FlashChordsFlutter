@@ -202,6 +202,19 @@ Duration _ensureResolvedElapsed(String reason) {
   // ============================================================
 
 Future<void> _startListeningIfNeeded() async {
+
+
+  debugPrint(
+    '🎧 _startListeningIfNeeded ENTER '
+    '| userPressedStart=${widget.userPressedStart} '
+    '| listeningEnabled=$_listeningEnabled '
+    '| engineReady=$_engineReady '
+    '| audioStarted=$_audioStarted '
+    '| audioStarting=$_audioStarting '
+    '| frontVisible=$_cardFrontVisible'
+  );
+
+
   _logState('_startListeningIfNeeded ENTER');
 
   if (!_listeningEnabled) { _log('🎧 skip: listening disabled in settings'); return; }
@@ -239,8 +252,9 @@ Future<void> _startListeningIfNeeded() async {
           }
         });
 
+debugPrint('🎧 CALLING ChordDetectionService.start()');
     await ChordDetectionService.instance.start();
-
+debugPrint('🎙 ChordDetectionService.start() COMPLETED');
     if (!mounted) return;
     _audioStarted = true;
     _log('🎙 audio STARTED ✅');
@@ -527,12 +541,22 @@ Future<void> _showSummary() async {
            // final remaining = widget.items.length - played;
 final played = _engine.totalCorrect + _engine.totalIncorrect;
 final remaining = _engine.deckSize - played;
+
 return Scaffold(
   backgroundColor: Colors.grey.shade100,
 
   appBar: AppBar(
-    backgroundColor: const Color(0xFFF3E5F5), // 👈 washed purple
+    backgroundColor: const Color(0xFFF3E5F5), // washed purple
     elevation: 0,
+
+    leading: IconButton(
+      icon: const Icon(Icons.home),
+      // tooltip: t.home, // localize if desired
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    ),
+
     title: Text(
       _engine.usingErrorDeck
           ? t.flash_playing_wrong
@@ -542,37 +566,56 @@ return Scaffold(
         fontWeight: FontWeight.w600,
       ),
     ),
+
     iconTheme: const IconThemeData(color: Colors.black87),
   ),
 
   body: Column(
     children: [
       // ─────────────────────────────────────
-      // TOP STATUS BAR (single line)
+      // TOP STATUS BAR (RESPONSIVE)
       // ─────────────────────────────────────
-      Container(
-        color: Colors.grey.shade100,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              '${t.flash_incorrectCountLabel}: ${_engine.totalIncorrect}',
-              style: const TextStyle(fontSize: 14),
-            ),
-            Text(
-              '$played ${t.flash_playedLabel} '
-              '$remaining ${t.flash_toGoLabel}',
-              style: const TextStyle(
-                fontSize: 13,
-                color: Colors.black54,
-              ),
-            ),
-            Text(
-              '${t.flash_correctCountLabel}: ${_engine.totalCorrect}',
-              style: const TextStyle(fontSize: 14),
-            ),
-          ],
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final isNarrow = constraints.maxWidth < 360;
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        '${t.flash_incorrectCountLabel}: ${_engine.totalIncorrect}',
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontSize: 14),
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        '${t.flash_correctCountLabel}: ${_engine.totalCorrect}',
+                        textAlign: TextAlign.end,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontSize: 14),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  '$played ${t.flash_playedLabel} • '
+                  '$remaining ${t.flash_toGoLabel}',
+                  textAlign: isNarrow ? TextAlign.start : TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: Colors.black54,
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
 
@@ -606,7 +649,7 @@ return Scaffold(
         Padding(
           padding: const EdgeInsets.only(bottom: 8),
           child: Text(
-            'Listening…',
+            t.listeningActive, // localize if you want
             style: TextStyle(
               color: Colors.green.shade700,
               fontStyle: FontStyle.italic,
@@ -614,35 +657,42 @@ return Scaffold(
           ),
         ),
 
-      // ─────────────────────────────────────
-      // SPACE BETWEEN CARD AND BOTTOM BAR
-      // ─────────────────────────────────────
-      const SizedBox(height: 6),
+      const SizedBox(height: 8),
 
       // ─────────────────────────────────────
-      // BOTTOM BAR: AVERAGE + TIMER
+      // BOTTOM BAR (RESPONSIVE)
       // ─────────────────────────────────────
       if (_timerEnabled)
-        Container(
-          color: Colors.pink.shade50,
-          padding: const EdgeInsets.fromLTRB(12, 8, 12, 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                '${t.flash_averageTimeLabel} '
-                '${_engine.averageSecondsAll.toStringAsFixed(1)} s',
-                style: const TextStyle(fontSize: 14),
-              ),
-              Text(
-                '${t.flash_timeLabel}: $_remainingSeconds s',
-                style: const TextStyle(fontSize: 14),
-              ),
-            ],
+        SafeArea(
+          top: false,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    '${t.flash_averageTimeLabel} '
+                    '${_engine.averageSecondsAll.toStringAsFixed(1)} s',
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontSize: 14),
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    '${t.flash_timeLabel}: $_remainingSeconds s',
+                    textAlign: TextAlign.end,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontSize: 14),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
     ],
   ),
 );
+
+
   }
 }

@@ -5,7 +5,9 @@
   "loadingChords": "es -Loading. chords..",
   "start": "Comenzar",
   "configure": "Configurar",
-  "selectLanguage": "Seleccionar idioma",
+  "language_picker_title": "Ses- elect language",
+  "language_change_tooltip": "es - Change language",
+
 
   "configTitle": "Configuración",
   "configSelectRoots": "Seleccione notas raíz",
@@ -14,6 +16,8 @@
   "configEnableTimer": "Activar temporizador",
   "configTimerSeconds": "Temporizador (segundos)",
   "saveButton": "Guardar",
+  "configListener": "es - Enable the microphone to listen and mark Correct",
+
 
   "configEnableListening": "Activar modo de escucha (función futura)",
   "configEnableListeningDesc": "Marcado automático como correcto si la detección coincide.",
@@ -86,6 +90,10 @@
   "summary_average_time_correct": "es- Average time (correct chords)",
   "summary_average_time_all": "es- Average time (all chords)",
   "summary_seconds": "es -seconds",
+  "summary_unsaved_changes_title": "es -You have not saved your changes",
+  "summary_unsaved_changes_body": "es -You made a change in the configuration.  If you want to save, press CANCEL now, then press SAVE.",
+  "summary_discard": "es- Discard changes",
+  "cancel": "es -Cancel",
   "listeningActive": "es - Listening…",
   "listeningInactive": "es - Listening paused",
 "flash_error_101": "es - Audio input is not permitted.",
