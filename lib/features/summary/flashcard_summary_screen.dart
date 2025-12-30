@@ -42,8 +42,15 @@ class FlashcardSummaryScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
-        title: Text(t.summary_title),
-      ),
+  leading: IconButton(
+    icon: const Icon(Icons.home),
+    // tooltip: t.summary_done, // localized tooltip
+    onPressed: () {
+      Navigator.pop(context, 'done');
+    },
+  ),
+  title: Text(t.summary_title),
+),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(

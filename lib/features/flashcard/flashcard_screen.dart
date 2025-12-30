@@ -52,13 +52,37 @@ class _FlashcardScreenState extends ConsumerState<FlashcardScreen>
     with WidgetsBindingObserver {
 
 
+@override
+void didChangeAppLifecycleState(AppLifecycleState state) {
+
+
+
+  debugPrint('🧬 LIFECYCLE CHANGE → $state '
+    '| audioStarted=$_audioStarted '
+    '| audioStarting=$_audioStarting');
+
+if (state == AppLifecycleState.inactive ||
+      state == AppLifecycleState.paused) {
+    ChordDetectionService.instance.hardStop();
+    _audioStarted = false;
+  }
+
+}
+
+
 void _log(String msg) {
   debugPrint('🧭 [FlashcardScreen] $msg');
 }
 
 
 void _logState(String where) {
-  final card = _engine.currentCard ?? _lastNonNullCard;
+
+  final engine = _engine;
+if (engine == null) return;
+
+// final card = engine.currentCard ?? _lastNonNullCard;
+
+  final card = engine.currentCard ?? _lastNonNullCard;
   _log('$where | '
       'card=${card?.root}_${card?.chordType}_${card?.inversion.index} '
       'front=$_cardFrontVisible eval=$_evaluationEnabled auto=$_autoMarked '
@@ -69,7 +93,7 @@ void _logState(String where) {
 
 
   FlashcardItem? _lastNonNullCard;  
-  late FlashcardEngine _engine;
+  FlashcardEngine? _engine;   // ← nullable, NOT late
   bool _engineReady = false;
 
   //final GlobalKey<FlashcardWidgetState> _cardKey =
@@ -135,13 +159,18 @@ Duration _ensureResolvedElapsed(String reason) {
   @override
   void initState() {
     super.initState();
+    debugPrint('🚀 FlashcardScreen.initState userPressedStart=${widget.userPressedStart}');
+
     WidgetsBinding.instance.addObserver(this);
     _init();
   }
 
   Future<void> _init() async {
+    debugPrint('⚙️ _init START');
+
     await _loadSettings();
     await _initEngine();
+    debugPrint('⚙️ _init AFTER engineReady=$_engineReady');
 
     if (!mounted) return;
 
@@ -194,7 +223,12 @@ Duration _ensureResolvedElapsed(String reason) {
 
     if (orderMode == 'random') filtered.shuffle();
 
-    _engine = FlashcardEngine(filtered.isEmpty ? widget.items : filtered);
+//final engine = _engine;
+//if (engine == null) return;
+_engine = FlashcardEngine(
+  filtered.isEmpty ? widget.items : filtered,
+);
+   //  _engine = FlashcardEngine(filtered.isEmpty ? widget.items : filtered);
   }
 
   // ============================================================
@@ -271,7 +305,10 @@ debugPrint('🎙 ChordDetectionService.start() COMPLETED');
   // ============================================================
 
 void _startTimingForCurrentCard() {
-  final card = _engine.currentCard ?? _lastNonNullCard;
+  final engine = _engine;
+if (engine == null) return;
+
+  final card = engine.currentCard ?? _lastNonNullCard;
   if (card == null) return;
 
   debugPrint('⏱ startTimingForCurrentCard for ${card.writtenAs}');
@@ -350,7 +387,10 @@ Future<void> _handleDetectedNotes(Set<String> detected) async {
     return;
   }
 
-  final card = _engine.currentCard;
+final engine = _engine;
+if (engine == null) return;
+
+  final card = engine.currentCard;
   if (card == null) {
     _log('🎯 ignore: no current card');
     return;
@@ -414,6 +454,16 @@ Future<void> _handleDetectedNotes(Set<String> detected) async {
   // ============================================================
 
  void _onCardFrontShown() {
+  final engine = _engine;
+if (engine == null) return;
+
+  debugPrint(
+    '👀 onFrontShown fired '
+    '| card=${engine.currentCard?.writtenAs} '
+    '| userPressedStart=${widget.userPressedStart}'
+  );
+
+
   _log('👀 onFrontShown fired');
   if (_frontEverShown) { _log('👀 ignored: already shown once'); return; }
   _frontEverShown = true;
@@ -428,13 +478,20 @@ Future<void> _handleDetectedNotes(Set<String> detected) async {
   // Handlers
   // ============================================================
 Future<void> _handleCorrect() async {
-  debugPrint('🟩 handleCorrect fired currentCard=${_engine.currentCard}');
+  final engine = _engine;
+if (engine == null) return;
+
+debugPrint('🟩 handleCorrect fired currentCard=${engine.currentCard}');
   _timer?.cancel();
 
   final elapsed = _ensureResolvedElapsed('handleCorrect');
-  _engine.markCorrect(elapsed);
 
-  if (_engine.deckFinished) {
+
+engine.markCorrect(elapsed);
+
+
+
+  if (engine.deckFinished) {
     await _showSummary();
     return;
   }
@@ -444,13 +501,15 @@ Future<void> _handleCorrect() async {
 }
 
 Future<void> _handleIncorrect() async {
-  debugPrint('🟥 handleIncorrect fired currentCard=${_engine.currentCard}');
+  final engine = _engine;
+if (engine == null) return;
+  debugPrint('🟥 handleIncorrect fired currentCard=${engine.currentCard}');
   _timer?.cancel();
 
   final elapsed = _ensureResolvedElapsed('handleIncorrect');
-  _engine.markIncorrect(elapsed);
+  engine.markIncorrect(elapsed);
 
-  if (_engine.deckFinished) {
+  if (engine.deckFinished) {
     await _showSummary();
     return;
   }
@@ -459,43 +518,52 @@ Future<void> _handleIncorrect() async {
   _startTimingForCurrentCard();
 }
 
-void _exitToMainMenu() {
+Future<void> _exitToMainMenu() async {
   debugPrint('🏁 Done — returning to main menu');
+
+  await ChordDetectionService.instance.hardStop();
+
+  if (!mounted) return;
   Navigator.of(context).pop();
-
-
 }
 
 
 void _restartFromSummary() {
   debugPrint('🔁 Restart requested from summary');
 
-  setState(() {
-    _engine.startErrorsDeckOrRestartMain(); // IMPORTANT: this must respect error deck state
-    _startTimingForCurrentCard();
-  });
+
+final engine = _engine;
+if (engine == null) return;
+
+setState(() {
+  engine.startErrorsDeckOrRestartMain();
+  _startTimingForCurrentCard();
+});
 }
 
 
 Future<void> _showSummary() async {
+  final engine = _engine;
+if (engine == null) return;
+
   debugPrint('📊 SUMMARY DATA as from _showSummary');
-  debugPrint('   correct=${_engine.totalCorrect}');
-  debugPrint('   incorrect=${_engine.totalIncorrect}');
-  debugPrint('   avgCorrect=${_engine.averageSecondsCorrect}');
-  debugPrint('   avgAll=${_engine.averageSecondsAll}');
+  debugPrint('   correct=${engine.totalCorrect}');
+  debugPrint('   incorrect=${engine.totalIncorrect}');
+  debugPrint('   avgCorrect=${engine.averageSecondsCorrect}');
+  debugPrint('   avgAll=${engine.averageSecondsAll}');
 
   final result = await Navigator.push<String>(
     context,
     MaterialPageRoute(
       builder: (_) => FlashcardSummaryScreen(
-        totalCorrect: _engine.totalCorrect,
-        totalIncorrect: _engine.totalIncorrect,
-        totalCards: _engine.totalCorrect + _engine.totalIncorrect,
-        averageSecondsCorrect: _engine.averageSecondsCorrect,
-        averageSecondsAll: _engine.averageSecondsAll,
+        totalCorrect: engine.totalCorrect,
+        totalIncorrect: engine.totalIncorrect,
+        totalCards: engine.totalCorrect + engine.totalIncorrect,
+        averageSecondsCorrect: engine.averageSecondsCorrect,
+        averageSecondsAll: engine.averageSecondsAll,
         showAverage: _timerEnabled,
-        hadErrors: _engine.hasErrorsForNextRound,
-        isErrorDeck: _engine.usingErrorDeck,
+        hadErrors: engine.hasErrorsForNextRound,
+        isErrorDeck: engine.usingErrorDeck,
       ),
     ),
   );
@@ -522,27 +590,46 @@ Future<void> _showSummary() async {
   // BUILD
   // ============================================================
 
-  @override
-  Widget build(BuildContext context) {
-    final t = AppLocalizations.of(context)!;
+@override
+Widget build(BuildContext context) {
+  final t = AppLocalizations.of(context)!;
 
-    if (!_engineReady) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
+  // ✅ FIRST: guard engine existence
+   if (_engine == null || !_engineReady) {
+    debugPrint('🏗 build FlashcardScreen | engine not ready');
+    return const Scaffold(
+      body: Center(child: CircularProgressIndicator()),
+    );
+  }
 
-    final card = _engine.currentCard;
-    if (card == null) return const SizedBox.shrink();
+  // 🔑 From here on, engine is GUARANTEED
+  final engine = _engine!;
 
+  debugPrint(
+    '🏗 build FlashcardScreen '
+    '| card=${engine.currentCard?.writtenAs} '
+    '| audioStarted=$_audioStarted'
+  );
+
+  // (optional, if you still want this flag)
+  if (!_engineReady) {
+    return const Scaffold(
+      body: Center(child: CircularProgressIndicator()),
+    );
+  }
+
+  final card = engine.currentCard;
+  if (card == null) {
+    return const SizedBox.shrink();
+  }
 
   final cardId = '${card.root}_${card.chordType}_${card.inversion.index}';
 
+  final played = engine.totalCorrect + engine.totalIncorrect;
+  final remaining = engine.deckSize - played;
 
-            //final played = _engine.totalCorrect + _engine.totalIncorrect;
-           // final remaining = widget.items.length - played;
-final played = _engine.totalCorrect + _engine.totalIncorrect;
-final remaining = _engine.deckSize - played;
-
-return Scaffold(
+  return Scaffold(
+    // ⬅️ rest of your scaffold exactly as before
   backgroundColor: Colors.grey.shade100,
 
   appBar: AppBar(
@@ -552,13 +639,11 @@ return Scaffold(
     leading: IconButton(
       icon: const Icon(Icons.home),
       // tooltip: t.home, // localize if desired
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
+      onPressed: _exitToMainMenu,
     ),
 
     title: Text(
-      _engine.usingErrorDeck
+      engine.usingErrorDeck
           ? t.flash_playing_wrong
           : t.flash_playing_main,
       style: const TextStyle(
@@ -588,14 +673,14 @@ return Scaffold(
                   children: [
                     Expanded(
                       child: Text(
-                        '${t.flash_incorrectCountLabel}: ${_engine.totalIncorrect}',
+                        '${t.flash_incorrectCountLabel}: ${engine.totalIncorrect}',
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(fontSize: 14),
                       ),
                     ),
                     Expanded(
                       child: Text(
-                        '${t.flash_correctCountLabel}: ${_engine.totalCorrect}',
+                        '${t.flash_correctCountLabel}: ${engine.totalCorrect}',
                         textAlign: TextAlign.end,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(fontSize: 14),
@@ -672,7 +757,7 @@ return Scaffold(
                 Expanded(
                   child: Text(
                     '${t.flash_averageTimeLabel} '
-                    '${_engine.averageSecondsAll.toStringAsFixed(1)} s',
+                    '${engine.averageSecondsAll.toStringAsFixed(1)} s',
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(fontSize: 14),
                   ),

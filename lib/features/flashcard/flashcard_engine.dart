@@ -14,7 +14,7 @@ class FlashcardEngine {
   // Total time spent on cards answered CORRECTLY
   Duration _totalCorrectTime = Duration.zero;
 
-  
+  // int get deckSize => _currentDeck.length;
 
   int _correctCount = 0;
 

@@ -5,6 +5,7 @@ import 'package:flashchords/features/config/config_screen.dart';
 import 'package:flashchords/features/flashcard/flashcard_screen.dart';
 import 'package:flashchords/models/flashcard_item.dart';
 import 'package:flashchords/data/chord_xml_parser.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // ✅ dialog is in features/welcome
 import 'package:flashchords/features/welcome/language_picker_dialog.dart';
@@ -61,9 +62,12 @@ return Scaffold(
     showDialog(
       context: context,
       builder: (_) => LanguagePickerDialog(
-        onSelected: (code) {
-          widget.onLanguageChanged(code);
-        },
+        onSelected: (code) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setString('preferred_language', code);
+
+  widget.onLanguageChanged(code);
+},
       ),
     );
   },

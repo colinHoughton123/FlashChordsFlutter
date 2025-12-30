@@ -20,7 +20,7 @@ class LanguagePickerDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: kSupportedLanguages.map((lang) {
           return ListTile(
-            title: Text(lang.label), // English / Español / Français
+            title: Text(lang.label),
             onTap: () {
               onSelected(lang.code);
               Navigator.pop(context);

@@ -30,7 +30,10 @@ class DetectedNotesFrame {
 }
 
 class ChordDetectionService {
-  ChordDetectionService._internal();
+  ChordDetectionService._internal(){
+
+    debugPrint('⚠️ ChordDetectionService CONSTRUCTOR');
+  }
   static final ChordDetectionService instance = ChordDetectionService._internal();
 
 
@@ -118,9 +121,9 @@ void prepareForNextCard() {
   /// IMPORTANT: This function is now "fail-safe".
   /// If mic init fails (permission/session/etc), we do NOT throw.
   /// We simply don't start listening, and the app keeps running.
-  Future<void> start() {
+  Future<void> start() async {
 
-
+debugPrint('🎙 ChordDetectionService.start() ENTER');
 
 
   // If we *think* we’re running, or we have a stale start in flight,
