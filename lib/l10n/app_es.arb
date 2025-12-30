@@ -17,6 +17,7 @@
   "configTimerSeconds": "Temporizador (segundos)",
   "saveButton": "Guardar",
   "configListener": "es - Enable the microphone to listen and mark Correct",
+"configOK": "es- OK",
 
 
   "configEnableListening": "Activar modo de escucha (función futura)",
@@ -54,6 +55,7 @@
   "flash_averageTimeLabel": "Tiempo promedio:",
   "flash_timeLabel": "Tiempo",
   "flash_timerCancelled": "sp=Timer cancelled",
+  "flash_reveal": "Show Chord",
 
   "flash_play_instruction": "Toque el siguiente acorde seleccionado aleatoriamente",
   "flash_swipe_right": "Deslice a la derecha si lo tocó correctamente",

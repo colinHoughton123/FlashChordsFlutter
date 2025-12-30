@@ -332,7 +332,7 @@ if (engine == null) return;
   _remainingSeconds = _timerSeconds;
   _timer?.cancel();
 
-  // ⏱ TIMER MODE (no listener)
+  // ⏱ TIMER MODE (no listener). 
   if (_timerEnabled && !_listeningEnabled) {
     _timingStartedAt = DateTime.now();
   }
@@ -352,15 +352,17 @@ if (engine == null) return;
 
 void _revealBack() {
   _log('🃏 revealBack requested');
-  _ensureResolvedElapsed('revealBack');
-  _evaluationEnabled = false;
-  _cardFrontVisible = false;
 
-  // IMPORTANT: actually show the back via widget callback
-  // (you said timeout “show back” was lost — this is usually why)
-  // Make sure FlashcardWidget has a method or callback to flip.
-  // If you have widget.showBack (as you pasted), call it:
-  // widget.showBack();  <-- see note below (belongs inside widget)
+  setState(() {
+    _ensureResolvedElapsed('revealBack');
+    _evaluationEnabled = false;
+    _cardFrontVisible = false;
+
+    // Optional polish
+    if (!_timerEnabled) {
+      _remainingSeconds = 0;
+    }
+  });
 }
 
   // ============================================================
@@ -717,6 +719,7 @@ Widget build(BuildContext context) {
             cardTitle: _localizedChordName(t, card.chordName),
             inversion: card.inversion,
             imageAssetPaths: card.imagePaths,
+            noteSet: card.noteSet,
             showBack: !_cardFrontVisible,
             onSwipeLeft: _handleIncorrect,
             onSwipeRight: _handleCorrect,

@@ -54,6 +54,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get configAtLeastOneOption => 'Debe haber al menos una opción seleccionada en esta sección. Re–seleccionando la última opción. Por favor, inténtelo de nuevo.';
 
   @override
+  String get configOK => 'es- OK';
+
+  @override
   String get configEnableListening => 'Activar modo de escucha (función futura)';
 
   @override
@@ -133,6 +136,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get flash_timerCancelled => 'sp=Timer cancelled';
+
+  @override
+  String get flash_reveal => 'Show Chord';
 
   @override
   String get flash_play_instruction => 'Toque el siguiente acorde seleccionado aleatoriamente';

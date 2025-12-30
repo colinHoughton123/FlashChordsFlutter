@@ -7,42 +7,44 @@ import 'package:flutter_html/flutter_html.dart';
 
 import 'package:flutter/services.dart';
 
+import 'package:flashchords/models/flashcard_item.dart';
+
 
 
 
 class FlashcardWidget extends StatefulWidget {
-  
-  final String chordLabel;              // e.g. "C Major"
+  final String chordLabel;
   final String cardTitle;
-  final InversionType inversion;        // root / first / second
+  final InversionType inversion;
   final List<String> imageAssetPaths;
+  final Set<String> noteSet;
   final bool showBack;
+
   final VoidCallback onSwipeLeft;
   final VoidCallback onSwipeRight;
   final VoidCallback? onFrontShown;
-final VoidCallback? onBackShown;
+  final VoidCallback? onBackShown;
   final VoidCallback? onRevealRequested;
-  // ✅ NEW — compensation hook
   final VoidCallback? onSwipeAnimationStarted;
 
-  final String cardId;                  // <-- NEW: unique ID per card
+  final String cardId;
 
   const FlashcardWidget({
-    super.key,
+    Key? key,
     required this.chordLabel,
-    required this.cardTitle,  // NEW
+    required this.cardTitle,
     required this.inversion,
     required this.imageAssetPaths,
-    required this.showBack,          
+    required this.noteSet,
+    required this.showBack,
     required this.onSwipeLeft,
     required this.onSwipeRight,
     required this.cardId,
-        this.onFrontShown,
+    this.onFrontShown,
     this.onBackShown,
     this.onRevealRequested,
-     // ✅ IMPORTANT: initialize the final field
     this.onSwipeAnimationStarted,
-  });
+  }) : super(key: key);
 
   @override
   FlashcardWidgetState createState() => FlashcardWidgetState();
@@ -55,6 +57,8 @@ class FlashcardWidgetState extends State<FlashcardWidget>
     with SingleTickerProviderStateMixin {
 
 late final String _dbg;
+
+
 
 bool _frontShownOnce = false;
 bool _isAnimatingOut = false;
@@ -77,6 +81,35 @@ void animateCorrect() {
 void animateIncorrect() {
  //  _animateOut(false);
 }
+
+
+List<String> _notesForInversion(
+  Set<String> rootOrderedNotes,
+  InversionType inversion,
+) {
+  final notes = rootOrderedNotes.toList(growable: false);
+
+  if (notes.isEmpty) return notes;
+
+  switch (inversion) {
+    case InversionType.root:
+      return notes;
+
+    case InversionType.first:
+      return [
+        ...notes.sublist(1),
+        notes.first,
+      ];
+
+    case InversionType.second:
+      return [
+        ...notes.sublist(2),
+        ...notes.sublist(0, 2),
+      ];
+  }
+}
+
+
 
 
 @override
@@ -488,7 +521,7 @@ Widget _buildFront({Key? key}) {
               data: widget.cardTitle,
               style: {
                 "*": Style(
-                  fontSize: FontSize(30),
+                  fontSize: FontSize(24),
                   fontWeight: FontWeight.bold,
                   textAlign: TextAlign.center,
                 ),
@@ -530,21 +563,79 @@ Widget _buildBack({Key? key}) {
     return const SizedBox.shrink();
   }
 
+  final orderedNotes = _notesForInversion(
+    widget.noteSet,
+    widget.inversion,
+  );
+
   return Container(
     key: key,
-    child: ListView(
-      children: widget.imageAssetPaths.map((path) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
+    alignment: Alignment.center,
+    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+    child: Column(
+      children: [
+        // ─────────────────────────────
+        // TITLE (same as front)
+        // ─────────────────────────────
+        Html(
+          data: widget.cardTitle,
+          style: {
+            "*": Style(
+              fontSize: FontSize(30),
+              fontWeight: FontWeight.bold,
+              textAlign: TextAlign.center,
+            ),
+          },
+        ),
+
+        Html(
+          data: widget.chordLabel,
+          style: {
+            "*": Style(
+              fontSize: FontSize(14),
+              fontWeight: FontWeight.bold,
+              textAlign: TextAlign.center,
+            ),
+          },
+        ),
+
+        const SizedBox(height: 14),
+
+        // ─────────────────────────────
+        // PIANO GRAPHIC (placeholder)
+        // ─────────────────────────────
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Image.asset(
-            path,
-            height: 110,
+            widget.imageAssetPaths.first,
             fit: BoxFit.contain,
+            width: double.infinity,
             errorBuilder: (_, __, ___) =>
                 const Icon(Icons.image_not_supported, size: 60),
           ),
-        );
-      }).toList(growable: false),
+        ),
+
+        const SizedBox(height: 14),
+
+        // ─────────────────────────────
+        // NOTE NAMES (in inversion order)
+        // ─────────────────────────────
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: orderedNotes.map((note) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Text(
+                note,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            );
+          }).toList(growable: false),
+        ),
+      ],
     ),
   );
 }

@@ -21,6 +21,7 @@
   "configListener": "Enable the microphone to listen and mark Correct",
 
   "configAtLeastOneOption": "At least one option must be selected in this section. Re-selecting the last option. Please try again.",
+  "configOK": "OK",
 
   "configEnableListening": "Enable Listening Mode (Future Feature)",
 "configEnableListeningDesc": "Automatically mark chord correct when audio detection matches.",
@@ -51,7 +52,7 @@
 "flash_averageTimeLabel": "Average Time:",
 "flash_timeLabel": "Time",
 "flash_timerCancelled": "Timer cancelled",
-
+"flash_reveal": "Show Chord",
 
 
 "flash_play_instruction": "Play the following chord\nselected randomly from the main deck",

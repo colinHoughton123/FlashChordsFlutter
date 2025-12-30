@@ -335,26 +335,45 @@ Widget _buildChickletGroup({
   // TOGGLE GUARD
   // --------------------------
 
-  void _toggleChipWithGuard({
-    required List<String> list,
-    required String value,
-    required bool selected,
-    required AppLocalizations t,
-  }) {
-    final wasSelected = list.contains(value);
-    final isLastSelected = list.length == 1 && wasSelected;
+Future<void> _showAtLeastOneRequiredDialog(AppLocalizations t) async {
+  await showDialog<void>(
+    context: context,
+    builder: (_) => AlertDialog(
+      title: Text(t.configTitle),
+      content: Text(t.configAtLeastOneOption),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(t.configOK), // 🔑 localized OK
+        ),
+      ],
+    ),
+  );
+}
 
-    if (!selected && isLastSelected) {
-      SystemError.report(301, ref);
-      return;
-    }
 
-    if (selected && !wasSelected) {
-      list.add(value);
-    } else if (!selected && wasSelected) {
-      list.remove(value);
-    }
+
+void _toggleChipWithGuard({
+  required List<String> list,
+  required String value,
+  required bool selected,
+  required AppLocalizations t,
+}) {
+  final wasSelected = list.contains(value);
+  final isLastSelected = list.length == 1 && wasSelected;
+
+if (!selected && isLastSelected) {
+  // Re-select is already implicit since we bail out
+  _showAtLeastOneRequiredDialog(t);
+  return;
+}
+
+  if (selected && !wasSelected) {
+    list.add(value);
+  } else if (!selected && wasSelected) {
+    list.remove(value);
   }
+}
 
   // --------------------------
   // OTHER UI

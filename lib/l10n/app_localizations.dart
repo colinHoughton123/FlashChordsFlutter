@@ -185,6 +185,12 @@ abstract class AppLocalizations {
   /// **'At least one option must be selected in this section. Re-selecting the last option. Please try again.'**
   String get configAtLeastOneOption;
 
+  /// No description provided for @configOK.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get configOK;
+
   /// No description provided for @configEnableListening.
   ///
   /// In en, this message translates to:
@@ -346,6 +352,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Timer cancelled'**
   String get flash_timerCancelled;
+
+  /// No description provided for @flash_reveal.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Chord'**
+  String get flash_reveal;
 
   /// No description provided for @flash_play_instruction.
   ///
