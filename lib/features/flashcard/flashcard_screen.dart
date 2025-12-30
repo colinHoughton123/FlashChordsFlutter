@@ -52,6 +52,21 @@ class _FlashcardScreenState extends ConsumerState<FlashcardScreen>
     with WidgetsBindingObserver {
 
 
+void _log(String msg) {
+  debugPrint('🧭 [FlashcardScreen] $msg');
+}
+
+
+void _logState(String where) {
+  final card = _engine.currentCard ?? _lastNonNullCard;
+  _log('$where | '
+      'card=${card?.root}_${card?.chordType}_${card?.inversion.index} '
+      'front=$_cardFrontVisible eval=$_evaluationEnabled auto=$_autoMarked '
+      'timerOn=$_timerEnabled rem=$_remainingSeconds '
+      'listenOn=$_listeningEnabled audioStarted=$_audioStarted audioStarting=$_audioStarting '
+      'shownAt=$_cardShownAt resolved=${_resolvedElapsed?.inMilliseconds}');
+}
+
 
   FlashcardItem? _lastNonNullCard;  
   late FlashcardEngine _engine;
@@ -63,6 +78,7 @@ class _FlashcardScreenState extends ConsumerState<FlashcardScreen>
   Timer? _timer;
 
   // 🔑 Timing (single source of truth)
+  DateTime? _timingStartedAt;   // when time actually starts counting
   DateTime? _cardShownAt;
   Duration? _resolvedElapsed;
 
@@ -90,18 +106,19 @@ Duration _ensureResolvedElapsed(String reason) {
     return _resolvedElapsed!;
   }
 
-  if (_cardShownAt == null) {
-    debugPrint('⚠️ elapsed unresolved (no cardShownAt)');
+  final start = _timingStartedAt;
+  if (start == null) {
+    debugPrint('⚠️ elapsed unresolved (timing never started)');
     _resolvedElapsed = Duration.zero;
     return _resolvedElapsed!;
   }
 
-  _resolvedElapsed = DateTime.now().difference(_cardShownAt!);
+  _resolvedElapsed = DateTime.now().difference(start);
 
   debugPrint(
     '⏱ resolveElapsed [$reason]: '
     '${_resolvedElapsed!.inMilliseconds} ms '
-    'shownAt=$_cardShownAt'
+    'startedAt=$start',
   );
 
   return _resolvedElapsed!;
@@ -180,114 +197,153 @@ Duration _ensureResolvedElapsed(String reason) {
   // Audio
   // ============================================================
 
-  Future<void> _startListeningIfNeeded() async {
-    if (!_listeningEnabled ||
-        !_engineReady ||
-        _audioStarted ||
-        _audioStarting ||
-        !widget.userPressedStart) {
-      return;
-    }
+Future<void> _startListeningIfNeeded() async {
+  _logState('_startListeningIfNeeded ENTER');
 
-    _audioStarting = true;
+  if (!_listeningEnabled) { _log('🎧 skip: listening disabled in settings'); return; }
+  if (!_engineReady) { _log('🎧 skip: engine not ready'); return; }
+  if (_audioStarted) { _log('🎧 skip: audio already started'); return; }
+  if (_audioStarting) { _log('🎧 skip: audio already starting'); return; }
+  if (!widget.userPressedStart) { _log('🎧 skip: userPressedStart=false'); return; }
 
-    try {
-      _listenerSub ??=
-          ChordDetectionService.instance.detectedNotesStream.listen(_handleDetectedNotes);
+  _audioStarting = true;
+  _log('🎧 starting audio + subscriptions...');
+
+  try {
+    _listenerSub ??= ChordDetectionService.instance.detectedNotesStream.listen((notes) {
+      _log('🎯 detectedNotesStream: $notes');
+      _handleDetectedNotes(notes);
+    }, onError: (e, st) {
+      _log('❌ detectedNotesStream error: $e');
+    });
 
       _frameSub ??=
-          ChordDetectionService.instance.detectedFrameStream.listen((_) {});
+            ChordDetectionService.instance.detectedFrameStream.listen((frame) {
+          // Debug
+          debugPrint(
+            '🎞 frame hz=${frame.sampleRate} emitted=${frame.emitted}',
+          );
 
-      await ChordDetectionService.instance.start();
+          // 🔑 Listener becomes "ready" when it emits real notes
+          if (_listeningEnabled &&
+              _timingStartedAt == null &&
+              frame.emitted.isNotEmpty &&
+              _evaluationEnabled) {
 
-      if (!mounted) return;
-      _audioStarted = true;
-    } finally {
-      _audioStarting = false;
-    }
+            _timingStartedAt = frame.at;
+            debugPrint('⏱ timing started (listener ready)');
+          }
+        });
+
+    await ChordDetectionService.instance.start();
+
+    if (!mounted) return;
+    _audioStarted = true;
+    _log('🎙 audio STARTED ✅');
+  } catch (e, st) {
+    _log('❌ startListeningIfNeeded exception: $e');
+  } finally {
+    _audioStarting = false;
+    _logState('_startListeningIfNeeded EXIT');
   }
+}
 
   // ============================================================
   // Timing
   // ============================================================
 
-  void _startTimingForCurrentCard() {
-    final card = _engine.currentCard ?? _lastNonNullCard;
+void _startTimingForCurrentCard() {
+  final card = _engine.currentCard ?? _lastNonNullCard;
+  if (card == null) return;
 
-if (card == null) {
-  return; // only possible at startup
-}
+  debugPrint('⏱ startTimingForCurrentCard for ${card.writtenAs}');
 
-debugPrint('⏱ startTimingForCurrentCard for ${card.writtenAs}');
+  _lastNonNullCard = card;
 
-_lastNonNullCard = card;
+  _resolvedElapsed = null;
+  _timingStartedAt = null;   // 🔑 reset
 
-    // Reset timing
-    _cardShownAt = DateTime.now();
-    _resolvedElapsed = null;
+  _evaluationEnabled = true;
+  _cardFrontVisible = true;
+  _frontEverShown = false;
+  _autoMarked = false;
 
-    _evaluationEnabled = true;
-    _cardFrontVisible = true;
-    _frontEverShown = false;
-    _autoMarked = false;
+  ChordDetectionService.instance.armForChord(
+    card.noteSet,
+    previousChordNotes: _previousCorrectTargetNotes,
+  );
 
-    ChordDetectionService.instance.armForChord(
-      card.noteSet,
-      previousChordNotes: _previousCorrectTargetNotes,
-    );
+  _remainingSeconds = _timerSeconds;
+  _timer?.cancel();
 
-    _remainingSeconds = _timerSeconds;
-    _timer?.cancel();
-
-    if (_timerEnabled) {
-      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-        if (!mounted) return;
-        setState(() => _remainingSeconds--);
-        if (_remainingSeconds <= 0) {
-          timer.cancel();
-          _revealBack();
-        }
-      });
-    }
+  // ⏱ TIMER MODE (no listener)
+  if (_timerEnabled && !_listeningEnabled) {
+    _timingStartedAt = DateTime.now();
   }
 
-void _revealBack() {
-  _ensureResolvedElapsed('timeout or user reveal');
+  if (_timerEnabled) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) return;
+      setState(() => _remainingSeconds--);
+      if (_remainingSeconds <= 0) {
+        timer.cancel();
+        _revealBack();
+      }
+    });
+  }
+}
 
-  setState(() {
-    _evaluationEnabled = false;
-    _cardFrontVisible = false; // ⬅️ THIS drives the widget
-  });
+
+void _revealBack() {
+  _log('🃏 revealBack requested');
+  _ensureResolvedElapsed('revealBack');
+  _evaluationEnabled = false;
+  _cardFrontVisible = false;
+
+  // IMPORTANT: actually show the back via widget callback
+  // (you said timeout “show back” was lost — this is usually why)
+  // Make sure FlashcardWidget has a method or callback to flip.
+  // If you have widget.showBack (as you pasted), call it:
+  // widget.showBack();  <-- see note below (belongs inside widget)
 }
 
   // ============================================================
   // Detection
   // ============================================================
 
-  void _handleDetectedNotes(Set<String> detected) {
-    if (!_evaluationEnabled || !_cardFrontVisible || _autoMarked) return;
+ void _handleDetectedNotes(Set<String> detected) {
+  _logState('_handleDetectedNotes ENTER');
+  _log('🎯 detected=$detected');
 
-    final confirmedAt =
-        ChordDetectionService.instance.evaluateCandidate(detected);
+  if (!_evaluationEnabled) { _log('🎯 ignore: evaluation disabled'); return; }
+  if (!_cardFrontVisible) { _log('🎯 ignore: front not visible'); return; }
+  if (_autoMarked) { _log('🎯 ignore: already autoMarked'); return; }
 
-    if (confirmedAt == null) return;
+  final confirmedAt = ChordDetectionService.instance.evaluateCandidate(detected);
 
-    _autoMarked = true;
-    _previousCorrectTargetNotes = _engine.currentCard?.noteSet;
-
-    // 🔑 Listener success REVEALS back — does not compute time
-    _revealBack();
+  if (confirmedAt == null) {
+    _log('🎯 candidate not confirmed');
+    return;
   }
+
+  _log('✅ CONFIRMED by listener at $confirmedAt');
+  _autoMarked = true;
+  _previousCorrectTargetNotes = _engine.currentCard?.noteSet;
+
+  // reveal back, but DO NOT re-resolve elapsed if already resolved
+  _revealBack();
+}
 
   // ============================================================
   // UI Callbacks
   // ============================================================
 
-  void _onCardFrontShown() {
-    if (_frontEverShown) return;
-    _frontEverShown = true;
-    _startListeningIfNeeded();
-  }
+ void _onCardFrontShown() {
+  _log('👀 onFrontShown fired');
+  if (_frontEverShown) { _log('👀 ignored: already shown once'); return; }
+  _frontEverShown = true;
+  _startListeningIfNeeded();
+}
 
   void _onSwipeAnimationStarted() {
     // _startTimingForCurrentCard();
