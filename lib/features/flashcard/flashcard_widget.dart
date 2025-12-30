@@ -408,29 +408,56 @@ Widget _buildCard() {
   // -----------------------------------------------------------------------------
 
 Widget _buildButtons() {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: [
-      IconButton(
-        iconSize: 40,
-        color: Colors.red,
-        icon: const Icon(Icons.close),
-        onPressed: () async {
-          await animateOut(toRight: false);
-          widget.onSwipeLeft();
-        },
-      ),
-      IconButton(
-        iconSize: 40,
-        color: Colors.green,
-        icon: const Icon(Icons.check),
-        onPressed: () async {
-          await animateOut(toRight: true);
-          widget.onSwipeRight();
-        },
-      ),
-    ],
-  );
+return Row(
+  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  children: [
+    // ❌ Incorrect
+    IconButton(
+      iconSize: 40,
+      color: Colors.red,
+      icon: const Icon(Icons.close),
+      onPressed: () async {
+        await animateOut(toRight: false);
+        widget.onSwipeLeft();
+      },
+    ),
+
+     
+    // ⚡ Reveal — FRONT ONLY
+    if (!widget.showBack)
+      Tooltip(
+        message: AppLocalizations.of(context)!.flash_reveal,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(30),
+          onTap: () {
+            widget.onRevealRequested?.call();
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8), // good hit target
+            child: Image.asset(
+              'assets/icons/flashchords_reveal.png',
+              width: 40,
+              height: 40,
+            ),
+          ),
+        ),
+      )
+    else
+      const SizedBox(width: 40), // keeps spacing stable
+
+
+    // ✅ Correct
+    IconButton(
+      iconSize: 40,
+      color: Colors.green,
+      icon: const Icon(Icons.check),
+      onPressed: () async {
+        await animateOut(toRight: true);
+        widget.onSwipeRight();
+      },
+    ),
+  ],
+);
 }
 
   // -----------------------------------------------------------------------------
