@@ -101,6 +101,24 @@ abstract class AppLocalizations {
   /// **'Welcome to FlashChords'**
   String get welcomeTitle;
 
+  /// No description provided for @welcomeUpdate_Update.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Available'**
+  String get welcomeUpdate_Update;
+
+  /// No description provided for @welcomeUpdate_Button_Later.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get welcomeUpdate_Button_Later;
+
+  /// No description provided for @welcomeUpdate_Button_Update.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get welcomeUpdate_Button_Update;
+
   /// No description provided for @loadingChords.
   ///
   /// In en, this message translates to:
@@ -140,7 +158,7 @@ abstract class AppLocalizations {
   /// No description provided for @mainFeatures1Content.
   ///
   /// In en, this message translates to:
-  /// **'Configure which chords to focus on'**
+  /// **'Configure which chords on which to focus'**
   String get mainFeatures1Content;
 
   /// No description provided for @mainFeatures2Title.

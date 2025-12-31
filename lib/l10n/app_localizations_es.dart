@@ -12,7 +12,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get welcomeTitle => 'Bienvenido a FlashChords';
 
   @override
-  String get loadingChords => 'es -Loading. chords..';
+  String get welcomeUpdate_Update => 'Actualización disponible';
+
+  @override
+  String get welcomeUpdate_Button_Later => 'Más tarde';
+
+  @override
+  String get welcomeUpdate_Button_Update => 'Actualizar';
+
+  @override
+  String get loadingChords => 'Cargando acordes...';
 
   @override
   String get start => 'Comenzar';
@@ -21,49 +30,49 @@ class AppLocalizationsEs extends AppLocalizations {
   String get configure => 'Configurar';
 
   @override
-  String get mainCatchPhrase => 'Learn chords in a flash!';
+  String get mainCatchPhrase => '¡Aprende acordes en un instante!';
 
   @override
-  String get mainFeaturesTitle => 'Features';
+  String get mainFeaturesTitle => 'Funciones';
 
   @override
-  String get mainFeatures1Title => 'Select your chords';
+  String get mainFeatures1Title => 'Selecciona tus acordes';
 
   @override
-  String get mainFeatures1Content => 'Configure which chords to focus on';
+  String get mainFeatures1Content => 'Configura en qué acordes quieres concentrarte';
 
   @override
-  String get mainFeatures2Title => 'Timed Challenges';
+  String get mainFeatures2Title => 'Desafíos cronometrados';
 
   @override
-  String get mainFeatures2Content => 'Test yourself with customized timers';
+  String get mainFeatures2Content => 'Ponte a prueba con temporizadores personalizados';
 
   @override
-  String get mainFeatures3Title => 'Automatic Marking';
+  String get mainFeatures3Title => 'Evaluación automática';
 
   @override
-  String get mainFeatures3Content => 'Let FlashChords listen to your piano';
+  String get mainFeatures3Content => 'Deja que FlashChords escuche tu piano';
 
   @override
-  String get language_picker_title => 'Ses- elect language';
+  String get language_picker_title => 'Seleccionar idioma';
 
   @override
-  String get language_change_tooltip => 'es - Change language';
+  String get language_change_tooltip => 'Cambiar idioma';
 
   @override
   String get configTitle => 'Configuración';
 
   @override
-  String get configSelectRoots => 'Seleccione notas raíz';
+  String get configSelectRoots => 'Seleccionar acordes';
 
   @override
-  String get configSelectChordTypes => 'Seleccione tipos de acordes';
+  String get configSelectChordTypes => 'Seleccionar tipos de acordes';
 
   @override
-  String get configSelectInversions => 'Seleccione inversiones';
+  String get configSelectInversions => 'Seleccionar inversiones';
 
   @override
-  String get configEnableTimer => 'Activar temporizador';
+  String get configEnableTimer => 'Habilitar temporizador';
 
   @override
   String get configTimerSeconds => 'Temporizador (segundos)';
@@ -72,19 +81,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get saveButton => 'Guardar';
 
   @override
-  String get configListener => 'es - Enable the microphone to listen and mark Correct';
+  String get configListener => 'Habilitar el micrófono para escuchar y marcar correcto';
 
   @override
-  String get configAtLeastOneOption => 'Debe haber al menos una opción seleccionada en esta sección. Re–seleccionando la última opción. Por favor, inténtelo de nuevo.';
+  String get configAtLeastOneOption => 'Debe seleccionarse al menos una opción en esta sección. La última opción se ha vuelto a seleccionar. Inténtalo de nuevo.';
 
   @override
-  String get configOK => 'es- OK';
+  String get configOK => 'Aceptar';
 
   @override
-  String get configEnableListening => 'Activar modo de escucha (función futura)';
+  String get configEnableListening => 'Habilitar modo de escucha (función futura)';
 
   @override
-  String get configEnableListeningDesc => 'Marcado automático como correcto si la detección coincide.';
+  String get configEnableListeningDesc => 'Marcar automáticamente el acorde como correcto cuando la detección de audio coincida.';
 
   @override
   String get chord_major => 'Mayor';
@@ -105,10 +114,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get chord_minor7 => 'Séptima menor';
 
   @override
-  String get chord_suspended2 => 'Suspensión 2';
+  String get chord_suspended2 => 'Suspendido 2';
 
   @override
-  String get chord_suspended4 => 'Suspensión 4';
+  String get chord_suspended4 => 'Suspendido 4';
 
   @override
   String get chord_augmented => 'Aumentado';
@@ -123,7 +132,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get inv_second => 'Segunda inversión';
 
   @override
-  String get configCardOrder => 'Orden de tarjetas';
+  String get configCardOrder => 'Orden de las cartas';
 
   @override
   String get configCardOrderRandom => 'Aleatorio';
@@ -132,10 +141,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get configCardOrderSorted => 'Ordenado';
 
   @override
-  String get flash_incorrectCountLabel => 'Incorrectas';
+  String get flash_incorrectCountLabel => 'Conteo incorrecto';
 
   @override
-  String get flash_correctCountLabel => 'Correctas';
+  String get flash_correctCountLabel => 'Conteo correcto';
 
   @override
   String get flash_playingMainDeck => 'Jugando el mazo principal';
@@ -159,40 +168,40 @@ class AppLocalizationsEs extends AppLocalizations {
   String get flash_timeLabel => 'Tiempo';
 
   @override
-  String get flash_timerCancelled => 'sp=Timer cancelled';
+  String get flash_timerCancelled => 'Temporizador cancelado';
 
   @override
-  String get flash_reveal => 'Show Chord';
+  String get flash_reveal => 'Mostrar acorde';
 
   @override
-  String get flash_play_instruction => 'Toque el siguiente acorde seleccionado aleatoriamente';
+  String get flash_play_instruction => 'Toca el siguiente acorde\nseleccionado aleatoriamente del mazo principal';
 
   @override
-  String get flash_swipe_right => 'Deslice a la derecha si lo tocó correctamente';
+  String get flash_swipe_right => 'Desliza a la derecha si lo tocaste correctamente';
 
   @override
-  String get flash_swipe_left => 'Deslice a la izquierda si lo tocó incorrectamente';
+  String get flash_swipe_left => 'Desliza a la izquierda si lo tocaste incorrectamente';
 
   @override
-  String get flash_not_sure => '¿No está seguro? Toque aquí para ver la digitación';
+  String get flash_not_sure => '¿No estás seguro? Toca la carta para ver la digitación';
 
   @override
-  String get flash_welcome1 => 'El nombre del acorde se mostrará aquí';
+  String get flash_welcome1 => 'Aquí se mostrará el nombre del acorde';
 
   @override
-  String get flash_welcome2 => 'Toca el acorde en tu piano';
+  String get flash_welcome2 => 'Tócalo en tu piano';
 
   @override
-  String get flash_incorrect_count => 'Incorrectas';
+  String get flash_incorrect_count => 'Conteo incorrecto';
 
   @override
-  String get flash_correct_count => 'Correctas';
+  String get flash_correct_count => 'Conteo correcto';
 
   @override
-  String get flash_playing_main => 'Jugando mazo principal';
+  String get flash_playing_main => 'Jugando el mazo principal';
 
   @override
-  String get flash_playing_wrong => 'Jugando errores';
+  String get flash_playing_wrong => 'Jugando los errores';
 
   @override
   String get flash_play_again => 'Jugar de nuevo';
@@ -202,7 +211,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String flash_cards_played(Object played, Object remaining) {
-    return '$played jugadas, $remaining restantes';
+    return '$played jugadas $remaining restantes';
   }
 
   @override
@@ -233,13 +242,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get summary_incorrect => 'Incorrectas';
 
   @override
-  String get summary_cards => 'Tarjetas';
+  String get summary_cards => 'Cartas';
 
   @override
   String get summary_average_time => 'Tiempo promedio';
 
   @override
-  String get summary_seconds => 'es -seconds';
+  String get summary_seconds => 'segundos';
 
   @override
   String get summary_from_main_deck => 'Mazo principal';
@@ -248,7 +257,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get summary_from_error_deck => 'Mazo de errores';
 
   @override
-  String get summary_play_again => 'Jugar otra vez';
+  String get summary_play_again => 'Jugar de nuevo';
 
   @override
   String get summary_done => 'Listo';
@@ -257,56 +266,56 @@ class AppLocalizationsEs extends AppLocalizations {
   String get summary_accuracy => 'Precisión';
 
   @override
-  String get summary_average_time_correct => 'es- Average time (correct chords)';
+  String get summary_average_time_correct => 'Tiempo promedio (acordes correctos)';
 
   @override
-  String get summary_average_time_all => 'es- Average time (all chords)';
+  String get summary_average_time_all => 'Tiempo promedio (todos los acordes)';
 
   @override
-  String get summary_unsaved_changes_title => 'es -You have not saved your changes';
+  String get summary_unsaved_changes_title => 'No has guardado tus cambios';
 
   @override
-  String get summary_unsaved_changes_body => 'es -You made a change in the configuration.  If you want to save, press CANCEL now, then press SAVE.';
+  String get summary_unsaved_changes_body => 'Hiciste un cambio en la configuración. Si deseas guardarlo, presiona CANCELAR ahora y luego GUARDAR.';
 
   @override
-  String get summary_discard => 'es- Discard changes';
+  String get summary_discard => 'Descartar cambios';
 
   @override
-  String get cancel => 'es -Cancel';
+  String get cancel => 'Cancelar';
 
   @override
-  String get listeningActive => 'es - Listening…';
+  String get listeningActive => 'Escuchando…';
 
   @override
-  String get listeningInactive => 'es - Listening paused';
+  String get listeningInactive => 'Escucha pausada';
 
   @override
-  String get flash_error_101 => 'es - Audio input is not permitted.';
+  String get flash_error_101 => 'La entrada de audio no está permitida.';
 
   @override
-  String get flash_error_101_hint => 'es - FlashChords does not have permission to access the microphone. Please enable microphone access in your device settings and restart the app.';
+  String get flash_error_101_hint => 'FlashChords no tiene permiso para acceder al micrófono. Activa el acceso al micrófono en la configuración del dispositivo y reinicia la app.';
 
   @override
-  String get flash_error_102 => 'es - Unable to start audio listening.';
+  String get flash_error_102 => 'No se pudo iniciar la escucha de audio.';
 
   @override
-  String get flash_error_102_hint => 'es - FlashChords could not initialize the audio system. Please check that no other app is using the microphone and restart the app.';
+  String get flash_error_102_hint => 'FlashChords no pudo inicializar el sistema de audio. Verifica que ninguna otra app esté usando el micrófono y reinicia la app.';
 
   @override
-  String get flash_error_103 => 'es - Audio input was interrupted.';
+  String get flash_error_103 => 'La entrada de audio fue interrumpida.';
 
   @override
-  String get flash_error_103_hint => 'es - Listening has stopped due to an audio interruption. Please check your microphone connection and restart listening.';
+  String get flash_error_103_hint => 'La escucha se detuvo debido a una interrupción de audio. Verifica tu conexión de micrófono y reinicia la escucha.';
 
   @override
-  String get flash_error_201 => 'An internal error occurred.';
+  String get flash_error_201 => 'Ocurrió un error interno.';
 
   @override
-  String get flash_error_201_hint => 'es - FlashChords encountered an unexpected error. Please restart the app. If the problem persists, contact support with this error code.';
+  String get flash_error_201_hint => 'FlashChords encontró un error inesperado. Reinicia la app. Si el problema persiste, contacta al soporte con este código de error.';
 
   @override
-  String get flash_error_301 => 'es - At least one value must be selected.';
+  String get flash_error_301 => 'Debe seleccionarse al menos un valor.';
 
   @override
-  String get flash_error_301_hint => 'es - Your last de-select has been reselected to ensure one value is selected.  To deselect it, select another value first.';
+  String get flash_error_301_hint => 'Tu última deselección fue revertida para asegurar que haya un valor seleccionado. Para deseleccionarlo, selecciona otro valor primero.';
 }

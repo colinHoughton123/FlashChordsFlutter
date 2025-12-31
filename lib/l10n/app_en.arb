@@ -2,13 +2,28 @@
   "@@locale": "en",
 
   "welcomeTitle": "Welcome to FlashChords",
+
+  "welcomeUpdate_Update": "Update Available",
+  "welcomeUpdate_Button_Later": "Later",
+  "welcomeUpdate_Button_Update": "Update",
+
+"listenerLimitReachedTitle": "Listener disabled",
+"listenerLimitReachedBody": "The listener is disabled after 1000 free card plays. Upgrade to re-enable.",
+
+"freeUsageStatus": "Free version: {played} of {limit} listener-enabled cards used",
+
+"listenerLimitDialogTitle": "Free limit reached",
+"listenerLimitDialogBody": "FlashChords will continue to work, but the listener is disabled unless you upgrade for {price}.",
+"upgrade": "Upgrade",
+"later": "Later",
+
   "loadingChords": "Loading chords...",
   "start": "Start",
   "configure": "Configure",
   "mainCatchPhrase": "Learn chords in a flash!",
   "mainFeaturesTitle": "Features",
   "mainFeatures1Title": "Select your chords",
-  "mainFeatures1Content": "Configure which chords to focus on",
+  "mainFeatures1Content": "Configure which chords on which to focus",
   "mainFeatures2Title": "Timed Challenges",
   "mainFeatures2Content": "Test yourself with customized timers",
   "mainFeatures3Title": "Automatic Marking",

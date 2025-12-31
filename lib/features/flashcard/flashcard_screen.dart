@@ -343,6 +343,10 @@ if (engine == null) return;
       setState(() => _remainingSeconds--);
       if (_remainingSeconds <= 0) {
         timer.cancel();
+          // 🔒 HARD LOCK elapsed time at exact timer duration
+  _resolvedElapsed = Duration(seconds: _timerSeconds);
+
+
         _revealBack();
       }
     });

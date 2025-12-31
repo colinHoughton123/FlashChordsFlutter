@@ -598,7 +598,7 @@ Widget _buildBack({Key? key}) {
   return Container(
     key: key,
     alignment: Alignment.center,
-    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
     child: Column(
       children: [
         // ─────────────────────────────
@@ -608,7 +608,7 @@ Widget _buildBack({Key? key}) {
           data: widget.cardTitle,
           style: {
             "*": Style(
-              fontSize: FontSize(30),
+              fontSize: FontSize(20),
               fontWeight: FontWeight.bold,
               textAlign: TextAlign.center,
             ),
@@ -619,14 +619,14 @@ Widget _buildBack({Key? key}) {
           data: widget.chordLabel,
           style: {
             "*": Style(
-              fontSize: FontSize(14),
-              fontWeight: FontWeight.bold,
+              fontSize: FontSize(10),
+              fontWeight: FontWeight.w600,
               textAlign: TextAlign.center,
             ),
           },
         ),
 
-        const SizedBox(height: 14),
+        const SizedBox(height: 10),
 
         // ─────────────────────────────
         // PIANO GRAPHIC (placeholder)
@@ -655,7 +655,7 @@ Widget _buildBack({Key? key}) {
               child: Text(
                 note,
                 style: const TextStyle(
-                  fontSize: 18,
+                  fontSize: 14,
                   fontWeight: FontWeight.w600,
                 ),
               ),

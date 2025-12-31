@@ -12,6 +12,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get welcomeTitle => 'Welcome to FlashChords';
 
   @override
+  String get welcomeUpdate_Update => 'Update Available';
+
+  @override
+  String get welcomeUpdate_Button_Later => 'Later';
+
+  @override
+  String get welcomeUpdate_Button_Update => 'Update';
+
+  @override
   String get loadingChords => 'Loading chords...';
 
   @override
@@ -30,7 +39,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mainFeatures1Title => 'Select your chords';
 
   @override
-  String get mainFeatures1Content => 'Configure which chords to focus on';
+  String get mainFeatures1Content => 'Configure which chords on which to focus';
 
   @override
   String get mainFeatures2Title => 'Timed Challenges';

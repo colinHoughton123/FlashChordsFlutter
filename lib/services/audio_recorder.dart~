@@ -1,0 +1,4 @@
+abstract class AudioRecorder {
+  Future<void> start();
+  Future<void> stop();
+}

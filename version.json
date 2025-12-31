@@ -1,0 +1,20 @@
+{
+  "app": "flashchords",
+  "latest": {
+    "version": "0.1.2",
+    "build": 2
+  },
+  "minimum_supported": {
+    "version": "0.1.2",
+    "build": 1
+  },
+  "message": {
+    "title": "Update available",
+    "body": "A new version of FlashChords is available with improvements and fixes."
+  },
+  "force_update": false,
+  "store_urls": {
+    "ios": "https://apps.apple.com/app/idXXXXXXXXX",
+    "android": "https://play.google.com/store/apps/details?id=XXXX"
+  }
+}

@@ -92,7 +92,7 @@ void _resetSessionStats() {
 
   
 void markCorrect(Duration elapsed) {
-  if (elapsed.inMilliseconds > 200) {   // ignore “instant” presses
+  if (elapsed.inMilliseconds > 300) {   // ignore “instant” presses
     _correctTimes.add(elapsed);
     _allAttemptTimes.add(elapsed);
   }
