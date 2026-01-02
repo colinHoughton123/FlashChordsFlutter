@@ -44,6 +44,14 @@ class FreeListenerUsage {
     await prefs.setBool(_dialogShownKey, true);
   }
 
+
+    static const _listenerEnabledKey = 'listener_enabled';
+
+    Future<void> forceListenerOff() async {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool(_listenerEnabledKey, false);
+    }
+
   /// Reset helper (debug / future admin tools)
   Future<void> reset() async {
     final prefs = await SharedPreferences.getInstance();

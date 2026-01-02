@@ -54,21 +54,25 @@ class _FlashcardSummaryScreenState extends State<FlashcardSummaryScreen> {
     });
   }
 
-  Future<void> _handleFreeListenerUsage() async {
-    if (_usageCounted) return;
 
-    if (!widget.listenerEnabled || widget.isErrorDeck) return;
+Future<void> _handleFreeListenerUsage() async {
+  if (_usageCounted) return;
 
-    final usage = FreeListenerUsage();
-    await usage.load();
+  final usage = FreeListenerUsage();
+  await usage.load();
 
+  // 🔢 Only increment for main deck with listener enabled
+  if (widget.listenerEnabled && !widget.isErrorDeck) {
     await usage.increment(widget.totalCards);
-    _usageCounted = true;
-
-    setState(() {
-      _usage = usage;
-    });
   }
+
+  _usageCounted = true;
+
+  if (!mounted) return;
+  setState(() {
+    _usage = usage;
+  });
+}
 
   Future<void> _maybeShowListenerLimitDialog(
     BuildContext context,
@@ -104,6 +108,8 @@ class _FlashcardSummaryScreenState extends State<FlashcardSummaryScreen> {
     );
 
     await usage.markDialogShown();
+    // 🔑 HARD STOP: permanently disable listener
+    await usage.forceListenerOff();
   }
 
   @override
@@ -146,11 +152,11 @@ class _FlashcardSummaryScreenState extends State<FlashcardSummaryScreen> {
               children: [
                 Text(
                   "${t.summary_correct}: ${widget.totalCorrect}",
-                  style: const TextStyle(fontSize: 20),
+                  style: const TextStyle(fontSize: 18),
                 ),
                 Text(
                   "${t.summary_incorrect}: ${widget.totalIncorrect}",
-                  style: const TextStyle(fontSize: 20),
+                  style: const TextStyle(fontSize: 18),
                 ),
               ],
             ),

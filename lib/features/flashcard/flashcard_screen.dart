@@ -548,6 +548,19 @@ setState(() {
 }
 
 
+Future<void> _forceListenerOff() async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setBool('listener_enabled', false);
+
+  setState(() {
+    _listenerEnabled = false;
+  });
+
+  _stopListening(); // 🔴 THIS IS CRITICAL
+}
+
+
+
 Future<void> _showSummary() async {
   final engine = _engine;
 if (engine == null) return;

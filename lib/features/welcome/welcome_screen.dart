@@ -30,23 +30,38 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   FreeListenerUsage? _listenerUsage;
 
+  // ─────────────────────────────
+  // LIFECYCLE
+  // ─────────────────────────────
+
   @override
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _maybeShowUpdateDialog();
-      _loadListenerUsage();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await _maybeShowUpdateDialog();
+      await _loadListenerUsage();
     });
 
     _loadChords();
   }
 
+  /// 🔑 Called whenever this screen becomes visible again
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _loadListenerUsage();
+  }
+
+  // ─────────────────────────────
+  // DATA LOADERS
+  // ─────────────────────────────
+
   Future<void> _loadListenerUsage() async {
     final usage = FreeListenerUsage();
     await usage.load();
-    if (!mounted) return;
 
+    if (!mounted) return;
     setState(() {
       _listenerUsage = usage;
     });
@@ -71,9 +86,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               child: Text(t.welcomeUpdate_Button_Later),
             ),
           TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
+            onPressed: () => Navigator.pop(context),
             child: Text(t.welcomeUpdate_Button_Update),
           ),
         ],
@@ -91,6 +104,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       }
     }
   }
+
+  // ─────────────────────────────
+  // BUILD
+  // ─────────────────────────────
 
   @override
   Widget build(BuildContext context) {
@@ -159,17 +176,20 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           icon: const Icon(Icons.flash_on),
                           label: Text(t.start),
                           onPressed: _preloadedItems == null
-                              ? null
-                              : () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (_) => FlashcardScreen(
-                                        items: _preloadedItems!,
-                                        userPressedStart: true,
-                                      ),
+                            ? null
+                            : () async {
+                                await Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => FlashcardScreen(
+                                      items: _preloadedItems!,
+                                      userPressedStart: true,
                                     ),
-                                  );
-                                },
+                                  ),
+                                );
+
+                                // 🔑 Refresh listener usage when returning
+                                await _loadListenerUsage();
+                              },
                         ),
                       ),
 
@@ -214,16 +234,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
                       const SizedBox(height: 10),
 
+                      /// 🔥 TEMP DEBUG RESET (tap mic feature)
                       InkWell(
-                        borderRadius: BorderRadius.circular(16), // match your card shape
+                        borderRadius: BorderRadius.circular(16),
                         onTap: () async {
                           final usage = FreeListenerUsage();
                           await usage.reset();
-
-                          debugPrint('🧹 Free listener usage RESET');
-
-                          // Optional: force refresh if this screen shows the count
-                          setState(() {});
+                          await _loadListenerUsage();
                         },
                         child: _featureBox(
                           icon: Icons.mic,
@@ -233,25 +250,18 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         ),
                       ),
 
-                      // ✅ Listener free-usage status (directly under feature)
                       if (_listenerUsage != null)
                         Padding(
                           padding: const EdgeInsets.only(top: 8),
                           child: Text(
-                            _listenerUsage!.isLimitReached
-                                ? t.listenerLimitReachedBody(
-                                    _listenerUsage!.limit,
-                                  )
-                                : t.freeUsageStatus(
-                                    _listenerUsage!.limit,
-                                    _listenerUsage!.played,
-                                  ),
+                            t.freeUsageStatus(
+                              _listenerUsage!.limit,
+                              _listenerUsage!.played,
+                            ),
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 13,
-                              color: _listenerUsage!.isLimitReached
-                                  ? Colors.redAccent
-                                  : Colors.black54,
+                              color: Colors.black54,
                             ),
                           ),
                         ),
