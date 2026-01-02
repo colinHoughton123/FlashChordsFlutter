@@ -214,11 +214,23 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
                       const SizedBox(height: 10),
 
-                      _featureBox(
-                        icon: Icons.mic,
-                        iconColor: Colors.green,
-                        title: t.mainFeatures3Title,
-                        content: t.mainFeatures3Content,
+                      InkWell(
+                        borderRadius: BorderRadius.circular(16), // match your card shape
+                        onTap: () async {
+                          final usage = FreeListenerUsage();
+                          await usage.reset();
+
+                          debugPrint('🧹 Free listener usage RESET');
+
+                          // Optional: force refresh if this screen shows the count
+                          setState(() {});
+                        },
+                        child: _featureBox(
+                          icon: Icons.mic,
+                          iconColor: Colors.green,
+                          title: t.mainFeatures3Title,
+                          content: t.mainFeatures3Content,
+                        ),
                       ),
 
                       // ✅ Listener free-usage status (directly under feature)
@@ -231,8 +243,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                     _listenerUsage!.limit,
                                   )
                                 : t.freeUsageStatus(
-                                    _listenerUsage!.played,
                                     _listenerUsage!.limit,
+                                    _listenerUsage!.played,
                                   ),
                             textAlign: TextAlign.center,
                             style: TextStyle(

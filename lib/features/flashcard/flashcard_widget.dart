@@ -18,6 +18,7 @@ class FlashcardWidget extends StatefulWidget {
   final InversionType inversion;
   final List<String> imageAssetPaths;
   final Set<String> noteSet;
+  final String writtenAs; 
   final bool showBack;
 
   final VoidCallback onSwipeLeft;
@@ -33,6 +34,7 @@ class FlashcardWidget extends StatefulWidget {
     Key? key,
     required this.chordLabel,
     required this.cardTitle,
+    required this.writtenAs,
     required this.inversion,
     required this.imageAssetPaths,
     required this.noteSet,
@@ -82,33 +84,65 @@ void animateIncorrect() {
  //  _animateOut(false);
 }
 
+bool _preferFlatsFromWrittenAs(String writtenAs) {
+  if (writtenAs.length < 2) return false;
+
+  final c = writtenAs[1];
+  return c == 'b' || c == '♭'; // ASCII b OR Unicode flat (U+266D)
+}
+
+String _sharpToFlat(String note) {
+  const map = {
+    'A#': 'Bb',
+    'C#': 'Db',
+    'D#': 'Eb',
+    'F#': 'Gb',
+    'G#': 'Ab',
+  };
+  return map[note] ?? note;
+}
 
 List<String> _notesForInversion(
-  Set<String> rootOrderedNotes,
+  Set<String> normalizedNoteSet,
   InversionType inversion,
+  String writtenAs,
 ) {
-  final notes = rootOrderedNotes.toList(growable: false);
 
-  if (notes.isEmpty) return notes;
+   debugPrint(
+    '🔁 NOtesFORINVERSION '
+    'noteSet=${normalizedNoteSet} '
+   
+    'writtenAs=${writtenAs} '
+    
+  );
 
+
+  if (normalizedNoteSet.isEmpty) return [];
+
+  final preferFlats = _preferFlatsFromWrittenAs(writtenAs);
+
+  final notes = normalizedNoteSet.toList(growable: false);
+
+  late final List<String> rotated;
   switch (inversion) {
     case InversionType.root:
-      return notes;
-
+      rotated = notes;
+      break;
     case InversionType.first:
-      return [
-        ...notes.sublist(1),
-        notes.first,
-      ];
-
+      rotated = [...notes.sublist(1), notes.first];
+      break;
     case InversionType.second:
-      return [
+      rotated = [
         ...notes.sublist(2),
         ...notes.sublist(0, 2),
       ];
+      break;
   }
-}
 
+  return rotated
+      .map((n) => preferFlats ? _sharpToFlat(n) : n)
+      .toList();
+}
 
 
 
@@ -590,10 +624,11 @@ Widget _buildBack({Key? key}) {
     return const SizedBox.shrink();
   }
 
-  final orderedNotes = _notesForInversion(
-    widget.noteSet,
-    widget.inversion,
-  );
+final orderedNotes = _notesForInversion(
+  widget.noteSet,
+  widget.inversion,
+  widget.writtenAs,
+);
 
   return Container(
     key: key,

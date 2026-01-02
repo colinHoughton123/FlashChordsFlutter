@@ -4,7 +4,7 @@ class FreeListenerUsage {
   // ─────────────────────────────────────
   // 🔧 TUNABLE CONSTANTS (owner-controlled)
   // ─────────────────────────────────────
-  static const int freeLimit = 1000;
+  static const int freeLimit = 10;
   static const String upgradePrice = '\$3.99';
 
   // ─────────────────────────────────────

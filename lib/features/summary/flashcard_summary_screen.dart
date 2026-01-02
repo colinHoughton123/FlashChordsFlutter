@@ -192,8 +192,8 @@ class _FlashcardSummaryScreenState extends State<FlashcardSummaryScreen> {
                 padding: const EdgeInsets.only(bottom: 12),
                 child: Text(
                   t.freeUsageStatus(
-                    _usage!.played,
                     _usage!.limit,
+                    _usage!.played,
                   ),
                   style: const TextStyle(
                     fontSize: 13,

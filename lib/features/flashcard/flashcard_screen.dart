@@ -721,6 +721,7 @@ Widget build(BuildContext context) {
             key: ValueKey(cardId),
             cardId: cardId,
             chordLabel: card.writtenAs,
+            writtenAs: card.writtenAs,
             cardTitle: _localizedChordName(t, card.chordName),
             inversion: card.inversion,
             imageAssetPaths: card.imagePaths,
