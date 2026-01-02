@@ -2,7 +2,7 @@
 /// Update ONLY when creating a formal build.
 class AppVersion {
   // Semantic versioning
-  static const String version = '0.1.1';
+  static const String version = '0.1.2';
 
   // Increment when you decide a new build exists
   static const int build = 1;

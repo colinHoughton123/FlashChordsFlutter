@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flashchords/l10n/app_localizations.dart';
 import 'package:flashchords/services/update_check_service.dart';
+import 'package:flashchords/core/free_listener_usage.dart';
 
 import 'package:flashchords/features/config/config_screen.dart';
 import 'package:flashchords/features/flashcard/flashcard_screen.dart';
@@ -27,15 +28,28 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   bool _loadingChords = false;
   List<FlashcardItem>? _preloadedItems;
 
+  FreeListenerUsage? _listenerUsage;
+
   @override
   void initState() {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _maybeShowUpdateDialog();
+      _loadListenerUsage();
     });
 
     _loadChords();
+  }
+
+  Future<void> _loadListenerUsage() async {
+    final usage = FreeListenerUsage();
+    await usage.load();
+    if (!mounted) return;
+
+    setState(() {
+      _listenerUsage = usage;
+    });
   }
 
   Future<void> _maybeShowUpdateDialog() async {
@@ -58,7 +72,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ),
           TextButton(
             onPressed: () {
-              // App Store / Play Store launch later
               Navigator.pop(context);
             },
             child: Text(t.welcomeUpdate_Button_Update),
@@ -129,7 +142,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // ───────── TITLE ─────────
                       Text(
                         'FlashChords',
                         style: TextStyle(
@@ -141,7 +153,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
                       const SizedBox(height: 20),
 
-                      // ───────── START BUTTON ─────────
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton.icon(
@@ -164,7 +175,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
                       const SizedBox(height: 16),
 
-                      // ───────── CATCH PHRASE ─────────
                       Text(
                         t.mainCatchPhrase,
                         textAlign: TextAlign.center,
@@ -173,7 +183,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
                       const SizedBox(height: 24),
 
-                      // ───────── FEATURES ─────────
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
@@ -212,9 +221,31 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         content: t.mainFeatures3Content,
                       ),
 
+                      // ✅ Listener free-usage status (directly under feature)
+                      if (_listenerUsage != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: Text(
+                            _listenerUsage!.isLimitReached
+                                ? t.listenerLimitReachedBody(
+                                    _listenerUsage!.limit,
+                                  )
+                                : t.freeUsageStatus(
+                                    _listenerUsage!.played,
+                                    _listenerUsage!.limit,
+                                  ),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: _listenerUsage!.isLimitReached
+                                  ? Colors.redAccent
+                                  : Colors.black54,
+                            ),
+                          ),
+                        ),
+
                       const SizedBox(height: 24),
 
-                      // ───────── CONFIGURE ─────────
                       SizedBox(
                         width: double.infinity,
                         child: OutlinedButton(

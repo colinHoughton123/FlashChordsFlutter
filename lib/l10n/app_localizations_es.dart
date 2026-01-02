@@ -21,6 +21,33 @@ class AppLocalizationsEs extends AppLocalizations {
   String get welcomeUpdate_Button_Update => 'Actualizar';
 
   @override
+  String get listenerLimitReachedTitle => 'es- Listener disabled';
+
+  @override
+  String listenerLimitReachedBody(Object limit) {
+    return 'es- The listener is disabled after 1000 free card plays. Upgrade to re-enable.';
+  }
+
+  @override
+  String freeUsageStatus(Object limit, Object played) {
+    return 'es- Free version: $played of $limit listener-enabled cards used';
+  }
+
+  @override
+  String get listenerLimitDialogTitle => 'es- Free limit reached';
+
+  @override
+  String listenerLimitDialogBody(Object price) {
+    return 'es- FlashChords will continue to work, but the listener is disabled unless you upgrade for $price.';
+  }
+
+  @override
+  String get upgrade => 'es- Upgrade';
+
+  @override
+  String get later => 'es- Later';
+
+  @override
   String get loadingChords => 'Cargando acordes...';
 
   @override

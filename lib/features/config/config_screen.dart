@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart'; // ✅ REQUIRED for listEquals
+import 'package:flutter/foundation.dart'; // listEquals
 import 'package:flashchords/l10n/app_localizations.dart';
 import 'package:flashchords/data/settings_repository.dart';
 import 'package:flashchords/core/system_error.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flashchords/l10n/app_localizations_extensions.dart';
+
+import 'package:flashchords/core/free_listener_usage.dart';
 
 class ConfigScreen extends ConsumerStatefulWidget {
   const ConfigScreen({super.key});
@@ -44,11 +46,7 @@ class _ConfigScreenState extends ConsumerState<ConfigScreen> {
     "suspended4",
   ];
 
-  final List<String> _inversions = [
-    "root",
-    "first",
-    "second",
-  ];
+  final List<String> _inversions = ["root", "first", "second"];
 
   List<String> _selectedRoots = [];
   List<String> _selectedChordTypes = [];
@@ -58,6 +56,9 @@ class _ConfigScreenState extends ConsumerState<ConfigScreen> {
   int _timerSeconds = 5;
   bool _listenEnabled = false;
   String _cardOrder = "random";
+
+  bool _listenerBlocked = false;
+  FreeListenerUsage? _listenerUsage;
 
   late _ConfigSnapshot _initialConfig;
 
@@ -71,8 +72,144 @@ class _ConfigScreenState extends ConsumerState<ConfigScreen> {
     _loadSavedConfig();
   }
 
+
+// --------------------------
+// CHICKLET UI
+// --------------------------
+
+Widget _buildChickletGroup({
+  required List<String> values,
+  required List<String> selected,
+  required String Function(String) labelBuilder,
+}) {
+  final t = AppLocalizations.of(context)!;
+
+  return Wrap(
+    spacing: 14,
+    runSpacing: 14,
+    children: values.map((value) {
+      final isSelected = selected.contains(value);
+
+      return InkWell(
+        borderRadius: BorderRadius.circular(10),
+        onTap: () {
+          setState(() {
+            _toggleChipWithGuard(
+              list: selected,
+              value: value,
+              selected: !isSelected,
+              t: t,
+            );
+          });
+        },
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOut,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.20),
+                blurRadius: 8,
+                offset: const Offset(3, 5),
+              ),
+            ],
+          ),
+          child: Container(
+            padding: const EdgeInsets.all(2),
+            decoration: BoxDecoration(
+              color: const Color(0xFFE0E0E5),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 18,
+                vertical: 10,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: isSelected
+                      ? const [
+                          Color(0xFFF4F0FF),
+                          Color(0xFFE1DBFA),
+                        ]
+                      : const [
+                          Color(0xFFFFFFFF),
+                          Color(0xFFF0F0F3),
+                        ],
+                ),
+              ),
+              child: Text(
+                labelBuilder(value),
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: isSelected
+                      ? const Color(0xFF4B3FBF)
+                      : const Color(0xFF3A3A3C),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    }).toList(),
+  );
+}
+
+
+// --------------------------
+// TOGGLE GUARD
+// --------------------------
+
+Future<void> _showAtLeastOneRequiredDialog(AppLocalizations t) async {
+  await showDialog<void>(
+    context: context,
+    builder: (_) => AlertDialog(
+      title: Text(t.configTitle),
+      content: Text(t.configAtLeastOneOption),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(t.configOK),
+        ),
+      ],
+    ),
+  );
+}
+
+void _toggleChipWithGuard({
+  required List<String> list,
+  required String value,
+  required bool selected,
+  required AppLocalizations t,
+}) {
+  final wasSelected = list.contains(value);
+  final isLastSelected = list.length == 1 && wasSelected;
+
+  if (!selected && isLastSelected) {
+    _showAtLeastOneRequiredDialog(t);
+    return;
+  }
+
+  if (selected && !wasSelected) {
+    list.add(value);
+  } else if (!selected && wasSelected) {
+    list.remove(value);
+  }
+}
+
   Future<void> _loadSavedConfig() async {
     final repo = SettingsRepository();
+
+    // Load listener usage
+    final usage = FreeListenerUsage();
+    await usage.load();
+    _listenerUsage = usage;
+    _listenerBlocked = usage.isLimitReached;
 
     _selectedRoots = _sanitizeList(await repo.loadRoots(), _roots);
     _selectedChordTypes =
@@ -85,10 +222,13 @@ class _ConfigScreenState extends ConsumerState<ConfigScreen> {
     _timerSeconds = timer.$2;
 
     _listenEnabled = await repo.loadListenMode();
+    if (_listenerBlocked) {
+      _listenEnabled = false; // 🔒 force OFF
+    }
+
     _cardOrder = await repo.loadCardOrder();
 
     _initialConfig = _ConfigSnapshot.fromState(this);
-
     setState(() {});
   }
 
@@ -99,26 +239,26 @@ class _ConfigScreenState extends ConsumerState<ConfigScreen> {
   bool get _hasUnsavedChanges =>
       !_ConfigSnapshot.fromState(this).equals(_initialConfig);
 
- Future<bool> _confirmDiscardChanges(AppLocalizations t) async {
-  final result = await showDialog<bool>(
-    context: context,
-    builder: (_) => AlertDialog(
-      title: Text(t.summary_unsaved_changes_title),
-      content: Text(t.summary_unsaved_changes_body),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context, false),
-          child: Text(t.cancel),
-        ),
-        TextButton(
-          onPressed: () => Navigator.pop(context, true),
-          child: Text(t.summary_discard),
-        ),
-      ],
-    ),
-  );
-  return result ?? false;
-}
+  Future<bool> _confirmDiscardChanges(AppLocalizations t) async {
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text(t.summary_unsaved_changes_title),
+        content: Text(t.summary_unsaved_changes_body),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(t.cancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(t.summary_discard),
+          ),
+        ],
+      ),
+    );
+    return result ?? false;
+  }
 
   // --------------------------
   // BUILD
@@ -127,7 +267,6 @@ class _ConfigScreenState extends ConsumerState<ConfigScreen> {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
 
     return WillPopScope(
       onWillPop: () async {
@@ -137,19 +276,18 @@ class _ConfigScreenState extends ConsumerState<ConfigScreen> {
       child: Scaffold(
         backgroundColor: Colors.grey.shade100,
         appBar: AppBar(
-  title: Text(t.configTitle),
-  leading: IconButton(
-    icon: const Icon(Icons.home),
-    // tooltip: t.home, // optional if you already have this key
-    onPressed: () async {
-      if (_hasUnsavedChanges) {
-        final discard = await _confirmDiscardChanges(t);
-        if (!discard) return;
-      }
-      Navigator.pop(context);
-    },
-  ),
-),
+          title: Text(t.configTitle),
+          leading: IconButton(
+            icon: const Icon(Icons.home),
+            onPressed: () async {
+              if (_hasUnsavedChanges) {
+                final discard = await _confirmDiscardChanges(t);
+                if (!discard) return;
+              }
+              Navigator.pop(context);
+            },
+          ),
+        ),
         body: SafeArea(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
@@ -157,34 +295,32 @@ class _ConfigScreenState extends ConsumerState<ConfigScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildChickletGroup(
-  values: _roots,
-  selected: _selectedRoots,
-  labelBuilder: (v) => v,
-),
+                  values: _roots,
+                  selected: _selectedRoots,
+                  labelBuilder: (v) => v,
+                ),
 
                 const SizedBox(height: 24),
 
                 _sectionTitle(t.configSelectChordTypes),
-               // Chord types
+                _buildChickletGroup(
+                  values: _chordTypes,
+                  selected: _selectedChordTypes,
+                  labelBuilder: (v) => _localizedChordType(v, t),
+                ),
 
-_buildChickletGroup(
-  values: _chordTypes,
-  selected: _selectedChordTypes,
-  labelBuilder: (v) => _localizedChordType(v, t),
-),
                 const SizedBox(height: 24),
 
                 _sectionTitle(t.configSelectInversions),
-_buildChickletGroup(
-  values: _inversions,
-  selected: _selectedInversions,
-  labelBuilder: (v) => _localizedInversion(v, t),
-),
+                _buildChickletGroup(
+                  values: _inversions,
+                  selected: _selectedInversions,
+                  labelBuilder: (v) => _localizedInversion(v, t),
+                ),
 
                 const Divider(height: 36),
 
                 _sectionTitle(t.configCardOrder),
-
                 RadioListTile(
                   title: Text(t.configCardOrderRandom),
                   value: "random",
@@ -238,157 +374,53 @@ _buildChickletGroup(
   }
 
   // --------------------------
-  // CHICKLET UI
+  // LISTENER CHECKBOX (MERGED)
   // --------------------------
 
-Widget _buildChickletGroup({
-  required List<String> values,
-  required List<String> selected,
-  required String Function(String) labelBuilder,
-}) {
-  final t = AppLocalizations.of(context)!;
+  Widget _buildListenModeCheckbox() {
+    final t = AppLocalizations.of(context)!;
+    final usage = _listenerUsage;
 
-  return Wrap(
-    spacing: 14,
-    runSpacing: 14,
-    children: values.map((value) {
-      final isSelected = selected.contains(value);
-
-      return InkWell(
-        borderRadius: BorderRadius.circular(10),
-        onTap: () {
-          setState(() {
-            _toggleChipWithGuard(
-              list: selected,
-              value: value,
-              selected: !isSelected,
-              t: t,
-            );
-          });
-        },
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          curve: Curves.easeOut,
-
-          // ───────────────── OUTER SHADOW (lift)
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.20),
-                blurRadius: 8,
-                offset: const Offset(3, 5), // bottom-right only
+    return CheckboxListTile(
+      title: Text(t.configListener),
+      value: _listenEnabled,
+      onChanged: (v) async {
+        if (v == true && usage != null && usage.isLimitReached) {
+          await showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+              title: Text(t.listenerLimitReachedTitle),
+              content: Text(
+                t.listenerLimitReachedBody(usage.limit),
               ),
-            ],
-          ),
-
-          // ───────────────── EDGE RING
-          child: Container(
-            padding: const EdgeInsets.all(2),
-            decoration: BoxDecoration(
-              color: const Color(0xFFE0E0E5), // light grey edge
-              borderRadius: BorderRadius.circular(10),
-            ),
-
-            // ───────────────── INNER FACE (indent)
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 18,
-                vertical: 10,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-
-                // 🔑 INNER GRADIENT = INDENT
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: isSelected
-                      ? const [
-                          Color(0xFFF4F0FF), // light purple highlight (top)
-                          Color(0xFFE1DBFA), // darker bottom
-                        ]
-                      : const [
-                          Color(0xFFFFFFFF), // light grey highlight (top)
-                          Color(0xFFF0F0F3), // darker bottom
-                        ],
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(t.later),
                 ),
-              ),
-              child: Text(
-                labelBuilder(value),
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: isSelected
-                      ? const Color(0xFF4B3FBF)
-                      : const Color(0xFF3A3A3C),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    // Store launch later
+                  },
+                  child: Text(t.upgrade),
                 ),
-              ),
+              ],
             ),
-          ),
-        ),
-      );
-    }).toList(),
-  );
-}
-// --------------------------
-  // TOGGLE GUARD
-  // --------------------------
+          );
 
-Future<void> _showAtLeastOneRequiredDialog(AppLocalizations t) async {
-  await showDialog<void>(
-    context: context,
-    builder: (_) => AlertDialog(
-      title: Text(t.configTitle),
-      content: Text(t.configAtLeastOneOption),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(t.configOK), // 🔑 localized OK
-        ),
-      ],
-    ),
-  );
-}
+          setState(() => _listenEnabled = false);
+          return;
+        }
 
-
-
-void _toggleChipWithGuard({
-  required List<String> list,
-  required String value,
-  required bool selected,
-  required AppLocalizations t,
-}) {
-  final wasSelected = list.contains(value);
-  final isLastSelected = list.length == 1 && wasSelected;
-
-if (!selected && isLastSelected) {
-  // Re-select is already implicit since we bail out
-  _showAtLeastOneRequiredDialog(t);
-  return;
-}
-
-  if (selected && !wasSelected) {
-    list.add(value);
-  } else if (!selected && wasSelected) {
-    list.remove(value);
+        setState(() => _listenEnabled = v ?? false);
+      },
+    );
   }
-}
 
   // --------------------------
-  // OTHER UI
+  // EXISTING UI HELPERS
   // --------------------------
-
-  Widget _sectionTitle(String txt) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        child: Text(
-          txt,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      );
 
   Widget _buildTimerEnableCheckbox() {
     return CheckboxListTile(
@@ -398,15 +430,6 @@ if (!selected && isLastSelected) {
     );
   }
 
-  Widget _buildListenModeCheckbox() {
-  final t = AppLocalizations.of(context)!;
-
-  return CheckboxListTile(
-    title: Text(t.configListener),
-    value: _listenEnabled,
-    onChanged: (v) => setState(() => _listenEnabled = v ?? false),
-  );
-}
   Widget _buildTimerSlider(String label) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -429,6 +452,14 @@ if (!selected && isLastSelected) {
       ],
     );
   }
+
+  Widget _sectionTitle(String txt) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Text(
+          txt,
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+      );
 
   // --------------------------
   // LOCALIZATION HELPERS
@@ -474,7 +505,7 @@ if (!selected && isLastSelected) {
 }
 
 // --------------------------
-// SNAPSHOT
+// SNAPSHOT (UNCHANGED)
 // --------------------------
 
 class _ConfigSnapshot {

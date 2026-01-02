@@ -570,6 +570,7 @@ if (engine == null) return;
         showAverage: _timerEnabled,
         hadErrors: engine.hasErrorsForNextRound,
         isErrorDeck: engine.usingErrorDeck,
+        listenerEnabled: _listeningEnabled,
       ),
     ),
   );

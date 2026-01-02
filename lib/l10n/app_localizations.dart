@@ -119,6 +119,48 @@ abstract class AppLocalizations {
   /// **'Update'**
   String get welcomeUpdate_Button_Update;
 
+  /// No description provided for @listenerLimitReachedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Listener disabled'**
+  String get listenerLimitReachedTitle;
+
+  /// No description provided for @listenerLimitReachedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The listener has been disabled after {limit} free card plays. Upgrade to re-enable.'**
+  String listenerLimitReachedBody(Object limit);
+
+  /// No description provided for @freeUsageStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Free version: {played} of {limit} listener-enabled cards used'**
+  String freeUsageStatus(Object limit, Object played);
+
+  /// No description provided for @listenerLimitDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Free limit reached'**
+  String get listenerLimitDialogTitle;
+
+  /// No description provided for @listenerLimitDialogBody.
+  ///
+  /// In en, this message translates to:
+  /// **'FlashChords will continue to work, but the listener is disabled unless you upgrade for {price}.'**
+  String listenerLimitDialogBody(Object price);
+
+  /// No description provided for @upgrade.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade'**
+  String get upgrade;
+
+  /// No description provided for @later.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get later;
+
   /// No description provided for @loadingChords.
   ///
   /// In en, this message translates to:

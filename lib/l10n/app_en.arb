@@ -8,7 +8,7 @@
   "welcomeUpdate_Button_Update": "Update",
 
 "listenerLimitReachedTitle": "Listener disabled",
-"listenerLimitReachedBody": "The listener is disabled after 1000 free card plays. Upgrade to re-enable.",
+"listenerLimitReachedBody": "The listener has been disabled after {limit} free card plays. Upgrade to re-enable.",
 
 "freeUsageStatus": "Free version: {played} of {limit} listener-enabled cards used",
 
