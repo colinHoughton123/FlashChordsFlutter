@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flashchords/l10n/app_localizations.dart';
 import 'package:flashchords/core/free_listener_usage.dart';
+import 'package:flashchords/data/settings_repository.dart';
 
 class FlashcardSummaryScreen extends StatefulWidget {
   final int totalCorrect;
@@ -15,7 +16,7 @@ class FlashcardSummaryScreen extends StatefulWidget {
   final bool hadErrors;
   final bool isErrorDeck;
 
-  /// Known by caller
+  /// Listener state at time the deck was played
   final bool listenerEnabled;
 
   const FlashcardSummaryScreen({
@@ -54,26 +55,39 @@ class _FlashcardSummaryScreenState extends State<FlashcardSummaryScreen> {
     });
   }
 
-
-Future<void> _handleFreeListenerUsage() async {
-  if (_usageCounted) return;
-
-  final usage = FreeListenerUsage();
-  await usage.load();
-
-  // 🔢 Only increment for main deck with listener enabled
-  if (widget.listenerEnabled && !widget.isErrorDeck) {
-    await usage.increment(widget.totalCards);
+  // ─────────────────────────────────────────────
+  // 🔴 Persistently force listener OFF
+  // ─────────────────────────────────────────────
+  Future<void> _forceListenerOff() async {
+    final repo = SettingsRepository();
+    await repo.saveListenMode(false);
   }
 
-  _usageCounted = true;
+  // ─────────────────────────────────────────────
+  // 🔢 Load + increment free listener usage
+  // ─────────────────────────────────────────────
+  Future<void> _handleFreeListenerUsage() async {
+    if (_usageCounted) return;
 
-  if (!mounted) return;
-  setState(() {
-    _usage = usage;
-  });
-}
+    final usage = FreeListenerUsage();
+    await usage.load();
 
+    // ✅ Increment exactly once per MAIN deck summary
+    if (widget.listenerEnabled && !widget.isErrorDeck) {
+      await usage.increment(widget.totalCards);
+    }
+
+    _usageCounted = true;
+
+    if (!mounted) return;
+    setState(() {
+      _usage = usage;
+    });
+  }
+
+  // ─────────────────────────────────────────────
+  // 🚨 Listener limit dialog + shutdown
+  // ─────────────────────────────────────────────
   Future<void> _maybeShowListenerLimitDialog(
     BuildContext context,
     AppLocalizations t,
@@ -82,6 +96,9 @@ Future<void> _handleFreeListenerUsage() async {
     if (!usage.isLimitReached) return;
     if (usage.dialogShown) return;
     if (widget.hadErrors) return;
+
+    // 🔴 FORCE LISTENER OFF IMMEDIATELY
+    await _forceListenerOff();
 
     await showDialog(
       context: context,
@@ -99,7 +116,6 @@ Future<void> _handleFreeListenerUsage() async {
           TextButton(
             onPressed: () {
               Navigator.pop(context);
-              // Store launch later
             },
             child: Text(t.upgrade),
           ),
@@ -108,10 +124,14 @@ Future<void> _handleFreeListenerUsage() async {
     );
 
     await usage.markDialogShown();
-    // 🔑 HARD STOP: permanently disable listener
-    await usage.forceListenerOff();
+
+    // 🔑 Notify parent that listener is now OFF
+    await _forceListenerOff();
   }
 
+  // ─────────────────────────────────────────────
+  // 🖼 UI
+  // ─────────────────────────────────────────────
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
@@ -193,17 +213,22 @@ Future<void> _handleFreeListenerUsage() async {
 
             const Spacer(),
 
-            if (_usage != null && widget.listenerEnabled)
+            // ✅ ALWAYS show usage if available
+            if (_usage != null)
               Padding(
                 padding: const EdgeInsets.only(bottom: 12),
                 child: Text(
-                  t.freeUsageStatus(
-                    _usage!.limit,
-                    _usage!.played,
-                  ),
-                  style: const TextStyle(
+                  _usage!.isLimitReached
+                      ? t.listenerLimitReachedBody(_usage!.limit)
+                      : t.freeUsageStatus(
+                          _usage!.limit,
+                          _usage!.played,
+                        ),
+                  style: TextStyle(
                     fontSize: 13,
-                    color: Colors.black54,
+                    color: _usage!.isLimitReached
+                        ? Colors.redAccent
+                        : Colors.black54,
                   ),
                   textAlign: TextAlign.center,
                 ),

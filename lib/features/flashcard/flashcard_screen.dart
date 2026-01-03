@@ -548,16 +548,6 @@ setState(() {
 }
 
 
-Future<void> _forceListenerOff() async {
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.setBool('listener_enabled', false);
-
-  setState(() {
-    _listenerEnabled = false;
-  });
-
-  _stopListening(); // 🔴 THIS IS CRITICAL
-}
 
 
 
@@ -597,12 +587,20 @@ if (engine == null) return;
       _restartFromSummary();
       break;
 
-    case 'done':
+    case 'listener_forced_off':
+      debugPrint('🔇 Listener forced OFF by summary');
+
+      setState(() {
+        _listeningEnabled = false;
+      });
+
+      // stop audio input the SAME way you already do elsewhere
+      // _engine?.stopListening(); // ← use YOUR engine method
       _exitToMainMenu();
       break;
 
+    case 'done':
     default:
-      // User backed out or system pop — treat as done
       _exitToMainMenu();
   }
 }
