@@ -6,8 +6,10 @@ class FlashcardItem {
   final String chordType;
   final InversionType inversion;
   final String writtenAs;
+  final String writtenAsOriginal;
   final List<String> imagePaths;
   final Set<String> noteSet;
+  final List<String> noteSetOriginal;
 
   const FlashcardItem({
     required this.root,
@@ -15,7 +17,9 @@ class FlashcardItem {
     required this.chordType,
     required this.inversion,
     required this.writtenAs,
+    required this.writtenAsOriginal,
     required this.imagePaths,
     required this.noteSet,
+    required this.noteSetOriginal,
   });
 }

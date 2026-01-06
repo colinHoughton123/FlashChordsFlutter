@@ -1764,9 +1764,9 @@
  
 
  
-<note title="Db" notePath="Csharp">
+<note title="C#" notePath="Csharp">
 
-         <chord title="Major" chordPath="Csharp Major"   noteSet="Db, F, Ab">
+         <chord title="Major" chordPath="Csharp Major"   noteSet="C#, F, G#">
                      <chordName >
                           C# (D&#9837;) Major
                      </chordName>
@@ -1814,7 +1814,7 @@
          </chord> 
          
          
-                  <chord title="minor" chordPath="Csharp Minor"  noteSet="Db, E, Ab">
+                  <chord title="minor" chordPath="Csharp Minor"  noteSet="C#, E, G#">
                      <chordName >
                           C# (D&#9837;)  Minor 
                      </chordName>
@@ -1862,7 +1862,7 @@
          </chord>
            
            
-                 <chord title="7th" chordPath="Csharp Dominant 7th"   noteSet="Db, F, Ab, B">
+                 <chord title="7th" chordPath="Csharp Dominant 7th"   noteSet="C#, F, G#, B">
                      <chordName >
                           C# (D&#9837;) Dominant 7th
                      </chordName>
@@ -1914,7 +1914,7 @@
       
          
                   
-                  <chord title="minor 7th" chordPath="Csharp Minor 7th"   noteSet="Db, E, Ab, B">
+                  <chord title="minor 7th" chordPath="Csharp Minor 7th"   noteSet="C#, E, G#, B">
                      <chordName >
                           C# (D&#9837;)  Minor 7th
                      </chordName>
@@ -1962,7 +1962,7 @@
          </chord> 
          
          
-                  <chord title="diminished"  chordPath="Csharp Diminished"   noteSet="Db, E, G">
+                  <chord title="diminished"  chordPath="Csharp Diminished"   noteSet="C#, E, G">
                      <chordName >
                           C# (D&#9837;) Diminished 
                      </chordName>
@@ -2009,7 +2009,7 @@
 
          </chord> 
          
-                           <chord title="augmented"  chordPath="Csharp Major Augmented"  noteSet="Db, F, A">
+                           <chord title="augmented"  chordPath="Csharp Major Augmented"  noteSet="C#, F, A">
                      <chordName >
                           C# (D&#9837;) Augmented
                      </chordName>
@@ -2056,7 +2056,7 @@
 
          </chord>
          
-                     <chord title="Major 7th"  chordPath="Csharp Major 7th"  noteSet="Db, F, Ab, C">
+                     <chord title="Major 7th"  chordPath="Csharp Major 7th"  noteSet="C#, F, G#, C">
                      <chordName >
                           C# (D&#9837;) Major 7th
                      </chordName>
@@ -2104,7 +2104,7 @@
          </chord> 
          
          
-              <chord title="sus2"  chordPath="Csharp Major Sus 2"  noteSet="Db, Eb, Ab">
+              <chord title="sus2"  chordPath="Csharp Major Sus 2"  noteSet="C#, D#, G#">
                      <chordName >
                           C# (D&#9837;) Suspended 2
                      </chordName>
@@ -2152,7 +2152,7 @@
          </chord> 
          
          
-               <chord title="sus4" chordPath="Csharp Major Sus 4"  noteSet="Db, Gb, Ab">
+               <chord title="sus4" chordPath="Csharp Major Sus 4"  noteSet="C#, F#, G#">
                      <chordName >
                           C# (D&#9837;) Suspended 4
                      </chordName>             

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flashchords/data/settings_repository.dart';
 
 import 'package:flashchords/l10n/app_localizations.dart';
 import 'package:flashchords/services/update_check_service.dart';
@@ -11,6 +12,8 @@ import 'package:flashchords/features/welcome/language_picker_dialog.dart';
 
 import 'package:flashchords/models/flashcard_item.dart';
 import 'package:flashchords/data/chord_xml_parser.dart';
+
+
 
 class WelcomeScreen extends StatefulWidget {
   final Future<void> Function(String) onLanguageChanged;
@@ -31,6 +34,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   FreeListenerUsage? _listenerUsage;
 
   // ─────────────────────────────
+  // DEV / EMULATED UPGRADE KEYS
+  // ─────────────────────────────
+  static const _isUpgradedKey = 'is_upgraded';
+  static const _listenerEnabledKey = 'listener_enabled';
+
+  // ─────────────────────────────
   // LIFECYCLE
   // ─────────────────────────────
 
@@ -46,7 +55,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     _loadChords();
   }
 
-  /// 🔑 Called whenever this screen becomes visible again
+  /// 🔑 Refresh when returning to this screen
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -66,6 +75,18 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       _listenerUsage = usage;
     });
   }
+
+  /// 🧪 DEV: emulate upgrade / downgrade
+  Future<void> _setUpgraded(bool value) async {
+  final repo = SettingsRepository();
+  await repo.saveIsUpgraded(value);
+
+  debugPrint(value
+      ? '🟢 DEV: UPGRADE ENABLED'
+      : '🧪 DEV: UPGRADE DISABLED');
+
+  await _loadListenerUsage(); // refresh UI
+}
 
   Future<void> _maybeShowUpdateDialog() async {
     final result = await UpdateCheckService.check();
@@ -103,6 +124,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         setState(() => _loadingChords = false);
       }
     }
+  }
+
+
+  Future<void> _devResetAllPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+    debugPrint('🧹 DEV RESET: all SharedPreferences cleared');
   }
 
   // ─────────────────────────────
@@ -176,20 +204,20 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           icon: const Icon(Icons.flash_on),
                           label: Text(t.start),
                           onPressed: _preloadedItems == null
-                            ? null
-                            : () async {
-                                await Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (_) => FlashcardScreen(
-                                      items: _preloadedItems!,
-                                      userPressedStart: true,
+                              ? null
+                              : () async {
+                                  await Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) => FlashcardScreen(
+                                        items: _preloadedItems!,
+                                        userPressedStart: true,
+                                      ),
                                     ),
-                                  ),
-                                );
+                                  );
 
-                                // 🔑 Refresh listener usage when returning
-                                await _loadListenerUsage();
-                              },
+                                  // 🔄 Refresh on return
+                                  await _loadListenerUsage();
+                                },
                         ),
                       ),
 
@@ -216,30 +244,44 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
                       const SizedBox(height: 12),
 
-                      _featureBox(
-                        icon: Icons.music_note,
-                        iconColor: Colors.deepPurple,
-                        title: t.mainFeatures1Title,
-                        content: t.mainFeatures1Content,
-                      ),
-
-                      const SizedBox(height: 10),
-
-                      _featureBox(
-                        icon: Icons.timer_outlined,
-                        iconColor: Colors.orange,
-                        title: t.mainFeatures2Title,
-                        content: t.mainFeatures2Content,
-                      ),
-
-                      const SizedBox(height: 10),
-
-                      /// 🔥 TEMP DEBUG RESET (tap mic feature)
+                      /// 🟢 DEV: TAP → UPGRADE ON
+                      /// 🟢 DEV: TAP → UPGRADE ON
                       InkWell(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(12),
+                        onTap: () async => _setUpgraded(true),
+                        child: _featureBox(
+                          icon: Icons.music_note,
+                          iconColor: Colors.deepPurple,
+                          title: t.mainFeatures1Title,
+                          content: t.mainFeatures1Content,
+                        ),
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      /// 🧪 DEV: TAP → UPGRADE OFF
+                      InkWell(
+                        borderRadius: BorderRadius.circular(12),
+                        onTap: () async => _setUpgraded(false),
+                        child: _featureBox(
+                          icon: Icons.timer_outlined,
+                          iconColor: Colors.orange,
+                          title: t.mainFeatures2Title,
+                          content: t.mainFeatures2Content,
+                        ),
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      /// 🔥 TEMP RESET (listener usage)
+                      InkWell(
+                        borderRadius: BorderRadius.circular(12),
                         onTap: () async {
                           final usage = FreeListenerUsage();
                           await usage.reset();
+                          // 2️⃣ CLEAR ALL SHARED PREFERENCES
+                          await _devResetAllPrefs();
+
                           await _loadListenerUsage();
                         },
                         child: _featureBox(

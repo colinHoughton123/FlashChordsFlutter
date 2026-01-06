@@ -8,6 +8,8 @@ class SettingsRepository {
   static const _keyTimerEnabled = 'timer_enabled';
   static const _keyTimerSeconds = 'timer_seconds';
   static const _keyListenMode = 'listen_mode_enabled';
+  static const _keyIsUpgraded = 'is_upgraded';
+
 
 
   // ----------------- LANGUAGE -----------------
@@ -113,5 +115,22 @@ Future<String> loadCardOrder() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getBool(_keyListenMode) ?? false;
   }
+
+  // ----------------- UPGRADE STATUS -----------------
+
+
+
+Future<void> saveIsUpgraded(bool value) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setBool(_keyIsUpgraded, value);
 }
+
+Future<bool> loadIsUpgraded() async {
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getBool(_keyIsUpgraded) ?? false;
+}
+
+
+}
+
 

@@ -1764,9 +1764,9 @@
  
 
  
-<note title="Db" notePath="Csharp">
+<note title="C#" notePath="Csharp">
 
-         <chord title="Major" chordPath="Csharp Major"   noteSet="Db, F, Ab">
+         <chord title="Major" chordPath="Csharp Major"   noteSet="C#, F, G#">
                      <chordName >
                           C# (D&#9837;) Major
                      </chordName>
@@ -1814,7 +1814,7 @@
          </chord> 
          
          
-                  <chord title="minor" chordPath="Csharp Minor"  noteSet="Db, E, Ab">
+                  <chord title="minor" chordPath="Csharp Minor"  noteSet="C#, E, G#">
                      <chordName >
                           C# (D&#9837;)  Minor 
                      </chordName>

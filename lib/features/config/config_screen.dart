@@ -26,6 +26,7 @@ class _ConfigScreenState extends ConsumerState<ConfigScreen> {
     return cleaned;
   }
 
+  bool _isUpgraded = false;
   // --------------------------
   // DATA
   // --------------------------
@@ -202,35 +203,41 @@ void _toggleChipWithGuard({
   }
 }
 
-  Future<void> _loadSavedConfig() async {
-    final repo = SettingsRepository();
+Future<void> _loadSavedConfig() async {
+  final repo = SettingsRepository();
 
-    // Load listener usage
-    final usage = FreeListenerUsage();
-    await usage.load();
-    _listenerUsage = usage;
-    _listenerBlocked = usage.isLimitReached;
+  // Load listener usage
+  final usage = FreeListenerUsage();
+  await usage.load();
+  _listenerUsage = usage;
 
-    _selectedRoots = _sanitizeList(await repo.loadRoots(), _roots);
-    _selectedChordTypes =
-        _sanitizeList(await repo.loadChordTypes(), _chordTypes);
-    _selectedInversions =
-        _sanitizeList(await repo.loadInversions(), _inversions);
+  // 🔑 Load upgrade flag
+  _isUpgraded = await repo.loadIsUpgraded();
 
-    final timer = await repo.loadTimer();
-    _timerEnabled = timer.$1;
-    _timerSeconds = timer.$2;
+  // 🔒 Block listener ONLY if not upgraded AND limit reached
+  final listenerBlocked = !_isUpgraded && usage.isLimitReached;
 
-    _listenEnabled = await repo.loadListenMode();
-    if (_listenerBlocked) {
-      _listenEnabled = false; // 🔒 force OFF
-    }
-
-    _cardOrder = await repo.loadCardOrder();
-
-    _initialConfig = _ConfigSnapshot.fromState(this);
-    setState(() {});
+  _listenEnabled = await repo.loadListenMode();
+  if (listenerBlocked) {
+    _listenEnabled = false;
+    await repo.saveListenMode(false);
   }
+
+  _selectedRoots = _sanitizeList(await repo.loadRoots(), _roots);
+  _selectedChordTypes =
+      _sanitizeList(await repo.loadChordTypes(), _chordTypes);
+  _selectedInversions =
+      _sanitizeList(await repo.loadInversions(), _inversions);
+
+  final timer = await repo.loadTimer();
+  _timerEnabled = timer.$1;
+  _timerSeconds = timer.$2;
+
+  _cardOrder = await repo.loadCardOrder();
+
+  _initialConfig = _ConfigSnapshot.fromState(this);
+  setState(() {});
+}
 
   // --------------------------
   // UNSAVED CHANGES
@@ -375,48 +382,66 @@ void _toggleChipWithGuard({
 
   // --------------------------
   // LISTENER CHECKBOX (MERGED)
-  // --------------------------
+  // -------------------
+  
 
-  Widget _buildListenModeCheckbox() {
-    final t = AppLocalizations.of(context)!;
-    final usage = _listenerUsage;
+  Future<void> _forceListenerOff() async {
+  final repo = SettingsRepository();
+  await repo.saveListenMode(false);
+}
 
-    return CheckboxListTile(
-      title: Text(t.configListener),
-      value: _listenEnabled,
-      onChanged: (v) async {
-        if (v == true && usage != null && usage.isLimitReached) {
-          await showDialog(
-            context: context,
-            builder: (_) => AlertDialog(
-              title: Text(t.listenerLimitReachedTitle),
-              content: Text(
-                t.listenerLimitReachedBody(usage.limit),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text(t.later),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    // Store launch later
-                  },
-                  child: Text(t.upgrade),
-                ),
-              ],
+
+Widget _buildListenModeCheckbox() {
+  final t = AppLocalizations.of(context)!;
+  final usage = _listenerUsage;
+  final repo = SettingsRepository();
+
+  final listenerBlocked =
+      !_isUpgraded && usage != null && usage.isLimitReached;
+
+  return CheckboxListTile(
+    title: Text(t.configListener),
+    value: _listenEnabled,
+    onChanged: (v) async {
+      final wantsEnabled = v ?? false;
+
+      // 🔴 BLOCK + DIALOG (THIS WAS MISSING)
+      if (wantsEnabled && listenerBlocked) {
+        await showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: Text(t.listenerLimitReachedTitle),
+            content: Text(
+              t.listenerLimitReachedBody(usage!.limit),
             ),
-          );
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(t.later),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  // upgrade flow later
+                },
+                child: Text(t.upgrade),
+              ),
+            ],
+          ),
+        );
 
-          setState(() => _listenEnabled = false);
-          return;
-        }
+        // 🔒 FORCE OFF
+        await repo.saveListenMode(false);
+        setState(() => _listenEnabled = false);
+        return;
+      }
 
-        setState(() => _listenEnabled = v ?? false);
-      },
-    );
-  }
+      // ✅ NORMAL PATH
+      await repo.saveListenMode(wantsEnabled);
+      setState(() => _listenEnabled = wantsEnabled);
+    },
+  );
+}
 
   // --------------------------
   // EXISTING UI HELPERS

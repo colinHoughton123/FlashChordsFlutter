@@ -66,11 +66,13 @@ void prepareForNextCard() {
   // State
   // ------------------------------------------------------------
 
-  final AudioRecorder _recorder = AudioRecorder();
-  StreamSubscription<Uint8List>? _audioSub;
+final AudioRecorder _recorder = AudioRecorder();
+StreamSubscription<Uint8List>? _audioSub;
 
-  bool _isRunning = false;
-  Future<void>? _startFuture;
+bool _isRunning = false;
+
+// IMPORTANT: this must be Future<bool> because start() returns bool
+Future<bool>? _startFuture;
 
   ListenerComparisonMode comparisonMode = ListenerComparisonMode.forgiving;
 
@@ -121,22 +123,32 @@ void prepareForNextCard() {
   /// IMPORTANT: This function is now "fail-safe".
   /// If mic init fails (permission/session/etc), we do NOT throw.
   /// We simply don't start listening, and the app keeps running.
-  Future<void> start() async {
+  // ChordDetectionService.dart
 
-debugPrint('🎙 ChordDetectionService.start() ENTER');
+Future<bool> start() async {
+  debugPrint('🎙 ChordDetectionService.start() ENTER');
 
+  // If a start is already in flight, await it
+  final inFlight = _startFuture;
+  if (inFlight != null) {
+    debugPrint('⏳ start(): awaiting in-flight start');
+    return await inFlight;
+  }
 
-  // If we *think* we’re running, or we have a stale start in flight,
-  // force a cleanup to avoid iOS abort on relaunch.
-  if (_isRunning || _startFuture != null) {
-    debugPrint('⚠️ start(): stale running state detected; forcing hardStop()');
-    _startFuture = hardStop(clearState: true).then((_) => _startImpl());
-    return _startFuture!;
+  // If we think we're running, force a clean restart
+  if (_isRunning) {
+    debugPrint('⚠️ start(): running=true → forcing hardStop()');
+    await hardStop(clearState: true);
   }
 
   _startFuture = _startImpl();
-  return _startFuture!;
+
+  final ok = await _startFuture!;
+  _startFuture = null;
+
+  return ok;
 }
+
 
 /// Hard, idempotent shutdown of ALL native + stream state.
 /// Safe to call multiple times.
@@ -184,72 +196,67 @@ Future<void> hardStop({bool clearState = true}) async {
 }
 
 
-  Future<void> _startImpl() async {
-    try {
-      // If a previous run left the system in a weird state, clean it first.
-      await _safeStopInternal(clearState: true);
+Future<bool> _tryStartStream({required int sampleRate}) async {
+  try {
+    // Always cancel any previous subscription before starting fresh
+    await _audioSub?.cancel();
+    _audioSub = null;
 
-      final hasPermission = await _recorder.hasPermission();
-      if (!hasPermission) {
-        debugPrint('🎙 No microphone permission. Not starting audio.');
-        return;
-      }
+    final stream = await _recorder.startStream(
+      RecordConfig(
+        sampleRate: sampleRate,
+        numChannels: 1,
+        encoder: AudioEncoder.pcm16bits, // 🔑 REQUIRED
+      ),
+    );
 
-      final configs = <RecordConfig>[
-        const RecordConfig(
-          encoder: AudioEncoder.pcm16bits,
-          sampleRate: 48000,
-          numChannels: 1,
-        ),
-        const RecordConfig(
-          encoder: AudioEncoder.pcm16bits,
-          sampleRate: 44100,
-          numChannels: 1,
-        ),
-      ];
+    _activeSampleRate = sampleRate;
 
-      Object? lastError;
+    _audioSub = stream.listen(
+      _onAudioData,
+      onError: (e, st) {
+        debugPrint('🎙 audio stream error ($sampleRate): $e');
+      },
+    );
 
-      for (final cfg in configs) {
-        try {
-          _activeSampleRate = cfg.sampleRate ?? 44100;
-
-          final stream = await _recorder.startStream(cfg);
-
-          _audioSub = stream.listen(
-            _onAudioData,
-            onError: (e, st) {
-              debugPrint('🎙 Audio stream error: $e');
-              // Don't crash. Stop safely.
-              unawaited(_safeStopInternal(clearState: true));
-            },
-            cancelOnError: true,
-          );
-
-          _isRunning = true;
-          debugPrint('🎙 Audio started @ $_activeSampleRate Hz');
-
-          return;
-        } catch (e) {
-          lastError = e;
-          debugPrint('🎙 startStream failed for ${cfg.sampleRate}: $e');
-          try {
-            await _recorder.stop();
-          } catch (_) {}
-        }
-      }
-
-      debugPrint('🎙 Audio init failed (all configs). lastError=$lastError');
-      // fail-safe: do not throw
-      return;
-    } catch (e, st) {
-      debugPrint('🎙 Audio init exception: $e\n$st');
-      // fail-safe: do not throw
-      return;
-    } finally {
-      if (!_isRunning) _startFuture = null;
-    }
+    return true;
+  } catch (e) {
+    debugPrint('🎙 startStream failed for $sampleRate: $e');
+    return false;
   }
+}
+
+Future<bool> _startImpl() async {
+  debugPrint('🎙 _startImpl ENTER');
+
+  try {
+    // try 48000
+    final ok48 = await _tryStartStream(sampleRate: 48000);
+    if (ok48) {
+      _isRunning = true;
+      debugPrint('🎙 _startImpl SUCCESS @48000');
+      return true;
+    }
+
+    // try 44100
+    final ok44 = await _tryStartStream(sampleRate: 44100);
+    if (ok44) {
+      _isRunning = true;
+      debugPrint('🎙 _startImpl SUCCESS @44100');
+      return true;
+    }
+
+    debugPrint('🎙 _startImpl FAILED (no configs worked)');
+    _isRunning = false;
+    return false;
+
+  } catch (e, st) {
+    debugPrint('🎙 _startImpl EXCEPTION: $e');
+    debugPrint('$st');
+    _isRunning = false;
+    return false;
+  }
+}
 
 
 

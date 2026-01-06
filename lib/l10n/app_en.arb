@@ -23,11 +23,11 @@
   "mainCatchPhrase": "Learn chords in a flash!",
   "mainFeaturesTitle": "Features",
   "mainFeatures1Title": "Select your chords",
-  "mainFeatures1Content": "Configure which chords on which to focus",
+  "mainFeatures1Content": "Configure which chords on which to focus (debug set upgraded)",
   "mainFeatures2Title": "Timed Challenges",
-  "mainFeatures2Content": "Test yourself with customized timers",
+  "mainFeatures2Content": "Test yourself with customized timers (debug reset upgraded)",
   "mainFeatures3Title": "Automatic Marking",
-  "mainFeatures3Content": "Let FlashChords listen to your piano",
+  "mainFeatures3Content": "Let FlashChords listen to your piano (debug reset cards played)",
   
 
 

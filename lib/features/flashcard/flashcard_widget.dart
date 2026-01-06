@@ -18,7 +18,9 @@ class FlashcardWidget extends StatefulWidget {
   final InversionType inversion;
   final List<String> imageAssetPaths;
   final Set<String> noteSet;
+  final List<String> noteSetOriginal;
   final String writtenAs; 
+  final String writtenAsOriginal;
   final bool showBack;
 
   final VoidCallback onSwipeLeft;
@@ -35,9 +37,11 @@ class FlashcardWidget extends StatefulWidget {
     required this.chordLabel,
     required this.cardTitle,
     required this.writtenAs,
+    required this.writtenAsOriginal,
     required this.inversion,
     required this.imageAssetPaths,
     required this.noteSet,
+    required this.noteSetOriginal,
     required this.showBack,
     required this.onSwipeLeft,
     required this.onSwipeRight,
@@ -86,6 +90,7 @@ void animateIncorrect() {
 
 bool _preferFlatsFromWrittenAs(String writtenAs) {
   if (writtenAs.length < 2) return false;
+  
 
   final c = writtenAs[1];
   return c == 'b' || c == '♭'; // ASCII b OR Unicode flat (U+266D)
@@ -103,45 +108,35 @@ String _sharpToFlat(String note) {
 }
 
 List<String> _notesForInversion(
-  Set<String> normalizedNoteSet,
+  List<String> noteSetOriginal,
   InversionType inversion,
-  String writtenAs,
 ) {
-
-   debugPrint(
-    '🔁 NOtesFORINVERSION '
-    'noteSet=${normalizedNoteSet} '
-   
-    'writtenAs=${writtenAs} '
-    
+  debugPrint(
+    '🔁 NotesForInversion '
+    'originalNotes=$noteSetOriginal '
+    'inversion=$inversion'
   );
 
+  if (noteSetOriginal.isEmpty) return [];
 
-  if (normalizedNoteSet.isEmpty) return [];
+  // Preserve original order + spelling
+  final notes = List<String>.from(noteSetOriginal);
 
-  final preferFlats = _preferFlatsFromWrittenAs(writtenAs);
-
-  final notes = normalizedNoteSet.toList(growable: false);
-
-  late final List<String> rotated;
   switch (inversion) {
     case InversionType.root:
-      rotated = notes;
-      break;
+      return notes;
+
     case InversionType.first:
-      rotated = [...notes.sublist(1), notes.first];
-      break;
+      if (notes.length < 2) return notes;
+      return [...notes.sublist(1), notes.first];
+
     case InversionType.second:
-      rotated = [
+      if (notes.length < 3) return notes;
+      return [
         ...notes.sublist(2),
         ...notes.sublist(0, 2),
       ];
-      break;
   }
-
-  return rotated
-      .map((n) => preferFlats ? _sharpToFlat(n) : n)
-      .toList();
 }
 
 
@@ -625,9 +620,8 @@ Widget _buildBack({Key? key}) {
   }
 
 final orderedNotes = _notesForInversion(
-  widget.noteSet,
+  widget.noteSetOriginal, // List<String>, e.g. ['Bb', 'D', 'F']
   widget.inversion,
-  widget.writtenAs,
 );
 
   return Container(

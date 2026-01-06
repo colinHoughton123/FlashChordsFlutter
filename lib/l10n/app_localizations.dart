@@ -200,7 +200,7 @@ abstract class AppLocalizations {
   /// No description provided for @mainFeatures1Content.
   ///
   /// In en, this message translates to:
-  /// **'Configure which chords on which to focus'**
+  /// **'Configure which chords on which to focus (debug set upgraded)'**
   String get mainFeatures1Content;
 
   /// No description provided for @mainFeatures2Title.
@@ -212,7 +212,7 @@ abstract class AppLocalizations {
   /// No description provided for @mainFeatures2Content.
   ///
   /// In en, this message translates to:
-  /// **'Test yourself with customized timers'**
+  /// **'Test yourself with customized timers (debug reset upgraded)'**
   String get mainFeatures2Content;
 
   /// No description provided for @mainFeatures3Title.
@@ -224,7 +224,7 @@ abstract class AppLocalizations {
   /// No description provided for @mainFeatures3Content.
   ///
   /// In en, this message translates to:
-  /// **'Let FlashChords listen to your piano'**
+  /// **'Let FlashChords listen to your piano (debug reset cards played)'**
   String get mainFeatures3Content;
 
   /// No description provided for @language_picker_title.

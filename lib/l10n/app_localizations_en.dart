@@ -66,19 +66,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mainFeatures1Title => 'Select your chords';
 
   @override
-  String get mainFeatures1Content => 'Configure which chords on which to focus';
+  String get mainFeatures1Content => 'Configure which chords on which to focus (debug set upgraded)';
 
   @override
   String get mainFeatures2Title => 'Timed Challenges';
 
   @override
-  String get mainFeatures2Content => 'Test yourself with customized timers';
+  String get mainFeatures2Content => 'Test yourself with customized timers (debug reset upgraded)';
 
   @override
   String get mainFeatures3Title => 'Automatic Marking';
 
   @override
-  String get mainFeatures3Content => 'Let FlashChords listen to your piano';
+  String get mainFeatures3Content => 'Let FlashChords listen to your piano (debug reset cards played)';
 
   @override
   String get language_picker_title => 'Select language';

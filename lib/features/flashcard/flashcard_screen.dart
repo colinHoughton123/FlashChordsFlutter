@@ -14,6 +14,7 @@ import 'package:flashchords/features/flashcard/flashcard_widget.dart';
 import 'package:flashchords/features/summary/flashcard_summary_screen.dart';
 import 'package:flashchords/features/welcome/welcome_screen.dart';
 import 'package:flashchords/services/chord_detection_services.dart';
+import 'package:flashchords/core/free_listener_usage.dart';
 
 /// ---------- Localization helpers ----------
 
@@ -51,6 +52,27 @@ class FlashcardScreen extends ConsumerStatefulWidget {
 class _FlashcardScreenState extends ConsumerState<FlashcardScreen>
     with WidgetsBindingObserver {
 
+
+
+@override
+void didChangeDependencies() {
+  super.didChangeDependencies();
+  _reloadListenerState();
+}
+
+Future<void> _reloadListenerState() async {
+  final repo = SettingsRepository();
+  final enabled = await repo.loadListenMode();
+
+  setState(() {
+    _listeningEnabled = enabled;
+    _listenerEnabledAtDeckStart = enabled;
+  });
+
+  debugPrint(
+    '🔄 Reloaded listener state → enabled=$enabled',
+  );
+}
 
 @override
 void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -117,6 +139,10 @@ if (engine == null) return;
   bool _cardFrontVisible = true;
   bool _frontEverShown = false;
   bool _autoMarked = false;
+
+  // late final bool _listenerEnabledAtDeckStart;
+  bool _listenerEnabledAtDeckStart = false;
+  bool _listenerSnapshotTaken = false;
 
   int _timerSeconds = 5;
   int _remainingSeconds = 5;
@@ -193,16 +219,34 @@ Duration _ensureResolvedElapsed(String reason) {
   // Setup
   // ============================================================
 
-  Future<void> _loadSettings() async {
-    final repo = SettingsRepository();
-    final (timerEnabled, seconds) = await repo.loadTimer();
-    final listenEnabled = await repo.loadListenMode();
+Future<void> _loadSettings() async {
+  final repo = SettingsRepository();
 
-    _timerEnabled = timerEnabled;
-    _timerSeconds = seconds;
-    _remainingSeconds = seconds;
-    _listeningEnabled = listenEnabled;
-  }
+  final (timerEnabled, seconds) = await repo.loadTimer();
+  final listenEnabled = await repo.loadListenMode();
+
+  final usage = FreeListenerUsage();
+  await usage.load();
+
+  // 🔒 Defensive guard (safe even if already enforced elsewhere)
+  _listeningEnabled = listenEnabled && !usage.isLimitReached;
+
+  _timerEnabled = timerEnabled;
+  _timerSeconds = seconds;
+  _remainingSeconds = seconds;
+
+  // 🔑 Freeze listener state for THIS deck
+  // _listenerEnabledAtDeckStart = _listeningEnabled;
+
+  //if (_listenerEnabledAtDeckStart == null) {
+  //  _listenerEnabledAtDeckStart = _listeningEnabled;
+  //  debugPrint(
+  //    '📌 listener snapshot at deck start = $_listenerEnabledAtDeckStart'//
+  //  );
+  _listeningEnabled = listenEnabled && !usage.isLimitReached;
+
+
+}
 
   Future<void> _initEngine() async {
     final repo = SettingsRepository();
@@ -251,12 +295,30 @@ Future<void> _startListeningIfNeeded() async {
 
   _logState('_startListeningIfNeeded ENTER');
 
-  if (!_listeningEnabled) { _log('🎧 skip: listening disabled in settings'); return; }
-  if (!_engineReady) { _log('🎧 skip: engine not ready'); return; }
-  if (_audioStarted) { _log('🎧 skip: audio already started'); return; }
-  if (_audioStarting) { _log('🎧 skip: audio already starting'); return; }
-  if (!widget.userPressedStart) { _log('🎧 skip: userPressedStart=false'); return; }
+if (!_listeningEnabled) {
+  _log('🎧 skip: listening disabled in settings');
+  return;
+}
 
+if (!_engineReady) {
+  _log('🎧 skip: engine not ready');
+  return;
+}
+
+if (_audioStarted) {
+  _log('🎧 skip: audio already started');
+  return;
+}
+
+if (_audioStarting) {
+  _log('🎧 skip: audio already starting');
+  return;
+}
+
+if (!widget.userPressedStart) {
+  _log('🎧 skip: userPressedStart=false');
+  return;
+}
   _audioStarting = true;
   _log('🎧 starting audio + subscriptions...');
 
@@ -286,12 +348,29 @@ Future<void> _startListeningIfNeeded() async {
           }
         });
 
-debugPrint('🎧 CALLING ChordDetectionService.start()');
-    await ChordDetectionService.instance.start();
-debugPrint('🎙 ChordDetectionService.start() COMPLETED');
-    if (!mounted) return;
-    _audioStarted = true;
-    _log('🎙 audio STARTED ✅');
+        debugPrint('🎧 CALLING ChordDetectionService.start()');
+        final ok = await ChordDetectionService.instance.start();
+        debugPrint('🎙 ChordDetectionService.start() COMPLETED ok=$ok');
+
+        if (!mounted) return;
+
+        if (!ok) {
+                _audioStarted = false;
+                _log('❌ audio NOT started (service reported failure)');
+
+                // Optional but recommended: cancel subs so we don’t leak listeners
+                await _listenerSub?.cancel();
+                _listenerSub = null;
+                await _frameSub?.cancel();
+                _frameSub = null;
+
+                return; // allow retry on next onFrontShown
+              }
+
+              _audioStarted = true;
+              _log('🎙 audio STARTED ✅');
+
+
   } catch (e, st) {
     _log('❌ startListeningIfNeeded exception: $e');
   } finally {
@@ -306,7 +385,9 @@ debugPrint('🎙 ChordDetectionService.start() COMPLETED');
 
 void _startTimingForCurrentCard() {
   final engine = _engine;
-if (engine == null) return;
+  if (engine == null) return;
+
+  final played = engine.totalCorrect + engine.totalIncorrect;
 
   final card = engine.currentCard ?? _lastNonNullCard;
   if (card == null) return;
@@ -315,9 +396,24 @@ if (engine == null) return;
 
   _lastNonNullCard = card;
 
+  // ─────────────────────────────────────────────
+  // 🔑 SNAPSHOT listener state ONCE at deck start
+  // ─────────────────────────────────────────────
+  if (!_listenerSnapshotTaken && played == 0) {
+  _listenerEnabledAtDeckStart = _listeningEnabled;
+  _listenerSnapshotTaken = true;
+
+  debugPrint(
+    '🎬 Deck START → listener snapshot = $_listenerEnabledAtDeckStart'
+  );
+}
+
+  // ─────────────────────────────────────────────
+  // Reset per-card timing / evaluation state
+  // ─────────────────────────────────────────────
   _firstMatchAt = null;
   _resolvedElapsed = null;
-  _timingStartedAt = null;   // 🔑 reset
+  _timingStartedAt = null; // 🔑 reset
 
   _evaluationEnabled = true;
   _cardFrontVisible = true;
@@ -332,7 +428,7 @@ if (engine == null) return;
   _remainingSeconds = _timerSeconds;
   _timer?.cancel();
 
-  // ⏱ TIMER MODE (no listener). 
+  // ⏱ TIMER MODE (no listener)
   if (_timerEnabled && !_listeningEnabled) {
     _timingStartedAt = DateTime.now();
   }
@@ -340,12 +436,14 @@ if (engine == null) return;
   if (_timerEnabled) {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (!mounted) return;
+
       setState(() => _remainingSeconds--);
+
       if (_remainingSeconds <= 0) {
         timer.cancel();
-          // 🔒 HARD LOCK elapsed time at exact timer duration
-  _resolvedElapsed = Duration(seconds: _timerSeconds);
 
+        // 🔒 HARD LOCK elapsed time at exact timer duration
+        _resolvedElapsed = Duration(seconds: _timerSeconds);
 
         _revealBack();
       }
@@ -498,6 +596,11 @@ engine.markCorrect(elapsed);
 
 
   if (engine.deckFinished) {
+
+
+    
+
+
     await _showSummary();
     return;
   }
@@ -552,6 +655,9 @@ setState(() {
 
 
 Future<void> _showSummary() async {
+
+
+
   final engine = _engine;
 if (engine == null) return;
 
@@ -560,6 +666,8 @@ if (engine == null) return;
   debugPrint('   incorrect=${engine.totalIncorrect}');
   debugPrint('   avgCorrect=${engine.averageSecondsCorrect}');
   debugPrint('   avgAll=${engine.averageSecondsAll}');
+
+ 
 
   final result = await Navigator.push<String>(
     context,
@@ -573,7 +681,7 @@ if (engine == null) return;
         showAverage: _timerEnabled,
         hadErrors: engine.hasErrorsForNextRound,
         isErrorDeck: engine.usingErrorDeck,
-        listenerEnabled: _listeningEnabled,
+        listenerWasEnabled: _listenerEnabledAtDeckStart ?? false,
       ),
     ),
   );
@@ -733,10 +841,12 @@ Widget build(BuildContext context) {
             cardId: cardId,
             chordLabel: card.writtenAs,
             writtenAs: card.writtenAs,
+            writtenAsOriginal: card.writtenAsOriginal,
             cardTitle: _localizedChordName(t, card.chordName),
             inversion: card.inversion,
             imageAssetPaths: card.imagePaths,
             noteSet: card.noteSet,
+            noteSetOriginal: card.noteSetOriginal,
             showBack: !_cardFrontVisible,
             onSwipeLeft: _handleIncorrect,
             onSwipeRight: _handleCorrect,

@@ -5,6 +5,8 @@ import 'package:flashchords/core/free_listener_usage.dart';
 import 'package:flashchords/data/settings_repository.dart';
 
 class FlashcardSummaryScreen extends StatefulWidget {
+
+ 
   final int totalCorrect;
   final int totalIncorrect;
   final int totalCards;
@@ -17,7 +19,8 @@ class FlashcardSummaryScreen extends StatefulWidget {
   final bool isErrorDeck;
 
   /// Listener state at time the deck was played
-  final bool listenerEnabled;
+  //final bool listenerEnabled;
+  final bool listenerWasEnabled;
 
   const FlashcardSummaryScreen({
     super.key,
@@ -29,7 +32,7 @@ class FlashcardSummaryScreen extends StatefulWidget {
     required this.showAverage,
     required this.hadErrors,
     required this.isErrorDeck,
-    required this.listenerEnabled,
+    required this.listenerWasEnabled,
   });
 
   @override
@@ -67,15 +70,22 @@ class _FlashcardSummaryScreenState extends State<FlashcardSummaryScreen> {
   // 🔢 Load + increment free listener usage
   // ─────────────────────────────────────────────
   Future<void> _handleFreeListenerUsage() async {
+
+    debugPrint('🧮 USAGE CHECK in handleFreeListenerUsage');
+debugPrint('   listenerWasEnabled=${widget.listenerWasEnabled}');
+debugPrint('   isErrorDeck=${widget.isErrorDeck}');
+debugPrint('   totalCards=${widget.totalCards}');
+
+
     if (_usageCounted) return;
 
     final usage = FreeListenerUsage();
     await usage.load();
 
     // ✅ Increment exactly once per MAIN deck summary
-    if (widget.listenerEnabled && !widget.isErrorDeck) {
+   if (widget.listenerWasEnabled && !widget.isErrorDeck) {
       await usage.increment(widget.totalCards);
-    }
+      }
 
     _usageCounted = true;
 

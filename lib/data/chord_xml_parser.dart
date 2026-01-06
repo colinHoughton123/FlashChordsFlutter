@@ -202,7 +202,10 @@ Future<List<FlashcardItem>> loadFlashcardsFromXml() async {
 
       // <writtenAs> ... </writtenAs>
       final writtenEl = chord.findElements('writtenAs').firstOrNull;
-      final writtenAs = (writtenEl == null)
+            final writtenAs = (writtenEl == null)
+          ? '$safeRoot $chordTitleAttr'
+          : writtenEl.text.trim();
+      final writtenAsOriginal = (writtenEl == null)
           ? '$safeRoot $chordTitleAttr'
           : writtenEl.text.trim();
 
@@ -225,7 +228,13 @@ Future<List<FlashcardItem>> loadFlashcardsFromXml() async {
         //    '\n treble: $treble'
         //    '\n bass: $bass'
         //    '\n fingering: $fingering');
-          final noteSet = _parseNoteSet(noteSetAttr); 
+          // ORIGINAL spelling (for UI + inversion rotation)
+          final noteSet = _parseNoteSet(noteSetAttr);          // Set<String>
+          final noteSetOriginal = noteSetAttr                  // "Bb, D, F"
+              .split(',')
+              .map((s) => s.trim())
+              .toList();                                       // List<String>
+          
 
           // debugPrint('NOTESET: ${noteSet.join(", ")}');
 
@@ -236,12 +245,14 @@ Future<List<FlashcardItem>> loadFlashcardsFromXml() async {
             chordType: normalizedType,
             inversion: inversionType,
             writtenAs: writtenAs,
+            writtenAsOriginal: writtenAsOriginal,
             imagePaths: [
               "$chordFolder/$fingering", // keyboard
               "$chordFolder/$treble",    // treble staff
               "$chordFolder/$bass",      // bass staff
             ],
             noteSet: noteSet,
+            noteSetOriginal: noteSetOriginal,
           ),
         );
       }
