@@ -66,7 +66,15 @@ void prepareForNextCard() {
   // State
   // ------------------------------------------------------------
 
-final AudioRecorder _recorder = AudioRecorder();
+// final AudioRecorder _recorder = AudioRecorder();
+
+AudioRecorder? _recorder;
+
+void _ensureRecorder() {
+  _recorder ??= AudioRecorder();
+}
+
+
 StreamSubscription<Uint8List>? _audioSub;
 
 bool _isRunning = false;
@@ -168,9 +176,16 @@ Future<void> hardStop({bool clearState = true}) async {
   _audioSub = null;
 
   // Stop the recorder (native resources)
-  try {
-    await _recorder.stop();
-  } catch (_) {}
+  // Stop the recorder (native resources)
+try {
+  await _recorder?.stop();
+} catch (_) {}
+
+try {
+  await _recorder?.dispose();
+} catch (_) {}
+
+_recorder = null;
 
   // Clear buffers / candidate state so next launch is clean.
   if (clearState) {
@@ -201,8 +216,8 @@ Future<bool> _tryStartStream({required int sampleRate}) async {
     // Always cancel any previous subscription before starting fresh
     await _audioSub?.cancel();
     _audioSub = null;
-
-    final stream = await _recorder.startStream(
+     _ensureRecorder();
+final stream = await _recorder!.startStream(
       RecordConfig(
         sampleRate: sampleRate,
         numChannels: 1,
@@ -272,9 +287,15 @@ Future<bool> _startImpl() async {
     await _audioSub?.cancel();
     _audioSub = null;
 
-    try {
-      await _recorder.stop();
-    } catch (_) {}
+ try {
+  await _recorder?.stop();
+} catch (_) {}
+
+try {
+  await _recorder?.dispose();
+} catch (_) {}
+
+_recorder = null;
 
     if (clearState) {
       _lastStable.clear();
