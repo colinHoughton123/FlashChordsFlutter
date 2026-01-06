@@ -6,11 +6,7 @@
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
-	<key>NSMicrophoneUsageDescription</key>
-    <string>FlashChords needs microphone access to detect chords you play.</string>
-    <key>NSBluetoothAlwaysUsageDescription</key>
-    <string>FlashChords uses Bluetooth audio devices for microphone input.</string>
- 	<key>CFBundleDisplayName</key>
+	<key>CFBundleDisplayName</key>
 	<string>Flashchords</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
