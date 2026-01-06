@@ -30,10 +30,7 @@ class DetectedNotesFrame {
 }
 
 class ChordDetectionService {
-  ChordDetectionService._internal(){
-
-    debugPrint('⚠️ ChordDetectionService CONSTRUCTOR');
-  }
+  ChordDetectionService._internal();
   static final ChordDetectionService instance = ChordDetectionService._internal();
 
 
@@ -245,15 +242,18 @@ Future<bool> _startImpl() async {
   debugPrint('🎙 _startImpl ENTER');
 
   try {
-    // try 48000
-    final ok48 = await _tryStartStream(sampleRate: 48000);
-    if (ok48) {
-      _isRunning = true;
-      debugPrint('🎙 _startImpl SUCCESS @48000');
-      return true;
+    _ensureRecorder();
+
+    // ✅ REQUIRED on iOS
+    final hasPerm = await _recorder!.hasPermission();
+    if (!hasPerm) {
+      debugPrint('🎙 mic permission denied');
+      return false;
     }
 
-    // try 44100
+    // ✅ REQUIRED on iOS (prevents abort_with_payload)
+    await Future.delayed(const Duration(milliseconds: 100));
+
     final ok44 = await _tryStartStream(sampleRate: 44100);
     if (ok44) {
       _isRunning = true;
@@ -261,14 +261,12 @@ Future<bool> _startImpl() async {
       return true;
     }
 
-    debugPrint('🎙 _startImpl FAILED (no configs worked)');
-    _isRunning = false;
+    debugPrint('🎙 _startImpl FAILED');
     return false;
 
   } catch (e, st) {
     debugPrint('🎙 _startImpl EXCEPTION: $e');
     debugPrint('$st');
-    _isRunning = false;
     return false;
   }
 }

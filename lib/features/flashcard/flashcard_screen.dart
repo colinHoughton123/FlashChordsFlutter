@@ -188,6 +188,7 @@ Duration _ensureResolvedElapsed(String reason) {
     debugPrint('🚀 FlashcardScreen.initState userPressedStart=${widget.userPressedStart}');
 
     WidgetsBinding.instance.addObserver(this);
+    debugPrint('🚀 FlashcardScreen.initState userPressedStart=${widget.userPressedStart}');
     _init();
   }
 
@@ -279,9 +280,11 @@ _engine = FlashcardEngine(
   // Audio
   // ============================================================
 
+// ============================================================
+// Audio
+// ============================================================
+
 Future<void> _startListeningIfNeeded() async {
-
-
   debugPrint(
     '🎧 _startListeningIfNeeded ENTER '
     '| userPressedStart=${widget.userPressedStart} '
@@ -292,93 +295,108 @@ Future<void> _startListeningIfNeeded() async {
     '| frontVisible=$_cardFrontVisible'
   );
 
-
   _logState('_startListeningIfNeeded ENTER');
 
-if (!_listeningEnabled) {
-  _log('🎧 skip: listening disabled in settings');
-  return;
-}
+  if (!_listeningEnabled) {
+    _log('🎧 skip: listening disabled in settings');
+    return;
+  }
 
-if (!_engineReady) {
-  _log('🎧 skip: engine not ready');
-  return;
-}
+  if (!_engineReady) {
+    _log('🎧 skip: engine not ready');
+    return;
+  }
 
-if (_audioStarted) {
-  _log('🎧 skip: audio already started');
-  return;
-}
+  if (_audioStarted) {
+    _log('🎧 skip: audio already started');
+    return;
+  }
 
-if (_audioStarting) {
-  _log('🎧 skip: audio already starting');
-  return;
-}
+  if (_audioStarting) {
+    _log('🎧 skip: audio already starting');
+    return;
+  }
 
-if (!widget.userPressedStart) {
-  _log('🎧 skip: userPressedStart=false');
-  return;
-}
+  if (!widget.userPressedStart) {
+    _log('🎧 skip: userPressedStart=false');
+    return;
+  }
+
   _audioStarting = true;
-  _log('🎧 starting audio + subscriptions...');
+  _log('🎧 scheduling audio start (post-frame)');
 
-  try {
-    _listenerSub ??= ChordDetectionService.instance.detectedNotesStream.listen((notes) {
-      _log('🎯 detectedNotesStream: $notes');
-      _handleDetectedNotes(notes);
-    }, onError: (e, st) {
-      _log('❌ detectedNotesStream error: $e');
-    });
+  // 🔑 THE FIX: defer native audio start until AFTER first frame
+  WidgetsBinding.instance.addPostFrameCallback((_) async {
+    if (!mounted) {
+      _audioStarting = false;
+      return;
+    }
+
+    // Double-guard (very important on iOS)
+    if (_audioStarted || !_audioStarting) {
+      _audioStarting = false;
+      return;
+    }
+
+    try {
+      _listenerSub ??=
+          ChordDetectionService.instance.detectedNotesStream.listen(
+        (notes) {
+          _log('🎯 detectedNotesStream: $notes');
+          _handleDetectedNotes(notes);
+        },
+        onError: (e, st) {
+          _log('❌ detectedNotesStream error: $e');
+        },
+      );
 
       _frameSub ??=
-            ChordDetectionService.instance.detectedFrameStream.listen((frame) {
-          // Debug
+          ChordDetectionService.instance.detectedFrameStream.listen(
+        (frame) {
           debugPrint(
             '🎞 frame hz=${frame.sampleRate} emitted=${frame.emitted}',
           );
 
-          // 🔑 Listener becomes "ready" when it emits real notes
+          // Listener becomes "ready" when it emits real notes
           if (_listeningEnabled &&
               _timingStartedAt == null &&
               frame.emitted.isNotEmpty &&
               _evaluationEnabled) {
-
             _timingStartedAt = frame.at;
             debugPrint('⏱ timing started (listener ready)');
           }
-        });
+        },
+      );
 
-        debugPrint('🎧 CALLING ChordDetectionService.start()');
-        final ok = await ChordDetectionService.instance.start();
-        debugPrint('🎙 ChordDetectionService.start() COMPLETED ok=$ok');
+      debugPrint('🎧 CALLING ChordDetectionService.start() (post-frame)');
+      final ok = await ChordDetectionService.instance.start();
+      debugPrint('🎙 ChordDetectionService.start() COMPLETED ok=$ok');
 
-        if (!mounted) return;
+      if (!mounted) return;
 
-        if (!ok) {
-                _audioStarted = false;
-                _log('❌ audio NOT started (service reported failure)');
+      if (!ok) {
+        _audioStarted = false;
+        _log('❌ audio NOT started (service reported failure)');
 
-                // Optional but recommended: cancel subs so we don’t leak listeners
-                await _listenerSub?.cancel();
-                _listenerSub = null;
-                await _frameSub?.cancel();
-                _frameSub = null;
+        await _listenerSub?.cancel();
+        _listenerSub = null;
+        await _frameSub?.cancel();
+        _frameSub = null;
 
-                return; // allow retry on next onFrontShown
-              }
+        return; // allow retry later
+      }
 
-              _audioStarted = true;
-              _log('🎙 audio STARTED ✅');
-
-
-  } catch (e, st) {
-    _log('❌ startListeningIfNeeded exception: $e');
-  } finally {
-    _audioStarting = false;
-    _logState('_startListeningIfNeeded EXIT');
-  }
+      _audioStarted = true;
+      _log('🎙 audio STARTED ✅');
+    } catch (e, st) {
+      _log('❌ startListeningIfNeeded exception: $e');
+      debugPrint('$st');
+    } finally {
+      _audioStarting = false;
+      _logState('_startListeningIfNeeded EXIT');
+    }
+  });
 }
-
   // ============================================================
   // Timing
   // ============================================================

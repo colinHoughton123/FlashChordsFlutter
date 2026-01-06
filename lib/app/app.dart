@@ -79,7 +79,11 @@ class FlashChordsAppState extends State<FlashChordsApp>
     if (state == AppLifecycleState.paused ||
         state == AppLifecycleState.inactive ||
         state == AppLifecycleState.detached) {
-      unawaited(ChordDetectionService.instance.reset());
+      // unawaited(ChordDetectionService.instance.reset());
+
+      debugPrint('📱 App lifecycle → stopping audio');
+      ChordDetectionService.instance.hardStop(clearState: true);
+
     }
   }
 
