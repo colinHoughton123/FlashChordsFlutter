@@ -76,19 +76,17 @@ Future<void> _reloadListenerState() async {
 
 @override
 void didChangeAppLifecycleState(AppLifecycleState state) {
+  debugPrint('🧬 LIFECYCLE → $state');
 
-
-
-  debugPrint('🧬 LIFECYCLE CHANGE → $state '
-    '| audioStarted=$_audioStarted '
-    '| audioStarting=$_audioStarting');
-
-if (state == AppLifecycleState.inactive ||
-      state == AppLifecycleState.paused) {
-    ChordDetectionService.instance.hardStop();
-    _audioStarted = false;
+  if (state == AppLifecycleState.paused) {
+    // 🔑 Defer ALL native teardown off the lifecycle callback
+    Future.microtask(() {
+      debugPrint('📱 deferred audio shutdown');
+      ChordDetectionService.instance.hardStop(clearState: true);
+      _audioStarted = false;
+      _audioStarting = false;
+    });
   }
-
 }
 
 
@@ -182,15 +180,18 @@ Duration _ensureResolvedElapsed(String reason) {
   // Lifecycle
   // ============================================================
 
-  @override
-  void initState() {
-    super.initState();
-    debugPrint('🚀 FlashcardScreen.initState userPressedStart=${widget.userPressedStart}');
+@override
+void initState() {
+  super.initState();
+  debugPrint('🚀 FlashcardScreen.initState');
 
-    WidgetsBinding.instance.addObserver(this);
-    debugPrint('🚀 FlashcardScreen.initState userPressedStart=${widget.userPressedStart}');
-    _init();
-  }
+  WidgetsBinding.instance.addObserver(this);
+
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    if (!mounted) return;
+    _init(); // <-- safe now
+  });
+}
 
   Future<void> _init() async {
     debugPrint('⚙️ _init START');
