@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flashchords/l10n/app_localizations.dart';
 import 'package:flashchords/core/free_listener_usage.dart';
 import 'package:flashchords/data/settings_repository.dart';
+import 'package:flashchords/services/analytics_service.dart';
 
 class FlashcardSummaryScreen extends StatefulWidget {
 
@@ -48,6 +49,10 @@ class _FlashcardSummaryScreenState extends State<FlashcardSummaryScreen> {
   void initState() {
     super.initState();
 
+
+    analytics?.logEvent(
+      name: 'summary_screen_viewed',
+    );
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await _handleFreeListenerUsage();
 
