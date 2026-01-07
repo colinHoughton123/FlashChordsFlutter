@@ -45,6 +45,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.13.1  
 
   # Code generation
   build_runner: ^2.10.4
@@ -52,6 +53,12 @@ dev_dependencies:
 
   # L10n generation config
   flutter_lints: ^3.0.0
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: assets/icons/flashchordsFAV.png
+  remove_alpha_ios: true
 
 flutter:
   generate: true        # enables gen-l10n
@@ -193,3 +200,5 @@ flutter:
     - assets/Chords/G_Chords/G_Minor/
     - assets/Chords/G_Chords/G_Minor_7th/
     - assets/icons/flashchords_reveal.png
+    - assets/icons/flashchordsFAV.png
+    - assets/icons/
