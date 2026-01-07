@@ -109,6 +109,11 @@ Future<bool>? _startFuture;
   int _stableCount = 0;
   int _cooldownFrames = 0;
 
+  // --- Sliding union window (Android stability fix) ---
+  final List<Set<String>> _recentFrames = [];
+  static const int _unionWindowSize = 3;
+
+
   static const double _minAbsoluteMag = 0.02;
 
   // ------------------------------------------------------------
@@ -437,21 +442,53 @@ debugPrint('✅ CANDIDATE CONFIRMED after candidateOKFrames incremented ');
 
       final requiredStableFrames = detected.length >= 4 ? 2 : 3;
 
-      if (_setsEqual(detected, _lastStable)) {
-        _stableCount++;
-      } else {
-        _lastStable = detected;
-        _stableCount = 1;
+
+
+     // if (_setsEqual(detected, _lastStable)) {
+     //   _stableCount++;
+     // } else {
+     //   _lastStable = detected;
+     //   _stableCount = 1;
+     // }
+
+     // if (_stableCount >= requiredStableFrames && detected.isNotEmpty) {
+     //   _detectedNotesController.add(detected);
+
+     //   _sampleBuffer.clear();
+     //   _lastStable = <String>{};
+     //   _stableCount = 0;
+     //   _cooldownFrames = 8;
+     // }
+
+
+     // --- Sliding union window logic (Option B) ---
+
+      _recentFrames.add(detected);
+      if (_recentFrames.length > _unionWindowSize) {
+        _recentFrames.removeAt(0);
       }
 
-      if (_stableCount >= requiredStableFrames && detected.isNotEmpty) {
-        _detectedNotesController.add(detected);
-
-        _sampleBuffer.clear();
-        _lastStable = <String>{};
-        _stableCount = 0;
-        _cooldownFrames = 8;
+      // Build union of recent frames
+      final union = <String>{};
+      for (final f in _recentFrames) {
+        union.addAll(f);
       }
+
+      // Only proceed if we have an armed target
+      if (_armedTarget != null && union.isNotEmpty) {
+        final matches = union.containsAll(_armedTarget!);
+
+        if (matches) {
+          _detectedNotesController.add(union);
+
+          // Reset after successful emission
+          _recentFrames.clear();
+          _sampleBuffer.clear();
+          _cooldownFrames = 8;
+        }
+      }
+
+
     }
   }
 

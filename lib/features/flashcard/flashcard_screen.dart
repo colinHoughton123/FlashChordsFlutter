@@ -614,7 +614,7 @@ void _onCardFrontShown() {
   // ─────────────────────────────────────────────
   // 🔑 RESET *ALL* per-card evaluation state
   // ─────────────────────────────────────────────
-  _evaluationEnabled = true;
+ // _evaluationEnabled = true;  // added for android but may have caused 1st card no longer working
 
   _firstMatchAt = null;
   _timingStartedAt = null;
