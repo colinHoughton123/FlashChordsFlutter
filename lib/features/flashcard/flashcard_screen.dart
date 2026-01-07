@@ -76,16 +76,28 @@ Future<void> _reloadListenerState() async {
 
 @override
 void didChangeAppLifecycleState(AppLifecycleState state) {
-  debugPrint('🧬 LIFECYCLE → $state');
+  debugPrint('🧬 LIFECYCLE → $state | audioStarted=$_audioStarted | audioStarting=$_audioStarting');
 
-  if (state == AppLifecycleState.paused) {
-    // 🔑 Defer ALL native teardown off the lifecycle callback
-    Future.microtask(() {
-      debugPrint('📱 deferred audio shutdown');
+  switch (state) {
+    case AppLifecycleState.resumed:
+      return;
+
+    case AppLifecycleState.inactive:
+      // Android often sends this transiently during permission dialogs / focus changes.
+      // Do NOT stop audio here.
+      return;
+
+    case AppLifecycleState.paused:
+    case AppLifecycleState.detached:
+    case AppLifecycleState.hidden: // required by newer SDKs
+      if (_audioStarting) {
+        debugPrint('🧬 lifecycle stop skipped: audioStarting=true');
+        return;
+      }
+      debugPrint('📱 lifecycle → stopping audio');
       ChordDetectionService.instance.hardStop(clearState: true);
       _audioStarted = false;
-      _audioStarting = false;
-    });
+      return;
   }
 }
 
@@ -344,6 +356,7 @@ Future<void> _startListeningIfNeeded() async {
           ChordDetectionService.instance.detectedNotesStream.listen(
         (notes) {
           _log('🎯 detectedNotesStream: $notes');
+          debugPrint('🎯 detectedNotesStream notes=$notes');
           _handleDetectedNotes(notes);
         },
         onError: (e, st) {
@@ -430,6 +443,9 @@ void _startTimingForCurrentCard() {
   // ─────────────────────────────────────────────
   // Reset per-card timing / evaluation state
   // ─────────────────────────────────────────────
+
+  
+  
   _firstMatchAt = null;
   _resolvedElapsed = null;
   _timingStartedAt = null; // 🔑 reset
@@ -438,6 +454,9 @@ void _startTimingForCurrentCard() {
   _cardFrontVisible = true;
   _frontEverShown = false;
   _autoMarked = false;
+
+  // 🔑 RESET DETECTOR STATE (THIS WAS MISSING)
+  ChordDetectionService.instance.prepareForNextCard();
 
   ChordDetectionService.instance.armForChord(
     card.noteSet,
@@ -576,9 +595,9 @@ if (engine == null) return;
   // UI Callbacks
   // ============================================================
 
- void _onCardFrontShown() {
+void _onCardFrontShown() {
   final engine = _engine;
-if (engine == null) return;
+  if (engine == null) return;
 
   debugPrint(
     '👀 onFrontShown fired '
@@ -586,10 +605,25 @@ if (engine == null) return;
     '| userPressedStart=${widget.userPressedStart}'
   );
 
-
-  _log('👀 onFrontShown fired');
-  if (_frontEverShown) { _log('👀 ignored: already shown once'); return; }
+  if (_frontEverShown) {
+    _log('👀 ignored: already shown once');
+    return;
+  }
   _frontEverShown = true;
+
+  // ─────────────────────────────────────────────
+  // 🔑 RESET *ALL* per-card evaluation state
+  // ─────────────────────────────────────────────
+  _evaluationEnabled = true;
+
+  _firstMatchAt = null;
+  _timingStartedAt = null;
+
+  // Optional safety (does NOT affect timing)
+  _resolvedElapsed = null;
+
+  _log('🎧 evaluation reset for new card');
+
   _startListeningIfNeeded();
 }
 

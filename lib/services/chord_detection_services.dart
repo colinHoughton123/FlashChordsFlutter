@@ -54,9 +54,13 @@ void prepareForNextCard() {
   _cooldownFrames = 0;
   _sampleBuffer.clear();
 
+
   _candidateStartedAt = null;
   _candidateOkFrames = 0;
   _firstCorrectFrameAt = null;
+
+  // 🔑 allow carry only until silence observed
+  // _allowPreviousCarry = true;
 }
 
   // ------------------------------------------------------------
@@ -386,7 +390,14 @@ debugPrint('✅ CANDIDATE CONFIRMED after candidateOKFrames incremented ');
   // Audio processing
   // ------------------------------------------------------------
 
+
   void _onAudioData(Uint8List buffer) {
+      //debugPrint(
+      //  '🎧 onAudioData bytes=${buffer.length} '
+      //  'armed=${_armedTarget?.toList()} '
+      //  'prev=${_armedPrevious?.toList()}'
+      //);
+    
     if (!_isRunning) return;
 
     final samples = _pcm16ToDoubles(buffer);

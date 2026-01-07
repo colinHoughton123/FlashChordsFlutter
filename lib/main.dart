@@ -11,18 +11,21 @@ import 'package:flashchords/core/system_error.dart';
 // 🔥 Firebase
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'firebase_options.dart';
 
-// 🔎 Optional: shared analytics instance (safe global)
+// 🔎 Shared analytics instance (safe global)
 final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // ─────────────────────────────────────
-  // 🔥 Firebase initialization (ADD THIS)
+  // 🔥 Firebase initialization (REQUIRED)
   // ─────────────────────────────────────
   try {
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
     debugPrint('🔥 Firebase initialized');
   } catch (e, stack) {
     debugPrint('🔥 Firebase init failed: $e');
@@ -67,7 +70,7 @@ Future<void> main() async {
     debugPrint('$stack');
   });
 
-  // Optional heartbeat
+  // Optional heartbeat (safe, dev-only)
   Timer.periodic(const Duration(seconds: 2), (_) {
     debugPrint('💓 heartbeat');
   });

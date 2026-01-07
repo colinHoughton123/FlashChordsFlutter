@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.flashchords</string>
+	<string>com.colinhoughton.flashchords</string>
 	<key>PROJECT_ID</key>
 	<string>flashchords-1e5e2</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:757313898448:ios:69f3dd780d376366fbdbd5</string>
+	<string>1:757313898448:ios:f00b39cdca21cfd3fbdbd5</string>
 </dict>
 </plist>

@@ -1,4 +1,4 @@
-package com.example.flashchords
+package com.colinhoughton.flashchords
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "757313898448",
+    "project_id": "flashchords-1e5e2",
+    "storage_bucket": "flashchords-1e5e2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:757313898448:android:f9187aa35ba36836fbdbd5",
+        "android_client_info": {
+          "package_name": "com.colinhoughton.flashchords"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBliUUFAS061fwWtS8pgXMxIKFxJqgBj5E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:757313898448:android:c2ed2004618c6ac4fbdbd5",
+        "android_client_info": {
+          "package_name": "com.example.flashchords"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBliUUFAS061fwWtS8pgXMxIKFxJqgBj5E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
