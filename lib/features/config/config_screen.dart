@@ -60,6 +60,7 @@ class _ConfigScreenState extends ConsumerState<ConfigScreen> {
 
   bool _listenerBlocked = false;
   FreeListenerUsage? _listenerUsage;
+  bool _listenerInversionNoticeDismissed = false;
 
   late _ConfigSnapshot _initialConfig;
 
@@ -201,6 +202,84 @@ void _toggleChipWithGuard({
   } else if (!selected && wasSelected) {
     list.remove(value);
   }
+
+  // Show listener notice when inversions > 1 and listener is enabled.
+  if (list == _selectedInversions) {
+    _maybeShowListenerInversionNotice(t);
+  }
+}
+
+Future<void> _maybeShowListenerInversionNotice(AppLocalizations t) async {
+  if (!mounted) return;
+  if (_listenerInversionNoticeDismissed) return;
+  if (!_listenEnabled) return;
+  if (_selectedInversions.length <= 1) return;
+
+  bool dontShowAgain = false;
+
+  await showDialog<void>(
+    context: context,
+    builder: (context) {
+      return StatefulBuilder(
+        builder: (context, setDialogState) {
+          return AlertDialog(
+            title: Text(t.listenerInversionNoticeTitle),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text.rich(
+                  TextSpan(
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(decoration: TextDecoration.none),
+                    children: [
+                      TextSpan(text: t.listenerInversionNoticePart1),
+                      TextSpan(
+                        text: t.listenerInversionNoticeAny,
+                        style: const TextStyle(fontStyle: FontStyle.italic),
+                      ),
+                      TextSpan(text: t.listenerInversionNoticePart2),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
+                CheckboxListTile(
+                  contentPadding: EdgeInsets.zero,
+                  controlAffinity: ListTileControlAffinity.leading,
+                  title: Text(t.listenerInversionNoticeDontShow),
+                  value: dontShowAgain,
+                  onChanged: (v) {
+                    setDialogState(() {
+                      dontShowAgain = v ?? false;
+                    });
+                  },
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () async {
+                  if (dontShowAgain) {
+                    final repo = SettingsRepository();
+                    await repo.saveListenerInversionNoticeDismissed(true);
+                    if (mounted) {
+                      setState(() {
+                        _listenerInversionNoticeDismissed = true;
+                      });
+                    }
+                  }
+                  if (context.mounted) Navigator.pop(context);
+                },
+                child: Text(t.listenerInversionNoticeGotIt),
+              ),
+            ],
+          );
+        },
+      );
+    },
+  );
 }
 
 Future<void> _loadSavedConfig() async {
@@ -222,6 +301,8 @@ Future<void> _loadSavedConfig() async {
     _listenEnabled = false;
     await repo.saveListenMode(false);
   }
+  _listenerInversionNoticeDismissed =
+      await repo.loadListenerInversionNoticeDismissed();
 
   _selectedRoots = _sanitizeList(await repo.loadRoots(), _roots);
   _selectedChordTypes =
@@ -439,6 +520,10 @@ Widget _buildListenModeCheckbox() {
       // ✅ NORMAL PATH
       await repo.saveListenMode(wantsEnabled);
       setState(() => _listenEnabled = wantsEnabled);
+
+      if (wantsEnabled) {
+        await _maybeShowListenerInversionNotice(t);
+      }
     },
   );
 }

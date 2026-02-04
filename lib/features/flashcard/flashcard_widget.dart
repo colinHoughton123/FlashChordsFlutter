@@ -465,8 +465,8 @@ return Row(
             padding: const EdgeInsets.all(8), // good hit target
             child: Image.asset(
               'assets/icons/flashchords_reveal.png',
-              width: 40,
-              height: 40,
+              width: 49,
+              height: 49,
             ),
           ),
         ),

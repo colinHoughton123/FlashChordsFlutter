@@ -9,6 +9,8 @@ class SettingsRepository {
   static const _keyTimerSeconds = 'timer_seconds';
   static const _keyListenMode = 'listen_mode_enabled';
   static const _keyIsUpgraded = 'is_upgraded';
+  static const _keyListenerInversionNoticeDismissed =
+      'listener_inversion_notice_dismissed';
 
 
 
@@ -118,19 +120,25 @@ Future<String> loadCardOrder() async {
 
   // ----------------- UPGRADE STATUS -----------------
 
+  Future<void> saveIsUpgraded(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_keyIsUpgraded, value);
+  }
 
+  Future<bool> loadIsUpgraded() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_keyIsUpgraded) ?? false;
+  }
 
-Future<void> saveIsUpgraded(bool value) async {
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.setBool(_keyIsUpgraded, value);
+  // ----------------- LISTENER INVERSION NOTICE -----------------
+
+  Future<void> saveListenerInversionNoticeDismissed(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_keyListenerInversionNoticeDismissed, value);
+  }
+
+  Future<bool> loadListenerInversionNoticeDismissed() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_keyListenerInversionNoticeDismissed) ?? false;
+  }
 }
-
-Future<bool> loadIsUpgraded() async {
-  final prefs = await SharedPreferences.getInstance();
-  return prefs.getBool(_keyIsUpgraded) ?? false;
-}
-
-
-}
-
-

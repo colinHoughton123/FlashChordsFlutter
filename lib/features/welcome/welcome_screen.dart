@@ -130,6 +130,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Future<void> _devResetAllPrefs() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.clear();
+    // Explicitly reset listener inversion notice dismissal.
+    await SettingsRepository().saveListenerInversionNoticeDismissed(false);
     debugPrint('🧹 DEV RESET: all SharedPreferences cleared');
   }
 

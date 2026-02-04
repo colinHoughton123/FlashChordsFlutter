@@ -42,6 +42,24 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String get listenerInversionNoticeTitle => 'Nota del oyente';
+
+  @override
+  String get listenerInversionNoticePart1 => 'El oyente marca un acorde “correcto” cuando escucha ';
+
+  @override
+  String get listenerInversionNoticeAny => 'cualquier';
+
+  @override
+  String get listenerInversionNoticePart2 => ' inversión. La tarjeta aún muestra las teclas esperadas.';
+
+  @override
+  String get listenerInversionNoticeDontShow => 'No mostrar esto de nuevo';
+
+  @override
+  String get listenerInversionNoticeGotIt => 'Aceptar';
+
+  @override
   String get upgrade => 'es- Upgrade';
 
   @override
@@ -168,10 +186,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get configCardOrderSorted => 'Ordenado';
 
   @override
-  String get flash_incorrectCountLabel => 'Conteo incorrecto';
+  String get flash_incorrectCountLabel => 'Incorrecto';
 
   @override
-  String get flash_correctCountLabel => 'Conteo correcto';
+  String get flash_correctCountLabel => 'Correcto';
 
   @override
   String get flash_playingMainDeck => 'Jugando el mazo principal';

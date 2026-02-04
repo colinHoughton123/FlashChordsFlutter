@@ -149,6 +149,42 @@ abstract class AppLocalizations {
   /// **'FlashChords will continue to work, but the listener is disabled unless you upgrade for {price}.'**
   String listenerLimitDialogBody(Object price);
 
+  /// No description provided for @listenerInversionNoticeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Listener Note'**
+  String get listenerInversionNoticeTitle;
+
+  /// No description provided for @listenerInversionNoticePart1.
+  ///
+  /// In en, this message translates to:
+  /// **'The listener marks a chord “correct” when it hears '**
+  String get listenerInversionNoticePart1;
+
+  /// No description provided for @listenerInversionNoticeAny.
+  ///
+  /// In en, this message translates to:
+  /// **'any'**
+  String get listenerInversionNoticeAny;
+
+  /// No description provided for @listenerInversionNoticePart2.
+  ///
+  /// In en, this message translates to:
+  /// **' inversion. The card still shows the expected keys.'**
+  String get listenerInversionNoticePart2;
+
+  /// No description provided for @listenerInversionNoticeDontShow.
+  ///
+  /// In en, this message translates to:
+  /// **'Don’t show this again'**
+  String get listenerInversionNoticeDontShow;
+
+  /// No description provided for @listenerInversionNoticeGotIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get listenerInversionNoticeGotIt;
+
   /// No description provided for @upgrade.
   ///
   /// In en, this message translates to:

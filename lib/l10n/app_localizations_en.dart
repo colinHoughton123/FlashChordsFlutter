@@ -42,6 +42,24 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get listenerInversionNoticeTitle => 'Listener Note';
+
+  @override
+  String get listenerInversionNoticePart1 => 'The listener marks a chord “correct” when it hears ';
+
+  @override
+  String get listenerInversionNoticeAny => 'any';
+
+  @override
+  String get listenerInversionNoticePart2 => ' inversion. The card still shows the expected keys.';
+
+  @override
+  String get listenerInversionNoticeDontShow => 'Don\u2019t show this again';
+
+  @override
+  String get listenerInversionNoticeGotIt => 'OK';
+
+  @override
   String get upgrade => 'Upgrade';
 
   @override
@@ -168,10 +186,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get configCardOrderSorted => 'Sorted';
 
   @override
-  String get flash_incorrectCountLabel => 'Incorrect count';
+  String get flash_incorrectCountLabel => 'Incorrect';
 
   @override
-  String get flash_correctCountLabel => 'Correct count';
+  String get flash_correctCountLabel => 'Correct';
 
   @override
   String get flash_playingMainDeck => 'Playing the main deck';
