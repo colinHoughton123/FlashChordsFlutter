@@ -130,6 +130,9 @@ Future<bool>? _startFuture;
 
   static const int _requiredCandidateFrames = 3;
 
+  DateTime? _lastFrameAt;
+  DateTime? _lastDetectedEmitAt;
+
   // ------------------------------------------------------------
   // Lifecycle-safe API
   // ------------------------------------------------------------
@@ -380,11 +383,23 @@ _recorder = null;
 
     if (_candidateOkFrames >= _requiredCandidateFrames) {
       final confirmedAt = _firstCorrectFrameAt;
+      final now = DateTime.now();
+      final fromFirst =
+          confirmedAt == null ? null : now.difference(confirmedAt).inMilliseconds;
+      final fromCandidate = _candidateStartedAt == null
+          ? null
+          : now.difference(_candidateStartedAt!).inMilliseconds;
+
+      debugPrint(
+        '✅ CANDIDATE CONFIRMED '
+        'afterFrames=$_requiredCandidateFrames '
+        'dtFirstMs=${fromFirst ?? -1} '
+        'dtCandidateMs=${fromCandidate ?? -1}'
+      );
 
       _candidateStartedAt = null;
       _firstCorrectFrameAt = null;
       _candidateOkFrames = 0;
-debugPrint('✅ CANDIDATE CONFIRMED after candidateOKFrames incremented ');
       return confirmedAt;
     }
 
@@ -433,6 +448,15 @@ debugPrint('✅ CANDIDATE CONFIRMED after candidateOKFrames incremented ');
         ),
       );
 
+      final frameNow = DateTime.now();
+      if (_lastFrameAt != null) {
+        final dt = frameNow.difference(_lastFrameAt!).inMilliseconds;
+        if (dt > 0 && dt < 1000) {
+          debugPrint('🎞 frameIntervalMs=$dt');
+        }
+      }
+      _lastFrameAt = frameNow;
+
       _updateCandidateTracking(detected);
 
       if (_cooldownFrames > 0) {
@@ -480,6 +504,14 @@ debugPrint('✅ CANDIDATE CONFIRMED after candidateOKFrames incremented ');
 
         if (matches) {
           _detectedNotesController.add(union);
+          final now = DateTime.now();
+          if (_lastDetectedEmitAt != null) {
+            final dt = now.difference(_lastDetectedEmitAt!).inMilliseconds;
+            debugPrint('🎯 detectedEmitIntervalMs=$dt union=${union.join(",")}');
+          } else {
+            debugPrint('🎯 detectedEmitIntervalMs=first union=${union.join(",")}');
+          }
+          _lastDetectedEmitAt = now;
 
           // Reset after successful emission
           _recentFrames.clear();
