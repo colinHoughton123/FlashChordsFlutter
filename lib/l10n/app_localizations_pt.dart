@@ -369,4 +369,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get language_picker_scroll_hint => 'Role para ver mais idiomas';
+
+  @override
+  String get listenerStarting => 'Starting listener...';
 }

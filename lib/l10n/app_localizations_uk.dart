@@ -369,4 +369,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get language_picker_scroll_hint => 'Прокрутіть, щоб побачити більше мов';
+
+  @override
+  String get listenerStarting => 'Starting listener...';
 }

@@ -117,5 +117,6 @@
   "flash_error_201_hint": "FlashChordsで予期しないエラーが発生しました。アプリを再起動してください。問題が続く場合は、このエラーコードを添えてサポートに連絡してください。",
   "flash_error_301": "少なくとも1つの値を選択する必要があります。",
   "flash_error_301_hint": "最後に解除した選択は、少なくとも1つの値が選択されるよう再選択されました。解除するには、先に別の値を選択してください。",
-  "language_picker_scroll_hint": "他の言語を見るにはスクロールしてください"
+  "language_picker_scroll_hint": "他の言語を見るにはスクロールしてください",
+  "listenerStarting": "Starting listener..."
 }

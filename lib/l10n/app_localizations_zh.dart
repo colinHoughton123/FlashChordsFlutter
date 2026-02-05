@@ -369,6 +369,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get language_picker_scroll_hint => 'Scroll to see more languages';
+
+  @override
+  String get listenerStarting => 'Starting listener...';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hans`).
@@ -736,6 +739,9 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
 
   @override
   String get language_picker_scroll_hint => 'Scroll to see more languages';
+
+  @override
+  String get listenerStarting => 'Starting listener...';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -759,12 +765,12 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String listenerLimitReachedBody(Object limit) {
-    return '在免費播放 $limit 張卡片後，聆聽功能已被停用。升級即可重新啟用。';
+    return '在 $limit 次免費卡片播放後，聆聽功能已停用。升級即可重新啟用。';
   }
 
   @override
   String freeUsageStatus(Object limit, Object played) {
-    return '免費版本：已使用 $played/$limit 張支援聆聽的卡片';
+    return '免費版：已使用 $limit 次中的 $played 次聆聽卡片';
   }
 
   @override
@@ -772,7 +778,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String listenerLimitDialogBody(Object price) {
-    return 'FlashChords 將繼續運作，但除非你以 $price 升級，否則聆聽功能將被停用。';
+    return 'FlashChords 仍可使用，但除非以 $price 升級，否則聆聽功能將停用。';
   }
 
   @override
@@ -785,7 +791,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get listenerInversionNoticeTitle => '聆聽提示';
 
   @override
-  String get listenerInversionNoticePart1 => '你選擇了多個轉位。請注意，FlashChords 無法「聽出」轉位之間的差異。系統會顯示預期的按鍵模式，但若以錯誤的轉位彈奏和弦，將被標記為';
+  String get listenerInversionNoticePart1 => '你已選擇超過 1 種轉位。請注意，FlashChords 無法「聽出」不同的轉位。系統仍會顯示正確的鍵位圖樣，但若彈奏錯誤的轉位，仍會被標記為';
 
   @override
   String get listenerInversionNoticeAny => '「正確」';
@@ -797,10 +803,10 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get listenerInversionNoticeDontShow => '不要再顯示';
 
   @override
-  String get listenerInversionNoticeGotIt => '好的';
+  String get listenerInversionNoticeGotIt => '確定';
 
   @override
-  String get loadingChords => '正在載入和弦...';
+  String get loadingChords => '載入和弦中…';
 
   @override
   String get start => '開始';
@@ -809,7 +815,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get configure => '設定';
 
   @override
-  String get mainCatchPhrase => '快速學習和弦！';
+  String get mainCatchPhrase => '快速學會和弦！';
 
   @override
   String get mainFeaturesTitle => '功能';
@@ -818,19 +824,19 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get mainFeatures1Title => '選擇你的和弦';
 
   @override
-  String get mainFeatures1Content => '設定你想要練習的和弦';
+  String get mainFeatures1Content => '設定要專注的和弦';
 
   @override
   String get mainFeatures2Title => '計時挑戰';
 
   @override
-  String get mainFeatures2Content => '使用自訂計時器測試自己';
+  String get mainFeatures2Content => '使用自訂計時器來測試自己';
 
   @override
   String get mainFeatures3Title => '自動判定';
 
   @override
-  String get mainFeatures3Content => '讓 FlashChords 聆聽你的鋼琴演奏';
+  String get mainFeatures3Content => '讓 FlashChords 聆聽你的鋼琴';
 
   @override
   String get language_picker_title => '選擇語言';
@@ -860,28 +866,28 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get saveButton => '儲存';
 
   @override
-  String get configListener => '啟用麥克風聆聽並標記為正確';
+  String get configListener => '啟用麥克風以聆聽並標記正確';
 
   @override
-  String get configIncorrect => '若不是計時開始後彈奏的第一個和弦，則標記為錯誤';
+  String get configIncorrect => '若非計時開始後彈奏的第一個和弦，請標記為錯誤';
 
   @override
-  String get configAtLeastOneOption => '此部分必須至少選擇一個選項。已重新選取最後一個選項。請再試一次。';
+  String get configAtLeastOneOption => '此區塊必須至少選擇一個選項。已重新選取最後一個選項，請再試一次。';
 
   @override
-  String get configOK => '好的';
+  String get configOK => '確定';
 
   @override
   String get configEnableListening => '啟用聆聽模式（未來功能）';
 
   @override
-  String get configEnableListeningDesc => '當音訊偵測符合時，自動將和弦標記為正確。';
+  String get configEnableListeningDesc => '當音訊偵測符合時自動標記為正確。';
 
   @override
-  String get chord_major => '大三和弦';
+  String get chord_major => '大調';
 
   @override
-  String get chord_minor => '小三和弦';
+  String get chord_minor => '小調';
 
   @override
   String get chord_diminished => '減和弦';
@@ -905,7 +911,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get chord_augmented => '增和弦';
 
   @override
-  String get inv_root => '原位';
+  String get inv_root => '根音位置';
 
   @override
   String get inv_first => '第一轉位';
@@ -929,16 +935,16 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get flash_correctCountLabel => '正確';
 
   @override
-  String get flash_playingMainDeck => '正在練習主卡組';
+  String get flash_playingMainDeck => '正在播放主牌組';
 
   @override
-  String get flash_playingErrorDeck => '正在練習錯誤卡組';
+  String get flash_playingErrorDeck => '正在播放錯誤牌組';
 
   @override
   String get flash_redoButton => '重做';
 
   @override
-  String get flash_playedLabel => '已練習';
+  String get flash_playedLabel => '已完成';
 
   @override
   String get flash_toGoLabel => '剩餘';
@@ -956,19 +962,19 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get flash_reveal => '顯示和弦';
 
   @override
-  String get flash_play_instruction => '彈奏以下和弦\n從主卡組隨機選取';
+  String get flash_play_instruction => '請演奏下列和弦\n從主牌組中隨機選取';
 
   @override
-  String get flash_swipe_right => '若彈對請向右滑動';
+  String get flash_swipe_right => '若彈奏正確，向右滑';
 
   @override
-  String get flash_swipe_left => '若彈錯請向左滑動';
+  String get flash_swipe_left => '若彈奏錯誤，向左滑';
 
   @override
   String get flash_not_sure => '不確定？點擊卡片查看指法';
 
   @override
-  String get flash_welcome1 => '此處將顯示和弦名稱';
+  String get flash_welcome1 => '和弦名稱將顯示在此';
 
   @override
   String get flash_welcome2 => '在鋼琴上彈奏它';
@@ -980,10 +986,10 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get flash_correct_count => '正確次數';
 
   @override
-  String get flash_playing_main => '正在練習主卡組';
+  String get flash_playing_main => '正在播放主牌組';
 
   @override
-  String get flash_playing_wrong => '正在練習錯誤';
+  String get flash_playing_wrong => '正在播放錯誤';
 
   @override
   String get flash_play_again => '再玩一次';
@@ -993,14 +999,14 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String flash_cards_played(Object played, Object remaining) {
-    return '已練習 $played 張，還剩 $remaining 張';
+    return '已完成 $played，剩餘 $remaining';
   }
 
   @override
-  String get flash_mainDeck => '主卡組';
+  String get flash_mainDeck => '主牌組';
 
   @override
-  String get flash_errorDeck => '錯誤卡組';
+  String get flash_errorDeck => '錯誤牌組';
 
   @override
   String get flash_correct => '正確';
@@ -1009,10 +1015,10 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get flash_incorrect => '錯誤';
 
   @override
-  String get flash_of => '共';
+  String get flash_of => '之';
 
   @override
-  String get flash_next => '下一張';
+  String get flash_next => '下一個';
 
   @override
   String get summary_title => '總結';
@@ -1033,10 +1039,10 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get summary_seconds => '秒';
 
   @override
-  String get summary_from_main_deck => '主卡組';
+  String get summary_from_main_deck => '主牌組';
 
   @override
-  String get summary_from_error_deck => '錯誤卡組';
+  String get summary_from_error_deck => '錯誤牌組';
 
   @override
   String get summary_play_again => '再玩一次';
@@ -1045,7 +1051,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get summary_done => '完成';
 
   @override
-  String get summary_accuracy => '準確率';
+  String get summary_accuracy => '正確率';
 
   @override
   String get summary_average_time_correct => '平均（正確和弦）';
@@ -1057,16 +1063,16 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get summary_unsaved_changes_title => '你尚未儲存變更';
 
   @override
-  String get summary_unsaved_changes_body => '你在設定中做了變更。如果要儲存，請先按取消，再按儲存。';
+  String get summary_unsaved_changes_body => '你已變更設定。若要儲存，請先按「取消」，再按「儲存」。';
 
   @override
-  String get summary_discard => '放棄變更';
+  String get summary_discard => '捨棄變更';
 
   @override
   String get cancel => '取消';
 
   @override
-  String get listeningActive => '正在聆聽…';
+  String get listeningActive => '聆聽中…';
 
   @override
   String get listeningInactive => '聆聽已暫停';
@@ -1075,32 +1081,35 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get flash_error_101 => '不允許音訊輸入。';
 
   @override
-  String get flash_error_101_hint => 'FlashChords 沒有麥克風存取權限。請在裝置設定中啟用麥克風權限並重新啟動應用程式。';
+  String get flash_error_101_hint => 'FlashChords 沒有麥克風權限。請在裝置設定中啟用麥克風權限並重新啟動應用程式。';
 
   @override
-  String get flash_error_102 => '無法開始音訊聆聽。';
+  String get flash_error_102 => '無法啟動音訊聆聽。';
 
   @override
-  String get flash_error_102_hint => 'FlashChords 無法初始化音訊系統。請檢查是否有其他應用程式正在使用麥克風並重新啟動應用程式。';
+  String get flash_error_102_hint => 'FlashChords 無法初始化音訊系統。請確認沒有其他應用程式正在使用麥克風，並重新啟動。';
 
   @override
-  String get flash_error_103 => '音訊輸入被中斷。';
+  String get flash_error_103 => '音訊輸入已中斷。';
 
   @override
-  String get flash_error_103_hint => '由於音訊中斷，聆聽已停止。請檢查麥克風連線並重新開始聆聽。';
+  String get flash_error_103_hint => '聆聽因音訊中斷而停止。請檢查麥克風連線並重新開始聆聽。';
 
   @override
   String get flash_error_201 => '發生內部錯誤。';
 
   @override
-  String get flash_error_201_hint => 'FlashChords 遇到意外錯誤。請重新啟動應用程式。如果問題仍然存在，請聯絡支援並提供此錯誤代碼。';
+  String get flash_error_201_hint => 'FlashChords 遇到未預期錯誤。請重新啟動應用程式；若問題持續，請聯絡支援並提供錯誤代碼。';
 
   @override
-  String get flash_error_301 => '必須至少選擇一個值。';
+  String get flash_error_301 => '至少必須選擇一個值。';
 
   @override
-  String get flash_error_301_hint => '你最後取消選取的項目已被重新選取，以確保至少有一個值被選中。若要取消它，請先選擇另一個值。';
+  String get flash_error_301_hint => '已重新選取最後取消的項目以確保至少選擇一個值。若要取消它，請先選擇其他項目。';
 
   @override
-  String get language_picker_scroll_hint => 'Scroll to see more languages';
+  String get language_picker_scroll_hint => '向下捲動以查看更多語言';
+
+  @override
+  String get listenerStarting => 'Starting listener...';
 }

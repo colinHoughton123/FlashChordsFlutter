@@ -117,5 +117,6 @@
   "flash_error_201_hint": "FlashChords napotkał nieoczekiwany błąd. Uruchom aplikację ponownie. Jeśli problem będzie się powtarzał, skontaktuj się z pomocą techniczną, podając ten kod błędu.",
   "flash_error_301": "Należy wybrać co najmniej jedną wartość.",
   "flash_error_301_hint": "Ostatnie odznaczenie zostało ponownie zaznaczone, aby zapewnić wybór jednej wartości. Aby ją odznaczyć, najpierw wybierz inną wartość.",
-  "language_picker_scroll_hint": "Przewiń, aby zobaczyć więcej języków"
+  "language_picker_scroll_hint": "Przewiń, aby zobaczyć więcej języków",
+  "listenerStarting": "Starting listener..."
 }

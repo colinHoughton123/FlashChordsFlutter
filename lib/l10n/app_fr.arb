@@ -117,5 +117,6 @@
   "flash_error_301": "Au moins une valeur doit être sélectionnée.",
   "flash_error_301_hint": "Votre dernière désélection a été re-sélectionnée afin de garantir qu’une valeur est sélectionnée. Pour la désélectionner, sélectionnez d’abord une autre valeur.",
   "language_picker_scroll_hint": "Faites défiler pour voir plus de langues",
-  "configIncorrect": "Si ce n'est pas le premier accord après le démarrage du minuteur, marquez-le comme incorrect."
+  "configIncorrect": "Si ce n'est pas le premier accord après le démarrage du minuteur, marquez-le comme incorrect.",
+  "listenerStarting": "Starting listener..."
 }

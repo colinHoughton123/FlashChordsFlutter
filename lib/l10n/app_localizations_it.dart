@@ -369,4 +369,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get language_picker_scroll_hint => 'Scorri per vedere altre lingue';
+
+  @override
+  String get listenerStarting => 'Starting listener...';
 }

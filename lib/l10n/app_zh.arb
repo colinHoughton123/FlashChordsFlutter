@@ -117,5 +117,6 @@
   "flash_error_201_hint": "FlashChords 遇到了意外错误。请重启应用。如果问题仍然存在，请联系支持并提供此错误代码。",
   "flash_error_301": "必须至少选择一个值。",
   "flash_error_301_hint": "你最后取消选择的项已被重新选择，以确保至少有一个值被选中。要取消它，请先选择另一个值。",
-  "language_picker_scroll_hint": "Scroll to see more languages"
+  "language_picker_scroll_hint": "Scroll to see more languages",
+  "listenerStarting": "Starting listener..."
 }

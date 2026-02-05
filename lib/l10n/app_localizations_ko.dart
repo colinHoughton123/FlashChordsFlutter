@@ -369,4 +369,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get language_picker_scroll_hint => '더 많은 언어를 보려면 스크롤하세요';
+
+  @override
+  String get listenerStarting => 'Starting listener...';
 }

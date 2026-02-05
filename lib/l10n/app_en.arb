@@ -117,5 +117,6 @@
   "flash_error_201_hint": "FlashChords encountered an unexpected error. Please restart the app. If the problem persists, contact support with this error code.",
   "flash_error_301": "At least one value must be selected.",
   "flash_error_301_hint": "Your last de-select has been reselected to ensure one value is selected.  To deselect it, select another value first.",
-  "language_picker_scroll_hint": "Scroll to see more languages"
+  "language_picker_scroll_hint": "Scroll to see more languages",
+  "listenerStarting": "Starting listener..."
 }

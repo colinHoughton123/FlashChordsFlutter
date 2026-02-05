@@ -369,4 +369,7 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get language_picker_scroll_hint => 'আরও ভাষা দেখতে স্ক্রোল করুন';
+
+  @override
+  String get listenerStarting => 'Starting listener...';
 }

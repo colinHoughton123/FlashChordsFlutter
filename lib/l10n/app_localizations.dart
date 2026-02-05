@@ -834,6 +834,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Scroll to see more languages'**
   String get language_picker_scroll_hint;
+
+  /// No description provided for @listenerStarting.
+  ///
+  /// In en, this message translates to:
+  /// **'Starting listener...'**
+  String get listenerStarting;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

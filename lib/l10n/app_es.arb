@@ -117,5 +117,6 @@
   "flash_error_201_hint": "FlashChords encontró un error inesperado. Reinicia la app. Si el problema persiste, contacta con soporte con este código de error.",
   "flash_error_301": "Debe seleccionarse al menos un valor.",
   "flash_error_301_hint": "Tu última deselección se ha vuelto a seleccionar para asegurar que haya un valor seleccionado. Para deseleccionarlo, selecciona primero otro valor.",
-  "language_picker_scroll_hint": "Desplázate para ver más idiomas"
+  "language_picker_scroll_hint": "Desplázate para ver más idiomas",
+  "listenerStarting": "Starting listener..."
 }

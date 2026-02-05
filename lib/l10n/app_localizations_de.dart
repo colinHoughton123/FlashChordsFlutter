@@ -369,4 +369,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get language_picker_scroll_hint => 'Scrollen, um weitere Sprachen zu sehen';
+
+  @override
+  String get listenerStarting => 'Starting listener...';
 }

@@ -117,5 +117,6 @@
   "flash_error_201_hint": "FlashChords 遇到未預期錯誤。請重新啟動應用程式；若問題持續，請聯絡支援並提供錯誤代碼。",
   "flash_error_301": "至少必須選擇一個值。",
   "flash_error_301_hint": "已重新選取最後取消的項目以確保至少選擇一個值。若要取消它，請先選擇其他項目。",
-  "language_picker_scroll_hint": "向下捲動以查看更多語言"
+  "language_picker_scroll_hint": "向下捲動以查看更多語言",
+  "listenerStarting": "Starting listener..."
 }

@@ -117,5 +117,6 @@
   "flash_error_201_hint": "FlashChords heeft een onverwachte fout ondervonden. Start de app opnieuw. Als het probleem blijft bestaan, neem contact op met ondersteuning met deze foutcode.",
   "flash_error_301": "Er moet minstens één waarde geselecteerd zijn.",
   "flash_error_301_hint": "Je laatste deselectie is opnieuw geselecteerd om ervoor te zorgen dat er één waarde geselecteerd is. Om deze te deselecteren, selecteer eerst een andere waarde.",
-  "language_picker_scroll_hint": "Scroll om meer talen te zien"
+  "language_picker_scroll_hint": "Scroll om meer talen te zien",
+  "listenerStarting": "Starting listener..."
 }
