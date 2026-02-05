@@ -1,29 +1,22 @@
 {
   "@@locale": "pl",
-
   "welcomeTitle": "Witamy w FlashChords",
-
   "welcomeUpdate_Update": "Dostępna aktualizacja",
   "welcomeUpdate_Button_Later": "Później",
   "welcomeUpdate_Button_Update": "Aktualizuj",
-
   "listenerLimitReachedTitle": "Nasłuchiwanie wyłączone",
   "listenerLimitReachedBody": "Nasłuchiwanie zostało wyłączone po {limit} darmowych kartach. Wykup wersję premium, aby je ponownie włączyć.",
-
   "freeUsageStatus": "Wersja darmowa: wykorzystano {played} z {limit} kart z nasłuchiwaniem",
-
   "listenerLimitDialogTitle": "Osiągnięto darmowy limit",
   "listenerLimitDialogBody": "FlashChords będzie nadal działać, ale nasłuchiwanie jest wyłączone, chyba że wykupisz wersję premium za {price}.",
   "upgrade": "Ulepsz",
   "later": "Później",
-
   "listenerInversionNoticeTitle": "Uwaga dotycząca nasłuchiwania",
   "listenerInversionNoticePart1": "Wybrano więcej niż jedną inwersję. Pamiętaj, że FlashChords nie potrafi „usłyszeć” różnicy między inwersjami. Oczekiwane układy klawiszy zostaną wyświetlone, ale akord zagrany w złej inwersji zostanie oznaczony jako ",
   "listenerInversionNoticeAny": "„poprawny”",
   "listenerInversionNoticePart2": ".",
   "listenerInversionNoticeDontShow": "Nie pokazuj ponownie",
   "listenerInversionNoticeGotIt": "OK",
-
   "loadingChords": "Ładowanie akordów...",
   "start": "Start",
   "configure": "Konfiguruj",
@@ -35,10 +28,8 @@
   "mainFeatures2Content": "Sprawdź się dzięki spersonalizowanym timerom",
   "mainFeatures3Title": "Automatyczne ocenianie",
   "mainFeatures3Content": "Pozwól FlashChords nasłuchiwać twojej gry na pianinie",
-
   "language_picker_title": "Wybierz język",
   "language_change_tooltip": "Zmień język",
-
   "configTitle": "Konfiguracja",
   "configSelectRoots": "Wybierz akordy",
   "configSelectChordTypes": "Wybierz typy akordów",
@@ -48,13 +39,10 @@
   "saveButton": "Zapisz",
   "configListener": "Włącz mikrofon, aby nasłuchiwać i oznaczać jako Poprawne",
   "configIncorrect": "Oznacz akord jako Niepoprawny, jeśli nie jest pierwszym zagranym po uruchomieniu timera",
-
   "configAtLeastOneOption": "W tej sekcji musi być wybrana przynajmniej jedna opcja. Ostatnia opcja została ponownie zaznaczona. Spróbuj ponownie.",
   "configOK": "OK",
-
   "configEnableListening": "Włącz tryb nasłuchiwania (funkcja przyszłościowa)",
   "configEnableListeningDesc": "Automatycznie oznaczaj akord jako poprawny, gdy wykrywanie dźwięku się zgadza.",
-
   "chord_major": "Durowy",
   "chord_minor": "Molowy",
   "chord_diminished": "Zmniejszony",
@@ -64,15 +52,12 @@
   "chord_suspended2": "Zawieszony 2",
   "chord_suspended4": "Zawieszony 4",
   "chord_augmented": "Zwiększony",
-
   "inv_root": "Pozycja podstawowa",
   "inv_first": "1. inwersja",
   "inv_second": "2. inwersja",
-
   "configCardOrder": "Kolejność kart",
   "configCardOrderRandom": "Losowa",
   "configCardOrderSorted": "Posortowana",
-
   "flash_incorrectCountLabel": "Niepoprawne",
   "flash_correctCountLabel": "Poprawne",
   "flash_playingMainDeck": "Granie talią główną",
@@ -84,14 +69,12 @@
   "flash_timeLabel": "Timer",
   "flash_timerCancelled": "Timer anulowany",
   "flash_reveal": "Pokaż akord",
-
   "flash_play_instruction": "Zagraj następujący akord\nwylosowany z talii głównej",
   "flash_swipe_right": "Przesuń w prawo, jeśli zagrałeś poprawnie",
   "flash_swipe_left": "Przesuń w lewo, jeśli zagrałeś niepoprawnie",
   "flash_not_sure": "Nie jesteś pewien? Dotknij karty, aby zobaczyć palcowanie",
   "flash_welcome1": "Tutaj pojawi się nazwa akordu",
   "flash_welcome2": "Zagraj go na pianinie",
-
   "flash_incorrect_count": "Liczba niepoprawnych",
   "flash_correct_count": "Liczba poprawnych",
   "flash_playing_main": "Granie talią główną",
@@ -99,14 +82,12 @@
   "flash_play_again": "Zagraj ponownie",
   "flash_average_time": "Średni czas",
   "flash_cards_played": "{played} zagrano, {remaining} pozostało",
-
   "flash_mainDeck": "Talia główna",
   "flash_errorDeck": "Talia błędów",
   "flash_correct": "Poprawne",
   "flash_incorrect": "Niepoprawne",
   "flash_of": "z",
   "flash_next": "Dalej",
-
   "summary_title": "Podsumowanie",
   "summary_correct": "Poprawne",
   "summary_incorrect": "Niepoprawne",
@@ -124,7 +105,6 @@
   "summary_unsaved_changes_body": "Dokonałeś zmiany w konfiguracji. Jeśli chcesz zapisać, naciśnij teraz ANULUJ, a następnie ZAPISZ.",
   "summary_discard": "Odrzuć zmiany",
   "cancel": "Anuluj",
-
   "listeningActive": "Nasłuchiwanie…",
   "listeningInactive": "Nasłuchiwanie wstrzymane",
   "flash_error_101": "Wejście audio nie jest dozwolone.",
@@ -136,5 +116,6 @@
   "flash_error_201": "Wystąpił błąd wewnętrzny.",
   "flash_error_201_hint": "FlashChords napotkał nieoczekiwany błąd. Uruchom aplikację ponownie. Jeśli problem będzie się powtarzał, skontaktuj się z pomocą techniczną, podając ten kod błędu.",
   "flash_error_301": "Należy wybrać co najmniej jedną wartość.",
-  "flash_error_301_hint": "Ostatnie odznaczenie zostało ponownie zaznaczone, aby zapewnić wybór jednej wartości. Aby ją odznaczyć, najpierw wybierz inną wartość."
+  "flash_error_301_hint": "Ostatnie odznaczenie zostało ponownie zaznaczone, aby zapewnić wybór jednej wartości. Aby ją odznaczyć, najpierw wybierz inną wartość.",
+  "language_picker_scroll_hint": "Przewiń, aby zobaczyć więcej języków"
 }

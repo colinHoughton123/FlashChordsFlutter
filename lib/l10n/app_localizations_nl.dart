@@ -366,4 +366,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get flash_error_301_hint => 'Je laatste deselectie is opnieuw geselecteerd om ervoor te zorgen dat er één waarde geselecteerd is. Om deze te deselecteren, selecteer eerst een andere waarde.';
+
+  @override
+  String get language_picker_scroll_hint => 'Scroll om meer talen te zien';
 }

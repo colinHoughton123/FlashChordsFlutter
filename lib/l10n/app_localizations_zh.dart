@@ -1,0 +1,1106 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for Chinese (`zh`).
+class AppLocalizationsZh extends AppLocalizations {
+  AppLocalizationsZh([String locale = 'zh']) : super(locale);
+
+  @override
+  String get welcomeTitle => '欢迎使用 FlashChords';
+
+  @override
+  String get welcomeUpdate_Update => '有可用更新';
+
+  @override
+  String get welcomeUpdate_Button_Later => '稍后';
+
+  @override
+  String get welcomeUpdate_Button_Update => '更新';
+
+  @override
+  String get listenerLimitReachedTitle => '监听已禁用';
+
+  @override
+  String listenerLimitReachedBody(Object limit) {
+    return '在免费播放 $limit 张卡片后，监听功能已被禁用。升级以重新启用。';
+  }
+
+  @override
+  String freeUsageStatus(Object limit, Object played) {
+    return '免费版本：已使用 $played/$limit 张支持监听的卡片';
+  }
+
+  @override
+  String get listenerLimitDialogTitle => '已达到免费限制';
+
+  @override
+  String listenerLimitDialogBody(Object price) {
+    return 'FlashChords 将继续运行，但除非你以 $price 升级，否则监听功能将被禁用。';
+  }
+
+  @override
+  String get upgrade => '升级';
+
+  @override
+  String get later => '稍后';
+
+  @override
+  String get listenerInversionNoticeTitle => '监听提示';
+
+  @override
+  String get listenerInversionNoticePart1 => '你选择了多个转位。请注意，FlashChords 无法“听出”转位之间的区别。系统会显示预期的按键模式，但如果以错误的转位弹奏和弦，将被标记为';
+
+  @override
+  String get listenerInversionNoticeAny => '“正确”';
+
+  @override
+  String get listenerInversionNoticePart2 => '。';
+
+  @override
+  String get listenerInversionNoticeDontShow => '不再显示';
+
+  @override
+  String get listenerInversionNoticeGotIt => '好的';
+
+  @override
+  String get loadingChords => '正在加载和弦...';
+
+  @override
+  String get start => '开始';
+
+  @override
+  String get configure => '配置';
+
+  @override
+  String get mainCatchPhrase => '快速学习和弦！';
+
+  @override
+  String get mainFeaturesTitle => '功能';
+
+  @override
+  String get mainFeatures1Title => '选择你的和弦';
+
+  @override
+  String get mainFeatures1Content => '配置你想要练习的和弦';
+
+  @override
+  String get mainFeatures2Title => '计时挑战';
+
+  @override
+  String get mainFeatures2Content => '使用自定义计时器测试自己';
+
+  @override
+  String get mainFeatures3Title => '自动判定';
+
+  @override
+  String get mainFeatures3Content => '让 FlashChords 监听你的钢琴演奏';
+
+  @override
+  String get language_picker_title => '选择语言';
+
+  @override
+  String get language_change_tooltip => '切换语言';
+
+  @override
+  String get configTitle => '设置';
+
+  @override
+  String get configSelectRoots => '选择和弦';
+
+  @override
+  String get configSelectChordTypes => '选择和弦类型';
+
+  @override
+  String get configSelectInversions => '选择转位';
+
+  @override
+  String get configEnableTimer => '启用计时器';
+
+  @override
+  String get configTimerSeconds => '计时器（秒）';
+
+  @override
+  String get saveButton => '保存';
+
+  @override
+  String get configListener => '启用麦克风监听并标记为正确';
+
+  @override
+  String get configIncorrect => '如果不是计时开始后的第一个和弦，则标记为错误';
+
+  @override
+  String get configAtLeastOneOption => '此部分必须至少选择一个选项。已重新选择最后一个选项。请重试。';
+
+  @override
+  String get configOK => '好的';
+
+  @override
+  String get configEnableListening => '启用监听模式（未来功能）';
+
+  @override
+  String get configEnableListeningDesc => '当音频检测匹配时自动标记和弦为正确。';
+
+  @override
+  String get chord_major => '大三和弦';
+
+  @override
+  String get chord_minor => '小三和弦';
+
+  @override
+  String get chord_diminished => '减和弦';
+
+  @override
+  String get chord_dominant7 => '属七和弦';
+
+  @override
+  String get chord_major7 => '大七和弦';
+
+  @override
+  String get chord_minor7 => '小七和弦';
+
+  @override
+  String get chord_suspended2 => '挂二和弦';
+
+  @override
+  String get chord_suspended4 => '挂四和弦';
+
+  @override
+  String get chord_augmented => '增和弦';
+
+  @override
+  String get inv_root => '原位';
+
+  @override
+  String get inv_first => '第一转位';
+
+  @override
+  String get inv_second => '第二转位';
+
+  @override
+  String get configCardOrder => '卡片顺序';
+
+  @override
+  String get configCardOrderRandom => '随机';
+
+  @override
+  String get configCardOrderSorted => '排序';
+
+  @override
+  String get flash_incorrectCountLabel => '错误';
+
+  @override
+  String get flash_correctCountLabel => '正确';
+
+  @override
+  String get flash_playingMainDeck => '正在练习主卡组';
+
+  @override
+  String get flash_playingErrorDeck => '正在练习错误卡组';
+
+  @override
+  String get flash_redoButton => '重做';
+
+  @override
+  String get flash_playedLabel => '已练习';
+
+  @override
+  String get flash_toGoLabel => '剩余';
+
+  @override
+  String get flash_averageTimeLabel => '平均时间：';
+
+  @override
+  String get flash_timeLabel => '计时器';
+
+  @override
+  String get flash_timerCancelled => '计时器已取消';
+
+  @override
+  String get flash_reveal => '显示和弦';
+
+  @override
+  String get flash_play_instruction => '弹奏以下和弦\n从主卡组随机选择';
+
+  @override
+  String get flash_swipe_right => '如果弹对了请向右滑动';
+
+  @override
+  String get flash_swipe_left => '如果弹错了请向左滑动';
+
+  @override
+  String get flash_not_sure => '不确定？点击卡片查看指法';
+
+  @override
+  String get flash_welcome1 => '这里将显示和弦名称';
+
+  @override
+  String get flash_welcome2 => '在钢琴上弹奏它';
+
+  @override
+  String get flash_incorrect_count => '错误次数';
+
+  @override
+  String get flash_correct_count => '正确次数';
+
+  @override
+  String get flash_playing_main => '正在练习主卡组';
+
+  @override
+  String get flash_playing_wrong => '正在练习错误';
+
+  @override
+  String get flash_play_again => '再玩一次';
+
+  @override
+  String get flash_average_time => '平均时间';
+
+  @override
+  String flash_cards_played(Object played, Object remaining) {
+    return '已练习 $played 张，还剩 $remaining 张';
+  }
+
+  @override
+  String get flash_mainDeck => '主卡组';
+
+  @override
+  String get flash_errorDeck => '错误卡组';
+
+  @override
+  String get flash_correct => '正确';
+
+  @override
+  String get flash_incorrect => '错误';
+
+  @override
+  String get flash_of => '共';
+
+  @override
+  String get flash_next => '下一张';
+
+  @override
+  String get summary_title => '总结';
+
+  @override
+  String get summary_correct => '正确';
+
+  @override
+  String get summary_incorrect => '错误';
+
+  @override
+  String get summary_cards => '卡片';
+
+  @override
+  String get summary_average_time => '平均时间';
+
+  @override
+  String get summary_seconds => '秒';
+
+  @override
+  String get summary_from_main_deck => '主卡组';
+
+  @override
+  String get summary_from_error_deck => '错误卡组';
+
+  @override
+  String get summary_play_again => '再玩一次';
+
+  @override
+  String get summary_done => '完成';
+
+  @override
+  String get summary_accuracy => '准确率';
+
+  @override
+  String get summary_average_time_correct => '平均（正确和弦）';
+
+  @override
+  String get summary_average_time_all => '平均时间（所有和弦）';
+
+  @override
+  String get summary_unsaved_changes_title => '你尚未保存更改';
+
+  @override
+  String get summary_unsaved_changes_body => '你在设置中做了更改。如果要保存，请先按取消，然后按保存。';
+
+  @override
+  String get summary_discard => '放弃更改';
+
+  @override
+  String get cancel => '取消';
+
+  @override
+  String get listeningActive => '正在监听…';
+
+  @override
+  String get listeningInactive => '监听已暂停';
+
+  @override
+  String get flash_error_101 => '不允许音频输入。';
+
+  @override
+  String get flash_error_101_hint => 'FlashChords 没有麦克风访问权限。请在设备设置中启用麦克风权限并重启应用。';
+
+  @override
+  String get flash_error_102 => '无法开始音频监听。';
+
+  @override
+  String get flash_error_102_hint => 'FlashChords 无法初始化音频系统。请检查是否有其他应用正在使用麦克风并重启应用。';
+
+  @override
+  String get flash_error_103 => '音频输入被中断。';
+
+  @override
+  String get flash_error_103_hint => '由于音频中断，监听已停止。请检查麦克风连接并重新开始监听。';
+
+  @override
+  String get flash_error_201 => '发生内部错误。';
+
+  @override
+  String get flash_error_201_hint => 'FlashChords 遇到了意外错误。请重启应用。如果问题仍然存在，请联系支持并提供此错误代码。';
+
+  @override
+  String get flash_error_301 => '必须至少选择一个值。';
+
+  @override
+  String get flash_error_301_hint => '你最后取消选择的项已被重新选择，以确保至少有一个值被选中。要取消它，请先选择另一个值。';
+
+  @override
+  String get language_picker_scroll_hint => 'Scroll to see more languages';
+}
+
+/// The translations for Chinese, using the Han script (`zh_Hans`).
+class AppLocalizationsZhHans extends AppLocalizationsZh {
+  AppLocalizationsZhHans(): super('zh_Hans');
+
+  @override
+  String get welcomeTitle => '欢迎使用 FlashChords';
+
+  @override
+  String get welcomeUpdate_Update => '有可用更新';
+
+  @override
+  String get welcomeUpdate_Button_Later => '稍后';
+
+  @override
+  String get welcomeUpdate_Button_Update => '更新';
+
+  @override
+  String get listenerLimitReachedTitle => '监听已禁用';
+
+  @override
+  String listenerLimitReachedBody(Object limit) {
+    return '在免费播放 $limit 张卡片后，监听功能已被禁用。升级以重新启用。';
+  }
+
+  @override
+  String freeUsageStatus(Object limit, Object played) {
+    return '免费版本：已使用 $played/$limit 张支持监听的卡片';
+  }
+
+  @override
+  String get listenerLimitDialogTitle => '已达到免费限制';
+
+  @override
+  String listenerLimitDialogBody(Object price) {
+    return 'FlashChords 将继续运行，但除非你以 $price 升级，否则监听功能将被禁用。';
+  }
+
+  @override
+  String get upgrade => '升级';
+
+  @override
+  String get later => '稍后';
+
+  @override
+  String get listenerInversionNoticeTitle => '监听提示';
+
+  @override
+  String get listenerInversionNoticePart1 => '你选择了多个转位。请注意，FlashChords 无法“听出”转位之间的区别。系统会显示预期的按键模式，但如果以错误的转位弹奏和弦，将被标记为';
+
+  @override
+  String get listenerInversionNoticeAny => '“正确”';
+
+  @override
+  String get listenerInversionNoticePart2 => '。';
+
+  @override
+  String get listenerInversionNoticeDontShow => '不再显示';
+
+  @override
+  String get listenerInversionNoticeGotIt => '好的';
+
+  @override
+  String get loadingChords => '正在加载和弦...';
+
+  @override
+  String get start => '开始';
+
+  @override
+  String get configure => '配置';
+
+  @override
+  String get mainCatchPhrase => '快速学习和弦！';
+
+  @override
+  String get mainFeaturesTitle => '功能';
+
+  @override
+  String get mainFeatures1Title => '选择你的和弦';
+
+  @override
+  String get mainFeatures1Content => '配置你想要练习的和弦';
+
+  @override
+  String get mainFeatures2Title => '计时挑战';
+
+  @override
+  String get mainFeatures2Content => '使用自定义计时器测试自己';
+
+  @override
+  String get mainFeatures3Title => '自动判定';
+
+  @override
+  String get mainFeatures3Content => '让 FlashChords 监听你的钢琴演奏';
+
+  @override
+  String get language_picker_title => '选择语言';
+
+  @override
+  String get language_change_tooltip => '切换语言';
+
+  @override
+  String get configTitle => '设置';
+
+  @override
+  String get configSelectRoots => '选择和弦';
+
+  @override
+  String get configSelectChordTypes => '选择和弦类型';
+
+  @override
+  String get configSelectInversions => '选择转位';
+
+  @override
+  String get configEnableTimer => '启用计时器';
+
+  @override
+  String get configTimerSeconds => '计时器（秒）';
+
+  @override
+  String get saveButton => '保存';
+
+  @override
+  String get configListener => '启用麦克风监听并标记为正确';
+
+  @override
+  String get configIncorrect => '如果不是计时开始后的第一个和弦，则标记为错误';
+
+  @override
+  String get configAtLeastOneOption => '此部分必须至少选择一个选项。已重新选择最后一个选项。请重试。';
+
+  @override
+  String get configOK => '好的';
+
+  @override
+  String get configEnableListening => '启用监听模式（未来功能）';
+
+  @override
+  String get configEnableListeningDesc => '当音频检测匹配时自动标记和弦为正确。';
+
+  @override
+  String get chord_major => '大三和弦';
+
+  @override
+  String get chord_minor => '小三和弦';
+
+  @override
+  String get chord_diminished => '减和弦';
+
+  @override
+  String get chord_dominant7 => '属七和弦';
+
+  @override
+  String get chord_major7 => '大七和弦';
+
+  @override
+  String get chord_minor7 => '小七和弦';
+
+  @override
+  String get chord_suspended2 => '挂二和弦';
+
+  @override
+  String get chord_suspended4 => '挂四和弦';
+
+  @override
+  String get chord_augmented => '增和弦';
+
+  @override
+  String get inv_root => '原位';
+
+  @override
+  String get inv_first => '第一转位';
+
+  @override
+  String get inv_second => '第二转位';
+
+  @override
+  String get configCardOrder => '卡片顺序';
+
+  @override
+  String get configCardOrderRandom => '随机';
+
+  @override
+  String get configCardOrderSorted => '排序';
+
+  @override
+  String get flash_incorrectCountLabel => '错误';
+
+  @override
+  String get flash_correctCountLabel => '正确';
+
+  @override
+  String get flash_playingMainDeck => '正在练习主卡组';
+
+  @override
+  String get flash_playingErrorDeck => '正在练习错误卡组';
+
+  @override
+  String get flash_redoButton => '重做';
+
+  @override
+  String get flash_playedLabel => '已练习';
+
+  @override
+  String get flash_toGoLabel => '剩余';
+
+  @override
+  String get flash_averageTimeLabel => '平均时间：';
+
+  @override
+  String get flash_timeLabel => '计时器';
+
+  @override
+  String get flash_timerCancelled => '计时器已取消';
+
+  @override
+  String get flash_reveal => '显示和弦';
+
+  @override
+  String get flash_play_instruction => '弹奏以下和弦\n从主卡组随机选择';
+
+  @override
+  String get flash_swipe_right => '如果弹对了请向右滑动';
+
+  @override
+  String get flash_swipe_left => '如果弹错了请向左滑动';
+
+  @override
+  String get flash_not_sure => '不确定？点击卡片查看指法';
+
+  @override
+  String get flash_welcome1 => '这里将显示和弦名称';
+
+  @override
+  String get flash_welcome2 => '在钢琴上弹奏它';
+
+  @override
+  String get flash_incorrect_count => '错误次数';
+
+  @override
+  String get flash_correct_count => '正确次数';
+
+  @override
+  String get flash_playing_main => '正在练习主卡组';
+
+  @override
+  String get flash_playing_wrong => '正在练习错误';
+
+  @override
+  String get flash_play_again => '再玩一次';
+
+  @override
+  String get flash_average_time => '平均时间';
+
+  @override
+  String flash_cards_played(Object played, Object remaining) {
+    return '已练习 $played 张，还剩 $remaining 张';
+  }
+
+  @override
+  String get flash_mainDeck => '主卡组';
+
+  @override
+  String get flash_errorDeck => '错误卡组';
+
+  @override
+  String get flash_correct => '正确';
+
+  @override
+  String get flash_incorrect => '错误';
+
+  @override
+  String get flash_of => '共';
+
+  @override
+  String get flash_next => '下一张';
+
+  @override
+  String get summary_title => '总结';
+
+  @override
+  String get summary_correct => '正确';
+
+  @override
+  String get summary_incorrect => '错误';
+
+  @override
+  String get summary_cards => '卡片';
+
+  @override
+  String get summary_average_time => '平均时间';
+
+  @override
+  String get summary_seconds => '秒';
+
+  @override
+  String get summary_from_main_deck => '主卡组';
+
+  @override
+  String get summary_from_error_deck => '错误卡组';
+
+  @override
+  String get summary_play_again => '再玩一次';
+
+  @override
+  String get summary_done => '完成';
+
+  @override
+  String get summary_accuracy => '准确率';
+
+  @override
+  String get summary_average_time_correct => '平均（正确和弦）';
+
+  @override
+  String get summary_average_time_all => '平均时间（所有和弦）';
+
+  @override
+  String get summary_unsaved_changes_title => '你尚未保存更改';
+
+  @override
+  String get summary_unsaved_changes_body => '你在设置中做了更改。如果要保存，请先按取消，然后按保存。';
+
+  @override
+  String get summary_discard => '放弃更改';
+
+  @override
+  String get cancel => '取消';
+
+  @override
+  String get listeningActive => '正在监听…';
+
+  @override
+  String get listeningInactive => '监听已暂停';
+
+  @override
+  String get flash_error_101 => '不允许音频输入。';
+
+  @override
+  String get flash_error_101_hint => 'FlashChords 没有麦克风访问权限。请在设备设置中启用麦克风权限并重启应用。';
+
+  @override
+  String get flash_error_102 => '无法开始音频监听。';
+
+  @override
+  String get flash_error_102_hint => 'FlashChords 无法初始化音频系统。请检查是否有其他应用正在使用麦克风并重启应用。';
+
+  @override
+  String get flash_error_103 => '音频输入被中断。';
+
+  @override
+  String get flash_error_103_hint => '由于音频中断，监听已停止。请检查麦克风连接并重新开始监听。';
+
+  @override
+  String get flash_error_201 => '发生内部错误。';
+
+  @override
+  String get flash_error_201_hint => 'FlashChords 遇到了意外错误。请重启应用。如果问题仍然存在，请联系支持并提供此错误代码。';
+
+  @override
+  String get flash_error_301 => '必须至少选择一个值。';
+
+  @override
+  String get flash_error_301_hint => '你最后取消选择的项已被重新选择，以确保至少有一个值被选中。要取消它，请先选择另一个值。';
+
+  @override
+  String get language_picker_scroll_hint => 'Scroll to see more languages';
+}
+
+/// The translations for Chinese, using the Han script (`zh_Hant`).
+class AppLocalizationsZhHant extends AppLocalizationsZh {
+  AppLocalizationsZhHant(): super('zh_Hant');
+
+  @override
+  String get welcomeTitle => '歡迎使用 FlashChords';
+
+  @override
+  String get welcomeUpdate_Update => '有可用更新';
+
+  @override
+  String get welcomeUpdate_Button_Later => '稍後';
+
+  @override
+  String get welcomeUpdate_Button_Update => '更新';
+
+  @override
+  String get listenerLimitReachedTitle => '聆聽功能已停用';
+
+  @override
+  String listenerLimitReachedBody(Object limit) {
+    return '在免費播放 $limit 張卡片後，聆聽功能已被停用。升級即可重新啟用。';
+  }
+
+  @override
+  String freeUsageStatus(Object limit, Object played) {
+    return '免費版本：已使用 $played/$limit 張支援聆聽的卡片';
+  }
+
+  @override
+  String get listenerLimitDialogTitle => '已達免費上限';
+
+  @override
+  String listenerLimitDialogBody(Object price) {
+    return 'FlashChords 將繼續運作，但除非你以 $price 升級，否則聆聽功能將被停用。';
+  }
+
+  @override
+  String get upgrade => '升級';
+
+  @override
+  String get later => '稍後';
+
+  @override
+  String get listenerInversionNoticeTitle => '聆聽提示';
+
+  @override
+  String get listenerInversionNoticePart1 => '你選擇了多個轉位。請注意，FlashChords 無法「聽出」轉位之間的差異。系統會顯示預期的按鍵模式，但若以錯誤的轉位彈奏和弦，將被標記為';
+
+  @override
+  String get listenerInversionNoticeAny => '「正確」';
+
+  @override
+  String get listenerInversionNoticePart2 => '。';
+
+  @override
+  String get listenerInversionNoticeDontShow => '不要再顯示';
+
+  @override
+  String get listenerInversionNoticeGotIt => '好的';
+
+  @override
+  String get loadingChords => '正在載入和弦...';
+
+  @override
+  String get start => '開始';
+
+  @override
+  String get configure => '設定';
+
+  @override
+  String get mainCatchPhrase => '快速學習和弦！';
+
+  @override
+  String get mainFeaturesTitle => '功能';
+
+  @override
+  String get mainFeatures1Title => '選擇你的和弦';
+
+  @override
+  String get mainFeatures1Content => '設定你想要練習的和弦';
+
+  @override
+  String get mainFeatures2Title => '計時挑戰';
+
+  @override
+  String get mainFeatures2Content => '使用自訂計時器測試自己';
+
+  @override
+  String get mainFeatures3Title => '自動判定';
+
+  @override
+  String get mainFeatures3Content => '讓 FlashChords 聆聽你的鋼琴演奏';
+
+  @override
+  String get language_picker_title => '選擇語言';
+
+  @override
+  String get language_change_tooltip => '切換語言';
+
+  @override
+  String get configTitle => '設定';
+
+  @override
+  String get configSelectRoots => '選擇和弦';
+
+  @override
+  String get configSelectChordTypes => '選擇和弦類型';
+
+  @override
+  String get configSelectInversions => '選擇轉位';
+
+  @override
+  String get configEnableTimer => '啟用計時器';
+
+  @override
+  String get configTimerSeconds => '計時器（秒）';
+
+  @override
+  String get saveButton => '儲存';
+
+  @override
+  String get configListener => '啟用麥克風聆聽並標記為正確';
+
+  @override
+  String get configIncorrect => '若不是計時開始後彈奏的第一個和弦，則標記為錯誤';
+
+  @override
+  String get configAtLeastOneOption => '此部分必須至少選擇一個選項。已重新選取最後一個選項。請再試一次。';
+
+  @override
+  String get configOK => '好的';
+
+  @override
+  String get configEnableListening => '啟用聆聽模式（未來功能）';
+
+  @override
+  String get configEnableListeningDesc => '當音訊偵測符合時，自動將和弦標記為正確。';
+
+  @override
+  String get chord_major => '大三和弦';
+
+  @override
+  String get chord_minor => '小三和弦';
+
+  @override
+  String get chord_diminished => '減和弦';
+
+  @override
+  String get chord_dominant7 => '屬七和弦';
+
+  @override
+  String get chord_major7 => '大七和弦';
+
+  @override
+  String get chord_minor7 => '小七和弦';
+
+  @override
+  String get chord_suspended2 => '掛二和弦';
+
+  @override
+  String get chord_suspended4 => '掛四和弦';
+
+  @override
+  String get chord_augmented => '增和弦';
+
+  @override
+  String get inv_root => '原位';
+
+  @override
+  String get inv_first => '第一轉位';
+
+  @override
+  String get inv_second => '第二轉位';
+
+  @override
+  String get configCardOrder => '卡片順序';
+
+  @override
+  String get configCardOrderRandom => '隨機';
+
+  @override
+  String get configCardOrderSorted => '排序';
+
+  @override
+  String get flash_incorrectCountLabel => '錯誤';
+
+  @override
+  String get flash_correctCountLabel => '正確';
+
+  @override
+  String get flash_playingMainDeck => '正在練習主卡組';
+
+  @override
+  String get flash_playingErrorDeck => '正在練習錯誤卡組';
+
+  @override
+  String get flash_redoButton => '重做';
+
+  @override
+  String get flash_playedLabel => '已練習';
+
+  @override
+  String get flash_toGoLabel => '剩餘';
+
+  @override
+  String get flash_averageTimeLabel => '平均時間：';
+
+  @override
+  String get flash_timeLabel => '計時器';
+
+  @override
+  String get flash_timerCancelled => '計時器已取消';
+
+  @override
+  String get flash_reveal => '顯示和弦';
+
+  @override
+  String get flash_play_instruction => '彈奏以下和弦\n從主卡組隨機選取';
+
+  @override
+  String get flash_swipe_right => '若彈對請向右滑動';
+
+  @override
+  String get flash_swipe_left => '若彈錯請向左滑動';
+
+  @override
+  String get flash_not_sure => '不確定？點擊卡片查看指法';
+
+  @override
+  String get flash_welcome1 => '此處將顯示和弦名稱';
+
+  @override
+  String get flash_welcome2 => '在鋼琴上彈奏它';
+
+  @override
+  String get flash_incorrect_count => '錯誤次數';
+
+  @override
+  String get flash_correct_count => '正確次數';
+
+  @override
+  String get flash_playing_main => '正在練習主卡組';
+
+  @override
+  String get flash_playing_wrong => '正在練習錯誤';
+
+  @override
+  String get flash_play_again => '再玩一次';
+
+  @override
+  String get flash_average_time => '平均時間';
+
+  @override
+  String flash_cards_played(Object played, Object remaining) {
+    return '已練習 $played 張，還剩 $remaining 張';
+  }
+
+  @override
+  String get flash_mainDeck => '主卡組';
+
+  @override
+  String get flash_errorDeck => '錯誤卡組';
+
+  @override
+  String get flash_correct => '正確';
+
+  @override
+  String get flash_incorrect => '錯誤';
+
+  @override
+  String get flash_of => '共';
+
+  @override
+  String get flash_next => '下一張';
+
+  @override
+  String get summary_title => '總結';
+
+  @override
+  String get summary_correct => '正確';
+
+  @override
+  String get summary_incorrect => '錯誤';
+
+  @override
+  String get summary_cards => '卡片';
+
+  @override
+  String get summary_average_time => '平均時間';
+
+  @override
+  String get summary_seconds => '秒';
+
+  @override
+  String get summary_from_main_deck => '主卡組';
+
+  @override
+  String get summary_from_error_deck => '錯誤卡組';
+
+  @override
+  String get summary_play_again => '再玩一次';
+
+  @override
+  String get summary_done => '完成';
+
+  @override
+  String get summary_accuracy => '準確率';
+
+  @override
+  String get summary_average_time_correct => '平均（正確和弦）';
+
+  @override
+  String get summary_average_time_all => '平均時間（所有和弦）';
+
+  @override
+  String get summary_unsaved_changes_title => '你尚未儲存變更';
+
+  @override
+  String get summary_unsaved_changes_body => '你在設定中做了變更。如果要儲存，請先按取消，再按儲存。';
+
+  @override
+  String get summary_discard => '放棄變更';
+
+  @override
+  String get cancel => '取消';
+
+  @override
+  String get listeningActive => '正在聆聽…';
+
+  @override
+  String get listeningInactive => '聆聽已暫停';
+
+  @override
+  String get flash_error_101 => '不允許音訊輸入。';
+
+  @override
+  String get flash_error_101_hint => 'FlashChords 沒有麥克風存取權限。請在裝置設定中啟用麥克風權限並重新啟動應用程式。';
+
+  @override
+  String get flash_error_102 => '無法開始音訊聆聽。';
+
+  @override
+  String get flash_error_102_hint => 'FlashChords 無法初始化音訊系統。請檢查是否有其他應用程式正在使用麥克風並重新啟動應用程式。';
+
+  @override
+  String get flash_error_103 => '音訊輸入被中斷。';
+
+  @override
+  String get flash_error_103_hint => '由於音訊中斷，聆聽已停止。請檢查麥克風連線並重新開始聆聽。';
+
+  @override
+  String get flash_error_201 => '發生內部錯誤。';
+
+  @override
+  String get flash_error_201_hint => 'FlashChords 遇到意外錯誤。請重新啟動應用程式。如果問題仍然存在，請聯絡支援並提供此錯誤代碼。';
+
+  @override
+  String get flash_error_301 => '必須至少選擇一個值。';
+
+  @override
+  String get flash_error_301_hint => '你最後取消選取的項目已被重新選取，以確保至少有一個值被選中。若要取消它，請先選擇另一個值。';
+
+  @override
+  String get language_picker_scroll_hint => 'Scroll to see more languages';
+}

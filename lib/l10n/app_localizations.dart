@@ -5,16 +5,23 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'app_localizations_bn.dart';
 import 'app_localizations_de.dart';
 import 'app_localizations_en.dart';
 import 'app_localizations_es.dart';
 import 'app_localizations_fr.dart';
+import 'app_localizations_hi.dart';
 import 'app_localizations_it.dart';
+import 'app_localizations_ja.dart';
+import 'app_localizations_ko.dart';
 import 'app_localizations_nl.dart';
 import 'app_localizations_pl.dart';
 import 'app_localizations_pt.dart';
 import 'app_localizations_ru.dart';
+import 'app_localizations_th.dart';
 import 'app_localizations_tr.dart';
+import 'app_localizations_uk.dart';
+import 'app_localizations_zh.dart';
 
 // ignore_for_file: type=lint
 
@@ -99,16 +106,25 @@ abstract class AppLocalizations {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
+    Locale('bn'),
     Locale('de'),
     Locale('en'),
     Locale('es'),
     Locale('fr'),
+    Locale('hi'),
     Locale('it'),
+    Locale('ja'),
+    Locale('ko'),
     Locale('nl'),
     Locale('pl'),
     Locale('pt'),
     Locale('ru'),
-    Locale('tr')
+    Locale('th'),
+    Locale('tr'),
+    Locale('uk'),
+    Locale('zh'),
+    Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hans'),
+    Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant')
   ];
 
   /// No description provided for @welcomeTitle.
@@ -812,6 +828,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your last de-select has been reselected to ensure one value is selected.  To deselect it, select another value first.'**
   String get flash_error_301_hint;
+
+  /// No description provided for @language_picker_scroll_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Scroll to see more languages'**
+  String get language_picker_scroll_hint;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
@@ -823,7 +845,7 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['de', 'en', 'es', 'fr', 'it', 'nl', 'pl', 'pt', 'ru', 'tr'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['bn', 'de', 'en', 'es', 'fr', 'hi', 'it', 'ja', 'ko', 'nl', 'pl', 'pt', 'ru', 'th', 'tr', 'uk', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -831,19 +853,36 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
 
+  // Lookup logic when language+script codes are specified.
+  switch (locale.languageCode) {
+    case 'zh': {
+  switch (locale.scriptCode) {
+    case 'Hans': return AppLocalizationsZhHans();
+case 'Hant': return AppLocalizationsZhHant();
+   }
+  break;
+   }
+  }
 
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
+    case 'bn': return AppLocalizationsBn();
     case 'de': return AppLocalizationsDe();
     case 'en': return AppLocalizationsEn();
     case 'es': return AppLocalizationsEs();
     case 'fr': return AppLocalizationsFr();
+    case 'hi': return AppLocalizationsHi();
     case 'it': return AppLocalizationsIt();
+    case 'ja': return AppLocalizationsJa();
+    case 'ko': return AppLocalizationsKo();
     case 'nl': return AppLocalizationsNl();
     case 'pl': return AppLocalizationsPl();
     case 'pt': return AppLocalizationsPt();
     case 'ru': return AppLocalizationsRu();
+    case 'th': return AppLocalizationsTh();
     case 'tr': return AppLocalizationsTr();
+    case 'uk': return AppLocalizationsUk();
+    case 'zh': return AppLocalizationsZh();
   }
 
   throw FlutterError(

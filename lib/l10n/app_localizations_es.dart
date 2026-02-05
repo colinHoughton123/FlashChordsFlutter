@@ -366,4 +366,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get flash_error_301_hint => 'Tu última deselección se ha vuelto a seleccionar para asegurar que haya un valor seleccionado. Para deseleccionarlo, selecciona primero otro valor.';
+
+  @override
+  String get language_picker_scroll_hint => 'Desplázate para ver más idiomas';
 }

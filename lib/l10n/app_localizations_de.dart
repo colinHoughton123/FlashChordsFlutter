@@ -366,4 +366,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get flash_error_301_hint => 'Deine letzte Abwahl wurde wieder ausgewählt, um sicherzustellen, dass ein Wert ausgewählt ist. Um ihn abzuwählen, wähle zuerst einen anderen Wert aus.';
+
+  @override
+  String get language_picker_scroll_hint => 'Scrollen, um weitere Sprachen zu sehen';
 }

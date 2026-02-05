@@ -1,29 +1,22 @@
 {
   "@@locale": "it",
-
   "welcomeTitle": "Benvenuto su FlashChords",
-
   "welcomeUpdate_Update": "Aggiornamento disponibile",
   "welcomeUpdate_Button_Later": "Più tardi",
   "welcomeUpdate_Button_Update": "Aggiorna",
-
   "listenerLimitReachedTitle": "Ascolto disabilitato",
   "listenerLimitReachedBody": "L’ascolto è stato disabilitato dopo {limit} carte gratuite. Passa alla versione superiore per riattivarlo.",
-
   "freeUsageStatus": "Versione gratuita: {played} di {limit} carte con ascolto utilizzate",
-
   "listenerLimitDialogTitle": "Limite gratuito raggiunto",
   "listenerLimitDialogBody": "FlashChords continuerà a funzionare, ma l’ascolto è disabilitato a meno che tu non effettui l’upgrade per {price}.",
   "upgrade": "Aggiorna",
   "later": "Più tardi",
-
   "listenerInversionNoticeTitle": "Nota sull’ascolto",
   "listenerInversionNoticePart1": "Hai selezionato più di un’inversione. Tieni presente che FlashChords non può “sentire” la differenza tra le inversioni. Verranno mostrati i pattern di tasti previsti, ma un accordo suonato nell’inversione sbagliata sarà contrassegnato come ",
   "listenerInversionNoticeAny": "“corretto”",
   "listenerInversionNoticePart2": ".",
   "listenerInversionNoticeDontShow": "Non mostrare più",
   "listenerInversionNoticeGotIt": "OK",
-
   "loadingChords": "Caricamento accordi...",
   "start": "Inizia",
   "configure": "Configura",
@@ -35,10 +28,8 @@
   "mainFeatures2Content": "Mettiti alla prova con timer personalizzati",
   "mainFeatures3Title": "Valutazione automatica",
   "mainFeatures3Content": "Lascia che FlashChords ascolti il tuo pianoforte",
-
   "language_picker_title": "Seleziona lingua",
   "language_change_tooltip": "Cambia lingua",
-
   "configTitle": "Configurazione",
   "configSelectRoots": "Seleziona accordi",
   "configSelectChordTypes": "Seleziona tipi di accordi",
@@ -48,13 +39,10 @@
   "saveButton": "Salva",
   "configListener": "Abilita il microfono per ascoltare e contrassegnare Corretto",
   "configIncorrect": "Contrassegna l’accordo come Errato se non è il primo suonato dopo l’avvio del timer",
-
   "configAtLeastOneOption": "Almeno un’opzione deve essere selezionata in questa sezione. L’ultima opzione è stata riselezionata. Riprova.",
   "configOK": "OK",
-
   "configEnableListening": "Abilita modalità Ascolto (funzionalità futura)",
   "configEnableListeningDesc": "Contrassegna automaticamente l’accordo come corretto quando la rilevazione audio corrisponde.",
-
   "chord_major": "Maggiore",
   "chord_minor": "Minore",
   "chord_diminished": "Diminuito",
@@ -64,15 +52,12 @@
   "chord_suspended2": "Sospeso 2",
   "chord_suspended4": "Sospeso 4",
   "chord_augmented": "Aumentato",
-
   "inv_root": "Posizione fondamentale",
   "inv_first": "1ª inversione",
   "inv_second": "2ª inversione",
-
   "configCardOrder": "Ordine delle carte",
   "configCardOrderRandom": "Casuale",
   "configCardOrderSorted": "Ordinato",
-
   "flash_incorrectCountLabel": "Errato",
   "flash_correctCountLabel": "Corretto",
   "flash_playingMainDeck": "Stai usando il mazzo principale",
@@ -84,14 +69,12 @@
   "flash_timeLabel": "Timer",
   "flash_timerCancelled": "Timer annullato",
   "flash_reveal": "Mostra accordo",
-
   "flash_play_instruction": "Suona il seguente accordo\nselezionato casualmente dal mazzo principale",
   "flash_swipe_right": "Scorri a destra se lo hai suonato correttamente",
   "flash_swipe_left": "Scorri a sinistra se lo hai suonato in modo errato",
   "flash_not_sure": "Non sei sicuro? Tocca la carta per vedere la diteggiatura",
   "flash_welcome1": "Qui verrà mostrato il nome di un accordo",
   "flash_welcome2": "Suonalo sul tuo pianoforte",
-
   "flash_incorrect_count": "Conteggio errori",
   "flash_correct_count": "Conteggio corretti",
   "flash_playing_main": "Stai usando il mazzo principale",
@@ -99,14 +82,12 @@
   "flash_play_again": "Gioca di nuovo",
   "flash_average_time": "Tempo medio",
   "flash_cards_played": "{played} giocate, {remaining} rimanenti",
-
   "flash_mainDeck": "Mazzo principale",
   "flash_errorDeck": "Mazzo degli errori",
   "flash_correct": "Corretto",
   "flash_incorrect": "Errato",
   "flash_of": "di",
   "flash_next": "Avanti",
-
   "summary_title": "Riepilogo",
   "summary_correct": "Corretto",
   "summary_incorrect": "Errato",
@@ -124,7 +105,6 @@
   "summary_unsaved_changes_body": "Hai apportato una modifica alla configurazione. Se vuoi salvare, premi ANNULLA ora, poi premi SALVA.",
   "summary_discard": "Scarta modifiche",
   "cancel": "Annulla",
-
   "listeningActive": "In ascolto…",
   "listeningInactive": "Ascolto in pausa",
   "flash_error_101": "L’ingresso audio non è consentito.",
@@ -136,5 +116,6 @@
   "flash_error_201": "Si è verificato un errore interno.",
   "flash_error_201_hint": "FlashChords ha riscontrato un errore imprevisto. Riavvia l’app. Se il problema persiste, contatta il supporto con questo codice di errore.",
   "flash_error_301": "Deve essere selezionato almeno un valore.",
-  "flash_error_301_hint": "L’ultima deselezione è stata riselezionata per garantire che un valore sia selezionato. Per deselezionarlo, seleziona prima un altro valore."
+  "flash_error_301_hint": "L’ultima deselezione è stata riselezionata per garantire che un valore sia selezionato. Per deselezionarlo, seleziona prima un altro valore.",
+  "language_picker_scroll_hint": "Scorri per vedere altre lingue"
 }

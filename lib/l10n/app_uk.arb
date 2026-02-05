@@ -1,29 +1,22 @@
 {
   "@@locale": "uk",
-
   "welcomeTitle": "Ласкаво просимо до FlashChords",
-
   "welcomeUpdate_Update": "Доступне оновлення",
   "welcomeUpdate_Button_Later": "Пізніше",
   "welcomeUpdate_Button_Update": "Оновити",
-
   "listenerLimitReachedTitle": "Слухач вимкнено",
   "listenerLimitReachedBody": "Функцію слухача вимкнено після {limit} безкоштовних карток. Оновіть, щоб знову ввімкнути.",
-
   "freeUsageStatus": "Безкоштовна версія: використано {played} із {limit} карток зі слухачем",
-
   "listenerLimitDialogTitle": "Досягнуто безкоштовного ліміту",
   "listenerLimitDialogBody": "FlashChords продовжить працювати, але слухач буде вимкнений, якщо ви не оновитеся за {price}.",
   "upgrade": "Оновити",
   "later": "Пізніше",
-
   "listenerInversionNoticeTitle": "Примітка слухача",
   "listenerInversionNoticePart1": "Ви вибрали більше ніж одну інверсію. Зверніть увагу, що FlashChords не може “почути” різницю між інверсіями. Очікувані клавішні шаблони будуть показані, але акорди, зіграні в неправильній інверсії, будуть позначені як ",
   "listenerInversionNoticeAny": "“правильні”",
   "listenerInversionNoticePart2": ".",
   "listenerInversionNoticeDontShow": "Більше не показувати",
   "listenerInversionNoticeGotIt": "OK",
-
   "loadingChords": "Завантаження акордів...",
   "start": "Почати",
   "configure": "Налаштувати",
@@ -35,10 +28,8 @@
   "mainFeatures2Content": "Перевіряйте себе з індивідуальними таймерами",
   "mainFeatures3Title": "Автоматичне оцінювання",
   "mainFeatures3Content": "Дозвольте FlashChords слухати вашу гру на піаніно",
-
   "language_picker_title": "Виберіть мову",
   "language_change_tooltip": "Змінити мову",
-
   "configTitle": "Налаштування",
   "configSelectRoots": "Виберіть акорди",
   "configSelectChordTypes": "Виберіть типи акордів",
@@ -48,13 +39,10 @@
   "saveButton": "Зберегти",
   "configListener": "Увімкніть мікрофон, щоб слухати й позначати як правильно",
   "configIncorrect": "Позначати акорд як неправильний, якщо це не перший акорд після запуску таймера",
-
   "configAtLeastOneOption": "У цьому розділі має бути вибрано принаймні один варіант. Останній варіант було вибрано знову. Спробуйте ще раз.",
   "configOK": "OK",
-
   "configEnableListening": "Увімкнути режим слухання (майбутня функція)",
   "configEnableListeningDesc": "Автоматично позначати акорд як правильний, коли аудіо-розпізнавання збігається.",
-
   "chord_major": "Мажор",
   "chord_minor": "Мінор",
   "chord_diminished": "Зменшений",
@@ -64,15 +52,12 @@
   "chord_suspended2": "Суспендований 2",
   "chord_suspended4": "Суспендований 4",
   "chord_augmented": "Збільшений",
-
   "inv_root": "Основна позиція",
   "inv_first": "1-ша інверсія",
   "inv_second": "2-га інверсія",
-
   "configCardOrder": "Порядок карток",
   "configCardOrderRandom": "Випадковий",
   "configCardOrderSorted": "Відсортований",
-
   "flash_incorrectCountLabel": "Неправильно",
   "flash_correctCountLabel": "Правильно",
   "flash_playingMainDeck": "Гра з основною колодою",
@@ -84,14 +69,12 @@
   "flash_timeLabel": "Таймер",
   "flash_timerCancelled": "Таймер скасовано",
   "flash_reveal": "Показати акорд",
-
   "flash_play_instruction": "Зіграйте наступний акорд\nвипадково вибраний з основної колоди",
   "flash_swipe_right": "Проведіть вправо, якщо зіграли правильно",
   "flash_swipe_left": "Проведіть вліво, якщо зіграли неправильно",
   "flash_not_sure": "Не впевнені? Торкніться картки, щоб побачити аплікатуру",
   "flash_welcome1": "Тут буде показано назву акорду",
   "flash_welcome2": "Зіграйте його на піаніно",
-
   "flash_incorrect_count": "Кількість помилок",
   "flash_correct_count": "Кількість правильних",
   "flash_playing_main": "Гра з основною колодою",
@@ -99,14 +82,12 @@
   "flash_play_again": "Грати знову",
   "flash_average_time": "Середній час",
   "flash_cards_played": "{played} зіграно, {remaining} залишилось",
-
   "flash_mainDeck": "Основна колода",
   "flash_errorDeck": "Колодa помилок",
   "flash_correct": "Правильно",
   "flash_incorrect": "Неправильно",
   "flash_of": "з",
   "flash_next": "Далі",
-
   "summary_title": "Підсумок",
   "summary_correct": "Правильно",
   "summary_incorrect": "Неправильно",
@@ -124,7 +105,6 @@
   "summary_unsaved_changes_body": "Ви внесли зміни в налаштування. Якщо хочете зберегти, натисніть CANCEL зараз, а потім SAVE.",
   "summary_discard": "Скасувати зміни",
   "cancel": "Скасувати",
-
   "listeningActive": "Слухання…",
   "listeningInactive": "Слухання призупинено",
   "flash_error_101": "Аудіовхід не дозволено.",
@@ -136,5 +116,6 @@
   "flash_error_201": "Сталася внутрішня помилка.",
   "flash_error_201_hint": "FlashChords зіткнувся з неочікуваною помилкою. Перезапустіть додаток. Якщо проблема не зникне, зверніться до підтримки з цим кодом помилки.",
   "flash_error_301": "Потрібно вибрати принаймні одне значення.",
-  "flash_error_301_hint": "Останнє скасування вибору було знову вибрано, щоб забезпечити вибір хоча б одного значення. Щоб скасувати, спочатку виберіть інше значення."
+  "flash_error_301_hint": "Останнє скасування вибору було знову вибрано, щоб забезпечити вибір хоча б одного значення. Щоб скасувати, спочатку виберіть інше значення.",
+  "language_picker_scroll_hint": "Прокрутіть, щоб побачити більше мов"
 }

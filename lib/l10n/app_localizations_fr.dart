@@ -129,7 +129,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get configListener => 'Activer le microphone pour écouter et marquer Correct';
 
   @override
-  String get configIncorrect => 'Mark chord played as Incorrect if not the first chord played after timer start';
+  String get configIncorrect => 'Si ce n\'est pas le premier accord après le démarrage du minuteur, marquez-le comme incorrect.';
 
   @override
   String get configAtLeastOneOption => 'Au moins une option doit être sélectionnée dans cette section. La dernière option a été re-sélectionnée. Veuillez réessayer.';
@@ -366,4 +366,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get flash_error_301_hint => 'Votre dernière désélection a été re-sélectionnée afin de garantir qu’une valeur est sélectionnée. Pour la désélectionner, sélectionnez d’abord une autre valeur.';
+
+  @override
+  String get language_picker_scroll_hint => 'Faites défiler pour voir plus de langues';
 }

@@ -109,7 +109,16 @@ class FlashChordsAppState extends State<FlashChordsApp>
         ],
 
         builder: (context, child) {
-          return child!;
+          final mediaQuery = MediaQuery.of(context);
+          final clampedScaler = mediaQuery.textScaler.clamp(
+            minScaleFactor: 0.9,
+            maxScaleFactor: 1.2,
+          );
+
+          return MediaQuery(
+            data: mediaQuery.copyWith(textScaler: clampedScaler),
+            child: child!,
+          );
         },
 
         home: WelcomeScreen(

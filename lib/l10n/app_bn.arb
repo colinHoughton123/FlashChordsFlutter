@@ -1,29 +1,22 @@
 {
   "@@locale": "bn",
-
   "welcomeTitle": "FlashChords-এ স্বাগতম",
-
   "welcomeUpdate_Update": "আপডেট উপলব্ধ",
   "welcomeUpdate_Button_Later": "পরে",
   "welcomeUpdate_Button_Update": "আপডেট করুন",
-
   "listenerLimitReachedTitle": "শোনার সুবিধা নিষ্ক্রিয়",
   "listenerLimitReachedBody": "{limit}টি বিনামূল্যের কার্ড খেলার পর শোনার সুবিধা নিষ্ক্রিয় করা হয়েছে। পুনরায় চালু করতে আপগ্রেড করুন।",
-
   "freeUsageStatus": "বিনামূল্যের সংস্করণ: {limit}টির মধ্যে {played}টি শোনার সুবিধাযুক্ত কার্ড ব্যবহার করা হয়েছে",
-
   "listenerLimitDialogTitle": "বিনামূল্যের সীমা পূর্ণ হয়েছে",
   "listenerLimitDialogBody": "FlashChords কাজ চালিয়ে যাবে, কিন্তু আপনি {price} দিয়ে আপগ্রেড না করলে শোনার সুবিধা নিষ্ক্রিয় থাকবে।",
   "upgrade": "আপগ্রেড করুন",
   "later": "পরে",
-
   "listenerInversionNoticeTitle": "শোনার নোট",
   "listenerInversionNoticePart1": "আপনি একাধিক ইনভার্সন নির্বাচন করেছেন। মনে রাখবেন FlashChords ইনভার্সনের পার্থক্য “শুনতে” পারে না। প্রত্যাশিত কী-প্যাটার্ন দেখানো হবে, কিন্তু ভুল ইনভার্সনে বাজানো কর্ডকে ",
   "listenerInversionNoticeAny": "“সঠিক”",
   "listenerInversionNoticePart2": " হিসেবে চিহ্নিত করা হবে।",
   "listenerInversionNoticeDontShow": "আর দেখাবেন না",
   "listenerInversionNoticeGotIt": "OK",
-
   "loadingChords": "কর্ড লোড হচ্ছে...",
   "start": "শুরু",
   "configure": "কনফিগার করুন",
@@ -35,10 +28,8 @@
   "mainFeatures2Content": "কাস্টম টাইমার দিয়ে নিজেকে পরীক্ষা করুন",
   "mainFeatures3Title": "স্বয়ংক্রিয় মূল্যায়ন",
   "mainFeatures3Content": "FlashChords-কে আপনার পিয়ানো শুনতে দিন",
-
   "language_picker_title": "ভাষা নির্বাচন করুন",
   "language_change_tooltip": "ভাষা পরিবর্তন করুন",
-
   "configTitle": "কনফিগারেশন",
   "configSelectRoots": "কর্ড নির্বাচন করুন",
   "configSelectChordTypes": "কর্ডের ধরন নির্বাচন করুন",
@@ -48,13 +39,10 @@
   "saveButton": "সংরক্ষণ করুন",
   "configListener": "শোনার এবং সঠিক হিসেবে চিহ্নিত করতে মাইক্রোফোন চালু করুন",
   "configIncorrect": "টাইমার শুরু হওয়ার পর প্রথম কর্ড না হলে এটিকে ভুল হিসেবে চিহ্নিত করুন",
-
   "configAtLeastOneOption": "এই অংশে অন্তত একটি অপশন নির্বাচন করতে হবে। শেষ অপশনটি আবার নির্বাচন করা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।",
   "configOK": "OK",
-
   "configEnableListening": "শোনার মোড চালু করুন (ভবিষ্যৎ বৈশিষ্ট্য)",
   "configEnableListeningDesc": "অডিও শনাক্তকরণ মিলে গেলে কর্ডকে স্বয়ংক্রিয়ভাবে সঠিক হিসেবে চিহ্নিত করুন।",
-
   "chord_major": "মেজর",
   "chord_minor": "মাইনর",
   "chord_diminished": "ডিমিনিশড",
@@ -64,15 +52,12 @@
   "chord_suspended2": "সাসপেন্ডেড ২",
   "chord_suspended4": "সাসপেন্ডেড ৪",
   "chord_augmented": "অগমেন্টেড",
-
   "inv_root": "রুট অবস্থান",
   "inv_first": "১ম ইনভার্সন",
   "inv_second": "২য় ইনভার্সন",
-
   "configCardOrder": "কার্ডের ক্রম",
   "configCardOrderRandom": "এলোমেলো",
   "configCardOrderSorted": "সাজানো",
-
   "flash_incorrectCountLabel": "ভুল",
   "flash_correctCountLabel": "সঠিক",
   "flash_playingMainDeck": "মূল ডেক চালানো হচ্ছে",
@@ -84,14 +69,12 @@
   "flash_timeLabel": "টাইমার",
   "flash_timerCancelled": "টাইমার বাতিল হয়েছে",
   "flash_reveal": "কর্ড দেখান",
-
   "flash_play_instruction": "নিচের কর্ডটি বাজান\nমূল ডেক থেকে এলোমেলোভাবে নির্বাচিত",
   "flash_swipe_right": "সঠিক বাজালে ডানদিকে সোয়াইপ করুন",
   "flash_swipe_left": "ভুল বাজালে বামদিকে সোয়াইপ করুন",
   "flash_not_sure": "নিশ্চিত নন? আঙুলের অবস্থান দেখতে কার্ডে ট্যাপ করুন",
   "flash_welcome1": "এখানে কর্ডের নাম দেখানো হবে",
   "flash_welcome2": "আপনার পিয়ানোতে বাজান",
-
   "flash_incorrect_count": "ভুল সংখ্যা",
   "flash_correct_count": "সঠিক সংখ্যা",
   "flash_playing_main": "মূল ডেক চালানো হচ্ছে",
@@ -99,14 +82,12 @@
   "flash_play_again": "আবার খেলুন",
   "flash_average_time": "গড় সময়",
   "flash_cards_played": "{played} খেলা হয়েছে, {remaining} বাকি",
-
   "flash_mainDeck": "মূল ডেক",
   "flash_errorDeck": "ত্রুটি ডেক",
   "flash_correct": "সঠিক",
   "flash_incorrect": "ভুল",
   "flash_of": "এর মধ্যে",
   "flash_next": "পরবর্তী",
-
   "summary_title": "সারসংক্ষেপ",
   "summary_correct": "সঠিক",
   "summary_incorrect": "ভুল",
@@ -124,7 +105,6 @@
   "summary_unsaved_changes_body": "আপনি কনফিগারেশনে একটি পরিবর্তন করেছেন। সংরক্ষণ করতে চাইলে এখন CANCEL চাপুন, তারপর SAVE চাপুন।",
   "summary_discard": "পরিবর্তন বাতিল করুন",
   "cancel": "বাতিল",
-
   "listeningActive": "শোনা হচ্ছে…",
   "listeningInactive": "শোনা স্থগিত",
   "flash_error_101": "অডিও ইনপুট অনুমোদিত নয়।",
@@ -136,5 +116,6 @@
   "flash_error_201": "একটি অভ্যন্তরীণ ত্রুটি ঘটেছে।",
   "flash_error_201_hint": "FlashChords একটি অপ্রত্যাশিত ত্রুটির সম্মুখীন হয়েছে। অ্যাপটি পুনরায় চালু করুন। সমস্যা থাকলে এই ত্রুটি কোডসহ সহায়তায় যোগাযোগ করুন।",
   "flash_error_301": "কমপক্ষে একটি মান নির্বাচন করতে হবে।",
-  "flash_error_301_hint": "আপনার শেষ নির্বাচনটি আবার নির্বাচন করা হয়েছে যাতে অন্তত একটি মান নির্বাচিত থাকে। এটি বাতিল করতে আগে অন্য একটি মান নির্বাচন করুন।"
+  "flash_error_301_hint": "আপনার শেষ নির্বাচনটি আবার নির্বাচন করা হয়েছে যাতে অন্তত একটি মান নির্বাচিত থাকে। এটি বাতিল করতে আগে অন্য একটি মান নির্বাচন করুন।",
+  "language_picker_scroll_hint": "আরও ভাষা দেখতে স্ক্রোল করুন"
 }

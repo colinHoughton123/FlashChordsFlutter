@@ -1,29 +1,22 @@
 {
   "@@locale": "en",
-
   "welcomeTitle": "Welcome to FlashChords",
-
   "welcomeUpdate_Update": "Update Available",
   "welcomeUpdate_Button_Later": "Later",
   "welcomeUpdate_Button_Update": "Update",
-
   "listenerLimitReachedTitle": "Listener disabled",
   "listenerLimitReachedBody": "The listener has been disabled after {limit} free card plays. Upgrade to re-enable.",
-
   "freeUsageStatus": "Free version: {played} of {limit} listener-enabled cards used",
-
   "listenerLimitDialogTitle": "Free limit reached",
   "listenerLimitDialogBody": "FlashChords will continue to work, but the listener is disabled unless you upgrade for {price}.",
   "upgrade": "Upgrade",
   "later": "Later",
-
   "listenerInversionNoticeTitle": "Listener Note",
   "listenerInversionNoticePart1": "You have more than 1 inversion selected. Be aware that FlashChords cannot “hear” the difference between inversions. The expected key patterns will be displayed, but a chord played in the wrong inversion will be marked as ",
   "listenerInversionNoticeAny": "“correct”",
   "listenerInversionNoticePart2": ".",
   "listenerInversionNoticeDontShow": "Don't show this again",
   "listenerInversionNoticeGotIt": "OK",
-
   "loadingChords": "Loading chords...",
   "start": "Start",
   "configure": "Configure",
@@ -35,10 +28,8 @@
   "mainFeatures2Content": "Test yourself with customized timers",
   "mainFeatures3Title": "Automatic Marking",
   "mainFeatures3Content": "Let FlashChords listen to your piano",
-
   "language_picker_title": "Select language",
   "language_change_tooltip": "Change language",
-
   "configTitle": "Configuration",
   "configSelectRoots": "Select Chords",
   "configSelectChordTypes": "Select Chord Types",
@@ -48,13 +39,10 @@
   "saveButton": "Save",
   "configListener": "Enable the microphone to listen and mark Correct",
   "configIncorrect": "Mark chord played as Incorrect if not the first chord played after timer start",
-
   "configAtLeastOneOption": "At least one option must be selected in this section. Re-selecting the last option. Please try again.",
   "configOK": "OK",
-
   "configEnableListening": "Enable Listening Mode (Future Feature)",
   "configEnableListeningDesc": "Automatically mark chord correct when audio detection matches.",
-
   "chord_major": "Major",
   "chord_minor": "Minor",
   "chord_diminished": "Diminished",
@@ -64,15 +52,12 @@
   "chord_suspended2": "Suspended 2",
   "chord_suspended4": "Suspended 4",
   "chord_augmented": "Augmented",
-
   "inv_root": "Root position",
   "inv_first": "1st inversion",
   "inv_second": "2nd inversion",
-
   "configCardOrder": "Card Order",
   "configCardOrderRandom": "Random",
   "configCardOrderSorted": "Sorted",
-
   "flash_incorrectCountLabel": "Incorrect",
   "flash_correctCountLabel": "Correct",
   "flash_playingMainDeck": "Playing the main deck",
@@ -84,14 +69,12 @@
   "flash_timeLabel": "Timer",
   "flash_timerCancelled": "Timer cancelled",
   "flash_reveal": "Show Chord",
-
   "flash_play_instruction": "Play the following chord\nselected randomly from the main deck",
   "flash_swipe_right": "Swipe right if you played it correctly",
   "flash_swipe_left": "Swipe left if you played it incorrectly",
   "flash_not_sure": "Not sure? Tap the flashcard to see the fingering",
   "flash_welcome1": "A chord name will display here",
   "flash_welcome2": "Play it on your piano",
-
   "flash_incorrect_count": "Incorrect count",
   "flash_correct_count": "Correct count",
   "flash_playing_main": "Playing the main deck",
@@ -99,14 +82,12 @@
   "flash_play_again": "Play again",
   "flash_average_time": "Average time",
   "flash_cards_played": "{played} played {remaining} to go",
-
   "flash_mainDeck": "Main Deck",
   "flash_errorDeck": "Errors Deck",
   "flash_correct": "Correct",
   "flash_incorrect": "Incorrect",
   "flash_of": "of",
   "flash_next": "Next",
-
   "summary_title": "Summary",
   "summary_correct": "Correct",
   "summary_incorrect": "Incorrect",
@@ -124,7 +105,6 @@
   "summary_unsaved_changes_body": "You made a change in the configuration.  If you want to save, press CANCEL now, then press SAVE.",
   "summary_discard": "Discard changes",
   "cancel": "Cancel",
-
   "listeningActive": "Listening…",
   "listeningInactive": "Listening paused",
   "flash_error_101": "Audio input is not permitted.",
@@ -136,5 +116,6 @@
   "flash_error_201": "An internal error occurred.",
   "flash_error_201_hint": "FlashChords encountered an unexpected error. Please restart the app. If the problem persists, contact support with this error code.",
   "flash_error_301": "At least one value must be selected.",
-  "flash_error_301_hint": "Your last de-select has been reselected to ensure one value is selected.  To deselect it, select another value first."
+  "flash_error_301_hint": "Your last de-select has been reselected to ensure one value is selected.  To deselect it, select another value first.",
+  "language_picker_scroll_hint": "Scroll to see more languages"
 }

@@ -18,17 +18,36 @@ class LanguagePickerDialog extends StatelessWidget {
       title: Text(t.language_picker_title),
       content: ConstrainedBox(
         constraints: const BoxConstraints(maxHeight: 320),
-        child: ListView(
-          shrinkWrap: true,
-          children: kSupportedLanguages.map((lang) {
-            return ListTile(
-              title: Text(lang.label),
-              onTap: () {
-                onSelected(lang.code);
-                Navigator.pop(context);
-              },
-            );
-          }).toList(),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              child: Scrollbar(
+                thumbVisibility: true,
+                child: ListView(
+                  shrinkWrap: true,
+                  children: kSupportedLanguages.map((lang) {
+                    return ListTile(
+                      title: Text(lang.label),
+                      onTap: () {
+                        onSelected(lang.code);
+                        Navigator.pop(context);
+                      },
+                    );
+                  }).toList(),
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              t.language_picker_scroll_hint,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall
+                  ?.copyWith(color: Colors.black54),
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
       ),
     );

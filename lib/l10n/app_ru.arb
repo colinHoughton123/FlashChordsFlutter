@@ -1,29 +1,22 @@
 {
   "@@locale": "ru",
-
   "welcomeTitle": "Добро пожаловать в FlashChords",
-
   "welcomeUpdate_Update": "Доступно обновление",
   "welcomeUpdate_Button_Later": "Позже",
   "welcomeUpdate_Button_Update": "Обновить",
-
   "listenerLimitReachedTitle": "Прослушивание отключено",
   "listenerLimitReachedBody": "Прослушивание было отключено после {limit} бесплатных карточек. Обновитесь, чтобы снова включить.",
-
   "freeUsageStatus": "Бесплатная версия: использовано {played} из {limit} карточек с прослушиванием",
-
   "listenerLimitDialogTitle": "Бесплатный лимит достигнут",
   "listenerLimitDialogBody": "FlashChords продолжит работать, но прослушивание отключено, если вы не обновитесь за {price}.",
   "upgrade": "Обновить",
   "later": "Позже",
-
   "listenerInversionNoticeTitle": "Примечание о прослушивании",
   "listenerInversionNoticePart1": "Вы выбрали более одной инверсии. Учтите, что FlashChords не может «услышать» разницу между инверсиями. Ожидаемые схемы клавиш будут показаны, но аккорд, сыгранный в неправильной инверсии, будет отмечен как ",
   "listenerInversionNoticeAny": "«правильный»",
   "listenerInversionNoticePart2": ".",
   "listenerInversionNoticeDontShow": "Больше не показывать",
   "listenerInversionNoticeGotIt": "OK",
-
   "loadingChords": "Загрузка аккордов...",
   "start": "Старт",
   "configure": "Настроить",
@@ -35,10 +28,8 @@
   "mainFeatures2Content": "Проверьте себя с настраиваемыми таймерами",
   "mainFeatures3Title": "Автоматическая проверка",
   "mainFeatures3Content": "Позвольте FlashChords слушать вашу игру на пианино",
-
   "language_picker_title": "Выберите язык",
   "language_change_tooltip": "Сменить язык",
-
   "configTitle": "Настройка",
   "configSelectRoots": "Выбрать аккорды",
   "configSelectChordTypes": "Выбрать типы аккордов",
@@ -48,13 +39,10 @@
   "saveButton": "Сохранить",
   "configListener": "Включить микрофон для прослушивания и отметки как Правильно",
   "configIncorrect": "Отмечать аккорд как Неправильный, если он не первый сыгранный после запуска таймера",
-
   "configAtLeastOneOption": "В этом разделе должна быть выбрана хотя бы одна опция. Последняя опция была выбрана снова. Попробуйте ещё раз.",
   "configOK": "OK",
-
   "configEnableListening": "Включить режим прослушивания (будущая функция)",
   "configEnableListeningDesc": "Автоматически отмечать аккорд как правильный при совпадении аудио-распознавания.",
-
   "chord_major": "Мажор",
   "chord_minor": "Минор",
   "chord_diminished": "Уменьшенный",
@@ -64,15 +52,12 @@
   "chord_suspended2": "Sus2",
   "chord_suspended4": "Sus4",
   "chord_augmented": "Увеличенный",
-
   "inv_root": "Основное положение",
   "inv_first": "1-я инверсия",
   "inv_second": "2-я инверсия",
-
   "configCardOrder": "Порядок карточек",
   "configCardOrderRandom": "Случайный",
   "configCardOrderSorted": "Отсортированный",
-
   "flash_incorrectCountLabel": "Неправильно",
   "flash_correctCountLabel": "Правильно",
   "flash_playingMainDeck": "Игра с основной колодой",
@@ -84,14 +69,12 @@
   "flash_timeLabel": "Таймер",
   "flash_timerCancelled": "Таймер отменён",
   "flash_reveal": "Показать аккорд",
-
   "flash_play_instruction": "Сыграйте следующий аккорд\nслучайно выбранный из основной колоды",
   "flash_swipe_right": "Смахните вправо, если сыграли правильно",
   "flash_swipe_left": "Смахните влево, если сыграли неправильно",
   "flash_not_sure": "Не уверены? Нажмите на карточку, чтобы увидеть аппликатуру",
   "flash_welcome1": "Здесь появится название аккорда",
   "flash_welcome2": "Сыграйте его на пианино",
-
   "flash_incorrect_count": "Количество ошибок",
   "flash_correct_count": "Количество правильных",
   "flash_playing_main": "Игра с основной колодой",
@@ -99,14 +82,12 @@
   "flash_play_again": "Сыграть снова",
   "flash_average_time": "Среднее время",
   "flash_cards_played": "{played} сыграно, {remaining} осталось",
-
   "flash_mainDeck": "Основная колода",
   "flash_errorDeck": "Колода ошибок",
   "flash_correct": "Правильно",
   "flash_incorrect": "Неправильно",
   "flash_of": "из",
   "flash_next": "Далее",
-
   "summary_title": "Итоги",
   "summary_correct": "Правильно",
   "summary_incorrect": "Неправильно",
@@ -124,7 +105,6 @@
   "summary_unsaved_changes_body": "Вы внесли изменение в настройках. Если хотите сохранить, нажмите ОТМЕНА сейчас, затем нажмите СОХРАНИТЬ.",
   "summary_discard": "Отменить изменения",
   "cancel": "Отмена",
-
   "listeningActive": "Прослушивание…",
   "listeningInactive": "Прослушивание приостановлено",
   "flash_error_101": "Аудиоввод не разрешён.",
@@ -136,5 +116,6 @@
   "flash_error_201": "Произошла внутренняя ошибка.",
   "flash_error_201_hint": "FlashChords столкнулся с неожиданной ошибкой. Перезапустите приложение. Если проблема сохраняется, обратитесь в поддержку с этим кодом ошибки.",
   "flash_error_301": "Необходимо выбрать хотя бы одно значение.",
-  "flash_error_301_hint": "Последний снятый выбор был снова отмечен, чтобы гарантировать выбор одного значения. Чтобы снять его, сначала выберите другое значение."
+  "flash_error_301_hint": "Последний снятый выбор был снова отмечен, чтобы гарантировать выбор одного значения. Чтобы снять его, сначала выберите другое значение.",
+  "language_picker_scroll_hint": "Прокрутите, чтобы увидеть больше языков"
 }

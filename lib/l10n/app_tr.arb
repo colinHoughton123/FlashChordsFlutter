@@ -1,29 +1,22 @@
 {
   "@@locale": "tr",
-
   "welcomeTitle": "FlashChords’a Hoş Geldiniz",
-
   "welcomeUpdate_Update": "Güncelleme Mevcut",
   "welcomeUpdate_Button_Later": "Daha sonra",
   "welcomeUpdate_Button_Update": "Güncelle",
-
   "listenerLimitReachedTitle": "Dinleme devre dışı",
   "listenerLimitReachedBody": "Dinleme özelliği {limit} ücretsiz karttan sonra devre dışı bırakıldı. Yeniden etkinleştirmek için yükseltin.",
-
   "freeUsageStatus": "Ücretsiz sürüm: dinleme etkin {limit} karttan {played} tanesi kullanıldı",
-
   "listenerLimitDialogTitle": "Ücretsiz limit doldu",
   "listenerLimitDialogBody": "FlashChords çalışmaya devam edecek, ancak {price} karşılığında yükseltme yapmadığınız sürece dinleme devre dışıdır.",
   "upgrade": "Yükselt",
   "later": "Daha sonra",
-
   "listenerInversionNoticeTitle": "Dinleme Notu",
   "listenerInversionNoticePart1": "Birden fazla çevrim (inversion) seçtiniz. FlashChords’un çevrimler arasındaki farkı “duyamayacağını” unutmayın. Beklenen tuş desenleri gösterilecektir, ancak yanlış çevrimde çalınan bir akor ",
   "listenerInversionNoticeAny": "“doğru”",
   "listenerInversionNoticePart2": " olarak işaretlenecektir.",
   "listenerInversionNoticeDontShow": "Bunu tekrar gösterme",
   "listenerInversionNoticeGotIt": "OK",
-
   "loadingChords": "Akorlar yükleniyor...",
   "start": "Başlat",
   "configure": "Yapılandır",
@@ -35,10 +28,8 @@
   "mainFeatures2Content": "Özelleştirilmiş zamanlayıcılarla kendinizi test edin",
   "mainFeatures3Title": "Otomatik İşaretleme",
   "mainFeatures3Content": "FlashChords’un piyanonuzu dinlemesine izin verin",
-
   "language_picker_title": "Dil seçin",
   "language_change_tooltip": "Dili değiştir",
-
   "configTitle": "Yapılandırma",
   "configSelectRoots": "Akorları seç",
   "configSelectChordTypes": "Akor türlerini seç",
@@ -48,13 +39,10 @@
   "saveButton": "Kaydet",
   "configListener": "Dinlemek ve Doğru olarak işaretlemek için mikrofonu etkinleştir",
   "configIncorrect": "Zamanlayıcı başladıktan sonra çalınan ilk akor değilse akoru Yanlış olarak işaretle",
-
   "configAtLeastOneOption": "Bu bölümde en az bir seçenek seçilmelidir. Son seçenek yeniden seçildi. Lütfen tekrar deneyin.",
   "configOK": "OK",
-
   "configEnableListening": "Dinleme Modunu Etkinleştir (Gelecek Özellik)",
   "configEnableListeningDesc": "Ses algılama eşleştiğinde akoru otomatik olarak doğru işaretle.",
-
   "chord_major": "Majör",
   "chord_minor": "Minör",
   "chord_diminished": "Eksik",
@@ -64,15 +52,12 @@
   "chord_suspended2": "Asılı 2",
   "chord_suspended4": "Asılı 4",
   "chord_augmented": "Artırılmış",
-
   "inv_root": "Kök pozisyon",
   "inv_first": "1. çevrim",
   "inv_second": "2. çevrim",
-
   "configCardOrder": "Kart sırası",
   "configCardOrderRandom": "Rastgele",
   "configCardOrderSorted": "Sıralı",
-
   "flash_incorrectCountLabel": "Yanlış",
   "flash_correctCountLabel": "Doğru",
   "flash_playingMainDeck": "Ana deste oynanıyor",
@@ -84,14 +69,12 @@
   "flash_timeLabel": "Zamanlayıcı",
   "flash_timerCancelled": "Zamanlayıcı iptal edildi",
   "flash_reveal": "Akoru Göster",
-
   "flash_play_instruction": "Aşağıdaki akoru çalın\nana desteden rastgele seçildi",
   "flash_swipe_right": "Doğru çaldıysanız sağa kaydırın",
   "flash_swipe_left": "Yanlış çaldıysanız sola kaydırın",
   "flash_not_sure": "Emin değil misiniz? Parmaklamayı görmek için karta dokunun",
   "flash_welcome1": "Burada bir akor adı görünecek",
   "flash_welcome2": "Piyanonuzda çalın",
-
   "flash_incorrect_count": "Yanlış sayısı",
   "flash_correct_count": "Doğru sayısı",
   "flash_playing_main": "Ana deste oynanıyor",
@@ -99,14 +82,12 @@
   "flash_play_again": "Tekrar oyna",
   "flash_average_time": "Ortalama süre",
   "flash_cards_played": "{played} oynandı, {remaining} kaldı",
-
   "flash_mainDeck": "Ana Deste",
   "flash_errorDeck": "Hata Destesi",
   "flash_correct": "Doğru",
   "flash_incorrect": "Yanlış",
   "flash_of": "/",
   "flash_next": "Sonraki",
-
   "summary_title": "Özet",
   "summary_correct": "Doğru",
   "summary_incorrect": "Yanlış",
@@ -124,7 +105,6 @@
   "summary_unsaved_changes_body": "Yapılandırmada bir değişiklik yaptınız. Kaydetmek istiyorsanız şimdi İPTAL’e basın, ardından KAYDET’e basın.",
   "summary_discard": "Değişiklikleri at",
   "cancel": "İptal",
-
   "listeningActive": "Dinleniyor…",
   "listeningInactive": "Dinleme duraklatıldı",
   "flash_error_101": "Ses girişi izinli değil.",
@@ -136,5 +116,6 @@
   "flash_error_201": "Dahili bir hata oluştu.",
   "flash_error_201_hint": "FlashChords beklenmeyen bir hatayla karşılaştı. Lütfen uygulamayı yeniden başlatın. Sorun devam ederse, bu hata koduyla destekle iletişime geçin.",
   "flash_error_301": "En az bir değer seçilmelidir.",
-  "flash_error_301_hint": "Son seçiminiz, bir değer seçili kalmasını sağlamak için yeniden seçildi. Seçimi kaldırmak için önce başka bir değer seçin."
+  "flash_error_301_hint": "Son seçiminiz, bir değer seçili kalmasını sağlamak için yeniden seçildi. Seçimi kaldırmak için önce başka bir değer seçin.",
+  "language_picker_scroll_hint": "Daha fazla dili görmek için kaydırın"
 }

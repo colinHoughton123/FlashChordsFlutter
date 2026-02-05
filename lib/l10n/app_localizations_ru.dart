@@ -366,4 +366,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get flash_error_301_hint => 'Последний снятый выбор был снова отмечен, чтобы гарантировать выбор одного значения. Чтобы снять его, сначала выберите другое значение.';
+
+  @override
+  String get language_picker_scroll_hint => 'Прокрутите, чтобы увидеть больше языков';
 }

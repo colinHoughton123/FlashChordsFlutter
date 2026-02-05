@@ -366,4 +366,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get flash_error_301_hint => 'Son seçiminiz, bir değer seçili kalmasını sağlamak için yeniden seçildi. Seçimi kaldırmak için önce başka bir değer seçin.';
+
+  @override
+  String get language_picker_scroll_hint => 'Daha fazla dili görmek için kaydırın';
 }

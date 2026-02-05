@@ -1,29 +1,22 @@
 {
   "@@locale": "es",
-
   "welcomeTitle": "Bienvenido a FlashChords",
-
   "welcomeUpdate_Update": "Actualización disponible",
   "welcomeUpdate_Button_Later": "Más tarde",
   "welcomeUpdate_Button_Update": "Actualizar",
-
   "listenerLimitReachedTitle": "Escucha deshabilitada",
   "listenerLimitReachedBody": "La escucha se ha deshabilitado después de {limit} tarjetas gratuitas. Actualiza para volver a habilitarla.",
-
   "freeUsageStatus": "Versión gratuita: {played} de {limit} tarjetas con escucha usadas",
-
   "listenerLimitDialogTitle": "Límite gratuito alcanzado",
   "listenerLimitDialogBody": "FlashChords seguirá funcionando, pero la escucha está deshabilitada a menos que actualices por {price}.",
   "upgrade": "Actualizar",
   "later": "Más tarde",
-
   "listenerInversionNoticeTitle": "Nota del modo escucha",
   "listenerInversionNoticePart1": "Has seleccionado más de una inversión. Ten en cuenta que FlashChords no puede “oír” la diferencia entre inversiones. Se mostrarán los patrones de teclas esperados, pero un acorde tocado en la inversión incorrecta se marcará como ",
   "listenerInversionNoticeAny": "“correcto”",
   "listenerInversionNoticePart2": ".",
   "listenerInversionNoticeDontShow": "No mostrar esto de nuevo",
   "listenerInversionNoticeGotIt": "OK",
-
   "loadingChords": "Cargando acordes...",
   "start": "Comenzar",
   "configure": "Configurar",
@@ -35,10 +28,8 @@
   "mainFeatures2Content": "Ponte a prueba con temporizadores personalizados",
   "mainFeatures3Title": "Marcado automático",
   "mainFeatures3Content": "Deja que FlashChords escuche tu piano",
-
   "language_picker_title": "Seleccionar idioma",
   "language_change_tooltip": "Cambiar idioma",
-
   "configTitle": "Configuración",
   "configSelectRoots": "Seleccionar acordes",
   "configSelectChordTypes": "Seleccionar tipos de acordes",
@@ -48,13 +39,10 @@
   "saveButton": "Guardar",
   "configListener": "Activar el micrófono para escuchar y marcar Correcto",
   "configIncorrect": "Marcar el acorde como Incorrecto si no es el primero tocado después de iniciar el temporizador",
-
   "configAtLeastOneOption": "Debe seleccionarse al menos una opción en esta sección. Se ha vuelto a seleccionar la última opción. Inténtalo de nuevo.",
   "configOK": "OK",
-
   "configEnableListening": "Activar modo de escucha (función futura)",
   "configEnableListeningDesc": "Marcar automáticamente el acorde como correcto cuando la detección de audio coincida.",
-
   "chord_major": "Mayor",
   "chord_minor": "Menor",
   "chord_diminished": "Disminuido",
@@ -64,15 +52,12 @@
   "chord_suspended2": "Suspendido 2",
   "chord_suspended4": "Suspendido 4",
   "chord_augmented": "Aumentado",
-
   "inv_root": "Posición fundamental",
   "inv_first": "1ª inversión",
   "inv_second": "2ª inversión",
-
   "configCardOrder": "Orden de las tarjetas",
   "configCardOrderRandom": "Aleatorio",
   "configCardOrderSorted": "Ordenado",
-
   "flash_incorrectCountLabel": "Incorrecto",
   "flash_correctCountLabel": "Correcto",
   "flash_playingMainDeck": "Jugando el mazo principal",
@@ -84,14 +69,12 @@
   "flash_timeLabel": "Temporizador",
   "flash_timerCancelled": "Temporizador cancelado",
   "flash_reveal": "Mostrar acorde",
-
   "flash_play_instruction": "Toca el siguiente acorde\nseleccionado aleatoriamente del mazo principal",
   "flash_swipe_right": "Desliza a la derecha si lo tocaste correctamente",
   "flash_swipe_left": "Desliza a la izquierda si lo tocaste incorrectamente",
   "flash_not_sure": "¿No estás seguro? Toca la tarjeta para ver la digitación",
   "flash_welcome1": "Aquí se mostrará el nombre de un acorde",
   "flash_welcome2": "Tócalo en tu piano",
-
   "flash_incorrect_count": "Conteo incorrecto",
   "flash_correct_count": "Conteo correcto",
   "flash_playing_main": "Jugando el mazo principal",
@@ -99,14 +82,12 @@
   "flash_play_again": "Jugar de nuevo",
   "flash_average_time": "Tiempo promedio",
   "flash_cards_played": "{played} jugadas, {remaining} restantes",
-
   "flash_mainDeck": "Mazo principal",
   "flash_errorDeck": "Mazo de errores",
   "flash_correct": "Correcto",
   "flash_incorrect": "Incorrecto",
   "flash_of": "de",
   "flash_next": "Siguiente",
-
   "summary_title": "Resumen",
   "summary_correct": "Correcto",
   "summary_incorrect": "Incorrecto",
@@ -124,7 +105,6 @@
   "summary_unsaved_changes_body": "Hiciste un cambio en la configuración. Si quieres guardar, presiona CANCELAR ahora y luego presiona GUARDAR.",
   "summary_discard": "Descartar cambios",
   "cancel": "Cancelar",
-
   "listeningActive": "Escuchando…",
   "listeningInactive": "Escucha en pausa",
   "flash_error_101": "La entrada de audio no está permitida.",
@@ -136,5 +116,6 @@
   "flash_error_201": "Ocurrió un error interno.",
   "flash_error_201_hint": "FlashChords encontró un error inesperado. Reinicia la app. Si el problema persiste, contacta con soporte con este código de error.",
   "flash_error_301": "Debe seleccionarse al menos un valor.",
-  "flash_error_301_hint": "Tu última deselección se ha vuelto a seleccionar para asegurar que haya un valor seleccionado. Para deseleccionarlo, selecciona primero otro valor."
+  "flash_error_301_hint": "Tu última deselección se ha vuelto a seleccionar para asegurar que haya un valor seleccionado. Para deseleccionarlo, selecciona primero otro valor.",
+  "language_picker_scroll_hint": "Desplázate para ver más idiomas"
 }

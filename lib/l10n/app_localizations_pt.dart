@@ -366,4 +366,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get flash_error_301_hint => 'Sua última desmarcação foi selecionada novamente para garantir que um valor esteja selecionado. Para desmarcá-lo, selecione outro valor primeiro.';
+
+  @override
+  String get language_picker_scroll_hint => 'Role para ver mais idiomas';
 }

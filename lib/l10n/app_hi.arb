@@ -1,29 +1,22 @@
 {
   "@@locale": "hi",
-
   "welcomeTitle": "FlashChords में आपका स्वागत है",
-
   "welcomeUpdate_Update": "अपडेट उपलब्ध है",
   "welcomeUpdate_Button_Later": "बाद में",
   "welcomeUpdate_Button_Update": "अपडेट करें",
-
   "listenerLimitReachedTitle": "सुनने की सुविधा बंद है",
   "listenerLimitReachedBody": "{limit} मुफ्त कार्ड खेलने के बाद सुनने की सुविधा बंद कर दी गई है। फिर से सक्षम करने के लिए अपग्रेड करें।",
-
   "freeUsageStatus": "मुफ्त संस्करण: {limit} में से {played} सुनने-सक्षम कार्ड उपयोग किए गए",
-
   "listenerLimitDialogTitle": "मुफ्त सीमा पूरी हो गई",
   "listenerLimitDialogBody": "FlashChords काम करता रहेगा, लेकिन जब तक आप {price} में अपग्रेड नहीं करते, सुनने की सुविधा बंद रहेगी।",
   "upgrade": "अपग्रेड करें",
   "later": "बाद में",
-
   "listenerInversionNoticeTitle": "सुनने संबंधी नोट",
   "listenerInversionNoticePart1": "आपने एक से अधिक इन्वर्ज़न चुना है। ध्यान दें कि FlashChords इन्वर्ज़न के बीच का अंतर “सुन” नहीं सकता। अपेक्षित की-पैटर्न दिखाए जाएंगे, लेकिन गलत इन्वर्ज़न में बजाया गया कॉर्ड ",
   "listenerInversionNoticeAny": "“सही”",
   "listenerInversionNoticePart2": " के रूप में चिह्नित होगा।",
   "listenerInversionNoticeDontShow": "दोबारा न दिखाएँ",
   "listenerInversionNoticeGotIt": "OK",
-
   "loadingChords": "कॉर्ड लोड हो रहे हैं...",
   "start": "शुरू करें",
   "configure": "कॉन्फ़िगर करें",
@@ -35,10 +28,8 @@
   "mainFeatures2Content": "कस्टम टाइमर के साथ खुद को परखें",
   "mainFeatures3Title": "स्वचालित मूल्यांकन",
   "mainFeatures3Content": "FlashChords को आपके पियानो को सुनने दें",
-
   "language_picker_title": "भाषा चुनें",
   "language_change_tooltip": "भाषा बदलें",
-
   "configTitle": "कॉन्फ़िगरेशन",
   "configSelectRoots": "कॉर्ड चुनें",
   "configSelectChordTypes": "कॉर्ड प्रकार चुनें",
@@ -48,13 +39,10 @@
   "saveButton": "सहेजें",
   "configListener": "सुनने और सही चिह्नित करने के लिए माइक्रोफ़ोन सक्षम करें",
   "configIncorrect": "यदि टाइमर शुरू होने के बाद यह पहला कॉर्ड नहीं है, तो इसे गलत चिह्नित करें",
-
   "configAtLeastOneOption": "इस अनुभाग में कम से कम एक विकल्प चुनना आवश्यक है। अंतिम विकल्प फिर से चुना गया है। कृपया पुनः प्रयास करें।",
   "configOK": "OK",
-
   "configEnableListening": "सुनने का मोड सक्षम करें (भविष्य की सुविधा)",
   "configEnableListeningDesc": "जब ऑडियो पहचान मेल खाए, तो कॉर्ड को स्वतः सही चिह्नित करें।",
-
   "chord_major": "मेजर",
   "chord_minor": "माइनर",
   "chord_diminished": "डिमिनिश्ड",
@@ -64,15 +52,12 @@
   "chord_suspended2": "सस्पेंडेड 2",
   "chord_suspended4": "सस्पेंडेड 4",
   "chord_augmented": "ऑगमेंटेड",
-
   "inv_root": "रूट पोज़िशन",
   "inv_first": "1st इन्वर्ज़न",
   "inv_second": "2nd इन्वर्ज़न",
-
   "configCardOrder": "कार्ड क्रम",
   "configCardOrderRandom": "रैंडम",
   "configCardOrderSorted": "सॉर्टेड",
-
   "flash_incorrectCountLabel": "गलत",
   "flash_correctCountLabel": "सही",
   "flash_playingMainDeck": "मुख्य डेक खेला जा रहा है",
@@ -84,14 +69,12 @@
   "flash_timeLabel": "टाइमर",
   "flash_timerCancelled": "टाइमर रद्द किया गया",
   "flash_reveal": "कॉर्ड दिखाएँ",
-
   "flash_play_instruction": "निम्नलिखित कॉर्ड बजाएँ\nमुख्य डेक से रैंडम चुना गया",
   "flash_swipe_right": "यदि सही बजाया तो दाएँ स्वाइप करें",
   "flash_swipe_left": "यदि गलत बजाया तो बाएँ स्वाइप करें",
   "flash_not_sure": "सुनिश्चित नहीं? उंगली स्थिति देखने के लिए कार्ड टैप करें",
   "flash_welcome1": "यहाँ कॉर्ड का नाम दिखेगा",
   "flash_welcome2": "इसे अपने पियानो पर बजाएँ",
-
   "flash_incorrect_count": "गलत गिनती",
   "flash_correct_count": "सही गिनती",
   "flash_playing_main": "मुख्य डेक खेला जा रहा है",
@@ -99,14 +82,12 @@
   "flash_play_again": "फिर से खेलें",
   "flash_average_time": "औसत समय",
   "flash_cards_played": "{played} खेले गए, {remaining} बाकी",
-
   "flash_mainDeck": "मुख्य डेक",
   "flash_errorDeck": "त्रुटि डेक",
   "flash_correct": "सही",
   "flash_incorrect": "गलत",
   "flash_of": "में से",
   "flash_next": "अगला",
-
   "summary_title": "सारांश",
   "summary_correct": "सही",
   "summary_incorrect": "गलत",
@@ -124,7 +105,6 @@
   "summary_unsaved_changes_body": "आपने कॉन्फ़िगरेशन में बदलाव किया है। यदि आप सहेजना चाहते हैं, तो अभी CANCEL दबाएँ, फिर SAVE दबाएँ।",
   "summary_discard": "बदलाव हटाएँ",
   "cancel": "रद्द करें",
-
   "listeningActive": "सुन रहा है…",
   "listeningInactive": "सुनना रुका हुआ है",
   "flash_error_101": "ऑडियो इनपुट की अनुमति नहीं है।",
@@ -136,144 +116,6 @@
   "flash_error_201": "एक आंतरिक त्रुटि हुई।",
   "flash_error_201_hint": "FlashChords को एक अप्रत्याशित त्रुटि मिली। कृपया ऐप पुनः शुरू करें। यदि समस्या बनी रहे, तो इस त्रुटि कोड के साथ सहायता से संपर्क करें।",
   "flash_error_301": "कम से कम एक मान चुनना आवश्यक है।",
-  "flash_error_301_hint": "आपका अंतिम चयन हटाने पर इसे फिर से चुना गया है ताकि कम से कम एक मान चुना रहे। इसे हटाने के लिए पहले कोई अन्य मान चुनें।"
-}{
-  "@@locale": "hi",
-
-  "welcomeTitle": "FlashChords में आपका स्वागत है",
-
-  "welcomeUpdate_Update": "अपडेट उपलब्ध है",
-  "welcomeUpdate_Button_Later": "बाद में",
-  "welcomeUpdate_Button_Update": "अपडेट करें",
-
-  "listenerLimitReachedTitle": "सुनने की सुविधा बंद है",
-  "listenerLimitReachedBody": "{limit} मुफ्त कार्ड खेलने के बाद सुनने की सुविधा बंद कर दी गई है। फिर से सक्षम करने के लिए अपग्रेड करें।",
-
-  "freeUsageStatus": "मुफ्त संस्करण: {limit} में से {played} सुनने-सक्षम कार्ड उपयोग किए गए",
-
-  "listenerLimitDialogTitle": "मुफ्त सीमा पूरी हो गई",
-  "listenerLimitDialogBody": "FlashChords काम करता रहेगा, लेकिन जब तक आप {price} में अपग्रेड नहीं करते, सुनने की सुविधा बंद रहेगी।",
-  "upgrade": "अपग्रेड करें",
-  "later": "बाद में",
-
-  "listenerInversionNoticeTitle": "सुनने संबंधी नोट",
-  "listenerInversionNoticePart1": "आपने एक से अधिक इन्वर्ज़न चुना है। ध्यान दें कि FlashChords इन्वर्ज़न के बीच का अंतर “सुन” नहीं सकता। अपेक्षित की-पैटर्न दिखाए जाएंगे, लेकिन गलत इन्वर्ज़न में बजाया गया कॉर्ड ",
-  "listenerInversionNoticeAny": "“सही”",
-  "listenerInversionNoticePart2": " के रूप में चिह्नित होगा।",
-  "listenerInversionNoticeDontShow": "दोबारा न दिखाएँ",
-  "listenerInversionNoticeGotIt": "OK",
-
-  "loadingChords": "कॉर्ड लोड हो रहे हैं...",
-  "start": "शुरू करें",
-  "configure": "कॉन्फ़िगर करें",
-  "mainCatchPhrase": "कॉर्ड्स को तुरंत सीखें!",
-  "mainFeaturesTitle": "विशेषताएँ",
-  "mainFeatures1Title": "अपने कॉर्ड चुनें",
-  "mainFeatures1Content": "किस कॉर्ड पर ध्यान देना है, यह कॉन्फ़िगर करें",
-  "mainFeatures2Title": "समयबद्ध चुनौतियाँ",
-  "mainFeatures2Content": "कस्टम टाइमर के साथ खुद को परखें",
-  "mainFeatures3Title": "स्वचालित मूल्यांकन",
-  "mainFeatures3Content": "FlashChords को आपके पियानो को सुनने दें",
-
-  "language_picker_title": "भाषा चुनें",
-  "language_change_tooltip": "भाषा बदलें",
-
-  "configTitle": "कॉन्फ़िगरेशन",
-  "configSelectRoots": "कॉर्ड चुनें",
-  "configSelectChordTypes": "कॉर्ड प्रकार चुनें",
-  "configSelectInversions": "इन्वर्ज़न चुनें",
-  "configEnableTimer": "टाइमर सक्षम करें",
-  "configTimerSeconds": "टाइमर (सेकंड)",
-  "saveButton": "सहेजें",
-  "configListener": "सुनने और सही चिह्नित करने के लिए माइक्रोफ़ोन सक्षम करें",
-  "configIncorrect": "यदि टाइमर शुरू होने के बाद यह पहला कॉर्ड नहीं है, तो इसे गलत चिह्नित करें",
-
-  "configAtLeastOneOption": "इस अनुभाग में कम से कम एक विकल्प चुनना आवश्यक है। अंतिम विकल्प फिर से चुना गया है। कृपया पुनः प्रयास करें।",
-  "configOK": "OK",
-
-  "configEnableListening": "सुनने का मोड सक्षम करें (भविष्य की सुविधा)",
-  "configEnableListeningDesc": "जब ऑडियो पहचान मेल खाए, तो कॉर्ड को स्वतः सही चिह्नित करें।",
-
-  "chord_major": "मेजर",
-  "chord_minor": "माइनर",
-  "chord_diminished": "डिमिनिश्ड",
-  "chord_dominant7": "डॉमिनेंट 7th",
-  "chord_major7": "मेजर 7th",
-  "chord_minor7": "माइनर 7th",
-  "chord_suspended2": "सस्पेंडेड 2",
-  "chord_suspended4": "सस्पेंडेड 4",
-  "chord_augmented": "ऑगमेंटेड",
-
-  "inv_root": "रूट पोज़िशन",
-  "inv_first": "1st इन्वर्ज़न",
-  "inv_second": "2nd इन्वर्ज़न",
-
-  "configCardOrder": "कार्ड क्रम",
-  "configCardOrderRandom": "रैंडम",
-  "configCardOrderSorted": "सॉर्टेड",
-
-  "flash_incorrectCountLabel": "गलत",
-  "flash_correctCountLabel": "सही",
-  "flash_playingMainDeck": "मुख्य डेक खेला जा रहा है",
-  "flash_playingErrorDeck": "त्रुटि डेक खेला जा रहा है",
-  "flash_redoButton": "दोहराएँ",
-  "flash_playedLabel": "खेले गए",
-  "flash_toGoLabel": "बाकी",
-  "flash_averageTimeLabel": "औसत समय:",
-  "flash_timeLabel": "टाइमर",
-  "flash_timerCancelled": "टाइमर रद्द किया गया",
-  "flash_reveal": "कॉर्ड दिखाएँ",
-
-  "flash_play_instruction": "निम्नलिखित कॉर्ड बजाएँ\nमुख्य डेक से रैंडम चुना गया",
-  "flash_swipe_right": "यदि सही बजाया तो दाएँ स्वाइप करें",
-  "flash_swipe_left": "यदि गलत बजाया तो बाएँ स्वाइप करें",
-  "flash_not_sure": "सुनिश्चित नहीं? उंगली स्थिति देखने के लिए कार्ड टैप करें",
-  "flash_welcome1": "यहाँ कॉर्ड का नाम दिखेगा",
-  "flash_welcome2": "इसे अपने पियानो पर बजाएँ",
-
-  "flash_incorrect_count": "गलत गिनती",
-  "flash_correct_count": "सही गिनती",
-  "flash_playing_main": "मुख्य डेक खेला जा रहा है",
-  "flash_playing_wrong": "त्रुटियाँ खेली जा रही हैं",
-  "flash_play_again": "फिर से खेलें",
-  "flash_average_time": "औसत समय",
-  "flash_cards_played": "{played} खेले गए, {remaining} बाकी",
-
-  "flash_mainDeck": "मुख्य डेक",
-  "flash_errorDeck": "त्रुटि डेक",
-  "flash_correct": "सही",
-  "flash_incorrect": "गलत",
-  "flash_of": "में से",
-  "flash_next": "अगला",
-
-  "summary_title": "सारांश",
-  "summary_correct": "सही",
-  "summary_incorrect": "गलत",
-  "summary_cards": "कार्ड",
-  "summary_average_time": "औसत समय",
-  "summary_seconds": "सेकंड",
-  "summary_from_main_deck": "मुख्य डेक",
-  "summary_from_error_deck": "त्रुटि डेक",
-  "summary_play_again": "फिर से खेलें",
-  "summary_done": "समाप्त",
-  "summary_accuracy": "सटीकता",
-  "summary_average_time_correct": "औसत (सही कॉर्ड)",
-  "summary_average_time_all": "औसत समय (सभी कॉर्ड)",
-  "summary_unsaved_changes_title": "आपने अपने बदलाव सहेजे नहीं हैं",
-  "summary_unsaved_changes_body": "आपने कॉन्फ़िगरेशन में बदलाव किया है। यदि आप सहेजना चाहते हैं, तो अभी CANCEL दबाएँ, फिर SAVE दबाएँ।",
-  "summary_discard": "बदलाव हटाएँ",
-  "cancel": "रद्द करें",
-
-  "listeningActive": "सुन रहा है…",
-  "listeningInactive": "सुनना रुका हुआ है",
-  "flash_error_101": "ऑडियो इनपुट की अनुमति नहीं है।",
-  "flash_error_101_hint": "FlashChords को माइक्रोफ़ोन तक पहुँच की अनुमति नहीं है। कृपया अपने डिवाइस सेटिंग्स में माइक्रोफ़ोन अनुमति सक्षम करें और ऐप को पुनः शुरू करें।",
-  "flash_error_102": "ऑडियो सुनना शुरू नहीं हो सका।",
-  "flash_error_102_hint": "FlashChords ऑडियो सिस्टम प्रारंभ नहीं कर सका। कृपया सुनिश्चित करें कि कोई अन्य ऐप माइक्रोफ़ोन का उपयोग नहीं कर रहा है और ऐप को पुनः शुरू करें।",
-  "flash_error_103": "ऑडियो इनपुट बाधित हुआ।",
-  "flash_error_103_hint": "ऑडियो बाधा के कारण सुनना बंद हो गया। कृपया माइक्रोफ़ोन कनेक्शन जाँचें और सुनना पुनः शुरू करें।",
-  "flash_error_201": "एक आंतरिक त्रुटि हुई।",
-  "flash_error_201_hint": "FlashChords को एक अप्रत्याशित त्रुटि मिली। कृपया ऐप पुनः शुरू करें। यदि समस्या बनी रहे, तो इस त्रुटि कोड के साथ सहायता से संपर्क करें।",
-  "flash_error_301": "कम से कम एक मान चुनना आवश्यक है।",
-  "flash_error_301_hint": "आपका अंतिम चयन हटाने पर इसे फिर से चुना गया है ताकि कम से कम एक मान चुना रहे। इसे हटाने के लिए पहले कोई अन्य मान चुनें।"
+  "flash_error_301_hint": "आपका अंतिम चयन हटाने पर इसे फिर से चुना गया है ताकि कम से कम एक मान चुना रहे। इसे हटाने के लिए पहले कोई अन्य मान चुनें।",
+  "language_picker_scroll_hint": "और भाषाएँ देखने के लिए स्क्रॉल करें"
 }

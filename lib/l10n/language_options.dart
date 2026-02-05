@@ -7,23 +7,26 @@ class LanguageOption {
 
 const List<LanguageOption> kSupportedLanguages = [
   LanguageOption('en', 'English'),
-  LanguageOption('bn', 'বাংলা'),
-  LanguageOption('de', 'Deutsch'),
-  LanguageOption('es', 'Español'),
-  LanguageOption('fr', 'French'),
-  LanguageOption('hi', ' हिन्दी / Hindi'),
- 
-  LanguageOption('it', 'Italiano'),
-  LanguageOption('nl', 'Nederlands'),
-  LanguageOption('pl', 'Polski'),
-  LanguageOption('pt', 'Português'),
-  LanguageOption('ru', 'Русский'),
-  LanguageOption('tr', 'Türkçe'),
-  LanguageOption('tr', '中文（简体'),
-  LanguageOption('tr', '中文（繁體'),
-  
 
+  LanguageOption('bn', 'বাংলা / Bengali'),
+  LanguageOption('de', 'Deutsch / German'),
+  LanguageOption('es', 'Español / Spanish'),
+  LanguageOption('fr', 'Français / French'),
+  LanguageOption('hi', 'हिन्दी / Hindi'),
 
-  
-  
+  LanguageOption('it', 'Italiano / Italian'),
+  LanguageOption('ja', '日本語 / Japanese'),
+  LanguageOption('ko', '한국어 / Korean'),
+
+  LanguageOption('nl', 'Nederlands / Dutch'),
+  LanguageOption('pl', 'Polski / Polish'),
+  LanguageOption('pt', 'Português / Portuguese'),
+
+  LanguageOption('ru', 'Русский / Russian'),
+  LanguageOption('th', 'ไทย / Thai'),
+  LanguageOption('tr', 'Türkçe / Turkish'),
+  LanguageOption('uk', 'Українська / Ukrainian'),
+
+  LanguageOption('zh', '中文（简体）/ Chinese (Simplified)'),
+  LanguageOption('zh_Hant', '中文（繁體）/ Chinese (Traditional)'),
 ];

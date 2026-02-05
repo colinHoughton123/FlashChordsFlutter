@@ -366,4 +366,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get flash_error_301_hint => 'Ostatnie odznaczenie zostało ponownie zaznaczone, aby zapewnić wybór jednej wartości. Aby ją odznaczyć, najpierw wybierz inną wartość.';
+
+  @override
+  String get language_picker_scroll_hint => 'Przewiń, aby zobaczyć więcej języków';
 }

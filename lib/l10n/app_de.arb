@@ -1,29 +1,22 @@
 {
   "@@locale": "de",
-
   "welcomeTitle": "Willkommen bei FlashChords",
-
   "welcomeUpdate_Update": "Update verfügbar",
   "welcomeUpdate_Button_Later": "Später",
   "welcomeUpdate_Button_Update": "Aktualisieren",
-
   "listenerLimitReachedTitle": "Listener deaktiviert",
   "listenerLimitReachedBody": "Der Listener wurde nach {limit} kostenlosen Kartenwiedergaben deaktiviert. Bitte upgraden, um ihn wieder zu aktivieren.",
-
   "freeUsageStatus": "Kostenlose Version: {played} von {limit} Karten mit Listener-Funktion verwendet",
-
   "listenerLimitDialogTitle": "Kostenloses Limit erreicht",
   "listenerLimitDialogBody": "FlashChords funktioniert weiterhin, aber der Listener ist deaktiviert, sofern du nicht für {price} upgradest.",
   "upgrade": "Upgrade",
   "later": "Später",
-
   "listenerInversionNoticeTitle": "Hinweis zum Listener",
   "listenerInversionNoticePart1": "Du hast mehr als eine Umkehrung ausgewählt. Bitte beachte, dass FlashChords den Unterschied zwischen Umkehrungen nicht „hören“ kann. Die erwarteten Tastenmuster werden angezeigt, aber ein Akkord, der in der falschen Umkehrung gespielt wird, wird als ",
   "listenerInversionNoticeAny": "„korrekt“",
   "listenerInversionNoticePart2": " markiert.",
   "listenerInversionNoticeDontShow": "Nicht mehr anzeigen",
   "listenerInversionNoticeGotIt": "OK",
-
   "loadingChords": "Akkorde werden geladen...",
   "start": "Start",
   "configure": "Konfigurieren",
@@ -35,10 +28,8 @@
   "mainFeatures2Content": "Teste dich selbst mit benutzerdefinierten Timern",
   "mainFeatures3Title": "Automatische Bewertung",
   "mainFeatures3Content": "Lass FlashChords deinem Klavier zuhören",
-
   "language_picker_title": "Sprache auswählen",
   "language_change_tooltip": "Sprache ändern",
-
   "configTitle": "Konfiguration",
   "configSelectRoots": "Akkorde auswählen",
   "configSelectChordTypes": "Akkordtypen auswählen",
@@ -48,13 +39,10 @@
   "saveButton": "Speichern",
   "configListener": "Mikrofon aktivieren, um zuzuhören und als Korrekt zu markieren",
   "configIncorrect": "Akkord als Falsch markieren, wenn er nicht der erste nach Timerstart gespielte Akkord ist",
-
   "configAtLeastOneOption": "Mindestens eine Option muss in diesem Abschnitt ausgewählt sein. Die letzte Option wurde erneut ausgewählt. Bitte versuche es erneut.",
   "configOK": "OK",
-
   "configEnableListening": "Listening-Modus aktivieren (zukünftige Funktion)",
   "configEnableListeningDesc": "Akkord automatisch als korrekt markieren, wenn die Audioerkennung übereinstimmt.",
-
   "chord_major": "Dur",
   "chord_minor": "Moll",
   "chord_diminished": "Vermindert",
@@ -64,15 +52,12 @@
   "chord_suspended2": "Sus2",
   "chord_suspended4": "Sus4",
   "chord_augmented": "Übermäßig",
-
   "inv_root": "Grundstellung",
   "inv_first": "1. Umkehrung",
   "inv_second": "2. Umkehrung",
-
   "configCardOrder": "Kartenreihenfolge",
   "configCardOrderRandom": "Zufällig",
   "configCardOrderSorted": "Sortiert",
-
   "flash_incorrectCountLabel": "Falsch",
   "flash_correctCountLabel": "Richtig",
   "flash_playingMainDeck": "Hauptstapel wird gespielt",
@@ -84,14 +69,12 @@
   "flash_timeLabel": "Timer",
   "flash_timerCancelled": "Timer abgebrochen",
   "flash_reveal": "Akkord anzeigen",
-
   "flash_play_instruction": "Spiele den folgenden Akkord\nzufällig aus dem Hauptstapel ausgewählt",
   "flash_swipe_right": "Wische nach rechts, wenn du ihn richtig gespielt hast",
   "flash_swipe_left": "Wische nach links, wenn du ihn falsch gespielt hast",
   "flash_not_sure": "Nicht sicher? Tippe auf die Karte, um die Fingerposition zu sehen",
   "flash_welcome1": "Hier wird ein Akkordname angezeigt",
   "flash_welcome2": "Spiele ihn auf deinem Klavier",
-
   "flash_incorrect_count": "Anzahl falsch",
   "flash_correct_count": "Anzahl richtig",
   "flash_playing_main": "Hauptstapel wird gespielt",
@@ -99,14 +82,12 @@
   "flash_play_again": "Noch einmal spielen",
   "flash_average_time": "Durchschnittszeit",
   "flash_cards_played": "{played} gespielt, {remaining} übrig",
-
   "flash_mainDeck": "Hauptstapel",
   "flash_errorDeck": "Fehlerstapel",
   "flash_correct": "Richtig",
   "flash_incorrect": "Falsch",
   "flash_of": "von",
   "flash_next": "Weiter",
-
   "summary_title": "Zusammenfassung",
   "summary_correct": "Richtig",
   "summary_incorrect": "Falsch",
@@ -124,7 +105,6 @@
   "summary_unsaved_changes_body": "Du hast eine Änderung in der Konfiguration vorgenommen. Wenn du speichern möchtest, drücke jetzt ABBRECHEN und dann SPEICHERN.",
   "summary_discard": "Änderungen verwerfen",
   "cancel": "Abbrechen",
-
   "listeningActive": "Hört zu…",
   "listeningInactive": "Listening pausiert",
   "flash_error_101": "Audioeingang ist nicht erlaubt.",
@@ -136,5 +116,6 @@
   "flash_error_201": "Ein interner Fehler ist aufgetreten.",
   "flash_error_201_hint": "FlashChords ist auf einen unerwarteten Fehler gestoßen. Bitte starte die App neu. Wenn das Problem weiterhin besteht, kontaktiere den Support mit diesem Fehlercode.",
   "flash_error_301": "Mindestens ein Wert muss ausgewählt werden.",
-  "flash_error_301_hint": "Deine letzte Abwahl wurde wieder ausgewählt, um sicherzustellen, dass ein Wert ausgewählt ist. Um ihn abzuwählen, wähle zuerst einen anderen Wert aus."
+  "flash_error_301_hint": "Deine letzte Abwahl wurde wieder ausgewählt, um sicherzustellen, dass ein Wert ausgewählt ist. Um ihn abzuwählen, wähle zuerst einen anderen Wert aus.",
+  "language_picker_scroll_hint": "Scrollen, um weitere Sprachen zu sehen"
 }
