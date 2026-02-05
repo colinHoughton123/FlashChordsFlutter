@@ -145,6 +145,7 @@ if (engine == null) return;
   bool _listeningEnabled = false;
   bool _audioStarted = false;
   bool _audioStarting = false;
+  bool _listenerBooting = false;
   bool _evaluationEnabled = true;
   bool _cardFrontVisible = true;
   bool _frontEverShown = false;
@@ -154,6 +155,7 @@ if (engine == null) return;
   // late final bool _listenerEnabledAtDeckStart;
   bool _listenerEnabledAtDeckStart = false;
   bool _listenerSnapshotTaken = false;
+  bool _listenerStartScheduled = false;
 
   int _timerSeconds = 5;
   int _remainingSeconds = 5;
@@ -162,6 +164,9 @@ if (engine == null) return;
   StreamSubscription<DetectedNotesFrame>? _frameSub;
 
   Set<String>? _previousCorrectTargetNotes;
+
+  Animation<double>? _routeAnimation;
+  AnimationStatusListener? _routeStatusListener;
 
 
 Duration _ensureResolvedElapsed(String reason) {
@@ -218,7 +223,15 @@ void initState() {
     setState(() {
       _engineReady = true;
       _startTimingForCurrentCard();
+
+      // If listener is enabled, show overlay immediately.
+      if (_listeningEnabled && widget.userPressedStart) {
+        _listenerBooting = true;
+      }
     });
+
+    // Schedule listener start after the route transition completes.
+    _scheduleListenerStartAfterTransition();
   }
 
   @override
@@ -227,6 +240,9 @@ void initState() {
     _timer?.cancel();
     _listenerSub?.cancel();
     _frameSub?.cancel();
+    if (_routeAnimation != null && _routeStatusListener != null) {
+      _routeAnimation!.removeStatusListener(_routeStatusListener!);
+    }
     super.dispose();
   }
 
@@ -298,6 +314,15 @@ _engine = FlashcardEngine(
 // Audio
 // ============================================================
 
+void _setListenerBooting(bool value) {
+  if (_listenerBooting == value) return;
+  if (!mounted) {
+    _listenerBooting = value;
+    return;
+  }
+  setState(() => _listenerBooting = value);
+}
+
 Future<void> _startListeningIfNeeded() async {
   debugPrint(
     '🎧 _startListeningIfNeeded ENTER '
@@ -313,26 +338,31 @@ Future<void> _startListeningIfNeeded() async {
 
   if (!_listeningEnabled) {
     _log('🎧 skip: listening disabled in settings');
+    _setListenerBooting(false);
     return;
   }
 
   if (!_engineReady) {
     _log('🎧 skip: engine not ready');
+    _setListenerBooting(false);
     return;
   }
 
   if (_audioStarted) {
     _log('🎧 skip: audio already started');
+    _setListenerBooting(false);
     return;
   }
 
   if (_audioStarting) {
     _log('🎧 skip: audio already starting');
+    _setListenerBooting(false);
     return;
   }
 
   if (!widget.userPressedStart) {
     _log('🎧 skip: userPressedStart=false');
+    _setListenerBooting(false);
     return;
   }
 
@@ -343,12 +373,14 @@ Future<void> _startListeningIfNeeded() async {
   WidgetsBinding.instance.addPostFrameCallback((_) async {
     if (!mounted) {
       _audioStarting = false;
+      _setListenerBooting(false);
       return;
     }
 
     // Double-guard (very important on iOS)
     if (_audioStarted || !_audioStarting) {
       _audioStarting = false;
+      _setListenerBooting(false);
       return;
     }
 
@@ -398,6 +430,7 @@ Future<void> _startListeningIfNeeded() async {
         await _frameSub?.cancel();
         _frameSub = null;
 
+        _setListenerBooting(false);
         return; // allow retry later
       }
 
@@ -408,9 +441,46 @@ Future<void> _startListeningIfNeeded() async {
       debugPrint('$st');
     } finally {
       _audioStarting = false;
+      _setListenerBooting(false);
       _logState('_startListeningIfNeeded EXIT');
     }
   });
+}
+
+void _scheduleListenerStartAfterTransition() {
+  if (_listenerStartScheduled) return;
+  if (!_listeningEnabled) return;
+  if (_audioStarted || _audioStarting) return;
+  if (!widget.userPressedStart) return;
+
+  final route = ModalRoute.of(context);
+  final animation = route?.animation;
+
+  _setListenerBooting(true);
+  _listenerStartScheduled = true;
+
+  if (animation == null) {
+    // Delay slightly to avoid jank on first frame.
+    Future.delayed(const Duration(milliseconds: 150), _startListeningIfNeeded);
+    return;
+  }
+
+  if (animation.status == AnimationStatus.completed) {
+    Future.delayed(const Duration(milliseconds: 150), _startListeningIfNeeded);
+    return;
+  }
+
+  _routeAnimation = animation;
+  _routeStatusListener ??= (status) {
+    if (status != AnimationStatus.completed) return;
+    if (_routeAnimation != null && _routeStatusListener != null) {
+      _routeAnimation!.removeStatusListener(_routeStatusListener!);
+    }
+    _routeStatusListener = null;
+    Future.delayed(const Duration(milliseconds: 150), _startListeningIfNeeded);
+  };
+
+  animation.addStatusListener(_routeStatusListener!);
 }
   // ============================================================
   // Timing
@@ -634,7 +704,7 @@ void _onCardFrontShown() {
     _timingStartedAt = DateTime.now();
   }
 
-  _startListeningIfNeeded();
+  // Listener start is scheduled once from _init after transition completes.
 }
 
   void _onSwipeAnimationStarted() {
@@ -805,8 +875,35 @@ Widget build(BuildContext context) {
   // ✅ FIRST: guard engine existence
    if (_engine == null || !_engineReady) {
     debugPrint('🏗 build FlashcardScreen | engine not ready');
-    return const Scaffold(
-      body: Center(child: CircularProgressIndicator()),
+    return Scaffold(
+      body: Stack(
+        children: [
+          const Center(child: CircularProgressIndicator()),
+          if (_listenerBooting)
+            Positioned.fill(
+              child: Container(
+                color: Colors.white.withOpacity(0.92),
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const CircularProgressIndicator(),
+                      const SizedBox(height: 16),
+                      Text(
+                        t.listenerStarting,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.black87,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 
@@ -866,8 +963,10 @@ Widget build(BuildContext context) {
     iconTheme: const IconThemeData(color: Colors.black87),
   ),
 
-  body: Column(
+  body: Stack(
     children: [
+      Column(
+        children: [
       // ─────────────────────────────────────
       // TOP STATUS BAR (RESPONSIVE)
       // ─────────────────────────────────────
@@ -988,6 +1087,31 @@ Widget build(BuildContext context) {
                   ),
                 ),
               ],
+            ),
+          ),
+        ),
+        ],
+      ),
+      if (_listenerBooting)
+        Positioned.fill(
+          child: Container(
+            color: Colors.white.withOpacity(0.92),
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const CircularProgressIndicator(),
+                  const SizedBox(height: 16),
+                  Text(
+                    t.listenerStarting,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.black87,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
