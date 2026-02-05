@@ -372,4 +372,10 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get listenerStarting => 'Starting listener...';
+
+  @override
+  String get howItWorksTitle => 'Nasıl çalışır';
+
+  @override
+  String get howItWorksBody => 'Cihazınızı piyanonuzun üzerine yerleştirin. Her kart için gösterilen akoru çalın. Dinleyici etkinse (Yapılandırma) ve zamanlayıcı bitmeden doğru tuşları çalarsanız (zamanlayıcı etkinse), FlashChords™ bunu doğru olarak işaretler ve bir sonraki kartı gösterir. Dinleyici kapalıysa kendiniz işaretleyin: doğru için onay işareti veya sağa kaydırma, yanlış için X veya sola kaydırma. Beklenen tuşları görmek için karta dokunun.';
 }

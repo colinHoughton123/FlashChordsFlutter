@@ -118,5 +118,7 @@
   "flash_error_301": "Er moet minstens één waarde geselecteerd zijn.",
   "flash_error_301_hint": "Je laatste deselectie is opnieuw geselecteerd om ervoor te zorgen dat er één waarde geselecteerd is. Om deze te deselecteren, selecteer eerst een andere waarde.",
   "language_picker_scroll_hint": "Scroll om meer talen te zien",
-  "listenerStarting": "Starting listener..."
+  "listenerStarting": "Starting listener...",
+  "howItWorksTitle": "Zo werkt het",
+  "howItWorksBody": "Plaats je apparaat op je piano. Speel voor elke kaart het getoonde akkoord. Als de luisteraar is ingeschakeld (Configuratie) en je speelt de juiste toetsen voordat de timer afloopt (indien ingeschakeld), markeert FlashChords™ het als correct en toont de volgende kaart. Staat de luisteraar uit, markeer je het zelf: vinkje of naar rechts vegen voor correct, X of naar links vegen voor incorrect. Tik op de kaart om de verwachte toetsen te zien."
 }

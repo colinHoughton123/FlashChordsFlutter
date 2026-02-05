@@ -372,4 +372,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get listenerStarting => 'Starting listener...';
+
+  @override
+  String get howItWorksTitle => 'Cómo funciona';
+
+  @override
+  String get howItWorksBody => 'Coloca tu dispositivo sobre el piano. Para cada tarjeta, toca el acorde mostrado. Si el oyente está activado (Configuración) y tocas las teclas correctas antes de que termine el temporizador (si está activado), FlashChords™ lo marcará como correcto y mostrará la siguiente tarjeta. Si el oyente está desactivado, márcalo tú mismo: marca de verificación o desliza a la derecha para correcto, X o desliza a la izquierda para incorrecto. Toca la tarjeta para ver las teclas esperadas.';
 }

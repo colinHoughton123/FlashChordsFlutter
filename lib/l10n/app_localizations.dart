@@ -840,6 +840,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Starting listener...'**
   String get listenerStarting;
+
+  /// No description provided for @howItWorksTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How it works'**
+  String get howItWorksTitle;
+
+  /// No description provided for @howItWorksBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Place your device on your piano. For each flashcard, play the chord shown. If the listener is enabled (Configuration) and you play the correct keys before the timer ends (if enabled), FlashChords™ will mark it correct and show the next card. If the listener is off, mark it yourself: checkmark or swipe right for correct, X or swipe left for incorrect. Tap the card to reveal the expected keys.'**
+  String get howItWorksBody;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

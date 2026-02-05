@@ -372,4 +372,10 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get listenerStarting => 'Starting listener...';
+
+  @override
+  String get howItWorksTitle => 'यह कैसे काम करता है';
+
+  @override
+  String get howItWorksBody => 'अपना डिवाइस अपने पियानो पर रखें। हर फ़्लैशकार्ड के लिए दिखाया गया कॉर्ड बजाएँ। यदि लिसनर सक्षम है (कॉन्फ़िगरेशन) और आप टाइमर खत्म होने से पहले सही कुंजियाँ बजाते हैं (यदि टाइमर सक्षम है), तो FlashChords™ उसे सही चिह्नित करेगा और अगला कार्ड दिखाएगा। यदि लिसनर बंद है, तो स्वयं चिह्नित करें: सही के लिए चेकमार्क या दाईं ओर स्वाइप, गलत के लिए X या बाईं ओर स्वाइप। अपेक्षित कुंजियाँ देखने के लिए कार्ड पर टैप करें।';
 }

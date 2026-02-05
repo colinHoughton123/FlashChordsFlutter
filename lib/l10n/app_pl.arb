@@ -118,5 +118,7 @@
   "flash_error_301": "Należy wybrać co najmniej jedną wartość.",
   "flash_error_301_hint": "Ostatnie odznaczenie zostało ponownie zaznaczone, aby zapewnić wybór jednej wartości. Aby ją odznaczyć, najpierw wybierz inną wartość.",
   "language_picker_scroll_hint": "Przewiń, aby zobaczyć więcej języków",
-  "listenerStarting": "Starting listener..."
+  "listenerStarting": "Starting listener...",
+  "howItWorksTitle": "Jak to działa",
+  "howItWorksBody": "Połóż urządzenie na pianinie. Dla każdej karty zagraj pokazany akord. Jeśli nasłuchiwanie jest włączone (Konfiguracja) i zagrasz właściwe klawisze przed końcem timera (jeśli włączony), FlashChords™ oznaczy to jako poprawne i pokaże następną kartę. Jeśli nasłuchiwanie jest wyłączone, oznacz sam: haczyk lub przesunięcie w prawo dla poprawnej, X lub przesunięcie w lewo dla błędnej. Stuknij kartę, aby zobaczyć oczekiwane klawisze."
 }

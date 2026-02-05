@@ -166,6 +166,36 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             );
           },
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            color: Colors.teal,
+            tooltip: t.howItWorksTitle,
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (_) => AlertDialog(
+                  title: Text(t.howItWorksTitle),
+                  content: SizedBox(
+                    width: 320,
+                    child: Scrollbar(
+                      thumbVisibility: true,
+                      child: SingleChildScrollView(
+                        child: Text(t.howItWorksBody),
+                      ),
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: Text(t.configOK),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -198,17 +228,42 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             ),
                           );
                         },
-                        child: Text(
-                          'FlashChords',
-                          style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.teal.shade700,
+                        child: RichText(
+                          text: TextSpan(
+                            style: TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.teal.shade700,
+                            ),
+                            children: const [
+                              TextSpan(text: 'FlashChords'),
+                              WidgetSpan(
+                                alignment: PlaceholderAlignment.top,
+                                child: Text(
+                                  '™',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
 
                       const SizedBox(height: 20),
+
+                      Text(
+                        t.mainCatchPhrase,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+
+                      const SizedBox(height: 16),
 
                       SizedBox(
                         width: double.infinity,
@@ -234,12 +289,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       ),
 
                       const SizedBox(height: 16),
-
-                      Text(
-                        t.mainCatchPhrase,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 18),
-                      ),
 
                       const SizedBox(height: 24),
 

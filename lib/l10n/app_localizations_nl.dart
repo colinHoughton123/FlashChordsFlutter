@@ -372,4 +372,10 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get listenerStarting => 'Starting listener...';
+
+  @override
+  String get howItWorksTitle => 'Zo werkt het';
+
+  @override
+  String get howItWorksBody => 'Plaats je apparaat op je piano. Speel voor elke kaart het getoonde akkoord. Als de luisteraar is ingeschakeld (Configuratie) en je speelt de juiste toetsen voordat de timer afloopt (indien ingeschakeld), markeert FlashChords™ het als correct en toont de volgende kaart. Staat de luisteraar uit, markeer je het zelf: vinkje of naar rechts vegen voor correct, X of naar links vegen voor incorrect. Tik op de kaart om de verwachte toetsen te zien.';
 }

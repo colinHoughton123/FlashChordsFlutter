@@ -118,5 +118,7 @@
   "flash_error_301": "At least one value must be selected.",
   "flash_error_301_hint": "Your last de-select has been reselected to ensure one value is selected.  To deselect it, select another value first.",
   "language_picker_scroll_hint": "Scroll to see more languages",
-  "listenerStarting": "Starting listener..."
+  "listenerStarting": "Starting listener...",
+  "howItWorksTitle": "How it works",
+  "howItWorksBody": "Place your device on your piano. For each flashcard, play the chord shown. If the listener is enabled (Configuration) and you play the correct keys before the timer ends (if enabled), FlashChords™ will mark it correct and show the next card. If the listener is off, mark it yourself: checkmark or swipe right for correct, X or swipe left for incorrect. Tap the card to reveal the expected keys."
 }

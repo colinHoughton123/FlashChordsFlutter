@@ -372,4 +372,10 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get listenerStarting => 'Starting listener...';
+
+  @override
+  String get howItWorksTitle => 'এটি কীভাবে কাজ করে';
+
+  @override
+  String get howItWorksBody => 'আপনার ডিভাইসটি পিয়ানোর উপর রাখুন। প্রতিটি ফ্ল্যাশকার্ডে প্রদর্শিত কর্ডটি বাজান। যদি লিসেনার চালু থাকে (কনফিগারেশন) এবং টাইমার শেষ হওয়ার আগে আপনি সঠিক কী বাজান (টাইমার চালু থাকলে), FlashChords™ এটিকে সঠিক হিসেবে চিহ্নিত করবে এবং পরবর্তী কার্ড দেখাবে। যদি লিসেনার বন্ধ থাকে, তাহলে নিজে চিহ্ন দিন: সঠিকের জন্য চেকমার্ক বা ডানে সোয়াইপ, ভুলের জন্য X বা বামে সোয়াইপ। প্রত্যাশিত কী দেখতে কার্ডে ট্যাপ করুন।';
 }

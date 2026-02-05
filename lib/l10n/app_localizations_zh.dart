@@ -372,6 +372,12 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get listenerStarting => 'Starting listener...';
+
+  @override
+  String get howItWorksTitle => '使用说明';
+
+  @override
+  String get howItWorksBody => '将设备放在钢琴上。每张闪卡显示一个和弦，请演奏该和弦。如果监听已开启（配置），并且你在计时结束前弹对了琴键（若计时器启用），FlashChords™ 会标记为正确并显示下一张卡片。如果监听关闭，请自行标记：正确请点勾或右滑，错误请点 X 或左滑。点击卡片可查看应弹的琴键。';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hans`).
@@ -742,6 +748,12 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
 
   @override
   String get listenerStarting => 'Starting listener...';
+
+  @override
+  String get howItWorksTitle => '使用说明';
+
+  @override
+  String get howItWorksBody => '将设备放在钢琴上。每张闪卡显示一个和弦，请演奏该和弦。如果监听已开启（配置），并且你在计时结束前弹对了琴键（若计时器启用），FlashChords™ 会标记为正确并显示下一张卡片。如果监听关闭，请自行标记：正确请点勾或右滑，错误请点 X 或左滑。点击卡片可查看应弹的琴键。';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -1112,4 +1124,10 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get listenerStarting => 'Starting listener...';
+
+  @override
+  String get howItWorksTitle => '使用說明';
+
+  @override
+  String get howItWorksBody => '將裝置放在鋼琴上。每張閃卡會顯示一個和弦，請演奏該和弦。若已啟用聆聽（設定），且你在計時結束前彈對了琴鍵（若計時器啟用），FlashChords™ 會標示為正確並顯示下一張卡片。若未啟用聆聽，請自行標記：正確按勾選或向右滑，錯誤按 X 或向左滑。點擊卡片可查看應彈的琴鍵。';
 }

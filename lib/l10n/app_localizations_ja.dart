@@ -372,4 +372,10 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get listenerStarting => 'Starting listener...';
+
+  @override
+  String get howItWorksTitle => '使い方';
+
+  @override
+  String get howItWorksBody => 'デバイスをピアノの上に置いてください。各フラッシュカードに表示されたコードを弾きます。リスナーが有効（設定）で、タイマー終了前に正しい鍵盤を弾いた場合（タイマー有効時）、FlashChords™ が正解として次のカードを表示します。リスナーが無効の場合は自分で判定します：正解はチェックマークまたは右スワイプ、不正解は X または左スワイプ。カードをタップすると期待される鍵盤が表示されます。';
 }

@@ -372,4 +372,10 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get listenerStarting => 'Starting listener...';
+
+  @override
+  String get howItWorksTitle => 'Come funziona';
+
+  @override
+  String get howItWorksBody => 'Posiziona il dispositivo sul pianoforte. Per ogni scheda, suona l’accordo mostrato. Se l’ascolto è attivo (Configurazione) e suoni i tasti corretti prima della fine del timer (se attivo), FlashChords™ lo segnerà come corretto e mostrerà la scheda successiva. Se l’ascolto è disattivato, segna tu: spunta o scorri a destra per corretto, X o scorri a sinistra per errato. Tocca la scheda per vedere i tasti attesi.';
 }

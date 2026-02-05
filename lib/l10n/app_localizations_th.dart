@@ -372,4 +372,10 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get listenerStarting => 'Starting listener...';
+
+  @override
+  String get howItWorksTitle => 'วิธีการใช้งาน';
+
+  @override
+  String get howItWorksBody => 'วางอุปกรณ์ของคุณบนเปียโน สำหรับแต่ละแฟลชการ์ด ให้เล่นคอร์ดที่แสดง หากเปิดการฟังอยู่ (การตั้งค่า) และคุณเล่นคีย์ที่ถูกต้องก่อนหมดเวลา (ถ้าเปิดตัวจับเวลา) FlashChords™ จะทำเครื่องหมายว่าถูกต้องและแสดงการ์ดถัดไป หากปิดการฟัง ให้ทำเครื่องหมายเอง: เครื่องหมายถูกหรือปัดไปทางขวาสำหรับถูกต้อง, X หรือปัดไปทางซ้ายสำหรับไม่ถูกต้อง แตะการ์ดเพื่อดูคีย์ที่คาดไว้';
 }

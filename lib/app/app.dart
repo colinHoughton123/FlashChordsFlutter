@@ -26,6 +26,25 @@ class FlashChordsAppState extends State<FlashChordsApp>
     with WidgetsBindingObserver {
   Locale? _locale;
 
+  Locale _localeFromCode(String code) {
+    final normalized = code.replaceAll('-', '_');
+    final parts = normalized.split('_');
+    if (parts.length == 1) {
+      return Locale(parts[0]);
+    }
+
+    final languageCode = parts[0];
+    final subtag = parts[1];
+
+    // Handle script codes like zh_Hant / zh_Hans
+    if (subtag.length == 4) {
+      return Locale.fromSubtags(languageCode: languageCode, scriptCode: subtag);
+    }
+
+    // Fallback to countryCode
+    return Locale.fromSubtags(languageCode: languageCode, countryCode: subtag);
+  }
+
   // ─────────────────────────────────────────────
   // 🔑 Load saved language at startup
   // ─────────────────────────────────────────────
@@ -36,7 +55,7 @@ class FlashChordsAppState extends State<FlashChordsApp>
     if (code != null && mounted) {
       debugPrint('🌍 Restoring saved locale: $code');
       setState(() {
-        _locale = Locale(code);
+        _locale = _localeFromCode(code);
       });
     }
   }
@@ -53,7 +72,7 @@ class FlashChordsAppState extends State<FlashChordsApp>
     if (!mounted) return;
 
     setState(() {
-      _locale = Locale(languageCode);
+      _locale = _localeFromCode(languageCode);
     });
   }
 
