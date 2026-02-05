@@ -5,8 +5,16 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'app_localizations_de.dart';
 import 'app_localizations_en.dart';
 import 'app_localizations_es.dart';
+import 'app_localizations_fr.dart';
+import 'app_localizations_it.dart';
+import 'app_localizations_nl.dart';
+import 'app_localizations_pl.dart';
+import 'app_localizations_pt.dart';
+import 'app_localizations_ru.dart';
+import 'app_localizations_tr.dart';
 
 // ignore_for_file: type=lint
 
@@ -91,8 +99,16 @@ abstract class AppLocalizations {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
+    Locale('de'),
     Locale('en'),
-    Locale('es')
+    Locale('es'),
+    Locale('fr'),
+    Locale('it'),
+    Locale('nl'),
+    Locale('pl'),
+    Locale('pt'),
+    Locale('ru'),
+    Locale('tr')
   ];
 
   /// No description provided for @welcomeTitle.
@@ -149,42 +165,6 @@ abstract class AppLocalizations {
   /// **'FlashChords will continue to work, but the listener is disabled unless you upgrade for {price}.'**
   String listenerLimitDialogBody(Object price);
 
-  /// No description provided for @listenerInversionNoticeTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Listener Note'**
-  String get listenerInversionNoticeTitle;
-
-  /// No description provided for @listenerInversionNoticePart1.
-  ///
-  /// In en, this message translates to:
-  /// **'The listener marks a chord “correct” when it hears '**
-  String get listenerInversionNoticePart1;
-
-  /// No description provided for @listenerInversionNoticeAny.
-  ///
-  /// In en, this message translates to:
-  /// **'any'**
-  String get listenerInversionNoticeAny;
-
-  /// No description provided for @listenerInversionNoticePart2.
-  ///
-  /// In en, this message translates to:
-  /// **' inversion. The card still shows the expected keys.'**
-  String get listenerInversionNoticePart2;
-
-  /// No description provided for @listenerInversionNoticeDontShow.
-  ///
-  /// In en, this message translates to:
-  /// **'Don’t show this again'**
-  String get listenerInversionNoticeDontShow;
-
-  /// No description provided for @listenerInversionNoticeGotIt.
-  ///
-  /// In en, this message translates to:
-  /// **'Got it'**
-  String get listenerInversionNoticeGotIt;
-
   /// No description provided for @upgrade.
   ///
   /// In en, this message translates to:
@@ -196,6 +176,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Later'**
   String get later;
+
+  /// No description provided for @listenerInversionNoticeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Listener Note'**
+  String get listenerInversionNoticeTitle;
+
+  /// No description provided for @listenerInversionNoticePart1.
+  ///
+  /// In en, this message translates to:
+  /// **'You have more than 1 inversion selected. Be aware that FlashChords cannot “hear” the difference between inversions. The expected key patterns will be displayed, but a chord played in the wrong inversion will be marked as '**
+  String get listenerInversionNoticePart1;
+
+  /// No description provided for @listenerInversionNoticeAny.
+  ///
+  /// In en, this message translates to:
+  /// **'“correct”'**
+  String get listenerInversionNoticeAny;
+
+  /// No description provided for @listenerInversionNoticePart2.
+  ///
+  /// In en, this message translates to:
+  /// **'.'**
+  String get listenerInversionNoticePart2;
+
+  /// No description provided for @listenerInversionNoticeDontShow.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t show this again'**
+  String get listenerInversionNoticeDontShow;
+
+  /// No description provided for @listenerInversionNoticeGotIt.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get listenerInversionNoticeGotIt;
 
   /// No description provided for @loadingChords.
   ///
@@ -236,7 +252,7 @@ abstract class AppLocalizations {
   /// No description provided for @mainFeatures1Content.
   ///
   /// In en, this message translates to:
-  /// **'Configure which chords on which to focus (debug set upgraded)'**
+  /// **'Configure which chords on which to focus'**
   String get mainFeatures1Content;
 
   /// No description provided for @mainFeatures2Title.
@@ -248,7 +264,7 @@ abstract class AppLocalizations {
   /// No description provided for @mainFeatures2Content.
   ///
   /// In en, this message translates to:
-  /// **'Test yourself with customized timers (debug reset upgraded)'**
+  /// **'Test yourself with customized timers'**
   String get mainFeatures2Content;
 
   /// No description provided for @mainFeatures3Title.
@@ -260,7 +276,7 @@ abstract class AppLocalizations {
   /// No description provided for @mainFeatures3Content.
   ///
   /// In en, this message translates to:
-  /// **'Let FlashChords listen to your piano (debug reset cards played)'**
+  /// **'Let FlashChords listen to your piano'**
   String get mainFeatures3Content;
 
   /// No description provided for @language_picker_title.
@@ -322,6 +338,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enable the microphone to listen and mark Correct'**
   String get configListener;
+
+  /// No description provided for @configIncorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark chord played as Incorrect if not the first chord played after timer start'**
+  String get configIncorrect;
 
   /// No description provided for @configAtLeastOneOption.
   ///
@@ -440,13 +462,13 @@ abstract class AppLocalizations {
   /// No description provided for @flash_incorrectCountLabel.
   ///
   /// In en, this message translates to:
-  /// **'Incorrect count'**
+  /// **'Incorrect'**
   String get flash_incorrectCountLabel;
 
   /// No description provided for @flash_correctCountLabel.
   ///
   /// In en, this message translates to:
-  /// **'Correct count'**
+  /// **'Correct'**
   String get flash_correctCountLabel;
 
   /// No description provided for @flash_playingMainDeck.
@@ -488,7 +510,7 @@ abstract class AppLocalizations {
   /// No description provided for @flash_timeLabel.
   ///
   /// In en, this message translates to:
-  /// **'Time'**
+  /// **'Timer'**
   String get flash_timeLabel;
 
   /// No description provided for @flash_timerCancelled.
@@ -686,7 +708,7 @@ abstract class AppLocalizations {
   /// No description provided for @summary_average_time_correct.
   ///
   /// In en, this message translates to:
-  /// **'Average time (correct chords)'**
+  /// **'Average (correct chords)'**
   String get summary_average_time_correct;
 
   /// No description provided for @summary_average_time_all.
@@ -801,7 +823,7 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en', 'es'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['de', 'en', 'es', 'fr', 'it', 'nl', 'pl', 'pt', 'ru', 'tr'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -812,8 +834,16 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
 
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
+    case 'de': return AppLocalizationsDe();
     case 'en': return AppLocalizationsEn();
     case 'es': return AppLocalizationsEs();
+    case 'fr': return AppLocalizationsFr();
+    case 'it': return AppLocalizationsIt();
+    case 'nl': return AppLocalizationsNl();
+    case 'pl': return AppLocalizationsPl();
+    case 'pt': return AppLocalizationsPt();
+    case 'ru': return AppLocalizationsRu();
+    case 'tr': return AppLocalizationsTr();
   }
 
   throw FlutterError(

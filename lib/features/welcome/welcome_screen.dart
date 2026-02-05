@@ -234,7 +234,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       const SizedBox(height: 24),
 
                       Align(
-                        alignment: Alignment.centerLeft,
+                        alignment: AlignmentDirectional.centerStart,
                         child: Text(
                           t.mainFeaturesTitle,
                           style: const TextStyle(

@@ -42,28 +42,28 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get listenerInversionNoticeTitle => 'Listener Note';
-
-  @override
-  String get listenerInversionNoticePart1 => 'The listener marks a chord “correct” when it hears ';
-
-  @override
-  String get listenerInversionNoticeAny => 'any';
-
-  @override
-  String get listenerInversionNoticePart2 => ' inversion. The card still shows the expected keys.';
-
-  @override
-  String get listenerInversionNoticeDontShow => 'Don\u2019t show this again';
-
-  @override
-  String get listenerInversionNoticeGotIt => 'OK';
-
-  @override
   String get upgrade => 'Upgrade';
 
   @override
   String get later => 'Later';
+
+  @override
+  String get listenerInversionNoticeTitle => 'Listener Note';
+
+  @override
+  String get listenerInversionNoticePart1 => 'You have more than 1 inversion selected. Be aware that FlashChords cannot “hear” the difference between inversions. The expected key patterns will be displayed, but a chord played in the wrong inversion will be marked as ';
+
+  @override
+  String get listenerInversionNoticeAny => '“correct”';
+
+  @override
+  String get listenerInversionNoticePart2 => '.';
+
+  @override
+  String get listenerInversionNoticeDontShow => 'Don\'t show this again';
+
+  @override
+  String get listenerInversionNoticeGotIt => 'OK';
 
   @override
   String get loadingChords => 'Loading chords...';
@@ -84,19 +84,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mainFeatures1Title => 'Select your chords';
 
   @override
-  String get mainFeatures1Content => 'Configure which chords on which to focus (debug set upgraded)';
+  String get mainFeatures1Content => 'Configure which chords on which to focus';
 
   @override
   String get mainFeatures2Title => 'Timed Challenges';
 
   @override
-  String get mainFeatures2Content => 'Test yourself with customized timers (debug reset upgraded)';
+  String get mainFeatures2Content => 'Test yourself with customized timers';
 
   @override
   String get mainFeatures3Title => 'Automatic Marking';
 
   @override
-  String get mainFeatures3Content => 'Let FlashChords listen to your piano (debug reset cards played)';
+  String get mainFeatures3Content => 'Let FlashChords listen to your piano';
 
   @override
   String get language_picker_title => 'Select language';
@@ -127,6 +127,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get configListener => 'Enable the microphone to listen and mark Correct';
+
+  @override
+  String get configIncorrect => 'Mark chord played as Incorrect if not the first chord played after timer start';
 
   @override
   String get configAtLeastOneOption => 'At least one option must be selected in this section. Re-selecting the last option. Please try again.';
@@ -210,7 +213,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get flash_averageTimeLabel => 'Average Time:';
 
   @override
-  String get flash_timeLabel => 'Time';
+  String get flash_timeLabel => 'Timer';
 
   @override
   String get flash_timerCancelled => 'Timer cancelled';
@@ -311,7 +314,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get summary_accuracy => 'Accuracy';
 
   @override
-  String get summary_average_time_correct => 'Average time (correct chords)';
+  String get summary_average_time_correct => 'Average (correct chords)';
 
   @override
   String get summary_average_time_all => 'Average time (all chords)';

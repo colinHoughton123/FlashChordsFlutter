@@ -128,8 +128,8 @@ if (engine == null) return;
   FlashcardEngine? _engine;   // ← nullable, NOT late
   bool _engineReady = false;
 
-  //final GlobalKey<FlashcardWidgetState> _cardKey =
-  //    GlobalKey<FlashcardWidgetState>();
+  final GlobalKey<FlashcardWidgetState> _cardKey =
+      GlobalKey<FlashcardWidgetState>();
 
   Timer? _timer;
 
@@ -149,6 +149,7 @@ if (engine == null) return;
   bool _cardFrontVisible = true;
   bool _frontEverShown = false;
   bool _autoMarked = false;
+  bool _advanceInProgress = false;
 
   // late final bool _listenerEnabledAtDeckStart;
   bool _listenerEnabledAtDeckStart = false;
@@ -516,6 +517,10 @@ Future<void> _handleDetectedNotes(Set<String> detected) async {
   // ------------------------------------------------------------
   // Guard rails
   // ------------------------------------------------------------
+  if (_advanceInProgress) {
+    _log('🎯 ignore: advance in progress');
+    return;
+  }
   if (!_evaluationEnabled) {
     _log('🎯 ignore: evaluation disabled');
     return;
@@ -588,7 +593,7 @@ if (engine == null) return;
   _log('🧭 [FlashcardScreen] 🎯 AUTO-CORRECT by listener');
 
   // Treat exactly like a correct swipe
-  await _handleCorrect();
+  await _requestCorrectAdvance(source: 'listener');
 }
 
   // ============================================================
@@ -624,17 +629,23 @@ void _onCardFrontShown() {
 
   _log('🎧 evaluation reset for new card');
 
+  // For timer-only mode, start timing now that the front is visible.
+  if (_timerEnabled && !_listeningEnabled) {
+    _timingStartedAt = DateTime.now();
+  }
+
   _startListeningIfNeeded();
 }
 
   void _onSwipeAnimationStarted() {
-    // _startTimingForCurrentCard();
+    _advanceInProgress = true;
+    _evaluationEnabled = false;
   }
 
   // ============================================================
   // Handlers
   // ============================================================
-Future<void> _handleCorrect() async {
+Future<void> _handleCorrectCommit() async {
   final engine = _engine;
 if (engine == null) return;
 
@@ -646,20 +657,16 @@ debugPrint('🟩 handleCorrect fired currentCard=${engine.currentCard}');
 
 engine.markCorrect(elapsed);
 
-
-
   if (engine.deckFinished) {
-
-
-    
-
-
+    _advanceInProgress = false;
     await _showSummary();
     return;
   }
 
   setState(() {});              // ✅ rebuild with new currentCard
   _startTimingForCurrentCard(); // ✅ arm + timer + listener
+
+  _advanceInProgress = false;
 }
 
 Future<void> _handleIncorrect() async {
@@ -672,12 +679,34 @@ if (engine == null) return;
   engine.markIncorrect(elapsed);
 
   if (engine.deckFinished) {
+    _advanceInProgress = false;
     await _showSummary();
     return;
   }
 
   setState(() {});
   _startTimingForCurrentCard();
+
+  _advanceInProgress = false;
+}
+
+Future<void> _requestCorrectAdvance({required String source}) async {
+  if (_advanceInProgress) {
+    _log('🟩 requestCorrectAdvance ignored: already in progress ($source)');
+    return;
+  }
+  _advanceInProgress = true;
+  _evaluationEnabled = false;
+
+  _ensureResolvedElapsed('requestCorrectAdvance:$source');
+
+  final cardState = _cardKey.currentState;
+  if (cardState != null) {
+    await cardState.animateOut(toRight: true);
+  }
+
+  if (!mounted) return;
+  await _handleCorrectCommit();
 }
 
 Future<void> _exitToMainMenu() async {
@@ -825,9 +854,12 @@ Widget build(BuildContext context) {
       engine.usingErrorDeck
           ? t.flash_playing_wrong
           : t.flash_playing_main,
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
       style: const TextStyle(
         color: Colors.black87,
         fontWeight: FontWeight.w600,
+        fontSize: 16,
       ),
     ),
 
@@ -867,11 +899,11 @@ Widget build(BuildContext context) {
                     ),
                   ],
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: 6),
                 Text(
                   '$played ${t.flash_playedLabel} • '
                   '$remaining ${t.flash_toGoLabel}',
-                  textAlign: isNarrow ? TextAlign.start : TextAlign.center,
+                  textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 13,
                     color: Colors.black54,
@@ -890,7 +922,7 @@ Widget build(BuildContext context) {
         child: Padding(
           padding: const EdgeInsets.only(top: 6),
           child: FlashcardWidget(
-            key: ValueKey(cardId),
+            key: _cardKey,
             cardId: cardId,
             chordLabel: card.writtenAs,
             writtenAs: card.writtenAs,
@@ -902,7 +934,7 @@ Widget build(BuildContext context) {
             noteSetOriginal: card.noteSetOriginal,
             showBack: !_cardFrontVisible,
             onSwipeLeft: _handleIncorrect,
-            onSwipeRight: _handleCorrect,
+            onSwipeRight: _handleCorrectCommit,
             onRevealRequested: _revealBack,
             onFrontShown: _onCardFrontShown,
             onSwipeAnimationStarted: _onSwipeAnimationStarted,
@@ -928,29 +960,31 @@ Widget build(BuildContext context) {
       const SizedBox(height: 8),
 
       // ─────────────────────────────────────
-      // BOTTOM BAR (RESPONSIVE)
+      // BOTTOM TIMER (CENTERED)
       // ─────────────────────────────────────
       if (_timerEnabled)
         SafeArea(
           top: false,
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
-            child: Row(
+            padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 12),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Expanded(
-                  child: Text(
-                    '${t.flash_averageTimeLabel} '
-                    '${engine.averageSecondsAll.toStringAsFixed(1)} s',
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 14),
-                  ),
+                Text(
+                  '${t.flash_timeLabel}: $_remainingSeconds s',
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 14),
                 ),
-                Expanded(
-                  child: Text(
-                    '${t.flash_timeLabel}: $_remainingSeconds s',
-                    textAlign: TextAlign.end,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 14),
+                const SizedBox(height: 4),
+                Text(
+                  '${t.summary_average_time_correct}: '
+                  '${engine.averageSecondsCorrect.toStringAsFixed(1)} ${t.summary_seconds}',
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Colors.black54,
                   ),
                 ),
               ],

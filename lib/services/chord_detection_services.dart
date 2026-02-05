@@ -128,7 +128,7 @@ Future<bool>? _startFuture;
   DateTime? _candidateStartedAt;
   int _candidateOkFrames = 0;
 
-  static const int _requiredCandidateFrames = 2;
+  static const int _requiredCandidateFrames = 3;
 
   // ------------------------------------------------------------
   // Lifecycle-safe API

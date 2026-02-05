@@ -16,17 +16,20 @@ class LanguagePickerDialog extends StatelessWidget {
 
     return AlertDialog(
       title: Text(t.language_picker_title),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: kSupportedLanguages.map((lang) {
-          return ListTile(
-            title: Text(lang.label),
-            onTap: () {
-              onSelected(lang.code);
-              Navigator.pop(context);
-            },
-          );
-        }).toList(),
+      content: ConstrainedBox(
+        constraints: const BoxConstraints(maxHeight: 320),
+        child: ListView(
+          shrinkWrap: true,
+          children: kSupportedLanguages.map((lang) {
+            return ListTile(
+              title: Text(lang.label),
+              onTap: () {
+                onSelected(lang.code);
+                Navigator.pop(context);
+              },
+            );
+          }).toList(),
+        ),
       ),
     );
   }

@@ -272,6 +272,7 @@ Future<void> animateOut({required bool toRight}) async {
   if (!mounted) return;
 
   debugPrint('➡️ animateOut(toRight=$toRight)');
+  widget.onSwipeAnimationStarted?.call();
 
   final screenWidth = MediaQuery.of(context).size.width;
   final travel = screenWidth + 100;
