@@ -8,6 +8,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flashchords/models/flashcard_item.dart';
+import 'package:flashchords/data/keyboard_key_centers.dart';
 
 
 
@@ -61,6 +62,8 @@ class FlashcardWidget extends StatefulWidget {
 /// -----------------------------------------------------------------------------
 class FlashcardWidgetState extends State<FlashcardWidget>
     with SingleTickerProviderStateMixin {
+
+static const double _keyboardAspectRatio = 1176 / 465;
 
 late final String _dbg;
 
@@ -625,6 +628,8 @@ final orderedNotes = _notesForInversion(
   widget.inversion,
 );
 
+  final dotOffsets = KeyboardKeyCenters.resolveOrderedNotes(orderedNotes);
+
   return Container(
     key: key,
     alignment: Alignment.center,
@@ -659,16 +664,47 @@ final orderedNotes = _notesForInversion(
         const SizedBox(height: 10),
 
         // ─────────────────────────────
-        // PIANO GRAPHIC (placeholder)
+        // PIANO GRAPHIC + DOT OVERLAY
         // ─────────────────────────────
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Image.asset(
-            widget.imageAssetPaths.first,
-            fit: BoxFit.contain,
-            width: double.infinity,
-            errorBuilder: (_, __, ___) =>
-                const Icon(Icons.image_not_supported, size: 60),
+          child: AspectRatio(
+            aspectRatio: _keyboardAspectRatio,
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final w = constraints.maxWidth;
+                final h = constraints.maxHeight;
+                return Stack(
+                  children: [
+                    Image.asset(
+                      'assets/keyboard.jpg',
+                      width: w,
+                      height: h,
+                      fit: BoxFit.contain,
+                      errorBuilder: (_, __, ___) =>
+                          const Icon(Icons.image_not_supported, size: 60),
+                    ),
+                    ...dotOffsets.map((p) {
+                      final x = p.dx * w;
+                      final y = p.dy * h;
+                      return Positioned(
+                        left: x - 6,
+                        top: y - 6,
+                        child: Container(
+                          width: 12,
+                          height: 12,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.green,
+                            border: Border.all(color: Colors.white, width: 1.5),
+                          ),
+                        ),
+                      );
+                    }),
+                  ],
+                );
+              },
+            ),
           ),
         ),
 

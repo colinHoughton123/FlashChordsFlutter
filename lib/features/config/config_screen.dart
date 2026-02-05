@@ -264,13 +264,13 @@ Future<void> _maybeShowListenerInversionNotice(AppLocalizations t) async {
                   if (dontShowAgain) {
                     final repo = SettingsRepository();
                     await repo.saveListenerInversionNoticeDismissed(true);
-                    if (mounted) {
-                      setState(() {
-                        _listenerInversionNoticeDismissed = true;
-                      });
-                    }
+                    if (!mounted) return;
+                    setState(() {
+                      _listenerInversionNoticeDismissed = true;
+                    });
                   }
-                  if (context.mounted) Navigator.pop(context);
+                  if (!context.mounted) return;
+                  Navigator.pop(context);
                 },
                 child: Text(t.listenerInversionNoticeGotIt),
               ),

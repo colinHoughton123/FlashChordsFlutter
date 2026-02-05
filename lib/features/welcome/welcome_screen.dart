@@ -7,6 +7,7 @@ import 'package:flashchords/services/update_check_service.dart';
 import 'package:flashchords/core/free_listener_usage.dart';
 
 import 'package:flashchords/features/config/config_screen.dart';
+import 'package:flashchords/features/debug/key_calibration_screen.dart';
 import 'package:flashchords/features/flashcard/flashcard_screen.dart';
 import 'package:flashchords/features/welcome/language_picker_dialog.dart';
 
@@ -189,12 +190,21 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        'FlashChords',
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.teal.shade700,
+                      GestureDetector(
+                        onLongPress: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => const KeyCalibrationScreen(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'FlashChords',
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.teal.shade700,
+                          ),
                         ),
                       ),
 
