@@ -228,8 +228,8 @@ debugPrint('   totalCards=${widget.totalCards}');
 
             const Spacer(),
 
-            // ✅ ALWAYS show usage if available
-            if (_usage != null)
+            // ✅ Show usage only when no error deck remains
+            if (_usage != null && !widget.hadErrors)
               Padding(
                 padding: const EdgeInsets.only(bottom: 12),
                 child: Text(
@@ -252,10 +252,11 @@ debugPrint('   totalCards=${widget.totalCards}');
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton(
-                  onPressed: () => Navigator.pop(context, 'restart'),
-                  child: Text(t.summary_play_again),
-                ),
+                if (widget.hadErrors)
+                  ElevatedButton(
+                    onPressed: () => Navigator.pop(context, 'restart'),
+                    child: Text(t.summary_play_again),
+                  ),
                 OutlinedButton(
                   onPressed: () => Navigator.pop(context, 'done'),
                   child: Text(t.summary_done),

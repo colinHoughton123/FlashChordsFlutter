@@ -29,6 +29,18 @@ class DetectedNotesFrame {
   });
 }
 
+class ConfirmedChord {
+  final Set<String> detected;
+  final DateTime firstCorrectAt;
+  final DateTime confirmedAt;
+
+  const ConfirmedChord({
+    required this.detected,
+    required this.firstCorrectAt,
+    required this.confirmedAt,
+  });
+}
+
 class ChordDetectionService {
   ChordDetectionService._internal();
   static final ChordDetectionService instance = ChordDetectionService._internal();
@@ -92,6 +104,10 @@ Future<bool>? _startFuture;
   final StreamController<DetectedNotesFrame> _detectedFrameController =
       StreamController<DetectedNotesFrame>.broadcast();
   Stream<DetectedNotesFrame> get detectedFrameStream => _detectedFrameController.stream;
+
+  final StreamController<ConfirmedChord> _confirmedChordController =
+      StreamController<ConfirmedChord>.broadcast();
+  Stream<ConfirmedChord> get confirmedChordStream => _confirmedChordController.stream;
 
   // ------------------------------------------------------------
   // Audio / FFT configuration
@@ -326,6 +342,7 @@ _recorder = null;
     unawaited(_safeStopInternal(clearState: true));
     _detectedNotesController.close();
     _detectedFrameController.close();
+    _confirmedChordController.close();
   }
 
   // ------------------------------------------------------------
@@ -346,13 +363,7 @@ _recorder = null;
     _candidateOkFrames = 0;
   }
 
-  DateTime? evaluateCandidate(Set<String> detected) {
-
-    if (_armedTarget == null) {
-  debugPrint('⛔ evaluateCandidate called with NO ARM');
-  return null;
-}
-
+  ConfirmedChord? evaluateCandidate(Set<String> detected) {
 
     if (_armedTarget == null) return null;
 
@@ -361,6 +372,16 @@ _recorder = null;
       _firstCorrectFrameAt = null;
       _candidateOkFrames = 0;
       return null;
+    }
+
+    if (_armedPrevious != null) {
+      final illegalCarry =
+          detected.difference(_armedTarget!).intersection(_armedPrevious!);
+      if (illegalCarry.isNotEmpty) {
+        _candidateStartedAt = null;
+        _candidateOkFrames = 0;
+        return null;
+      }
     }
 
     _firstCorrectFrameAt ??= DateTime.now();
@@ -382,25 +403,28 @@ _recorder = null;
     _candidateOkFrames++;
 
     if (_candidateOkFrames >= _requiredCandidateFrames) {
-      final confirmedAt = _firstCorrectFrameAt;
-      final now = DateTime.now();
-      final fromFirst =
-          confirmedAt == null ? null : now.difference(confirmedAt).inMilliseconds;
+      final firstAt = _firstCorrectFrameAt!;
+      final confirmedAt = DateTime.now();
+      final fromFirst = confirmedAt.difference(firstAt).inMilliseconds;
       final fromCandidate = _candidateStartedAt == null
-          ? null
-          : now.difference(_candidateStartedAt!).inMilliseconds;
+          ? -1
+          : confirmedAt.difference(_candidateStartedAt!).inMilliseconds;
 
       debugPrint(
         '✅ CANDIDATE CONFIRMED '
         'afterFrames=$_requiredCandidateFrames '
-        'dtFirstMs=${fromFirst ?? -1} '
-        'dtCandidateMs=${fromCandidate ?? -1}'
+        'dtFirstMs=$fromFirst '
+        'dtCandidateMs=$fromCandidate'
       );
 
       _candidateStartedAt = null;
       _firstCorrectFrameAt = null;
       _candidateOkFrames = 0;
-      return confirmedAt;
+      return ConfirmedChord(
+        detected: Set.of(detected),
+        firstCorrectAt: firstAt,
+        confirmedAt: confirmedAt,
+      );
     }
 
     return null;
@@ -457,7 +481,14 @@ _recorder = null;
       }
       _lastFrameAt = frameNow;
 
-      _updateCandidateTracking(detected);
+      final confirmed = evaluateCandidate(detected);
+      if (confirmed != null) {
+        _emitConfirmed(confirmed);
+        _recentFrames.clear();
+        _sampleBuffer.clear();
+        _cooldownFrames = 8;
+        continue;
+      }
 
       if (_cooldownFrames > 0) {
         _cooldownFrames--;
@@ -524,31 +555,8 @@ _recorder = null;
     }
   }
 
-  void _updateCandidateTracking(Set<String> detected) {
-    if (_armedTarget == null) {
-      _candidateStartedAt = null;
-      _candidateOkFrames = 0;
-      return;
-    }
-
-    if (!detected.containsAll(_armedTarget!)) {
-      _candidateStartedAt = null;
-      _candidateOkFrames = 0;
-      return;
-    }
-
-    if (_armedPrevious != null) {
-      final illegalCarry =
-          detected.difference(_armedTarget!).intersection(_armedPrevious!);
-      if (illegalCarry.isNotEmpty) {
-        _candidateStartedAt = null;
-        _candidateOkFrames = 0;
-        return;
-      }
-    }
-
-    _candidateStartedAt ??= DateTime.now();
-    _candidateOkFrames++;
+  void _emitConfirmed(ConfirmedChord confirmed) {
+    _confirmedChordController.add(confirmed);
   }
 
   // ------------------------------------------------------------

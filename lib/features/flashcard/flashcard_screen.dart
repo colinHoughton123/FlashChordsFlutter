@@ -151,6 +151,7 @@ if (engine == null) return;
   bool _frontEverShown = false;
   bool _autoMarked = false;
   bool _advanceInProgress = false;
+  bool _revealedDuringTimer = false;
 
   // late final bool _listenerEnabledAtDeckStart;
   bool _listenerEnabledAtDeckStart = false;
@@ -160,7 +161,7 @@ if (engine == null) return;
   int _timerSeconds = 5;
   int _remainingSeconds = 5;
 
-  StreamSubscription<Set<String>>? _listenerSub;
+  StreamSubscription<ConfirmedChord>? _listenerSub;
   StreamSubscription<DetectedNotesFrame>? _frameSub;
 
   Set<String>? _previousCorrectTargetNotes;
@@ -386,14 +387,14 @@ Future<void> _startListeningIfNeeded() async {
 
     try {
       _listenerSub ??=
-          ChordDetectionService.instance.detectedNotesStream.listen(
-        (notes) {
-          _log('🎯 detectedNotesStream: $notes');
-          debugPrint('🎯 detectedNotesStream notes=$notes');
-          _handleDetectedNotes(notes);
+          ChordDetectionService.instance.confirmedChordStream.listen(
+        (confirmed) {
+          _log('✅ confirmedChordStream: ${confirmed.detected}');
+          debugPrint('✅ confirmedChordStream detected=${confirmed.detected}');
+          _handleDetectedNotes(confirmed);
         },
         onError: (e, st) {
-          _log('❌ detectedNotesStream error: $e');
+          _log('❌ confirmedChordStream error: $e');
         },
       );
 
@@ -525,6 +526,7 @@ void _startTimingForCurrentCard() {
   _cardFrontVisible = true;
   _frontEverShown = false;
   _autoMarked = false;
+  _revealedDuringTimer = false;
 
   // 🔑 RESET DETECTOR STATE (THIS WAS MISSING)
   ChordDetectionService.instance.prepareForNextCard();
@@ -548,15 +550,15 @@ void _startTimingForCurrentCard() {
 
       setState(() => _remainingSeconds--);
 
-      if (_remainingSeconds <= 0) {
-        timer.cancel();
+        if (_remainingSeconds <= 0) {
+          timer.cancel();
 
-        // 🔒 HARD LOCK elapsed time at exact timer duration
-        _resolvedElapsed = Duration(seconds: _timerSeconds);
+          // 🔒 HARD LOCK elapsed time at exact timer duration
+          _resolvedElapsed = Duration(seconds: _timerSeconds);
 
-        _revealBack();
-      }
-    });
+          _revealBack();
+        }
+      });
   }
 }
 
@@ -573,20 +575,31 @@ void _revealBack() {
     if (!_timerEnabled) {
       _remainingSeconds = 0;
     }
+    if (_timerEnabled) {
+      _revealedDuringTimer = _remainingSeconds > 0;
+    }
   });
+
+  if (_timerEnabled) {
+    _timer?.cancel();
+  }
 }
 
   // ============================================================
   // Detection
   // ============================================================
 
-Future<void> _handleDetectedNotes(Set<String> detected) async {
+Future<void> _handleDetectedNotes(ConfirmedChord confirmed) async {
   _logState('_handleDetectedNotes ENTER');
-  _log('🎯 detected=$detected');
+  _log('🎯 confirmed=${confirmed.detected}');
 
   // ------------------------------------------------------------
   // Guard rails
   // ------------------------------------------------------------
+  if (!_listeningEnabled) {
+    _log('🎯 ignore: listening disabled');
+    return;
+  }
   if (_advanceInProgress) {
     _log('🎯 ignore: advance in progress');
     return;
@@ -616,39 +629,24 @@ if (engine == null) return;
   final targetNotes = card.noteSet;
 
   // ------------------------------------------------------------
-  // 🔑 STEP 1: LOCK ELAPSED TIME ON *FIRST* MATCHING FRAME
+  // STEP 1: LOCK ELAPSED TIME ON FIRST CORRECT FRAME (from service)
   // ------------------------------------------------------------
-  if (_firstMatchAt == null &&
-      _timingStartedAt != null &&
-      detected.containsAll(targetNotes)) {
-
-    _firstMatchAt = DateTime.now();
-
+  if (_timingStartedAt != null) {
+    _firstMatchAt = confirmed.firstCorrectAt;
     _resolvedElapsed =
-        _firstMatchAt!.difference(_timingStartedAt!);
+        confirmed.firstCorrectAt.difference(_timingStartedAt!);
 
     _log(
-      '⏱ FIRST MATCH — elapsed locked at '
+      '⏱ FIRST MATCH (service) — elapsed locked at '
       '${_resolvedElapsed!.inMilliseconds} ms '
-      '(startedAt=$_timingStartedAt firstMatchAt=$_firstMatchAt)'
+      '(startedAt=$_timingStartedAt firstMatchAt=${confirmed.firstCorrectAt})'
     );
   }
 
   // ------------------------------------------------------------
-  // STEP 2: RUN CONFIRMATION LOGIC (noise filtering)
+  // STEP 2: CONFIRMED — AUTO-CORRECT
   // ------------------------------------------------------------
-  final confirmedAt =
-      ChordDetectionService.instance.evaluateCandidate(detected);
-
-  if (confirmedAt == null) {
-    _log('🎯 candidate not confirmed');
-    return;
-  }
-
-  // ------------------------------------------------------------
-  // STEP 3: CONFIRMED — AUTO-CORRECT
-  // ------------------------------------------------------------
-  _log('✅ CONFIRMED by listener at $confirmedAt');
+  _log('✅ CONFIRMED by listener at ${confirmed.confirmedAt}');
 
   _autoMarked = true;
   _previousCorrectTargetNotes = targetNotes;
@@ -745,7 +743,12 @@ if (engine == null) return;
   debugPrint('🟥 handleIncorrect fired currentCard=${engine.currentCard}');
   _timer?.cancel();
 
-  final elapsed = _ensureResolvedElapsed('handleIncorrect');
+  Duration elapsed;
+  if (_timerEnabled && _revealedDuringTimer) {
+    elapsed = Duration(seconds: _timerSeconds);
+  } else {
+    elapsed = _ensureResolvedElapsed('handleIncorrect');
+  }
   engine.markIncorrect(elapsed);
 
   if (engine.deckFinished) {
@@ -789,17 +792,26 @@ Future<void> _exitToMainMenu() async {
 }
 
 
-void _restartFromSummary() {
+Future<void> _restartFromSummary() async {
   debugPrint('🔁 Restart requested from summary');
 
+  final engine = _engine;
+  if (engine == null) return;
 
-final engine = _engine;
-if (engine == null) return;
+  final repo = SettingsRepository();
+  final listenEnabled = await repo.loadListenMode();
 
-setState(() {
-  engine.startErrorsDeckOrRestartMain();
-  _startTimingForCurrentCard();
-});
+  if (!listenEnabled && _audioStarted) {
+    await ChordDetectionService.instance.hardStop(clearState: true);
+    _audioStarted = false;
+    _audioStarting = false;
+  }
+
+  setState(() {
+    _listeningEnabled = listenEnabled;
+    engine.startErrorsDeckOrRestartMain();
+    _startTimingForCurrentCard();
+  });
 }
 
 

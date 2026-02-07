@@ -10,6 +10,7 @@ dependencies:
 
   record: ^6.1.1
   fftea: ^1.5.0+1
+  package_info_plus: ^8.3.1
 
   flutter:
     sdk: flutter

@@ -5,6 +5,7 @@ import 'package:flashchords/data/settings_repository.dart';
 import 'package:flashchords/core/system_error.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flashchords/l10n/app_localizations_extensions.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:flashchords/core/free_listener_usage.dart';
 
@@ -61,6 +62,7 @@ class _ConfigScreenState extends ConsumerState<ConfigScreen> {
   bool _listenerBlocked = false;
   FreeListenerUsage? _listenerUsage;
   bool _listenerInversionNoticeDismissed = false;
+  String _versionLabel = '';
 
   late _ConfigSnapshot _initialConfig;
 
@@ -72,6 +74,15 @@ class _ConfigScreenState extends ConsumerState<ConfigScreen> {
   void initState() {
     super.initState();
     _loadSavedConfig();
+    _loadVersionLabel();
+  }
+
+  Future<void> _loadVersionLabel() async {
+    final info = await PackageInfo.fromPlatform();
+    if (!mounted) return;
+    setState(() {
+      _versionLabel = 'Version ${info.version} (${info.buildNumber})';
+    });
   }
 
 
@@ -453,6 +464,19 @@ Future<void> _loadSavedConfig() async {
                     child: Text(t.saveButton),
                   ),
                 ),
+                if (_versionLabel.isNotEmpty) ...[
+                  const SizedBox(height: 18),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      _versionLabel,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ),
+                ],
               ],
             ),
           ),
