@@ -650,6 +650,22 @@ final orderedNotes = _notesForInversion(
           },
         ),
 
+        const SizedBox(height: 6),
+
+        // ─────────────────────────────
+        // INVERSION LABEL
+        // ─────────────────────────────
+        Text(
+          _localizedInversion(AppLocalizations.of(context)!),
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+
+        const SizedBox(height: 6),
+
         Html(
           data: widget.chordLabel,
           style: {

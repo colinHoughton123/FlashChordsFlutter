@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flashchords/features/welcome/welcome_screen.dart';
 import 'package:flashchords/l10n/app_localizations.dart';
 import 'package:flashchords/core/system_error.dart';
+import 'package:flashchords/core/system_error_listener.dart';
 import 'package:flashchords/services/chord_detection_services.dart';
 import 'package:flashchords/core/system_error.dart';
 
@@ -134,9 +135,11 @@ class FlashChordsAppState extends State<FlashChordsApp>
             maxScaleFactor: 1.2,
           );
 
-          return MediaQuery(
-            data: mediaQuery.copyWith(textScaler: clampedScaler),
-            child: child!,
+          return SystemErrorListener(
+            child: MediaQuery(
+              data: mediaQuery.copyWith(textScaler: clampedScaler),
+              child: child!,
+            ),
           );
         },
 

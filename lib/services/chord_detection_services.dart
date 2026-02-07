@@ -87,6 +87,11 @@ void _ensureRecorder() {
   _recorder ??= AudioRecorder();
 }
 
+Future<bool> hasPermission() async {
+  _ensureRecorder();
+  return await _recorder!.hasPermission();
+}
+
 
 StreamSubscription<Uint8List>? _audioSub;
 

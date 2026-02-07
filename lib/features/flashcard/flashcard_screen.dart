@@ -15,6 +15,7 @@ import 'package:flashchords/features/summary/flashcard_summary_screen.dart';
 import 'package:flashchords/features/welcome/welcome_screen.dart';
 import 'package:flashchords/services/chord_detection_services.dart';
 import 'package:flashchords/core/free_listener_usage.dart';
+import 'package:flashchords/core/system_error.dart';
 
 /// ---------- Localization helpers ----------
 
@@ -80,6 +81,7 @@ void didChangeAppLifecycleState(AppLifecycleState state) {
 
   switch (state) {
     case AppLifecycleState.resumed:
+      _checkMicPermissionOnResume();
       return;
 
     case AppLifecycleState.inactive:
@@ -101,9 +103,71 @@ void didChangeAppLifecycleState(AppLifecycleState state) {
   }
 }
 
+Future<void> _checkMicPermissionOnResume() async {
+  if (!_listeningEnabled) return;
+
+  final hasPerm = await ChordDetectionService.instance.hasPermission();
+  if (hasPerm) {
+    if (mounted) {
+      setState(() => _micAvailable = true);
+    } else {
+      _micAvailable = true;
+    }
+    return;
+  }
+
+  debugPrint('🎙 Mic permission revoked while app was inactive');
+  await ChordDetectionService.instance.hardStop(clearState: true);
+  _audioStarted = false;
+  _audioStarting = false;
+
+  if (!mounted) return;
+
+  setState(() => _micAvailable = false);
+  await _showMicPermissionDialog();
+}
+
 
 void _log(String msg) {
   debugPrint('🧭 [FlashcardScreen] $msg');
+}
+
+Future<void> _showMicPermissionDialog() async {
+  if (!mounted) return;
+  final t = AppLocalizations.of(context)!;
+  await showDialog<void>(
+    context: context,
+    barrierDismissible: false,
+    builder: (_) => AlertDialog(
+      title: Text(t.flash_error_101),
+      content: Text(t.flash_error_101_hint),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(t.configOK),
+        ),
+      ],
+    ),
+  );
+}
+
+Future<void> _showAudioStartFailedDialog() async {
+  if (!mounted) return;
+  final t = AppLocalizations.of(context)!;
+  await showDialog<void>(
+    context: context,
+    barrierDismissible: false,
+    builder: (_) => AlertDialog(
+      title: Text(t.flash_error_102),
+      content: Text(t.flash_error_102_hint),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(t.configOK),
+        ),
+      ],
+    ),
+  );
 }
 
 
@@ -146,6 +210,7 @@ if (engine == null) return;
   bool _audioStarted = false;
   bool _audioStarting = false;
   bool _listenerBooting = false;
+  bool _micAvailable = true;
   bool _evaluationEnabled = true;
   bool _cardFrontVisible = true;
   bool _frontEverShown = false;
@@ -367,6 +432,24 @@ Future<void> _startListeningIfNeeded() async {
     return;
   }
 
+  final hasPerm = await ChordDetectionService.instance.hasPermission();
+  if (!hasPerm) {
+    _log('🎧 skip: mic permission denied');
+    if (mounted) {
+      setState(() => _micAvailable = false);
+    } else {
+      _micAvailable = false;
+    }
+    await _showMicPermissionDialog();
+    _setListenerBooting(false);
+    return;
+  }
+  if (mounted) {
+    setState(() => _micAvailable = true);
+  } else {
+    _micAvailable = true;
+  }
+
   _audioStarting = true;
   _log('🎧 scheduling audio start (post-frame)');
 
@@ -431,6 +514,7 @@ Future<void> _startListeningIfNeeded() async {
         await _frameSub?.cancel();
         _frameSub = null;
 
+        await _showAudioStartFailedDialog();
         _setListenerBooting(false);
         return; // allow retry later
       }
@@ -527,6 +611,7 @@ void _startTimingForCurrentCard() {
   _frontEverShown = false;
   _autoMarked = false;
   _revealedDuringTimer = false;
+  _micAvailable = true;
 
   // 🔑 RESET DETECTOR STATE (THIS WAS MISSING)
   ChordDetectionService.instance.prepareForNextCard();
@@ -1060,9 +1145,11 @@ Widget build(BuildContext context) {
         Padding(
           padding: const EdgeInsets.only(bottom: 8),
           child: Text(
-            t.listeningActive, // localize if you want
+            _audioStarted ? t.listeningActive : t.listeningInactive,
             style: TextStyle(
-              color: Colors.green.shade700,
+              color: _audioStarted
+                  ? Colors.green.shade700
+                  : Colors.redAccent.shade200,
               fontStyle: FontStyle.italic,
             ),
           ),
