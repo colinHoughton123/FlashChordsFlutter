@@ -84,19 +84,19 @@ class AppLocalizationsBn extends AppLocalizations {
   String get mainFeatures1Title => 'আপনার কর্ড নির্বাচন করুন';
 
   @override
-  String get mainFeatures1Content => 'কোন কর্ডে মনোযোগ দেবেন তা কনফিগার করুন';
+  String get mainFeatures1Content => 'Choose which chords to practice';
 
   @override
   String get mainFeatures2Title => 'সময় নির্ধারিত চ্যালেঞ্জ';
 
   @override
-  String get mainFeatures2Content => 'কাস্টম টাইমার দিয়ে নিজেকে পরীক্ষা করুন';
+  String get mainFeatures2Content => 'Test your response time with customized timers';
 
   @override
-  String get mainFeatures3Title => 'স্বয়ংক্রিয় মূল্যায়ন';
+  String get mainFeatures3Title => 'Live Listening Mode';
 
   @override
-  String get mainFeatures3Content => 'FlashChords-কে আপনার পিয়ানো শুনতে দিন';
+  String get mainFeatures3Content => 'Chords are automatically detected and scored';
 
   @override
   String get language_picker_title => 'ভাষা নির্বাচন করুন';
@@ -305,10 +305,10 @@ class AppLocalizationsBn extends AppLocalizations {
   String get summary_from_error_deck => 'ত্রুটি ডেক';
 
   @override
-  String get summary_play_again => 'আবার খেলুন';
+  String get summary_play_again => 'Play again using errors deck';
 
   @override
-  String get summary_done => 'শেষ';
+  String get summary_done => 'Start Over';
 
   @override
   String get summary_accuracy => 'নির্ভুলতা';
@@ -377,5 +377,8 @@ class AppLocalizationsBn extends AppLocalizations {
   String get howItWorksTitle => 'এটি কীভাবে কাজ করে';
 
   @override
-  String get howItWorksBody => 'আপনার ডিভাইসটি পিয়ানোর উপর রাখুন। প্রতিটি ফ্ল্যাশকার্ডে প্রদর্শিত কর্ডটি বাজান। যদি লিসেনার চালু থাকে (কনফিগারেশন) এবং টাইমার শেষ হওয়ার আগে আপনি সঠিক কী বাজান (টাইমার চালু থাকলে), FlashChords™ এটিকে সঠিক হিসেবে চিহ্নিত করবে এবং পরবর্তী কার্ড দেখাবে। যদি লিসেনার বন্ধ থাকে, তাহলে নিজে চিহ্ন দিন: সঠিকের জন্য চেকমার্ক বা ডানে সোয়াইপ, ভুলের জন্য X বা বামে সোয়াইপ। প্রত্যাশিত কী দেখতে কার্ডে ট্যাপ করুন।';
+  String get howItWorksBody => 'আপনার ডিভাইসটি পিয়ানোর উপর রাখুন। প্রতিটি ফ্ল্যাশকার্ডে প্রদর্শিত কর্ডটি বাজান। যদি লিসেনার চালু থাকে (কনফিগারেশন) এবং টাইমার শেষ হওয়ার আগে আপনি সঠিক কী বাজান (টাইমার চালু থাকলে), FlashChords™ এটিকে সঠিক হিসেবে চিহ্নিত করবে এবং পরবর্তী কার্ড দেখাবে। যদি লিসেনার বন্ধ থাকে, তাহলে নিজে চিহ্ন দিন: সঠিকের জন্য চেকমার্ক বা ডানে সোয়াইপ, ভুলের জন্য X বা বামে সোয়াইপ। প্রত্যাশিত কী দেখতে কার্ডে ট্যাপ করুন।\n\nনোট: খুব নিচু অক্টেভের কর্ড কিছু ডিভাইস বা কিবোর্ডে শনাক্ত করা কঠিন হতে পারে।';
+
+  @override
+  String get upgradeReenableListener => 'Upgrade to re-enable the listener';
 }

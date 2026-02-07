@@ -84,19 +84,19 @@ class AppLocalizationsZh extends AppLocalizations {
   String get mainFeatures1Title => '选择你的和弦';
 
   @override
-  String get mainFeatures1Content => '配置你想要练习的和弦';
+  String get mainFeatures1Content => 'Choose which chords to practice';
 
   @override
   String get mainFeatures2Title => '计时挑战';
 
   @override
-  String get mainFeatures2Content => '使用自定义计时器测试自己';
+  String get mainFeatures2Content => 'Test your response time with customized timers';
 
   @override
-  String get mainFeatures3Title => '自动判定';
+  String get mainFeatures3Title => 'Live Listening Mode';
 
   @override
-  String get mainFeatures3Content => '让 FlashChords 监听你的钢琴演奏';
+  String get mainFeatures3Content => 'Chords are automatically detected and scored';
 
   @override
   String get language_picker_title => '选择语言';
@@ -305,10 +305,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get summary_from_error_deck => '错误卡组';
 
   @override
-  String get summary_play_again => '再玩一次';
+  String get summary_play_again => 'Play again using errors deck';
 
   @override
-  String get summary_done => '完成';
+  String get summary_done => 'Start Over';
 
   @override
   String get summary_accuracy => '准确率';
@@ -377,7 +377,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get howItWorksTitle => '使用说明';
 
   @override
-  String get howItWorksBody => '将设备放在钢琴上。每张闪卡显示一个和弦，请演奏该和弦。如果监听已开启（配置），并且你在计时结束前弹对了琴键（若计时器启用），FlashChords™ 会标记为正确并显示下一张卡片。如果监听关闭，请自行标记：正确请点勾或右滑，错误请点 X 或左滑。点击卡片可查看应弹的琴键。';
+  String get howItWorksBody => '将设备放在钢琴上。每张闪卡显示一个和弦，请演奏该和弦。如果监听已开启（配置），并且你在计时结束前弹对了琴键（若计时器启用），FlashChords™ 会标记为正确并显示下一张卡片。如果监听关闭，请自行标记：正确请点勾或右滑，错误请点 X 或左滑。点击卡片可查看应弹的琴键。\n\n注意：非常低的音区和弦在某些设备或键盘上可能更难检测。';
+
+  @override
+  String get upgradeReenableListener => 'Upgrade to re-enable the listener';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hans`).
@@ -460,19 +463,19 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
   String get mainFeatures1Title => '选择你的和弦';
 
   @override
-  String get mainFeatures1Content => '配置你想要练习的和弦';
+  String get mainFeatures1Content => 'Choose which chords to practice';
 
   @override
   String get mainFeatures2Title => '计时挑战';
 
   @override
-  String get mainFeatures2Content => '使用自定义计时器测试自己';
+  String get mainFeatures2Content => 'Test your response time with customized timers';
 
   @override
-  String get mainFeatures3Title => '自动判定';
+  String get mainFeatures3Title => 'Live Listening Mode';
 
   @override
-  String get mainFeatures3Content => '让 FlashChords 监听你的钢琴演奏';
+  String get mainFeatures3Content => 'Chords are automatically detected and scored';
 
   @override
   String get language_picker_title => '选择语言';
@@ -681,10 +684,10 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
   String get summary_from_error_deck => '错误卡组';
 
   @override
-  String get summary_play_again => '再玩一次';
+  String get summary_play_again => 'Play again using errors deck';
 
   @override
-  String get summary_done => '完成';
+  String get summary_done => 'Start Over';
 
   @override
   String get summary_accuracy => '准确率';
@@ -753,7 +756,10 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
   String get howItWorksTitle => '使用说明';
 
   @override
-  String get howItWorksBody => '将设备放在钢琴上。每张闪卡显示一个和弦，请演奏该和弦。如果监听已开启（配置），并且你在计时结束前弹对了琴键（若计时器启用），FlashChords™ 会标记为正确并显示下一张卡片。如果监听关闭，请自行标记：正确请点勾或右滑，错误请点 X 或左滑。点击卡片可查看应弹的琴键。';
+  String get howItWorksBody => '将设备放在钢琴上。每张闪卡显示一个和弦，请演奏该和弦。如果监听已开启（配置），并且你在计时结束前弹对了琴键（若计时器启用），FlashChords™ 会标记为正确并显示下一张卡片。如果监听关闭，请自行标记：正确请点勾或右滑，错误请点 X 或左滑。点击卡片可查看应弹的琴键。\n\n注意：非常低的音区和弦在某些设备或键盘上可能更难检测。';
+
+  @override
+  String get upgradeReenableListener => 'Upgrade to re-enable the listener';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -836,19 +842,19 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get mainFeatures1Title => '選擇你的和弦';
 
   @override
-  String get mainFeatures1Content => '設定要專注的和弦';
+  String get mainFeatures1Content => 'Choose which chords to practice';
 
   @override
   String get mainFeatures2Title => '計時挑戰';
 
   @override
-  String get mainFeatures2Content => '使用自訂計時器來測試自己';
+  String get mainFeatures2Content => 'Test your response time with customized timers';
 
   @override
-  String get mainFeatures3Title => '自動判定';
+  String get mainFeatures3Title => 'Live Listening Mode';
 
   @override
-  String get mainFeatures3Content => '讓 FlashChords 聆聽你的鋼琴';
+  String get mainFeatures3Content => 'Chords are automatically detected and scored';
 
   @override
   String get language_picker_title => '選擇語言';
@@ -1057,10 +1063,10 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get summary_from_error_deck => '錯誤牌組';
 
   @override
-  String get summary_play_again => '再玩一次';
+  String get summary_play_again => 'Play again using errors deck';
 
   @override
-  String get summary_done => '完成';
+  String get summary_done => 'Start Over';
 
   @override
   String get summary_accuracy => '正確率';
@@ -1129,5 +1135,8 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get howItWorksTitle => '使用說明';
 
   @override
-  String get howItWorksBody => '將裝置放在鋼琴上。每張閃卡會顯示一個和弦，請演奏該和弦。若已啟用聆聽（設定），且你在計時結束前彈對了琴鍵（若計時器啟用），FlashChords™ 會標示為正確並顯示下一張卡片。若未啟用聆聽，請自行標記：正確按勾選或向右滑，錯誤按 X 或向左滑。點擊卡片可查看應彈的琴鍵。';
+  String get howItWorksBody => '將裝置放在鋼琴上。每張閃卡會顯示一個和弦，請演奏該和弦。若已啟用聆聽（設定），且你在計時結束前彈對了琴鍵（若計時器啟用），FlashChords™ 會標示為正確並顯示下一張卡片。若未啟用聆聽，請自行標記：正確按勾選或向右滑，錯誤按 X 或向左滑。點擊卡片可查看應彈的琴鍵。\n\n注意：非常低的音域和弦在某些裝置或鍵盤上可能較難偵測。';
+
+  @override
+  String get upgradeReenableListener => 'Upgrade to re-enable the listener';
 }

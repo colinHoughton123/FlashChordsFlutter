@@ -84,19 +84,19 @@ class AppLocalizationsPt extends AppLocalizations {
   String get mainFeatures1Title => 'Selecione seus acordes';
 
   @override
-  String get mainFeatures1Content => 'Configure em quais acordes deseja focar';
+  String get mainFeatures1Content => 'Choose which chords to practice';
 
   @override
   String get mainFeatures2Title => 'Desafios cronometrados';
 
   @override
-  String get mainFeatures2Content => 'Teste-se com temporizadores personalizados';
+  String get mainFeatures2Content => 'Test your response time with customized timers';
 
   @override
-  String get mainFeatures3Title => 'Marcação automática';
+  String get mainFeatures3Title => 'Live Listening Mode';
 
   @override
-  String get mainFeatures3Content => 'Deixe o FlashChords ouvir seu piano';
+  String get mainFeatures3Content => 'Chords are automatically detected and scored';
 
   @override
   String get language_picker_title => 'Selecionar idioma';
@@ -305,10 +305,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get summary_from_error_deck => 'Baralho de erros';
 
   @override
-  String get summary_play_again => 'Jogar novamente';
+  String get summary_play_again => 'Play again using errors deck';
 
   @override
-  String get summary_done => 'Concluído';
+  String get summary_done => 'Start Over';
 
   @override
   String get summary_accuracy => 'Precisão';
@@ -377,5 +377,8 @@ class AppLocalizationsPt extends AppLocalizations {
   String get howItWorksTitle => 'Como funciona';
 
   @override
-  String get howItWorksBody => 'Coloque seu dispositivo no piano. Para cada cartão, toque o acorde mostrado. Se o ouvinte estiver ativado (Configuração) e você tocar as teclas corretas antes do timer acabar (se estiver ativado), o FlashChords™ marcará como correto e mostrará o próximo cartão. Se o ouvinte estiver desativado, marque você mesmo: marca de verificação ou deslize para a direita para correto, X ou deslize para a esquerda para incorreto. Toque no cartão para ver as teclas esperadas.';
+  String get howItWorksBody => 'Coloque seu dispositivo no piano. Para cada cartão, toque o acorde mostrado. Se o ouvinte estiver ativado (Configuração) e você tocar as teclas corretas antes do timer acabar (se estiver ativado), o FlashChords™ marcará como correto e mostrará o próximo cartão. Se o ouvinte estiver desativado, marque você mesmo: marca de verificação ou deslize para a direita para correto, X ou deslize para a esquerda para incorreto. Toque no cartão para ver as teclas esperadas.\n\nObservação: acordes em oitavas muito baixas podem ser mais difíceis de detectar em alguns dispositivos ou teclados.';
+
+  @override
+  String get upgradeReenableListener => 'Upgrade to re-enable the listener';
 }

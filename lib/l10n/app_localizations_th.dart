@@ -84,19 +84,19 @@ class AppLocalizationsTh extends AppLocalizations {
   String get mainFeatures1Title => 'เลือกคอร์ดของคุณ';
 
   @override
-  String get mainFeatures1Content => 'ตั้งค่าว่าต้องการโฟกัสคอร์ดใด';
+  String get mainFeatures1Content => 'Choose which chords to practice';
 
   @override
   String get mainFeatures2Title => 'ความท้าทายแบบจับเวลา';
 
   @override
-  String get mainFeatures2Content => 'ทดสอบตัวเองด้วยตัวจับเวลาที่ปรับแต่งได้';
+  String get mainFeatures2Content => 'Test your response time with customized timers';
 
   @override
-  String get mainFeatures3Title => 'ตรวจสอบอัตโนมัติ';
+  String get mainFeatures3Title => 'Live Listening Mode';
 
   @override
-  String get mainFeatures3Content => 'ให้ FlashChords ฟังการเล่นเปียโนของคุณ';
+  String get mainFeatures3Content => 'Chords are automatically detected and scored';
 
   @override
   String get language_picker_title => 'เลือกภาษา';
@@ -305,10 +305,10 @@ class AppLocalizationsTh extends AppLocalizations {
   String get summary_from_error_deck => 'เด็คข้อผิดพลาด';
 
   @override
-  String get summary_play_again => 'เล่นอีกครั้ง';
+  String get summary_play_again => 'Play again using errors deck';
 
   @override
-  String get summary_done => 'เสร็จสิ้น';
+  String get summary_done => 'Start Over';
 
   @override
   String get summary_accuracy => 'ความแม่นยำ';
@@ -377,5 +377,8 @@ class AppLocalizationsTh extends AppLocalizations {
   String get howItWorksTitle => 'วิธีการใช้งาน';
 
   @override
-  String get howItWorksBody => 'วางอุปกรณ์ของคุณบนเปียโน สำหรับแต่ละแฟลชการ์ด ให้เล่นคอร์ดที่แสดง หากเปิดการฟังอยู่ (การตั้งค่า) และคุณเล่นคีย์ที่ถูกต้องก่อนหมดเวลา (ถ้าเปิดตัวจับเวลา) FlashChords™ จะทำเครื่องหมายว่าถูกต้องและแสดงการ์ดถัดไป หากปิดการฟัง ให้ทำเครื่องหมายเอง: เครื่องหมายถูกหรือปัดไปทางขวาสำหรับถูกต้อง, X หรือปัดไปทางซ้ายสำหรับไม่ถูกต้อง แตะการ์ดเพื่อดูคีย์ที่คาดไว้';
+  String get howItWorksBody => 'วางอุปกรณ์ของคุณบนเปียโน สำหรับแต่ละแฟลชการ์ด ให้เล่นคอร์ดที่แสดง หากเปิดการฟังอยู่ (การตั้งค่า) และคุณเล่นคีย์ที่ถูกต้องก่อนหมดเวลา (ถ้าเปิดตัวจับเวลา) FlashChords™ จะทำเครื่องหมายว่าถูกต้องและแสดงการ์ดถัดไป หากปิดการฟัง ให้ทำเครื่องหมายเอง: เครื่องหมายถูกหรือปัดไปทางขวาสำหรับถูกต้อง, X หรือปัดไปทางซ้ายสำหรับไม่ถูกต้อง แตะการ์ดเพื่อดูคีย์ที่คาดไว้\n\nหมายเหตุ: คอร์ดในอ็อกเทฟที่ต่ำมากอาจตรวจจับได้ยากขึ้นบนบางอุปกรณ์หรือคีย์บอร์ด';
+
+  @override
+  String get upgradeReenableListener => 'Upgrade to re-enable the listener';
 }

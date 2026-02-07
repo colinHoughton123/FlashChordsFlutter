@@ -84,19 +84,19 @@ class AppLocalizationsPl extends AppLocalizations {
   String get mainFeatures1Title => 'Wybierz swoje akordy';
 
   @override
-  String get mainFeatures1Content => 'Skonfiguruj, na których akordach chcesz się skupić';
+  String get mainFeatures1Content => 'Choose which chords to practice';
 
   @override
   String get mainFeatures2Title => 'Wyzwania czasowe';
 
   @override
-  String get mainFeatures2Content => 'Sprawdź się dzięki spersonalizowanym timerom';
+  String get mainFeatures2Content => 'Test your response time with customized timers';
 
   @override
-  String get mainFeatures3Title => 'Automatyczne ocenianie';
+  String get mainFeatures3Title => 'Live Listening Mode';
 
   @override
-  String get mainFeatures3Content => 'Pozwól FlashChords nasłuchiwać twojej gry na pianinie';
+  String get mainFeatures3Content => 'Chords are automatically detected and scored';
 
   @override
   String get language_picker_title => 'Wybierz język';
@@ -305,10 +305,10 @@ class AppLocalizationsPl extends AppLocalizations {
   String get summary_from_error_deck => 'Talia błędów';
 
   @override
-  String get summary_play_again => 'Zagraj ponownie';
+  String get summary_play_again => 'Play again using errors deck';
 
   @override
-  String get summary_done => 'Gotowe';
+  String get summary_done => 'Start Over';
 
   @override
   String get summary_accuracy => 'Dokładność';
@@ -377,5 +377,8 @@ class AppLocalizationsPl extends AppLocalizations {
   String get howItWorksTitle => 'Jak to działa';
 
   @override
-  String get howItWorksBody => 'Połóż urządzenie na pianinie. Dla każdej karty zagraj pokazany akord. Jeśli nasłuchiwanie jest włączone (Konfiguracja) i zagrasz właściwe klawisze przed końcem timera (jeśli włączony), FlashChords™ oznaczy to jako poprawne i pokaże następną kartę. Jeśli nasłuchiwanie jest wyłączone, oznacz sam: haczyk lub przesunięcie w prawo dla poprawnej, X lub przesunięcie w lewo dla błędnej. Stuknij kartę, aby zobaczyć oczekiwane klawisze.';
+  String get howItWorksBody => 'Połóż urządzenie na pianinie. Dla każdej karty zagraj pokazany akord. Jeśli nasłuchiwanie jest włączone (Konfiguracja) i zagrasz właściwe klawisze przed końcem timera (jeśli włączony), FlashChords™ oznaczy to jako poprawne i pokaże następną kartę. Jeśli nasłuchiwanie jest wyłączone, oznacz sam: haczyk lub przesunięcie w prawo dla poprawnej, X lub przesunięcie w lewo dla błędnej. Stuknij kartę, aby zobaczyć oczekiwane klawisze.\n\nUwaga: akordy w bardzo niskich oktawach mogą być trudniejsze do wykrycia na niektórych urządzeniach lub klawiaturach.';
+
+  @override
+  String get upgradeReenableListener => 'Upgrade to re-enable the listener';
 }

@@ -84,19 +84,19 @@ class AppLocalizationsDe extends AppLocalizations {
   String get mainFeatures1Title => 'Wähle deine Akkorde aus';
 
   @override
-  String get mainFeatures1Content => 'Lege fest, auf welche Akkorde du dich konzentrieren möchtest';
+  String get mainFeatures1Content => 'Choose which chords to practice';
 
   @override
   String get mainFeatures2Title => 'Zeit-Challenges';
 
   @override
-  String get mainFeatures2Content => 'Teste dich selbst mit benutzerdefinierten Timern';
+  String get mainFeatures2Content => 'Test your response time with customized timers';
 
   @override
-  String get mainFeatures3Title => 'Automatische Bewertung';
+  String get mainFeatures3Title => 'Live Listening Mode';
 
   @override
-  String get mainFeatures3Content => 'Lass FlashChords deinem Klavier zuhören';
+  String get mainFeatures3Content => 'Chords are automatically detected and scored';
 
   @override
   String get language_picker_title => 'Sprache auswählen';
@@ -305,10 +305,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get summary_from_error_deck => 'Fehlerstapel';
 
   @override
-  String get summary_play_again => 'Noch einmal spielen';
+  String get summary_play_again => 'Play again using errors deck';
 
   @override
-  String get summary_done => 'Fertig';
+  String get summary_done => 'Start Over';
 
   @override
   String get summary_accuracy => 'Genauigkeit';
@@ -377,5 +377,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get howItWorksTitle => 'So funktioniert es';
 
   @override
-  String get howItWorksBody => 'Lege dein Gerät auf dein Klavier. Spiele für jede Karte den angezeigten Akkord. Wenn der Listener aktiviert ist (Konfiguration) und du die richtigen Tasten vor Ablauf des Timers spielst (falls aktiviert), markiert FlashChords™ den Akkord als richtig und zeigt die nächste Karte. Ist der Listener aus, markierst du selbst: Häkchen oder nach rechts wischen für richtig, X oder nach links wischen für falsch. Tippe auf die Karte, um die erwarteten Tasten anzuzeigen.';
+  String get howItWorksBody => 'Lege dein Gerät auf dein Klavier. Spiele für jede Karte den angezeigten Akkord. Wenn der Listener aktiviert ist (Konfiguration) und du die richtigen Tasten vor Ablauf des Timers spielst (falls aktiviert), markiert FlashChords™ den Akkord als richtig und zeigt die nächste Karte. Ist der Listener aus, markierst du selbst: Häkchen oder nach rechts wischen für richtig, X oder nach links wischen für falsch. Tippe auf die Karte, um die erwarteten Tasten anzuzeigen.\n\nHinweis: Sehr tiefe Oktaven können auf einigen Geräten oder Tastaturen schwieriger zu erkennen sein.';
+
+  @override
+  String get upgradeReenableListener => 'Upgrade to re-enable the listener';
 }

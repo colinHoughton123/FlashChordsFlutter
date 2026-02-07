@@ -84,19 +84,19 @@ class AppLocalizationsNl extends AppLocalizations {
   String get mainFeatures1Title => 'Selecteer je akkoorden';
 
   @override
-  String get mainFeatures1Content => 'Stel in op welke akkoorden je je wilt richten';
+  String get mainFeatures1Content => 'Choose which chords to practice';
 
   @override
   String get mainFeatures2Title => 'Tijd uitdagingen';
 
   @override
-  String get mainFeatures2Content => 'Test jezelf met aangepaste timers';
+  String get mainFeatures2Content => 'Test your response time with customized timers';
 
   @override
-  String get mainFeatures3Title => 'Automatische beoordeling';
+  String get mainFeatures3Title => 'Live Listening Mode';
 
   @override
-  String get mainFeatures3Content => 'Laat FlashChords naar je piano luisteren';
+  String get mainFeatures3Content => 'Chords are automatically detected and scored';
 
   @override
   String get language_picker_title => 'Selecteer taal';
@@ -305,10 +305,10 @@ class AppLocalizationsNl extends AppLocalizations {
   String get summary_from_error_deck => 'Foutenstapel';
 
   @override
-  String get summary_play_again => 'Opnieuw spelen';
+  String get summary_play_again => 'Play again using errors deck';
 
   @override
-  String get summary_done => 'Klaar';
+  String get summary_done => 'Start Over';
 
   @override
   String get summary_accuracy => 'Nauwkeurigheid';
@@ -377,5 +377,8 @@ class AppLocalizationsNl extends AppLocalizations {
   String get howItWorksTitle => 'Zo werkt het';
 
   @override
-  String get howItWorksBody => 'Plaats je apparaat op je piano. Speel voor elke kaart het getoonde akkoord. Als de luisteraar is ingeschakeld (Configuratie) en je speelt de juiste toetsen voordat de timer afloopt (indien ingeschakeld), markeert FlashChords™ het als correct en toont de volgende kaart. Staat de luisteraar uit, markeer je het zelf: vinkje of naar rechts vegen voor correct, X of naar links vegen voor incorrect. Tik op de kaart om de verwachte toetsen te zien.';
+  String get howItWorksBody => 'Plaats je apparaat op je piano. Speel voor elke kaart het getoonde akkoord. Als de luisteraar is ingeschakeld (Configuratie) en je speelt de juiste toetsen voordat de timer afloopt (indien ingeschakeld), markeert FlashChords™ het als correct en toont de volgende kaart. Staat de luisteraar uit, markeer je het zelf: vinkje of naar rechts vegen voor correct, X of naar links vegen voor incorrect. Tik op de kaart om de verwachte toetsen te zien.\n\nLet op: zeer lage octaafakkoorden kunnen op sommige apparaten of toetsenborden moeilijker te detecteren zijn.';
+
+  @override
+  String get upgradeReenableListener => 'Upgrade to re-enable the listener';
 }

@@ -84,19 +84,19 @@ class AppLocalizationsTr extends AppLocalizations {
   String get mainFeatures1Title => 'Akorlarınızı seçin';
 
   @override
-  String get mainFeatures1Content => 'Hangi akorlara odaklanmak istediğinizi yapılandırın';
+  String get mainFeatures1Content => 'Choose which chords to practice';
 
   @override
   String get mainFeatures2Title => 'Zamanlı Meydan Okumalar';
 
   @override
-  String get mainFeatures2Content => 'Özelleştirilmiş zamanlayıcılarla kendinizi test edin';
+  String get mainFeatures2Content => 'Test your response time with customized timers';
 
   @override
-  String get mainFeatures3Title => 'Otomatik İşaretleme';
+  String get mainFeatures3Title => 'Live Listening Mode';
 
   @override
-  String get mainFeatures3Content => 'FlashChords’un piyanonuzu dinlemesine izin verin';
+  String get mainFeatures3Content => 'Chords are automatically detected and scored';
 
   @override
   String get language_picker_title => 'Dil seçin';
@@ -305,10 +305,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get summary_from_error_deck => 'Hata destesi';
 
   @override
-  String get summary_play_again => 'Tekrar oyna';
+  String get summary_play_again => 'Play again using errors deck';
 
   @override
-  String get summary_done => 'Bitti';
+  String get summary_done => 'Start Over';
 
   @override
   String get summary_accuracy => 'Doğruluk';
@@ -377,5 +377,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get howItWorksTitle => 'Nasıl çalışır';
 
   @override
-  String get howItWorksBody => 'Cihazınızı piyanonuzun üzerine yerleştirin. Her kart için gösterilen akoru çalın. Dinleyici etkinse (Yapılandırma) ve zamanlayıcı bitmeden doğru tuşları çalarsanız (zamanlayıcı etkinse), FlashChords™ bunu doğru olarak işaretler ve bir sonraki kartı gösterir. Dinleyici kapalıysa kendiniz işaretleyin: doğru için onay işareti veya sağa kaydırma, yanlış için X veya sola kaydırma. Beklenen tuşları görmek için karta dokunun.';
+  String get howItWorksBody => 'Cihazınızı piyanonuzun üzerine yerleştirin. Her kart için gösterilen akoru çalın. Dinleyici etkinse (Yapılandırma) ve zamanlayıcı bitmeden doğru tuşları çalarsanız (zamanlayıcı etkinse), FlashChords™ bunu doğru olarak işaretler ve bir sonraki kartı gösterir. Dinleyici kapalıysa kendiniz işaretleyin: doğru için onay işareti veya sağa kaydırma, yanlış için X veya sola kaydırma. Beklenen tuşları görmek için karta dokunun.\n\nNot: Çok düşük oktavlardaki akorlar bazı cihazlarda veya klavyelerde daha zor algılanabilir.';
+
+  @override
+  String get upgradeReenableListener => 'Upgrade to re-enable the listener';
 }

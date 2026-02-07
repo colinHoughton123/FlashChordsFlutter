@@ -84,19 +84,19 @@ class AppLocalizationsUk extends AppLocalizations {
   String get mainFeatures1Title => 'Оберіть свої акорди';
 
   @override
-  String get mainFeatures1Content => 'Налаштуйте, на яких акордах зосередитися';
+  String get mainFeatures1Content => 'Choose which chords to practice';
 
   @override
   String get mainFeatures2Title => 'Часові виклики';
 
   @override
-  String get mainFeatures2Content => 'Перевіряйте себе з індивідуальними таймерами';
+  String get mainFeatures2Content => 'Test your response time with customized timers';
 
   @override
-  String get mainFeatures3Title => 'Автоматичне оцінювання';
+  String get mainFeatures3Title => 'Live Listening Mode';
 
   @override
-  String get mainFeatures3Content => 'Дозвольте FlashChords слухати вашу гру на піаніно';
+  String get mainFeatures3Content => 'Chords are automatically detected and scored';
 
   @override
   String get language_picker_title => 'Виберіть мову';
@@ -305,10 +305,10 @@ class AppLocalizationsUk extends AppLocalizations {
   String get summary_from_error_deck => 'Колодa помилок';
 
   @override
-  String get summary_play_again => 'Грати знову';
+  String get summary_play_again => 'Play again using errors deck';
 
   @override
-  String get summary_done => 'Готово';
+  String get summary_done => 'Start Over';
 
   @override
   String get summary_accuracy => 'Точність';
@@ -377,5 +377,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String get howItWorksTitle => 'Як це працює';
 
   @override
-  String get howItWorksBody => 'Покладіть пристрій на піаніно. Для кожної картки зіграйте показаний акорд. Якщо слухач увімкнено (Налаштування) і ви зіграли правильні клавіші до завершення таймера (якщо він увімкнений), FlashChords™ позначить це як правильно і покаже наступну картку. Якщо слухач вимкнено, позначайте самі: галочка або свайп вправо для правильного, X або свайп вліво для неправильного. Торкніться картки, щоб побачити очікувані клавіші.';
+  String get howItWorksBody => 'Покладіть пристрій на піаніно. Для кожної картки зіграйте показаний акорд. Якщо слухач увімкнено (Налаштування) і ви зіграли правильні клавіші до завершення таймера (якщо він увімкнений), FlashChords™ позначить це як правильно і покаже наступну картку. Якщо слухач вимкнено, позначайте самі: галочка або свайп вправо для правильного, X або свайп вліво для неправильного. Торкніться картки, щоб побачити очікувані клавіші.\n\nПримітка: акорди в дуже низьких октавах можуть бути складнішими для розпізнавання на деяких пристроях або клавіатурах.';
+
+  @override
+  String get upgradeReenableListener => 'Upgrade to re-enable the listener';
 }

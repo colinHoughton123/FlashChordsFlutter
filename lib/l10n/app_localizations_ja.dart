@@ -84,19 +84,19 @@ class AppLocalizationsJa extends AppLocalizations {
   String get mainFeatures1Title => '和音を選択';
 
   @override
-  String get mainFeatures1Content => '集中したい和音を設定できます';
+  String get mainFeatures1Content => 'Choose which chords to practice';
 
   @override
   String get mainFeatures2Title => 'タイムチャレンジ';
 
   @override
-  String get mainFeatures2Content => 'カスタムタイマーで自分を試しましょう';
+  String get mainFeatures2Content => 'Test your response time with customized timers';
 
   @override
-  String get mainFeatures3Title => '自動判定';
+  String get mainFeatures3Title => 'Live Listening Mode';
 
   @override
-  String get mainFeatures3Content => 'FlashChordsにピアノ演奏を聴かせましょう';
+  String get mainFeatures3Content => 'Chords are automatically detected and scored';
 
   @override
   String get language_picker_title => '言語を選択';
@@ -305,10 +305,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get summary_from_error_deck => 'エラーデッキ';
 
   @override
-  String get summary_play_again => 'もう一度プレイ';
+  String get summary_play_again => 'Play again using errors deck';
 
   @override
-  String get summary_done => '完了';
+  String get summary_done => 'Start Over';
 
   @override
   String get summary_accuracy => '正答率';
@@ -377,5 +377,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get howItWorksTitle => '使い方';
 
   @override
-  String get howItWorksBody => 'デバイスをピアノの上に置いてください。各フラッシュカードに表示されたコードを弾きます。リスナーが有効（設定）で、タイマー終了前に正しい鍵盤を弾いた場合（タイマー有効時）、FlashChords™ が正解として次のカードを表示します。リスナーが無効の場合は自分で判定します：正解はチェックマークまたは右スワイプ、不正解は X または左スワイプ。カードをタップすると期待される鍵盤が表示されます。';
+  String get howItWorksBody => 'デバイスをピアノの上に置いてください。各フラッシュカードに表示されたコードを弾きます。 リスナーが有効（設定）で、タイマー終了前に正しい鍵盤を弾いた場合（タイマー有効時）、 FlashChords™ が正解として次のカードを表示します。 リスナーが無効の場合は自分で判定します：正解はチェックマークまたは右スワイプ、不正解は X または左スワイプ。 カードをタップすると期待される鍵盤が表示されます。\n\n注意：非常に低いオクターブのコードは、デバイスやキーボードによって検出しづらい場合があります。';
+
+  @override
+  String get upgradeReenableListener => 'Upgrade to re-enable the listener';
 }

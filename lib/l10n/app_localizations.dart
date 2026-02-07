@@ -268,7 +268,7 @@ abstract class AppLocalizations {
   /// No description provided for @mainFeatures1Content.
   ///
   /// In en, this message translates to:
-  /// **'Configure which chords on which to focus'**
+  /// **'Choose which chords to practice'**
   String get mainFeatures1Content;
 
   /// No description provided for @mainFeatures2Title.
@@ -280,19 +280,19 @@ abstract class AppLocalizations {
   /// No description provided for @mainFeatures2Content.
   ///
   /// In en, this message translates to:
-  /// **'Test yourself with customized timers'**
+  /// **'Test your response time with customized timers'**
   String get mainFeatures2Content;
 
   /// No description provided for @mainFeatures3Title.
   ///
   /// In en, this message translates to:
-  /// **'Automatic Marking'**
+  /// **'Live Listening Mode'**
   String get mainFeatures3Title;
 
   /// No description provided for @mainFeatures3Content.
   ///
   /// In en, this message translates to:
-  /// **'Let FlashChords listen to your piano'**
+  /// **'Chords are automatically detected and scored'**
   String get mainFeatures3Content;
 
   /// No description provided for @language_picker_title.
@@ -706,13 +706,13 @@ abstract class AppLocalizations {
   /// No description provided for @summary_play_again.
   ///
   /// In en, this message translates to:
-  /// **'Play again'**
+  /// **'Play again using errors deck'**
   String get summary_play_again;
 
   /// No description provided for @summary_done.
   ///
   /// In en, this message translates to:
-  /// **'Done'**
+  /// **'Start Over'**
   String get summary_done;
 
   /// No description provided for @summary_accuracy.
@@ -850,8 +850,14 @@ abstract class AppLocalizations {
   /// No description provided for @howItWorksBody.
   ///
   /// In en, this message translates to:
-  /// **'Place your device on your piano. For each flashcard, play the chord shown. If the listener is enabled (Configuration) and you play the correct keys before the timer ends (if enabled), FlashChords™ will mark it correct and show the next card. If the listener is off, mark it yourself: checkmark or swipe right for correct, X or swipe left for incorrect. Tap the card to reveal the expected keys.'**
+  /// **'Place your device on your piano. For each flashcard, play the chord shown. If the listener is enabled (Configuration) and you play the correct keys before the timer ends (if enabled), FlashChords™ will mark it correct and show the next card. If the listener is off, mark it yourself: checkmark or swipe right for correct, X or swipe left for incorrect. Tap the card to reveal the expected keys.\n\nNote: very low-octave chords may be harder to detect on some devices or keyboards.'**
   String get howItWorksBody;
+
+  /// No description provided for @upgradeReenableListener.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade to re-enable the listener'**
+  String get upgradeReenableListener;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

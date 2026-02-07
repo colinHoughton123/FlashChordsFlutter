@@ -4,6 +4,7 @@ import 'package:flashchords/l10n/app_localizations.dart';
 import 'package:flashchords/core/free_listener_usage.dart';
 import 'package:flashchords/data/settings_repository.dart';
 import 'package:flashchords/services/analytics_service.dart';
+import 'package:flashchords/widgets/upgrade_dialog.dart';
 
 class FlashcardSummaryScreen extends StatefulWidget {
 
@@ -248,14 +249,39 @@ debugPrint('   totalCards=${widget.totalCards}');
                   textAlign: TextAlign.center,
                 ),
               ),
+            if (_usage != null && _usage!.isLimitReached)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: GestureDetector(
+                  onTap: () {
+                    showUpgradeRequiredDialog(
+                      context: context,
+                      t: t,
+                      limit: _usage!.limit,
+                    );
+                  },
+                  child: Text(
+                    t.upgradeReenableListener,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      color: Colors.red,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+              ),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 if (widget.hadErrors)
-                  ElevatedButton(
-                    onPressed: () => Navigator.pop(context, 'restart'),
-                    child: Text(t.summary_play_again),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: ElevatedButton(
+                      onPressed: () => Navigator.pop(context, 'restart'),
+                      child: Text(t.summary_play_again),
+                    ),
                   ),
                 OutlinedButton(
                   onPressed: () => Navigator.pop(context, 'done'),

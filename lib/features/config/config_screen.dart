@@ -5,6 +5,7 @@ import 'package:flashchords/data/settings_repository.dart';
 import 'package:flashchords/core/system_error.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flashchords/l10n/app_localizations_extensions.dart';
+import 'package:flashchords/widgets/upgrade_dialog.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:flashchords/core/free_listener_usage.dart';
@@ -512,27 +513,10 @@ Widget _buildListenModeCheckbox() {
 
       // 🔴 BLOCK + DIALOG (THIS WAS MISSING)
       if (wantsEnabled && listenerBlocked) {
-        await showDialog(
+        await showUpgradeRequiredDialog(
           context: context,
-          builder: (_) => AlertDialog(
-            title: Text(t.listenerLimitReachedTitle),
-            content: Text(
-              t.listenerLimitReachedBody(usage!.limit),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text(t.later),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  // upgrade flow later
-                },
-                child: Text(t.upgrade),
-              ),
-            ],
-          ),
+          t: t,
+          limit: usage!.limit,
         );
 
         // 🔒 FORCE OFF

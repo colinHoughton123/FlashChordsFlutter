@@ -84,19 +84,19 @@ class AppLocalizationsFr extends AppLocalizations {
   String get mainFeatures1Title => 'Sélectionnez vos accords';
 
   @override
-  String get mainFeatures1Content => 'Configurez sur quels accords vous souhaitez vous concentrer (debug set upgraded)';
+  String get mainFeatures1Content => 'Choose which chords to practice';
 
   @override
   String get mainFeatures2Title => 'Défis chronométrés';
 
   @override
-  String get mainFeatures2Content => 'Testez-vous avec des minuteurs personnalisés (debug reset upgraded)';
+  String get mainFeatures2Content => 'Test your response time with customized timers';
 
   @override
-  String get mainFeatures3Title => 'Correction automatique';
+  String get mainFeatures3Title => 'Live Listening Mode';
 
   @override
-  String get mainFeatures3Content => 'Laissez FlashChords écouter votre piano (debug reset cards played)';
+  String get mainFeatures3Content => 'Chords are automatically detected and scored';
 
   @override
   String get language_picker_title => 'Choisir la langue';
@@ -305,10 +305,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get summary_from_error_deck => 'Paquet d’erreurs';
 
   @override
-  String get summary_play_again => 'Rejouer';
+  String get summary_play_again => 'Play again using errors deck';
 
   @override
-  String get summary_done => 'Terminé';
+  String get summary_done => 'Start Over';
 
   @override
   String get summary_accuracy => 'Précision';
@@ -377,5 +377,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get howItWorksTitle => 'Comment ça marche';
 
   @override
-  String get howItWorksBody => 'Placez votre appareil sur votre piano. Pour chaque carte, jouez l’accord affiché. Si l’écouteur est activé (Configuration) et que vous jouez les bonnes touches avant la fin du minuteur (s’il est activé), FlashChords™ le marquera comme correct et affichera la carte suivante. Si l’écouteur est désactivé, marquez-le vous‑même : coche ou glissement vers la droite pour correct, X ou glissement vers la gauche pour incorrect. Touchez la carte pour voir les touches attendues.';
+  String get howItWorksBody => 'Placez votre appareil sur votre piano. Pour chaque carte, jouez l’accord affiché. Si l’écouteur est activé (Configuration) et que vous jouez les bonnes touches avant la fin du minuteur (s’il est activé), FlashChords™ le marquera comme correct et affichera la carte suivante. Si l’écouteur est désactivé, marquez-le vous‑même : coche ou glissement vers la droite pour correct, X ou glissement vers la gauche pour incorrect. Touchez la carte pour voir les touches attendues.\n\nRemarque : les accords dans des octaves très basses peuvent être plus difficiles à détecter sur certains appareils ou claviers.';
+
+  @override
+  String get upgradeReenableListener => 'Upgrade to re-enable the listener';
 }

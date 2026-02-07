@@ -84,19 +84,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mainFeatures1Title => 'Select your chords';
 
   @override
-  String get mainFeatures1Content => 'Configure which chords on which to focus';
+  String get mainFeatures1Content => 'Choose which chords to practice';
 
   @override
   String get mainFeatures2Title => 'Timed Challenges';
 
   @override
-  String get mainFeatures2Content => 'Test yourself with customized timers';
+  String get mainFeatures2Content => 'Test your response time with customized timers';
 
   @override
-  String get mainFeatures3Title => 'Automatic Marking';
+  String get mainFeatures3Title => 'Live Listening Mode';
 
   @override
-  String get mainFeatures3Content => 'Let FlashChords listen to your piano';
+  String get mainFeatures3Content => 'Chords are automatically detected and scored';
 
   @override
   String get language_picker_title => 'Select language';
@@ -305,10 +305,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get summary_from_error_deck => 'Errors deck';
 
   @override
-  String get summary_play_again => 'Play again';
+  String get summary_play_again => 'Play again using errors deck';
 
   @override
-  String get summary_done => 'Done';
+  String get summary_done => 'Start Over';
 
   @override
   String get summary_accuracy => 'Accuracy';
@@ -377,5 +377,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get howItWorksTitle => 'How it works';
 
   @override
-  String get howItWorksBody => 'Place your device on your piano. For each flashcard, play the chord shown. If the listener is enabled (Configuration) and you play the correct keys before the timer ends (if enabled), FlashChords™ will mark it correct and show the next card. If the listener is off, mark it yourself: checkmark or swipe right for correct, X or swipe left for incorrect. Tap the card to reveal the expected keys.';
+  String get howItWorksBody => 'Place your device on your piano. For each flashcard, play the chord shown. If the listener is enabled (Configuration) and you play the correct keys before the timer ends (if enabled), FlashChords™ will mark it correct and show the next card. If the listener is off, mark it yourself: checkmark or swipe right for correct, X or swipe left for incorrect. Tap the card to reveal the expected keys.\n\nNote: very low-octave chords may be harder to detect on some devices or keyboards.';
+
+  @override
+  String get upgradeReenableListener => 'Upgrade to re-enable the listener';
 }

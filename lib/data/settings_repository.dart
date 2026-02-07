@@ -47,7 +47,7 @@ class SettingsRepository {
 
   Future<List<String>> loadChordTypes() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getStringList(_keyChordTypes) ?? [];
+    return prefs.getStringList(_keyChordTypes) ?? ['major', 'minor'];
   }
 
   // ----------------- INVERSIONS -----------------
@@ -59,7 +59,7 @@ class SettingsRepository {
 
   Future<List<String>> loadInversions() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getStringList(_keyInversions) ?? [];
+    return prefs.getStringList(_keyInversions) ?? ['root'];
   }
 
   // ----------------- TIMER -----------------
@@ -72,8 +72,8 @@ class SettingsRepository {
 
   Future<(bool enabled, int seconds)> loadTimer() async {
     final prefs = await SharedPreferences.getInstance();
-    final enabled = prefs.getBool(_keyTimerEnabled) ?? false;
-    final seconds = prefs.getInt(_keyTimerSeconds) ?? 5;
+    final enabled = prefs.getBool(_keyTimerEnabled) ?? true;
+    final seconds = prefs.getInt(_keyTimerSeconds) ?? 10;
     return (enabled, seconds);
   }
 
@@ -115,7 +115,7 @@ Future<String> loadCardOrder() async {
 
   Future<bool> loadListenMode() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(_keyListenMode) ?? false;
+    return prefs.getBool(_keyListenMode) ?? true;
   }
 
   // ----------------- UPGRADE STATUS -----------------

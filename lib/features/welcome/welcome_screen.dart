@@ -10,6 +10,7 @@ import 'package:flashchords/features/config/config_screen.dart';
 import 'package:flashchords/features/debug/key_calibration_screen.dart';
 import 'package:flashchords/features/flashcard/flashcard_screen.dart';
 import 'package:flashchords/features/welcome/language_picker_dialog.dart';
+import 'package:flashchords/widgets/upgrade_dialog.dart';
 
 import 'package:flashchords/models/flashcard_item.dart';
 import 'package:flashchords/data/chord_xml_parser.dart';
@@ -353,7 +354,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         ),
                       ),
 
-                      if (_listenerUsage != null)
+                      if (_listenerUsage != null) ...[
                         Padding(
                           padding: const EdgeInsets.only(top: 8),
                           child: Text(
@@ -368,6 +369,29 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             ),
                           ),
                         ),
+                        if (_listenerUsage!.isLimitReached)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 6),
+                            child: GestureDetector(
+                              onTap: () {
+                                showUpgradeRequiredDialog(
+                                  context: context,
+                                  t: t,
+                                  limit: _listenerUsage!.limit,
+                                );
+                              },
+                              child: Text(
+                                t.upgradeReenableListener,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.red,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
 
                       const SizedBox(height: 24),
 
