@@ -23,11 +23,11 @@
   "mainCatchPhrase": "Impara gli accordi in un lampo!",
   "mainFeaturesTitle": "Funzionalità",
   "mainFeatures1Title": "Seleziona i tuoi accordi",
-  "mainFeatures1Content": "Choose which chords to practice",
+  "mainFeatures1Content": "Scegli quali accordi esercitare",
   "mainFeatures2Title": "Sfide a tempo",
-  "mainFeatures2Content": "Test your response time with customized timers",
-  "mainFeatures3Title": "Live Listening Mode",
-  "mainFeatures3Content": "Chords are automatically detected and scored",
+  "mainFeatures2Content": "Metti alla prova il tuo tempo di risposta con timer personalizzati",
+  "mainFeatures3Title": "Modalità di ascolto dal vivo",
+  "mainFeatures3Content": "Gli accordi vengono rilevati e valutati automaticamente",
   "language_picker_title": "Seleziona lingua",
   "language_change_tooltip": "Cambia lingua",
   "configTitle": "Configurazione",
@@ -96,8 +96,8 @@
   "summary_seconds": "secondi",
   "summary_from_main_deck": "Mazzo principale",
   "summary_from_error_deck": "Mazzo degli errori",
-  "summary_play_again": "Play again using errors deck",
-  "summary_done": "Start Over",
+  "summary_play_again": "Gioca di nuovo con il mazzo errori",
+  "summary_done": "Ricomincia",
   "summary_accuracy": "Precisione",
   "summary_average_time_correct": "Media (accordi corretti)",
   "summary_average_time_all": "Tempo medio (tutti gli accordi)",
@@ -121,5 +121,5 @@
   "listenerStarting": "Starting listener...",
   "howItWorksTitle": "Come funziona",
   "howItWorksBody": "Posiziona il dispositivo sul pianoforte. Per ogni scheda, suona l’accordo mostrato. Se l’ascolto è attivo (Configurazione) e suoni i tasti corretti prima della fine del timer (se attivo), FlashChords™ lo segnerà come corretto e mostrerà la scheda successiva. Se l’ascolto è disattivato, segna tu: spunta o scorri a destra per corretto, X o scorri a sinistra per errato. Tocca la scheda per vedere i tasti attesi.\n\nNota: gli accordi in ottave molto basse possono essere più difficili da rilevare su alcuni dispositivi o tastiere.",
-  "upgradeReenableListener": "Upgrade to re-enable the listener"
+  "upgradeReenableListener": "Esegui l’upgrade per riattivare l’ascolto"
 }

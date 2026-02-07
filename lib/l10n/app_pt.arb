@@ -23,11 +23,11 @@
   "mainCatchPhrase": "Aprenda acordes num piscar de olhos!",
   "mainFeaturesTitle": "Funcionalidades",
   "mainFeatures1Title": "Selecione seus acordes",
-  "mainFeatures1Content": "Choose which chords to practice",
+  "mainFeatures1Content": "Escolha quais acordes praticar",
   "mainFeatures2Title": "Desafios cronometrados",
-  "mainFeatures2Content": "Test your response time with customized timers",
-  "mainFeatures3Title": "Live Listening Mode",
-  "mainFeatures3Content": "Chords are automatically detected and scored",
+  "mainFeatures2Content": "Teste seu tempo de resposta com temporizadores personalizados",
+  "mainFeatures3Title": "Modo de escuta ao vivo",
+  "mainFeatures3Content": "Os acordes são detectados e avaliados automaticamente",
   "language_picker_title": "Selecionar idioma",
   "language_change_tooltip": "Mudar idioma",
   "configTitle": "Configuração",
@@ -96,8 +96,8 @@
   "summary_seconds": "segundos",
   "summary_from_main_deck": "Baralho principal",
   "summary_from_error_deck": "Baralho de erros",
-  "summary_play_again": "Play again using errors deck",
-  "summary_done": "Start Over",
+  "summary_play_again": "Jogar novamente com o baralho de erros",
+  "summary_done": "Recomeçar",
   "summary_accuracy": "Precisão",
   "summary_average_time_correct": "Média (acordes corretos)",
   "summary_average_time_all": "Tempo médio (todos os acordes)",
@@ -121,5 +121,5 @@
   "listenerStarting": "Starting listener...",
   "howItWorksTitle": "Como funciona",
   "howItWorksBody": "Coloque seu dispositivo no piano. Para cada cartão, toque o acorde mostrado. Se o ouvinte estiver ativado (Configuração) e você tocar as teclas corretas antes do timer acabar (se estiver ativado), o FlashChords™ marcará como correto e mostrará o próximo cartão. Se o ouvinte estiver desativado, marque você mesmo: marca de verificação ou deslize para a direita para correto, X ou deslize para a esquerda para incorreto. Toque no cartão para ver as teclas esperadas.\n\nObservação: acordes em oitavas muito baixas podem ser mais difíceis de detectar em alguns dispositivos ou teclados.",
-  "upgradeReenableListener": "Upgrade to re-enable the listener"
+  "upgradeReenableListener": "Faça upgrade para reativar o ouvinte"
 }

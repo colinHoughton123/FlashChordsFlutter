@@ -23,11 +23,11 @@
   "mainCatchPhrase": "Apprenez les accords en un éclair !",
   "mainFeaturesTitle": "Fonctionnalités",
   "mainFeatures1Title": "Sélectionnez vos accords",
-  "mainFeatures1Content": "Choose which chords to practice",
+  "mainFeatures1Content": "Choisissez les accords à pratiquer",
   "mainFeatures2Title": "Défis chronométrés",
-  "mainFeatures2Content": "Test your response time with customized timers",
-  "mainFeatures3Title": "Live Listening Mode",
-  "mainFeatures3Content": "Chords are automatically detected and scored",
+  "mainFeatures2Content": "Testez votre temps de réaction avec des minuteurs personnalisés",
+  "mainFeatures3Title": "Mode d’écoute en direct",
+  "mainFeatures3Content": "Les accords sont automatiquement détectés et évalués",
   "language_picker_title": "Choisir la langue",
   "language_change_tooltip": "Changer de langue",
   "configTitle": "Configuration",
@@ -95,8 +95,8 @@
   "summary_seconds": "secondes",
   "summary_from_main_deck": "Paquet principal",
   "summary_from_error_deck": "Paquet d’erreurs",
-  "summary_play_again": "Play again using errors deck",
-  "summary_done": "Start Over",
+  "summary_play_again": "Rejouer avec le paquet d’erreurs",
+  "summary_done": "Recommencer",
   "summary_accuracy": "Précision",
   "summary_average_time_correct": "Moyenne (accords corrects)",
   "summary_average_time_all": "Temps moyen (tous les accords)",
@@ -121,5 +121,5 @@
   "listenerStarting": "Starting listener...",
   "howItWorksTitle": "Comment ça marche",
   "howItWorksBody": "Placez votre appareil sur votre piano. Pour chaque carte, jouez l’accord affiché. Si l’écouteur est activé (Configuration) et que vous jouez les bonnes touches avant la fin du minuteur (s’il est activé), FlashChords™ le marquera comme correct et affichera la carte suivante. Si l’écouteur est désactivé, marquez-le vous‑même : coche ou glissement vers la droite pour correct, X ou glissement vers la gauche pour incorrect. Touchez la carte pour voir les touches attendues.\n\nRemarque : les accords dans des octaves très basses peuvent être plus difficiles à détecter sur certains appareils ou claviers.",
-  "upgradeReenableListener": "Upgrade to re-enable the listener"
+  "upgradeReenableListener": "Mettre à niveau pour réactiver l’écouteur"
 }

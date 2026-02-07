@@ -23,11 +23,11 @@
   "mainCatchPhrase": "कॉर्ड्स को तुरंत सीखें!",
   "mainFeaturesTitle": "विशेषताएँ",
   "mainFeatures1Title": "अपने कॉर्ड चुनें",
-  "mainFeatures1Content": "Choose which chords to practice",
+  "mainFeatures1Content": "कौन से कॉर्ड अभ्यास करने हैं चुनें",
   "mainFeatures2Title": "समयबद्ध चुनौतियाँ",
-  "mainFeatures2Content": "Test your response time with customized timers",
-  "mainFeatures3Title": "Live Listening Mode",
-  "mainFeatures3Content": "Chords are automatically detected and scored",
+  "mainFeatures2Content": "अनुकूलित टाइमर के साथ अपना प्रतिक्रिया समय जांचें",
+  "mainFeatures3Title": "लाइव लिसनिंग मोड",
+  "mainFeatures3Content": "कॉर्ड स्वचालित रूप से पहचाने और स्कोर किए जाते हैं",
   "language_picker_title": "भाषा चुनें",
   "language_change_tooltip": "भाषा बदलें",
   "configTitle": "कॉन्फ़िगरेशन",
@@ -96,8 +96,8 @@
   "summary_seconds": "सेकंड",
   "summary_from_main_deck": "मुख्य डेक",
   "summary_from_error_deck": "त्रुटि डेक",
-  "summary_play_again": "Play again using errors deck",
-  "summary_done": "Start Over",
+  "summary_play_again": "त्रुटियों के डेक के साथ फिर से खेलें",
+  "summary_done": "फिर से शुरू करें",
   "summary_accuracy": "सटीकता",
   "summary_average_time_correct": "औसत (सही कॉर्ड)",
   "summary_average_time_all": "औसत समय (सभी कॉर्ड)",
@@ -121,5 +121,5 @@
   "listenerStarting": "Starting listener...",
   "howItWorksTitle": "यह कैसे काम करता है",
   "howItWorksBody": "अपना डिवाइस अपने पियानो पर रखें। हर फ़्लैशकार्ड के लिए दिखाया गया कॉर्ड बजाएँ। यदि लिसनर सक्षम है (कॉन्फ़िगरेशन) और आप टाइमर खत्म होने से पहले सही कुंजियाँ बजाते हैं (यदि टाइमर सक्षम है), तो FlashChords™ उसे सही चिह्नित करेगा और अगला कार्ड दिखाएगा। यदि लिसनर बंद है, तो स्वयं चिह्नित करें: सही के लिए चेकमार्क या दाईं ओर स्वाइप, गलत के लिए X या बाईं ओर स्वाइप। अपेक्षित कुंजियाँ देखने के लिए कार्ड पर टैप करें।\n\nनोट: बहुत नीची ऑक्टेव के कॉर्ड कुछ डिवाइस या कीबोर्ड पर पहचानना कठिन हो सकता है।",
-  "upgradeReenableListener": "Upgrade to re-enable the listener"
+  "upgradeReenableListener": "लिसनर फिर से सक्षम करने के लिए अपग्रेड करें"
 }

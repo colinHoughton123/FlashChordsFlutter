@@ -84,19 +84,19 @@ class AppLocalizationsTr extends AppLocalizations {
   String get mainFeatures1Title => 'Akorlarınızı seçin';
 
   @override
-  String get mainFeatures1Content => 'Choose which chords to practice';
+  String get mainFeatures1Content => 'Hangi akorları çalışacağını seç';
 
   @override
   String get mainFeatures2Title => 'Zamanlı Meydan Okumalar';
 
   @override
-  String get mainFeatures2Content => 'Test your response time with customized timers';
+  String get mainFeatures2Content => 'Özelleştirilmiş zamanlayıcılarla tepki süreni test et';
 
   @override
-  String get mainFeatures3Title => 'Live Listening Mode';
+  String get mainFeatures3Title => 'Canlı dinleme modu';
 
   @override
-  String get mainFeatures3Content => 'Chords are automatically detected and scored';
+  String get mainFeatures3Content => 'Akorlar otomatik olarak algılanır ve puanlanır';
 
   @override
   String get language_picker_title => 'Dil seçin';
@@ -305,10 +305,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get summary_from_error_deck => 'Hata destesi';
 
   @override
-  String get summary_play_again => 'Play again using errors deck';
+  String get summary_play_again => 'Hata destesini kullanarak tekrar oyna';
 
   @override
-  String get summary_done => 'Start Over';
+  String get summary_done => 'Baştan başla';
 
   @override
   String get summary_accuracy => 'Doğruluk';
@@ -380,5 +380,5 @@ class AppLocalizationsTr extends AppLocalizations {
   String get howItWorksBody => 'Cihazınızı piyanonuzun üzerine yerleştirin. Her kart için gösterilen akoru çalın. Dinleyici etkinse (Yapılandırma) ve zamanlayıcı bitmeden doğru tuşları çalarsanız (zamanlayıcı etkinse), FlashChords™ bunu doğru olarak işaretler ve bir sonraki kartı gösterir. Dinleyici kapalıysa kendiniz işaretleyin: doğru için onay işareti veya sağa kaydırma, yanlış için X veya sola kaydırma. Beklenen tuşları görmek için karta dokunun.\n\nNot: Çok düşük oktavlardaki akorlar bazı cihazlarda veya klavyelerde daha zor algılanabilir.';
 
   @override
-  String get upgradeReenableListener => 'Upgrade to re-enable the listener';
+  String get upgradeReenableListener => 'Dinleyiciyi yeniden etkinleştirmek için yükselt';
 }

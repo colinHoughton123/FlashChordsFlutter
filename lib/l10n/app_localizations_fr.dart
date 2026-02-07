@@ -84,19 +84,19 @@ class AppLocalizationsFr extends AppLocalizations {
   String get mainFeatures1Title => 'Sélectionnez vos accords';
 
   @override
-  String get mainFeatures1Content => 'Choose which chords to practice';
+  String get mainFeatures1Content => 'Choisissez les accords à pratiquer';
 
   @override
   String get mainFeatures2Title => 'Défis chronométrés';
 
   @override
-  String get mainFeatures2Content => 'Test your response time with customized timers';
+  String get mainFeatures2Content => 'Testez votre temps de réaction avec des minuteurs personnalisés';
 
   @override
-  String get mainFeatures3Title => 'Live Listening Mode';
+  String get mainFeatures3Title => 'Mode d’écoute en direct';
 
   @override
-  String get mainFeatures3Content => 'Chords are automatically detected and scored';
+  String get mainFeatures3Content => 'Les accords sont automatiquement détectés et évalués';
 
   @override
   String get language_picker_title => 'Choisir la langue';
@@ -305,10 +305,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get summary_from_error_deck => 'Paquet d’erreurs';
 
   @override
-  String get summary_play_again => 'Play again using errors deck';
+  String get summary_play_again => 'Rejouer avec le paquet d’erreurs';
 
   @override
-  String get summary_done => 'Start Over';
+  String get summary_done => 'Recommencer';
 
   @override
   String get summary_accuracy => 'Précision';
@@ -380,5 +380,5 @@ class AppLocalizationsFr extends AppLocalizations {
   String get howItWorksBody => 'Placez votre appareil sur votre piano. Pour chaque carte, jouez l’accord affiché. Si l’écouteur est activé (Configuration) et que vous jouez les bonnes touches avant la fin du minuteur (s’il est activé), FlashChords™ le marquera comme correct et affichera la carte suivante. Si l’écouteur est désactivé, marquez-le vous‑même : coche ou glissement vers la droite pour correct, X ou glissement vers la gauche pour incorrect. Touchez la carte pour voir les touches attendues.\n\nRemarque : les accords dans des octaves très basses peuvent être plus difficiles à détecter sur certains appareils ou claviers.';
 
   @override
-  String get upgradeReenableListener => 'Upgrade to re-enable the listener';
+  String get upgradeReenableListener => 'Mettre à niveau pour réactiver l’écouteur';
 }

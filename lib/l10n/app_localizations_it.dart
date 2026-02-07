@@ -84,19 +84,19 @@ class AppLocalizationsIt extends AppLocalizations {
   String get mainFeatures1Title => 'Seleziona i tuoi accordi';
 
   @override
-  String get mainFeatures1Content => 'Choose which chords to practice';
+  String get mainFeatures1Content => 'Scegli quali accordi esercitare';
 
   @override
   String get mainFeatures2Title => 'Sfide a tempo';
 
   @override
-  String get mainFeatures2Content => 'Test your response time with customized timers';
+  String get mainFeatures2Content => 'Metti alla prova il tuo tempo di risposta con timer personalizzati';
 
   @override
-  String get mainFeatures3Title => 'Live Listening Mode';
+  String get mainFeatures3Title => 'Modalità di ascolto dal vivo';
 
   @override
-  String get mainFeatures3Content => 'Chords are automatically detected and scored';
+  String get mainFeatures3Content => 'Gli accordi vengono rilevati e valutati automaticamente';
 
   @override
   String get language_picker_title => 'Seleziona lingua';
@@ -305,10 +305,10 @@ class AppLocalizationsIt extends AppLocalizations {
   String get summary_from_error_deck => 'Mazzo degli errori';
 
   @override
-  String get summary_play_again => 'Play again using errors deck';
+  String get summary_play_again => 'Gioca di nuovo con il mazzo errori';
 
   @override
-  String get summary_done => 'Start Over';
+  String get summary_done => 'Ricomincia';
 
   @override
   String get summary_accuracy => 'Precisione';
@@ -380,5 +380,5 @@ class AppLocalizationsIt extends AppLocalizations {
   String get howItWorksBody => 'Posiziona il dispositivo sul pianoforte. Per ogni scheda, suona l’accordo mostrato. Se l’ascolto è attivo (Configurazione) e suoni i tasti corretti prima della fine del timer (se attivo), FlashChords™ lo segnerà come corretto e mostrerà la scheda successiva. Se l’ascolto è disattivato, segna tu: spunta o scorri a destra per corretto, X o scorri a sinistra per errato. Tocca la scheda per vedere i tasti attesi.\n\nNota: gli accordi in ottave molto basse possono essere più difficili da rilevare su alcuni dispositivi o tastiere.';
 
   @override
-  String get upgradeReenableListener => 'Upgrade to re-enable the listener';
+  String get upgradeReenableListener => 'Esegui l’upgrade per riattivare l’ascolto';
 }

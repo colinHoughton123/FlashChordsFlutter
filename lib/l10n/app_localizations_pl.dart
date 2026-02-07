@@ -377,7 +377,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get howItWorksTitle => 'Jak to działa';
 
   @override
-  String get howItWorksBody => 'Połóż urządzenie na pianinie. Dla każdej karty zagraj pokazany akord. Jeśli nasłuchiwanie jest włączone (Konfiguracja) i zagrasz właściwe klawisze przed końcem timera (jeśli włączony), FlashChords™ oznaczy to jako poprawne i pokaże następną kartę. Jeśli nasłuchiwanie jest wyłączone, oznacz sam: haczyk lub przesunięcie w prawo dla poprawnej, X lub przesunięcie w lewo dla błędnej. Stuknij kartę, aby zobaczyć oczekiwane klawisze.\n\nUwaga: akordy w bardzo niskich oktawach mogą być trudniejsze do wykrycia na niektórych urządzeniach lub klawiaturach.';
+  String get howItWorksBody => 'Place your device on your piano. For each flashcard, play the chord shown. If the listener is enabled (Configuration) and you play the correct keys before the timer ends (if enabled), FlashChords™ will mark it correct and show the next card. If the listener is off, mark it yourself: checkmark or swipe right for correct, X or swipe left for incorrect. Tap the card to reveal the expected keys.\n\nNote: very low-octave chords may be harder to detect on some devices or keyboards.';
 
   @override
   String get upgradeReenableListener => 'Upgrade to re-enable the listener';

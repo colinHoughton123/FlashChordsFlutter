@@ -84,19 +84,19 @@ class AppLocalizationsHi extends AppLocalizations {
   String get mainFeatures1Title => 'अपने कॉर्ड चुनें';
 
   @override
-  String get mainFeatures1Content => 'Choose which chords to practice';
+  String get mainFeatures1Content => 'कौन से कॉर्ड अभ्यास करने हैं चुनें';
 
   @override
   String get mainFeatures2Title => 'समयबद्ध चुनौतियाँ';
 
   @override
-  String get mainFeatures2Content => 'Test your response time with customized timers';
+  String get mainFeatures2Content => 'अनुकूलित टाइमर के साथ अपना प्रतिक्रिया समय जांचें';
 
   @override
-  String get mainFeatures3Title => 'Live Listening Mode';
+  String get mainFeatures3Title => 'लाइव लिसनिंग मोड';
 
   @override
-  String get mainFeatures3Content => 'Chords are automatically detected and scored';
+  String get mainFeatures3Content => 'कॉर्ड स्वचालित रूप से पहचाने और स्कोर किए जाते हैं';
 
   @override
   String get language_picker_title => 'भाषा चुनें';
@@ -305,10 +305,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get summary_from_error_deck => 'त्रुटि डेक';
 
   @override
-  String get summary_play_again => 'Play again using errors deck';
+  String get summary_play_again => 'त्रुटियों के डेक के साथ फिर से खेलें';
 
   @override
-  String get summary_done => 'Start Over';
+  String get summary_done => 'फिर से शुरू करें';
 
   @override
   String get summary_accuracy => 'सटीकता';
@@ -380,5 +380,5 @@ class AppLocalizationsHi extends AppLocalizations {
   String get howItWorksBody => 'अपना डिवाइस अपने पियानो पर रखें। हर फ़्लैशकार्ड के लिए दिखाया गया कॉर्ड बजाएँ। यदि लिसनर सक्षम है (कॉन्फ़िगरेशन) और आप टाइमर खत्म होने से पहले सही कुंजियाँ बजाते हैं (यदि टाइमर सक्षम है), तो FlashChords™ उसे सही चिह्नित करेगा और अगला कार्ड दिखाएगा। यदि लिसनर बंद है, तो स्वयं चिह्नित करें: सही के लिए चेकमार्क या दाईं ओर स्वाइप, गलत के लिए X या बाईं ओर स्वाइप। अपेक्षित कुंजियाँ देखने के लिए कार्ड पर टैप करें।\n\nनोट: बहुत नीची ऑक्टेव के कॉर्ड कुछ डिवाइस या कीबोर्ड पर पहचानना कठिन हो सकता है।';
 
   @override
-  String get upgradeReenableListener => 'Upgrade to re-enable the listener';
+  String get upgradeReenableListener => 'लिसनर फिर से सक्षम करने के लिए अपग्रेड करें';
 }

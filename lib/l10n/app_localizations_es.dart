@@ -84,19 +84,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get mainFeatures1Title => 'Selecciona tus acordes';
 
   @override
-  String get mainFeatures1Content => 'Choose which chords to practice';
+  String get mainFeatures1Content => 'Elige qué acordes practicar';
 
   @override
   String get mainFeatures2Title => 'Desafíos cronometrados';
 
   @override
-  String get mainFeatures2Content => 'Test your response time with customized timers';
+  String get mainFeatures2Content => 'Pon a prueba tu tiempo de respuesta con temporizadores personalizados';
 
   @override
-  String get mainFeatures3Title => 'Live Listening Mode';
+  String get mainFeatures3Title => 'Modo de Escucha en Vivo';
 
   @override
-  String get mainFeatures3Content => 'Chords are automatically detected and scored';
+  String get mainFeatures3Content => 'Los acordes se detectan y se evalúan automáticamente';
 
   @override
   String get language_picker_title => 'Seleccionar idioma';
@@ -305,10 +305,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get summary_from_error_deck => 'Mazo de errores';
 
   @override
-  String get summary_play_again => 'Play again using errors deck';
+  String get summary_play_again => 'Volver a jugar con el mazo de errores';
 
   @override
-  String get summary_done => 'Start Over';
+  String get summary_done => 'Empezar de nuevo';
 
   @override
   String get summary_accuracy => 'Precisión';
@@ -380,5 +380,5 @@ class AppLocalizationsEs extends AppLocalizations {
   String get howItWorksBody => 'Coloca tu dispositivo sobre el piano. Para cada tarjeta, toca el acorde mostrado. Si el oyente está activado (Configuración) y tocas las teclas correctas antes de que termine el temporizador (si está activado), FlashChords™ lo marcará como correcto y mostrará la siguiente tarjeta. Si el oyente está desactivado, márcalo tú mismo: marca de verificación o desliza a la derecha para correcto, X o desliza a la izquierda para incorrecto. Toca la tarjeta para ver las teclas esperadas.\n\nNota: los acordes en octavas muy bajas pueden ser más difíciles de detectar en algunos dispositivos o teclados.';
 
   @override
-  String get upgradeReenableListener => 'Upgrade to re-enable the listener';
+  String get upgradeReenableListener => 'Mejora para volver a activar el oyente';
 }

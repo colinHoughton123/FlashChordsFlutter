@@ -84,19 +84,19 @@ class AppLocalizationsPt extends AppLocalizations {
   String get mainFeatures1Title => 'Selecione seus acordes';
 
   @override
-  String get mainFeatures1Content => 'Choose which chords to practice';
+  String get mainFeatures1Content => 'Escolha quais acordes praticar';
 
   @override
   String get mainFeatures2Title => 'Desafios cronometrados';
 
   @override
-  String get mainFeatures2Content => 'Test your response time with customized timers';
+  String get mainFeatures2Content => 'Teste seu tempo de resposta com temporizadores personalizados';
 
   @override
-  String get mainFeatures3Title => 'Live Listening Mode';
+  String get mainFeatures3Title => 'Modo de escuta ao vivo';
 
   @override
-  String get mainFeatures3Content => 'Chords are automatically detected and scored';
+  String get mainFeatures3Content => 'Os acordes são detectados e avaliados automaticamente';
 
   @override
   String get language_picker_title => 'Selecionar idioma';
@@ -305,10 +305,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get summary_from_error_deck => 'Baralho de erros';
 
   @override
-  String get summary_play_again => 'Play again using errors deck';
+  String get summary_play_again => 'Jogar novamente com o baralho de erros';
 
   @override
-  String get summary_done => 'Start Over';
+  String get summary_done => 'Recomeçar';
 
   @override
   String get summary_accuracy => 'Precisão';
@@ -380,5 +380,5 @@ class AppLocalizationsPt extends AppLocalizations {
   String get howItWorksBody => 'Coloque seu dispositivo no piano. Para cada cartão, toque o acorde mostrado. Se o ouvinte estiver ativado (Configuração) e você tocar as teclas corretas antes do timer acabar (se estiver ativado), o FlashChords™ marcará como correto e mostrará o próximo cartão. Se o ouvinte estiver desativado, marque você mesmo: marca de verificação ou deslize para a direita para correto, X ou deslize para a esquerda para incorreto. Toque no cartão para ver as teclas esperadas.\n\nObservação: acordes em oitavas muito baixas podem ser mais difíceis de detectar em alguns dispositivos ou teclados.';
 
   @override
-  String get upgradeReenableListener => 'Upgrade to re-enable the listener';
+  String get upgradeReenableListener => 'Faça upgrade para reativar o ouvinte';
 }

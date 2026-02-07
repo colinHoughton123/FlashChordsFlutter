@@ -23,11 +23,11 @@
   "mainCatchPhrase": "Lerne Akkorde im Handumdrehen!",
   "mainFeaturesTitle": "Funktionen",
   "mainFeatures1Title": "Wähle deine Akkorde aus",
-  "mainFeatures1Content": "Choose which chords to practice",
+  "mainFeatures1Content": "Wähle, welche Akkorde du üben möchtest",
   "mainFeatures2Title": "Zeit-Challenges",
-  "mainFeatures2Content": "Test your response time with customized timers",
-  "mainFeatures3Title": "Live Listening Mode",
-  "mainFeatures3Content": "Chords are automatically detected and scored",
+  "mainFeatures2Content": "Teste deine Reaktionszeit mit benutzerdefinierten Timern",
+  "mainFeatures3Title": "Live-Hörmodus",
+  "mainFeatures3Content": "Akkorde werden automatisch erkannt und bewertet",
   "language_picker_title": "Sprache auswählen",
   "language_change_tooltip": "Sprache ändern",
   "configTitle": "Konfiguration",
@@ -96,8 +96,8 @@
   "summary_seconds": "Sekunden",
   "summary_from_main_deck": "Hauptstapel",
   "summary_from_error_deck": "Fehlerstapel",
-  "summary_play_again": "Play again using errors deck",
-  "summary_done": "Start Over",
+  "summary_play_again": "Erneut mit Fehlern spielen",
+  "summary_done": "Neu starten",
   "summary_accuracy": "Genauigkeit",
   "summary_average_time_correct": "Durchschnitt (richtige Akkorde)",
   "summary_average_time_all": "Durchschnittszeit (alle Akkorde)",
@@ -121,5 +121,5 @@
   "listenerStarting": "Starting listener...",
   "howItWorksTitle": "So funktioniert es",
   "howItWorksBody": "Lege dein Gerät auf dein Klavier. Spiele für jede Karte den angezeigten Akkord. Wenn der Listener aktiviert ist (Konfiguration) und du die richtigen Tasten vor Ablauf des Timers spielst (falls aktiviert), markiert FlashChords™ den Akkord als richtig und zeigt die nächste Karte. Ist der Listener aus, markierst du selbst: Häkchen oder nach rechts wischen für richtig, X oder nach links wischen für falsch. Tippe auf die Karte, um die erwarteten Tasten anzuzeigen.\n\nHinweis: Sehr tiefe Oktaven können auf einigen Geräten oder Tastaturen schwieriger zu erkennen sein.",
-  "upgradeReenableListener": "Upgrade to re-enable the listener"
+  "upgradeReenableListener": "Upgrade, um den Listener wieder zu aktivieren"
 }

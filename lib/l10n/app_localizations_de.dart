@@ -84,19 +84,19 @@ class AppLocalizationsDe extends AppLocalizations {
   String get mainFeatures1Title => 'Wähle deine Akkorde aus';
 
   @override
-  String get mainFeatures1Content => 'Choose which chords to practice';
+  String get mainFeatures1Content => 'Wähle, welche Akkorde du üben möchtest';
 
   @override
   String get mainFeatures2Title => 'Zeit-Challenges';
 
   @override
-  String get mainFeatures2Content => 'Test your response time with customized timers';
+  String get mainFeatures2Content => 'Teste deine Reaktionszeit mit benutzerdefinierten Timern';
 
   @override
-  String get mainFeatures3Title => 'Live Listening Mode';
+  String get mainFeatures3Title => 'Live-Hörmodus';
 
   @override
-  String get mainFeatures3Content => 'Chords are automatically detected and scored';
+  String get mainFeatures3Content => 'Akkorde werden automatisch erkannt und bewertet';
 
   @override
   String get language_picker_title => 'Sprache auswählen';
@@ -305,10 +305,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get summary_from_error_deck => 'Fehlerstapel';
 
   @override
-  String get summary_play_again => 'Play again using errors deck';
+  String get summary_play_again => 'Erneut mit Fehlern spielen';
 
   @override
-  String get summary_done => 'Start Over';
+  String get summary_done => 'Neu starten';
 
   @override
   String get summary_accuracy => 'Genauigkeit';
@@ -380,5 +380,5 @@ class AppLocalizationsDe extends AppLocalizations {
   String get howItWorksBody => 'Lege dein Gerät auf dein Klavier. Spiele für jede Karte den angezeigten Akkord. Wenn der Listener aktiviert ist (Konfiguration) und du die richtigen Tasten vor Ablauf des Timers spielst (falls aktiviert), markiert FlashChords™ den Akkord als richtig und zeigt die nächste Karte. Ist der Listener aus, markierst du selbst: Häkchen oder nach rechts wischen für richtig, X oder nach links wischen für falsch. Tippe auf die Karte, um die erwarteten Tasten anzuzeigen.\n\nHinweis: Sehr tiefe Oktaven können auf einigen Geräten oder Tastaturen schwieriger zu erkennen sein.';
 
   @override
-  String get upgradeReenableListener => 'Upgrade to re-enable the listener';
+  String get upgradeReenableListener => 'Upgrade, um den Listener wieder zu aktivieren';
 }

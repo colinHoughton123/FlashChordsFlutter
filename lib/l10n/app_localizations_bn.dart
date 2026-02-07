@@ -377,7 +377,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get howItWorksTitle => 'এটি কীভাবে কাজ করে';
 
   @override
-  String get howItWorksBody => 'আপনার ডিভাইসটি পিয়ানোর উপর রাখুন। প্রতিটি ফ্ল্যাশকার্ডে প্রদর্শিত কর্ডটি বাজান। যদি লিসেনার চালু থাকে (কনফিগারেশন) এবং টাইমার শেষ হওয়ার আগে আপনি সঠিক কী বাজান (টাইমার চালু থাকলে), FlashChords™ এটিকে সঠিক হিসেবে চিহ্নিত করবে এবং পরবর্তী কার্ড দেখাবে। যদি লিসেনার বন্ধ থাকে, তাহলে নিজে চিহ্ন দিন: সঠিকের জন্য চেকমার্ক বা ডানে সোয়াইপ, ভুলের জন্য X বা বামে সোয়াইপ। প্রত্যাশিত কী দেখতে কার্ডে ট্যাপ করুন।\n\nনোট: খুব নিচু অক্টেভের কর্ড কিছু ডিভাইস বা কিবোর্ডে শনাক্ত করা কঠিন হতে পারে।';
+  String get howItWorksBody => 'Place your device on your piano. For each flashcard, play the chord shown. If the listener is enabled (Configuration) and you play the correct keys before the timer ends (if enabled), FlashChords™ will mark it correct and show the next card. If the listener is off, mark it yourself: checkmark or swipe right for correct, X or swipe left for incorrect. Tap the card to reveal the expected keys.\n\nNote: very low-octave chords may be harder to detect on some devices or keyboards.';
 
   @override
   String get upgradeReenableListener => 'Upgrade to re-enable the listener';

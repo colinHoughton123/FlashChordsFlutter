@@ -23,11 +23,11 @@
   "mainCatchPhrase": "เรียนรู้คอร์ดได้ในพริบตา!",
   "mainFeaturesTitle": "คุณสมบัติ",
   "mainFeatures1Title": "เลือกคอร์ดของคุณ",
-  "mainFeatures1Content": "Choose which chords to practice",
+  "mainFeatures1Content": "เลือกคอร์ดที่ต้องการฝึก",
   "mainFeatures2Title": "ความท้าทายแบบจับเวลา",
-  "mainFeatures2Content": "Test your response time with customized timers",
-  "mainFeatures3Title": "Live Listening Mode",
-  "mainFeatures3Content": "Chords are automatically detected and scored",
+  "mainFeatures2Content": "ทดสอบเวลาในการตอบสนองด้วยตัวจับเวลาที่ปรับแต่งได้",
+  "mainFeatures3Title": "โหมดฟังสด",
+  "mainFeatures3Content": "คอร์ดจะถูกตรวจจับและให้คะแนนโดยอัตโนมัติ",
   "language_picker_title": "เลือกภาษา",
   "language_change_tooltip": "เปลี่ยนภาษา",
   "configTitle": "การตั้งค่า",
@@ -96,8 +96,8 @@
   "summary_seconds": "วินาที",
   "summary_from_main_deck": "เด็คหลัก",
   "summary_from_error_deck": "เด็คข้อผิดพลาด",
-  "summary_play_again": "Play again using errors deck",
-  "summary_done": "Start Over",
+  "summary_play_again": "เล่นอีกครั้งด้วยสำรับข้อผิดพลาด",
+  "summary_done": "เริ่มใหม่",
   "summary_accuracy": "ความแม่นยำ",
   "summary_average_time_correct": "ค่าเฉลี่ย (คอร์ดที่ถูกต้อง)",
   "summary_average_time_all": "เวลาเฉลี่ย (ทุกคอร์ด)",
@@ -121,5 +121,5 @@
   "listenerStarting": "Starting listener...",
   "howItWorksTitle": "วิธีการใช้งาน",
   "howItWorksBody": "วางอุปกรณ์ของคุณบนเปียโน สำหรับแต่ละแฟลชการ์ด ให้เล่นคอร์ดที่แสดง หากเปิดการฟังอยู่ (การตั้งค่า) และคุณเล่นคีย์ที่ถูกต้องก่อนหมดเวลา (ถ้าเปิดตัวจับเวลา) FlashChords™ จะทำเครื่องหมายว่าถูกต้องและแสดงการ์ดถัดไป หากปิดการฟัง ให้ทำเครื่องหมายเอง: เครื่องหมายถูกหรือปัดไปทางขวาสำหรับถูกต้อง, X หรือปัดไปทางซ้ายสำหรับไม่ถูกต้อง แตะการ์ดเพื่อดูคีย์ที่คาดไว้\n\nหมายเหตุ: คอร์ดในอ็อกเทฟที่ต่ำมากอาจตรวจจับได้ยากขึ้นบนบางอุปกรณ์หรือคีย์บอร์ด",
-  "upgradeReenableListener": "Upgrade to re-enable the listener"
+  "upgradeReenableListener": "อัปเกรดเพื่อเปิดการฟังอีกครั้ง"
 }

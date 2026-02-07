@@ -84,19 +84,19 @@ class AppLocalizationsRu extends AppLocalizations {
   String get mainFeatures1Title => 'Выберите свои аккорды';
 
   @override
-  String get mainFeatures1Content => 'Choose which chords to practice';
+  String get mainFeatures1Content => 'Выберите аккорды для практики';
 
   @override
   String get mainFeatures2Title => 'Задания на время';
 
   @override
-  String get mainFeatures2Content => 'Test your response time with customized timers';
+  String get mainFeatures2Content => 'Проверьте время реакции с настраиваемыми таймерами';
 
   @override
-  String get mainFeatures3Title => 'Live Listening Mode';
+  String get mainFeatures3Title => 'Режим живого прослушивания';
 
   @override
-  String get mainFeatures3Content => 'Chords are automatically detected and scored';
+  String get mainFeatures3Content => 'Аккорды автоматически обнаруживаются и оцениваются';
 
   @override
   String get language_picker_title => 'Выберите язык';
@@ -305,10 +305,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get summary_from_error_deck => 'Колода ошибок';
 
   @override
-  String get summary_play_again => 'Play again using errors deck';
+  String get summary_play_again => 'Сыграть снова с колодой ошибок';
 
   @override
-  String get summary_done => 'Start Over';
+  String get summary_done => 'Начать заново';
 
   @override
   String get summary_accuracy => 'Точность';
@@ -380,5 +380,5 @@ class AppLocalizationsRu extends AppLocalizations {
   String get howItWorksBody => 'Положите устройство на пианино. Для каждой карточки сыграйте показанный аккорд. Если слушатель включён (Конфигурация) и вы сыграли правильные клавиши до окончания таймера (если он включён), FlashChords™ отметит это как правильно и покажет следующую карточку. Если слушатель выключен, отметьте сами: галочка или свайп вправо для правильного, X или свайп влево для неправильного. Нажмите на карточку, чтобы увидеть ожидаемые клавиши.\n\nПримечание: аккорды в очень низких октавах могут хуже распознаваться на некоторых устройствах или клавиатурах.';
 
   @override
-  String get upgradeReenableListener => 'Upgrade to re-enable the listener';
+  String get upgradeReenableListener => 'Обновите, чтобы снова включить прослушивание';
 }

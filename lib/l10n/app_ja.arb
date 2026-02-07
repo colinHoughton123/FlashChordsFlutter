@@ -23,11 +23,11 @@
   "mainCatchPhrase": "和音を一瞬で学ぼう！",
   "mainFeaturesTitle": "機能",
   "mainFeatures1Title": "和音を選択",
-  "mainFeatures1Content": "Choose which chords to practice",
+  "mainFeatures1Content": "練習するコードを選びます",
   "mainFeatures2Title": "タイムチャレンジ",
-  "mainFeatures2Content": "Test your response time with customized timers",
-  "mainFeatures3Title": "Live Listening Mode",
-  "mainFeatures3Content": "Chords are automatically detected and scored",
+  "mainFeatures2Content": "カスタムタイマーで反応時間をテストします",
+  "mainFeatures3Title": "ライブ・リスニングモード",
+  "mainFeatures3Content": "コードは自動的に検出・採点されます",
   "language_picker_title": "言語を選択",
   "language_change_tooltip": "言語を変更",
   "configTitle": "設定",
@@ -96,8 +96,8 @@
   "summary_seconds": "秒",
   "summary_from_main_deck": "メインデッキ",
   "summary_from_error_deck": "エラーデッキ",
-  "summary_play_again": "Play again using errors deck",
-  "summary_done": "Start Over",
+  "summary_play_again": "エラーデッキで再プレイ",
+  "summary_done": "最初からやり直す",
   "summary_accuracy": "正答率",
   "summary_average_time_correct": "平均（正しい和音）",
   "summary_average_time_all": "平均時間（すべての和音）",
@@ -121,5 +121,5 @@
   "listenerStarting": "Starting listener...",
   "howItWorksTitle": "使い方",
   "howItWorksBody": "デバイスをピアノの上に置いてください。各フラッシュカードに表示されたコードを弾きます。 リスナーが有効（設定）で、タイマー終了前に正しい鍵盤を弾いた場合（タイマー有効時）、 FlashChords™ が正解として次のカードを表示します。 リスナーが無効の場合は自分で判定します：正解はチェックマークまたは右スワイプ、不正解は X または左スワイプ。 カードをタップすると期待される鍵盤が表示されます。\n\n注意：非常に低いオクターブのコードは、デバイスやキーボードによって検出しづらい場合があります。",
-  "upgradeReenableListener": "Upgrade to re-enable the listener"
+  "upgradeReenableListener": "アップグレードしてリスナーを再有効化"
 }

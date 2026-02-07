@@ -23,11 +23,11 @@
   "mainCatchPhrase": "Вивчайте акорди миттєво!",
   "mainFeaturesTitle": "Функції",
   "mainFeatures1Title": "Оберіть свої акорди",
-  "mainFeatures1Content": "Choose which chords to practice",
+  "mainFeatures1Content": "Виберіть акорди для практики",
   "mainFeatures2Title": "Часові виклики",
-  "mainFeatures2Content": "Test your response time with customized timers",
-  "mainFeatures3Title": "Live Listening Mode",
-  "mainFeatures3Content": "Chords are automatically detected and scored",
+  "mainFeatures2Content": "Перевірте час реакції з налаштованими таймерами",
+  "mainFeatures3Title": "Режим живого прослуховування",
+  "mainFeatures3Content": "Акорди автоматично виявляються та оцінюються",
   "language_picker_title": "Виберіть мову",
   "language_change_tooltip": "Змінити мову",
   "configTitle": "Налаштування",
@@ -96,8 +96,8 @@
   "summary_seconds": "секунд",
   "summary_from_main_deck": "Основна колода",
   "summary_from_error_deck": "Колодa помилок",
-  "summary_play_again": "Play again using errors deck",
-  "summary_done": "Start Over",
+  "summary_play_again": "Зіграти знову з колодою помилок",
+  "summary_done": "Почати спочатку",
   "summary_accuracy": "Точність",
   "summary_average_time_correct": "Середній (правильні акорди)",
   "summary_average_time_all": "Середній час (усі акорди)",
@@ -121,5 +121,5 @@
   "listenerStarting": "Starting listener...",
   "howItWorksTitle": "Як це працює",
   "howItWorksBody": "Покладіть пристрій на піаніно. Для кожної картки зіграйте показаний акорд. Якщо слухач увімкнено (Налаштування) і ви зіграли правильні клавіші до завершення таймера (якщо він увімкнений), FlashChords™ позначить це як правильно і покаже наступну картку. Якщо слухач вимкнено, позначайте самі: галочка або свайп вправо для правильного, X або свайп вліво для неправильного. Торкніться картки, щоб побачити очікувані клавіші.\n\nПримітка: акорди в дуже низьких октавах можуть бути складнішими для розпізнавання на деяких пристроях або клавіатурах.",
-  "upgradeReenableListener": "Upgrade to re-enable the listener"
+  "upgradeReenableListener": "Оновіть, щоб знову ввімкнути прослуховування"
 }

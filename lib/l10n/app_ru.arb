@@ -23,11 +23,11 @@
   "mainCatchPhrase": "Учите аккорды мгновенно!",
   "mainFeaturesTitle": "Функции",
   "mainFeatures1Title": "Выберите свои аккорды",
-  "mainFeatures1Content": "Choose which chords to practice",
+  "mainFeatures1Content": "Выберите аккорды для практики",
   "mainFeatures2Title": "Задания на время",
-  "mainFeatures2Content": "Test your response time with customized timers",
-  "mainFeatures3Title": "Live Listening Mode",
-  "mainFeatures3Content": "Chords are automatically detected and scored",
+  "mainFeatures2Content": "Проверьте время реакции с настраиваемыми таймерами",
+  "mainFeatures3Title": "Режим живого прослушивания",
+  "mainFeatures3Content": "Аккорды автоматически обнаруживаются и оцениваются",
   "language_picker_title": "Выберите язык",
   "language_change_tooltip": "Сменить язык",
   "configTitle": "Настройка",
@@ -96,8 +96,8 @@
   "summary_seconds": "секунд",
   "summary_from_main_deck": "Основная колода",
   "summary_from_error_deck": "Колода ошибок",
-  "summary_play_again": "Play again using errors deck",
-  "summary_done": "Start Over",
+  "summary_play_again": "Сыграть снова с колодой ошибок",
+  "summary_done": "Начать заново",
   "summary_accuracy": "Точность",
   "summary_average_time_correct": "Среднее (правильные аккорды)",
   "summary_average_time_all": "Среднее время (все аккорды)",
@@ -121,5 +121,5 @@
   "listenerStarting": "Starting listener...",
   "howItWorksTitle": "Как это работает",
   "howItWorksBody": "Положите устройство на пианино. Для каждой карточки сыграйте показанный аккорд. Если слушатель включён (Конфигурация) и вы сыграли правильные клавиши до окончания таймера (если он включён), FlashChords™ отметит это как правильно и покажет следующую карточку. Если слушатель выключен, отметьте сами: галочка или свайп вправо для правильного, X или свайп влево для неправильного. Нажмите на карточку, чтобы увидеть ожидаемые клавиши.\n\nПримечание: аккорды в очень низких октавах могут хуже распознаваться на некоторых устройствах или клавиатурах.",
-  "upgradeReenableListener": "Upgrade to re-enable the listener"
+  "upgradeReenableListener": "Обновите, чтобы снова включить прослушивание"
 }

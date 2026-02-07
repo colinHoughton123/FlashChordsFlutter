@@ -84,19 +84,19 @@ class AppLocalizationsKo extends AppLocalizations {
   String get mainFeatures1Title => '화음 선택';
 
   @override
-  String get mainFeatures1Content => 'Choose which chords to practice';
+  String get mainFeatures1Content => '연습할 코드를 선택하세요';
 
   @override
   String get mainFeatures2Title => '시간 제한 챌린지';
 
   @override
-  String get mainFeatures2Content => 'Test your response time with customized timers';
+  String get mainFeatures2Content => '맞춤 타이머로 반응 속도를 테스트하세요';
 
   @override
-  String get mainFeatures3Title => 'Live Listening Mode';
+  String get mainFeatures3Title => '라이브 리스닝 모드';
 
   @override
-  String get mainFeatures3Content => 'Chords are automatically detected and scored';
+  String get mainFeatures3Content => '코드가 자동으로 감지되고 채점됩니다';
 
   @override
   String get language_picker_title => '언어 선택';
@@ -305,10 +305,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get summary_from_error_deck => '오류 덱';
 
   @override
-  String get summary_play_again => 'Play again using errors deck';
+  String get summary_play_again => '오류 덱으로 다시 플레이';
 
   @override
-  String get summary_done => 'Start Over';
+  String get summary_done => '처음부터 시작';
 
   @override
   String get summary_accuracy => '정확도';
@@ -380,5 +380,5 @@ class AppLocalizationsKo extends AppLocalizations {
   String get howItWorksBody => '기기를 피아노 위에 놓으세요. 각 플래시카드에 표시된 코드를 연주합니다. 리스너가 켜져 있고(설정), 타이머가 끝나기 전에 올바른 건반을 연주하면(타이머가 활성화된 경우) FlashChords™가 정답으로 표시하고 다음 카드를 보여줍니다. 리스너가 꺼져 있으면 직접 표시하세요: 정답은 체크 표시 또는 오른쪽 스와이프, 오답은 X 또는 왼쪽 스와이프. 카드를 탭하면 예상되는 건반을 확인할 수 있습니다.\n\n참고: 매우 낮은 옥타브의 코드는 일부 기기나 키보드에서 감지하기 어려울 수 있습니다.';
 
   @override
-  String get upgradeReenableListener => 'Upgrade to re-enable the listener';
+  String get upgradeReenableListener => '업그레이드하여 리스너를 다시 활성화';
 }

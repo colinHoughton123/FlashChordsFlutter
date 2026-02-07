@@ -23,11 +23,11 @@
   "mainCatchPhrase": "快速学习和弦！",
   "mainFeaturesTitle": "功能",
   "mainFeatures1Title": "选择你的和弦",
-  "mainFeatures1Content": "Choose which chords to practice",
+  "mainFeatures1Content": "选择要练习的和弦",
   "mainFeatures2Title": "计时挑战",
-  "mainFeatures2Content": "Test your response time with customized timers",
-  "mainFeatures3Title": "Live Listening Mode",
-  "mainFeatures3Content": "Chords are automatically detected and scored",
+  "mainFeatures2Content": "用自定义计时器测试反应时间",
+  "mainFeatures3Title": "实时聆听模式",
+  "mainFeatures3Content": "和弦会被自动检测并评分",
   "language_picker_title": "选择语言",
   "language_change_tooltip": "切换语言",
   "configTitle": "设置",
@@ -96,8 +96,8 @@
   "summary_seconds": "秒",
   "summary_from_main_deck": "主卡组",
   "summary_from_error_deck": "错误卡组",
-  "summary_play_again": "Play again using errors deck",
-  "summary_done": "Start Over",
+  "summary_play_again": "使用错误牌组再玩一次",
+  "summary_done": "重新开始",
   "summary_accuracy": "准确率",
   "summary_average_time_correct": "平均（正确和弦）",
   "summary_average_time_all": "平均时间（所有和弦）",
@@ -121,5 +121,5 @@
   "listenerStarting": "Starting listener...",
   "howItWorksTitle": "使用说明",
   "howItWorksBody": "将设备放在钢琴上。每张闪卡显示一个和弦，请演奏该和弦。如果监听已开启（配置），并且你在计时结束前弹对了琴键（若计时器启用），FlashChords™ 会标记为正确并显示下一张卡片。如果监听关闭，请自行标记：正确请点勾或右滑，错误请点 X 或左滑。点击卡片可查看应弹的琴键。\n\n注意：非常低的音区和弦在某些设备或键盘上可能更难检测。",
-  "upgradeReenableListener": "Upgrade to re-enable the listener"
+  "upgradeReenableListener": "升级以重新启用监听"
 }

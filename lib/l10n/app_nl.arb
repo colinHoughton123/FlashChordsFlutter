@@ -23,11 +23,11 @@
   "mainCatchPhrase": "Leer akkoorden in een flits!",
   "mainFeaturesTitle": "Functies",
   "mainFeatures1Title": "Selecteer je akkoorden",
-  "mainFeatures1Content": "Choose which chords to practice",
+  "mainFeatures1Content": "Kies welke akkoorden je wilt oefenen",
   "mainFeatures2Title": "Tijd uitdagingen",
-  "mainFeatures2Content": "Test your response time with customized timers",
-  "mainFeatures3Title": "Live Listening Mode",
-  "mainFeatures3Content": "Chords are automatically detected and scored",
+  "mainFeatures2Content": "Test je reactietijd met aangepaste timers",
+  "mainFeatures3Title": "Live luistermodus",
+  "mainFeatures3Content": "Akkoorden worden automatisch gedetecteerd en beoordeeld",
   "language_picker_title": "Selecteer taal",
   "language_change_tooltip": "Taal wijzigen",
   "configTitle": "Configuratie",
@@ -96,8 +96,8 @@
   "summary_seconds": "seconden",
   "summary_from_main_deck": "Hoofdstapel",
   "summary_from_error_deck": "Foutenstapel",
-  "summary_play_again": "Play again using errors deck",
-  "summary_done": "Start Over",
+  "summary_play_again": "Opnieuw spelen met het foute‑akkoord‑deck",
+  "summary_done": "Opnieuw beginnen",
   "summary_accuracy": "Nauwkeurigheid",
   "summary_average_time_correct": "Gemiddelde (correcte akkoorden)",
   "summary_average_time_all": "Gemiddelde tijd (alle akkoorden)",
@@ -121,5 +121,5 @@
   "listenerStarting": "Starting listener...",
   "howItWorksTitle": "Zo werkt het",
   "howItWorksBody": "Plaats je apparaat op je piano. Speel voor elke kaart het getoonde akkoord. Als de luisteraar is ingeschakeld (Configuratie) en je speelt de juiste toetsen voordat de timer afloopt (indien ingeschakeld), markeert FlashChords™ het als correct en toont de volgende kaart. Staat de luisteraar uit, markeer je het zelf: vinkje of naar rechts vegen voor correct, X of naar links vegen voor incorrect. Tik op de kaart om de verwachte toetsen te zien.\n\nLet op: zeer lage octaafakkoorden kunnen op sommige apparaten of toetsenborden moeilijker te detecteren zijn.",
-  "upgradeReenableListener": "Upgrade to re-enable the listener"
+  "upgradeReenableListener": "Upgrade om de luisteraar opnieuw in te schakelen"
 }
