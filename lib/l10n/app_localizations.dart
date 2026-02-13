@@ -655,6 +655,18 @@ abstract class AppLocalizations {
   /// **'Next'**
   String get flash_next;
 
+  /// No description provided for @detectedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Detected'**
+  String get detectedLabel;
+
+  /// No description provided for @missingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Missing'**
+  String get missingLabel;
+
   /// No description provided for @summary_title.
   ///
   /// In en, this message translates to:
@@ -858,6 +870,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Upgrade to re-enable the listener'**
   String get upgradeReenableListener;
+
+  /// No description provided for @configShowCorrectOnError.
+  ///
+  /// In en, this message translates to:
+  /// **'Show correct keys when error detected'**
+  String get configShowCorrectOnError;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -281,6 +281,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get flash_next => '次へ';
 
   @override
+  String get detectedLabel => 'Detected';
+
+  @override
+  String get missingLabel => 'Missing';
+
+  @override
   String get summary_title => 'まとめ';
 
   @override
@@ -381,4 +387,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get upgradeReenableListener => 'アップグレードしてリスナーを再有効化';
+
+  @override
+  String get configShowCorrectOnError => 'エラー検出時に正しいキーを表示';
 }

@@ -121,5 +121,6 @@
   "listenerStarting": "Starting listener...",
   "howItWorksTitle": "Jak to działa",
   "howItWorksBody": "Place your device on your piano. For each flashcard, play the chord shown. If the listener is enabled (Configuration) and you play the correct keys before the timer ends (if enabled), FlashChords™ will mark it correct and show the next card. If the listener is off, mark it yourself: checkmark or swipe right for correct, X or swipe left for incorrect. Tap the card to reveal the expected keys.\n\nNote: very low-octave chords may be harder to detect on some devices or keyboards.",
-  "upgradeReenableListener": "Upgrade to re-enable the listener"
+  "upgradeReenableListener": "Upgrade to re-enable the listener",
+  "configShowCorrectOnError": "Pokaż poprawne klawisze po wykryciu błędu"
 }

@@ -121,5 +121,6 @@
   "listenerStarting": "Starting listener...",
   "howItWorksTitle": "Comment ça marche",
   "howItWorksBody": "Placez votre appareil sur votre piano. Pour chaque carte, jouez l’accord affiché. Si l’écouteur est activé (Configuration) et que vous jouez les bonnes touches avant la fin du minuteur (s’il est activé), FlashChords™ le marquera comme correct et affichera la carte suivante. Si l’écouteur est désactivé, marquez-le vous‑même : coche ou glissement vers la droite pour correct, X ou glissement vers la gauche pour incorrect. Touchez la carte pour voir les touches attendues.\n\nRemarque : les accords dans des octaves très basses peuvent être plus difficiles à détecter sur certains appareils ou claviers.",
-  "upgradeReenableListener": "Mettre à niveau pour réactiver l’écouteur"
+  "upgradeReenableListener": "Mettre à niveau pour réactiver l’écouteur",
+  "configShowCorrectOnError": "Afficher les touches correctes lorsqu'une erreur est détectée"
 }

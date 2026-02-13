@@ -281,6 +281,12 @@ class AppLocalizationsNl extends AppLocalizations {
   String get flash_next => 'Volgende';
 
   @override
+  String get detectedLabel => 'Detected';
+
+  @override
+  String get missingLabel => 'Missing';
+
+  @override
   String get summary_title => 'Samenvatting';
 
   @override
@@ -381,4 +387,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get upgradeReenableListener => 'Upgrade om de luisteraar opnieuw in te schakelen';
+
+  @override
+  String get configShowCorrectOnError => 'Toon juiste toetsen bij foutdetectie';
 }

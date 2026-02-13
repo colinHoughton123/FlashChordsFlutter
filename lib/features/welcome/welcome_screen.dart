@@ -34,6 +34,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   List<FlashcardItem>? _preloadedItems;
 
   FreeListenerUsage? _listenerUsage;
+  bool _isUpgraded = false;
 
   // ─────────────────────────────
   // DEV / EMULATED UPGRADE KEYS
@@ -71,10 +72,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Future<void> _loadListenerUsage() async {
     final usage = FreeListenerUsage();
     await usage.load();
+    final isUpgraded = await SettingsRepository().loadIsUpgraded();
 
     if (!mounted) return;
     setState(() {
       _listenerUsage = usage;
+      _isUpgraded = isUpgraded;
     });
   }
 
@@ -175,6 +178,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             onPressed: () {
               showDialog(
                 context: context,
+                barrierDismissible: false,
                 builder: (_) => AlertDialog(
                   title: Text(t.howItWorksTitle),
                   content: SizedBox(

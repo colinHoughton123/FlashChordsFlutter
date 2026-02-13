@@ -281,6 +281,12 @@ class AppLocalizationsBn extends AppLocalizations {
   String get flash_next => 'পরবর্তী';
 
   @override
+  String get detectedLabel => 'Detected';
+
+  @override
+  String get missingLabel => 'Missing';
+
+  @override
   String get summary_title => 'সারসংক্ষেপ';
 
   @override
@@ -381,4 +387,7 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get upgradeReenableListener => 'Upgrade to re-enable the listener';
+
+  @override
+  String get configShowCorrectOnError => 'ত্রুটি সনাক্ত হলে সঠিক কী দেখান';
 }

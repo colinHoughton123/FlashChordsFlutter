@@ -121,5 +121,6 @@
   "listenerStarting": "Starting listener...",
   "howItWorksTitle": "So funktioniert es",
   "howItWorksBody": "Lege dein Gerät auf dein Klavier. Spiele für jede Karte den angezeigten Akkord. Wenn der Listener aktiviert ist (Konfiguration) und du die richtigen Tasten vor Ablauf des Timers spielst (falls aktiviert), markiert FlashChords™ den Akkord als richtig und zeigt die nächste Karte. Ist der Listener aus, markierst du selbst: Häkchen oder nach rechts wischen für richtig, X oder nach links wischen für falsch. Tippe auf die Karte, um die erwarteten Tasten anzuzeigen.\n\nHinweis: Sehr tiefe Oktaven können auf einigen Geräten oder Tastaturen schwieriger zu erkennen sein.",
-  "upgradeReenableListener": "Upgrade, um den Listener wieder zu aktivieren"
+  "upgradeReenableListener": "Upgrade, um den Listener wieder zu aktivieren",
+  "configShowCorrectOnError": "Korrekte Tasten bei Fehler anzeigen"
 }

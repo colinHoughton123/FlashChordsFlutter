@@ -281,6 +281,12 @@ class AppLocalizationsTh extends AppLocalizations {
   String get flash_next => 'ถัดไป';
 
   @override
+  String get detectedLabel => 'Detected';
+
+  @override
+  String get missingLabel => 'Missing';
+
+  @override
   String get summary_title => 'สรุป';
 
   @override
@@ -381,4 +387,7 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get upgradeReenableListener => 'อัปเกรดเพื่อเปิดการฟังอีกครั้ง';
+
+  @override
+  String get configShowCorrectOnError => 'แสดงคีย์ที่ถูกต้องเมื่อพบข้อผิดพลาด';
 }

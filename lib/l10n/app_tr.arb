@@ -121,5 +121,6 @@
   "listenerStarting": "Starting listener...",
   "howItWorksTitle": "Nasıl çalışır",
   "howItWorksBody": "Cihazınızı piyanonuzun üzerine yerleştirin. Her kart için gösterilen akoru çalın. Dinleyici etkinse (Yapılandırma) ve zamanlayıcı bitmeden doğru tuşları çalarsanız (zamanlayıcı etkinse), FlashChords™ bunu doğru olarak işaretler ve bir sonraki kartı gösterir. Dinleyici kapalıysa kendiniz işaretleyin: doğru için onay işareti veya sağa kaydırma, yanlış için X veya sola kaydırma. Beklenen tuşları görmek için karta dokunun.\n\nNot: Çok düşük oktavlardaki akorlar bazı cihazlarda veya klavyelerde daha zor algılanabilir.",
-  "upgradeReenableListener": "Dinleyiciyi yeniden etkinleştirmek için yükselt"
+  "upgradeReenableListener": "Dinleyiciyi yeniden etkinleştirmek için yükselt",
+  "configShowCorrectOnError": "Hata algılandığında doğru tuşları göster"
 }

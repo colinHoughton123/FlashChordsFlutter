@@ -121,5 +121,6 @@
   "listenerStarting": "Starting listener...",
   "howItWorksTitle": "使用说明",
   "howItWorksBody": "将设备放在钢琴上。每张闪卡显示一个和弦，请演奏该和弦。如果监听已开启（配置），并且你在计时结束前弹对了琴键（若计时器启用），FlashChords™ 会标记为正确并显示下一张卡片。如果监听关闭，请自行标记：正确请点勾或右滑，错误请点 X 或左滑。点击卡片可查看应弹的琴键。\n\n注意：非常低的音区和弦在某些设备或键盘上可能更难检测。",
-  "upgradeReenableListener": "升级以重新启用监听"
+  "upgradeReenableListener": "升级以重新启用监听",
+  "configShowCorrectOnError": "检测到错误时显示正确按键"
 }

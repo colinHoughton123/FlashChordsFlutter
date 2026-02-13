@@ -281,6 +281,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get flash_next => 'Далее';
 
   @override
+  String get detectedLabel => 'Detected';
+
+  @override
+  String get missingLabel => 'Missing';
+
+  @override
   String get summary_title => 'Итоги';
 
   @override
@@ -381,4 +387,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get upgradeReenableListener => 'Обновите, чтобы снова включить прослушивание';
+
+  @override
+  String get configShowCorrectOnError => 'Показывать правильные клавиши при обнаружении ошибки';
 }

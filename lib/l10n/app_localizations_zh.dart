@@ -281,6 +281,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get flash_next => '下一张';
 
   @override
+  String get detectedLabel => 'Detected';
+
+  @override
+  String get missingLabel => 'Missing';
+
+  @override
   String get summary_title => '总结';
 
   @override
@@ -381,6 +387,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get upgradeReenableListener => '升级以重新启用监听';
+
+  @override
+  String get configShowCorrectOnError => '检测到错误时显示正确按键';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hans`).
@@ -760,6 +769,9 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
 
   @override
   String get upgradeReenableListener => '升级以重新启用监听';
+
+  @override
+  String get configShowCorrectOnError => '检测到错误时显示正确按键';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -1139,4 +1151,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get upgradeReenableListener => '升級以重新啟用聆聽';
+
+  @override
+  String get configShowCorrectOnError => '偵測到錯誤時顯示正確按鍵';
 }

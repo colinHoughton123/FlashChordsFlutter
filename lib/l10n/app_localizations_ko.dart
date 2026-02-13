@@ -281,6 +281,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get flash_next => '다음';
 
   @override
+  String get detectedLabel => 'Detected';
+
+  @override
+  String get missingLabel => 'Missing';
+
+  @override
   String get summary_title => '요약';
 
   @override
@@ -381,4 +387,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get upgradeReenableListener => '업그레이드하여 리스너를 다시 활성화';
+
+  @override
+  String get configShowCorrectOnError => '오류가 감지되면 올바른 키 표시';
 }

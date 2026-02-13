@@ -281,6 +281,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get flash_next => 'Sonraki';
 
   @override
+  String get detectedLabel => 'Detected';
+
+  @override
+  String get missingLabel => 'Missing';
+
+  @override
   String get summary_title => 'Özet';
 
   @override
@@ -381,4 +387,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get upgradeReenableListener => 'Dinleyiciyi yeniden etkinleştirmek için yükselt';
+
+  @override
+  String get configShowCorrectOnError => 'Hata algılandığında doğru tuşları göster';
 }

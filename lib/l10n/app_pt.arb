@@ -121,5 +121,6 @@
   "listenerStarting": "Starting listener...",
   "howItWorksTitle": "Como funciona",
   "howItWorksBody": "Coloque seu dispositivo no piano. Para cada cartão, toque o acorde mostrado. Se o ouvinte estiver ativado (Configuração) e você tocar as teclas corretas antes do timer acabar (se estiver ativado), o FlashChords™ marcará como correto e mostrará o próximo cartão. Se o ouvinte estiver desativado, marque você mesmo: marca de verificação ou deslize para a direita para correto, X ou deslize para a esquerda para incorreto. Toque no cartão para ver as teclas esperadas.\n\nObservação: acordes em oitavas muito baixas podem ser mais difíceis de detectar em alguns dispositivos ou teclados.",
-  "upgradeReenableListener": "Faça upgrade para reativar o ouvinte"
+  "upgradeReenableListener": "Faça upgrade para reativar o ouvinte",
+  "configShowCorrectOnError": "Mostrar teclas corretas quando um erro for detectado"
 }

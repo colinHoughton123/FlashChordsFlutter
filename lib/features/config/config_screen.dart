@@ -10,6 +10,8 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:flashchords/core/free_listener_usage.dart';
 
+enum _NavDecision { cancel, discard, save }
+
 class ConfigScreen extends ConsumerStatefulWidget {
   const ConfigScreen({super.key});
 
@@ -76,6 +78,25 @@ class _ConfigScreenState extends ConsumerState<ConfigScreen> {
     super.initState();
     _loadSavedConfig();
     _loadVersionLabel();
+  }
+
+  Future<void> _saveConfig({bool popAfter = false}) async {
+    final repo = SettingsRepository();
+
+    await repo.saveRoots(_selectedRoots);
+    await repo.saveChordTypes(_selectedChordTypes);
+    await repo.saveInversions(_selectedInversions);
+    await repo.saveTimer(_timerEnabled, _timerSeconds);
+    await repo.saveListenMode(_listenEnabled);
+    await repo.saveCardOrder(_cardOrder);
+
+    _initialConfig = _ConfigSnapshot.fromState(this);
+    if (mounted) {
+      setState(() {});
+    }
+    if (popAfter && mounted) {
+      Navigator.pop(context);
+    }
   }
 
   Future<void> _loadVersionLabel() async {
@@ -339,25 +360,30 @@ Future<void> _loadSavedConfig() async {
   bool get _hasUnsavedChanges =>
       !_ConfigSnapshot.fromState(this).equals(_initialConfig);
 
-  Future<bool> _confirmDiscardChanges(AppLocalizations t) async {
-    final result = await showDialog<bool>(
+  Future<_NavDecision> _confirmDiscardChanges(AppLocalizations t) async {
+    final result = await showDialog<_NavDecision>(
       context: context,
+      barrierDismissible: false,
       builder: (_) => AlertDialog(
         title: Text(t.summary_unsaved_changes_title),
         content: Text(t.summary_unsaved_changes_body),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context, false),
+            onPressed: () => Navigator.pop(context, _NavDecision.cancel),
             child: Text(t.cancel),
           ),
           TextButton(
-            onPressed: () => Navigator.pop(context, true),
+            onPressed: () => Navigator.pop(context, _NavDecision.save),
+            child: Text(t.saveButton),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, _NavDecision.discard),
             child: Text(t.summary_discard),
           ),
         ],
       ),
     );
-    return result ?? false;
+    return result ?? _NavDecision.cancel;
   }
 
   // --------------------------
@@ -371,7 +397,12 @@ Future<void> _loadSavedConfig() async {
     return WillPopScope(
       onWillPop: () async {
         if (!_hasUnsavedChanges) return true;
-        return await _confirmDiscardChanges(t);
+        final decision = await _confirmDiscardChanges(t);
+        if (decision == _NavDecision.save) {
+          await _saveConfig();
+          return true;
+        }
+        return decision == _NavDecision.discard;
       },
       child: Scaffold(
         backgroundColor: Colors.grey.shade100,
@@ -381,12 +412,23 @@ Future<void> _loadSavedConfig() async {
             icon: const Icon(Icons.home),
             onPressed: () async {
               if (_hasUnsavedChanges) {
-                final discard = await _confirmDiscardChanges(t);
-                if (!discard) return;
+                final decision = await _confirmDiscardChanges(t);
+                if (decision == _NavDecision.cancel) return;
+                if (decision == _NavDecision.save) {
+                  await _saveConfig();
+                }
               }
               Navigator.pop(context);
             },
           ),
+          actions: [
+            TextButton(
+              onPressed: _hasUnsavedChanges
+                  ? () => _saveConfig(popAfter: true)
+                  : null,
+              child: Text(t.saveButton),
+            ),
+          ],
         ),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -450,18 +492,7 @@ Future<void> _loadSavedConfig() async {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () async {
-                      final repo = SettingsRepository();
-
-                      await repo.saveRoots(_selectedRoots);
-                      await repo.saveChordTypes(_selectedChordTypes);
-                      await repo.saveInversions(_selectedInversions);
-                      await repo.saveTimer(_timerEnabled, _timerSeconds);
-                      await repo.saveListenMode(_listenEnabled);
-                      await repo.saveCardOrder(_cardOrder);
-
-                      Navigator.pop(context);
-                    },
+                    onPressed: () => _saveConfig(popAfter: true),
                     child: Text(t.saveButton),
                   ),
                 ),

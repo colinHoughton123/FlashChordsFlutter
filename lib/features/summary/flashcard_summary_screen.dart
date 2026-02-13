@@ -132,6 +132,11 @@ debugPrint('   totalCards=${widget.totalCards}');
           TextButton(
             onPressed: () {
               Navigator.pop(context);
+              showUpgradeRequiredDialog(
+                context: context,
+                t: t,
+                limit: usage.limit,
+              );
             },
             child: Text(t.upgrade),
           ),

@@ -281,6 +281,12 @@ class AppLocalizationsHi extends AppLocalizations {
   String get flash_next => 'अगला';
 
   @override
+  String get detectedLabel => 'Detected';
+
+  @override
+  String get missingLabel => 'Missing';
+
+  @override
   String get summary_title => 'सारांश';
 
   @override
@@ -381,4 +387,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get upgradeReenableListener => 'लिसनर फिर से सक्षम करने के लिए अपग्रेड करें';
+
+  @override
+  String get configShowCorrectOnError => 'त्रुटि मिलने पर सही कुंजियाँ दिखाएँ';
 }
