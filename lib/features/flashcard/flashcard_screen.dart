@@ -979,7 +979,7 @@ Widget build(BuildContext context) {
           if (_listenerBooting)
             Positioned.fill(
               child: Container(
-                color: Colors.white.withOpacity(0.92),
+                color: Colors.white,
                 child: Center(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -1194,7 +1194,7 @@ Widget build(BuildContext context) {
       if (_listenerBooting)
         Positioned.fill(
           child: Container(
-            color: Colors.white.withOpacity(0.92),
+            color: Colors.white,
             child: Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,

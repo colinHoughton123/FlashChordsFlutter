@@ -281,10 +281,10 @@ class AppLocalizationsUk extends AppLocalizations {
   String get flash_next => 'Далі';
 
   @override
-  String get detectedLabel => 'Detected';
+  String get detectedLabel => 'Виявлено';
 
   @override
-  String get missingLabel => 'Missing';
+  String get missingLabel => 'Відсутнє';
 
   @override
   String get summary_title => 'Підсумок';
@@ -377,7 +377,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get language_picker_scroll_hint => 'Прокрутіть, щоб побачити більше мов';
 
   @override
-  String get listenerStarting => 'Starting listener...';
+  String get listenerStarting => 'Запуск прослуховування...';
 
   @override
   String get howItWorksTitle => 'Як це працює';

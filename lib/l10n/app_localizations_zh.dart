@@ -281,10 +281,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get flash_next => '下一张';
 
   @override
-  String get detectedLabel => 'Detected';
+  String get detectedLabel => '已检测';
 
   @override
-  String get missingLabel => 'Missing';
+  String get missingLabel => '缺失';
 
   @override
   String get summary_title => '总结';
@@ -377,7 +377,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get language_picker_scroll_hint => 'Scroll to see more languages';
 
   @override
-  String get listenerStarting => 'Starting listener...';
+  String get listenerStarting => '正在启动监听器...';
 
   @override
   String get howItWorksTitle => '使用说明';
@@ -669,6 +669,12 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
   String get flash_next => '下一张';
 
   @override
+  String get detectedLabel => '已检测';
+
+  @override
+  String get missingLabel => '缺失';
+
+  @override
   String get summary_title => '总结';
 
   @override
@@ -759,7 +765,7 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
   String get language_picker_scroll_hint => 'Scroll to see more languages';
 
   @override
-  String get listenerStarting => 'Starting listener...';
+  String get listenerStarting => '正在启动监听器...';
 
   @override
   String get howItWorksTitle => '使用说明';
@@ -1051,6 +1057,12 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get flash_next => '下一個';
 
   @override
+  String get detectedLabel => '已偵測';
+
+  @override
+  String get missingLabel => '缺失';
+
+  @override
   String get summary_title => '總結';
 
   @override
@@ -1141,7 +1153,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get language_picker_scroll_hint => '向下捲動以查看更多語言';
 
   @override
-  String get listenerStarting => 'Starting listener...';
+  String get listenerStarting => '正在啟動監聽器...';
 
   @override
   String get howItWorksTitle => '使用說明';

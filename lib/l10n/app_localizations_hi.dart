@@ -281,10 +281,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get flash_next => 'अगला';
 
   @override
-  String get detectedLabel => 'Detected';
+  String get detectedLabel => 'पाया गया';
 
   @override
-  String get missingLabel => 'Missing';
+  String get missingLabel => 'गायब';
 
   @override
   String get summary_title => 'सारांश';
@@ -377,7 +377,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get language_picker_scroll_hint => 'और भाषाएँ देखने के लिए स्क्रॉल करें';
 
   @override
-  String get listenerStarting => 'Starting listener...';
+  String get listenerStarting => 'सुनना शुरू हो रहा है...';
 
   @override
   String get howItWorksTitle => 'यह कैसे काम करता है';

@@ -118,9 +118,11 @@
   "flash_error_301": "必须至少选择一个值。",
   "flash_error_301_hint": "你最后取消选择的项已被重新选择，以确保至少有一个值被选中。要取消它，请先选择另一个值。",
   "language_picker_scroll_hint": "Scroll to see more languages",
-  "listenerStarting": "Starting listener...",
+  "listenerStarting": "正在启动监听器...",
   "howItWorksTitle": "使用说明",
   "howItWorksBody": "将设备放在钢琴上。每张闪卡显示一个和弦，请演奏该和弦。如果监听已开启（配置），并且你在计时结束前弹对了琴键（若计时器启用），FlashChords™ 会标记为正确并显示下一张卡片。如果监听关闭，请自行标记：正确请点勾或右滑，错误请点 X 或左滑。点击卡片可查看应弹的琴键。\n\n注意：非常低的音区和弦在某些设备或键盘上可能更难检测。",
   "upgradeReenableListener": "升级以重新启用监听",
-  "configShowCorrectOnError": "检测到错误时显示正确按键"
+  "configShowCorrectOnError": "检测到错误时显示正确按键",
+  "detectedLabel": "已检测",
+  "missingLabel": "缺失"
 }

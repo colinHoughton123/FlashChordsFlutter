@@ -118,9 +118,11 @@
   "flash_error_301": "En az bir değer seçilmelidir.",
   "flash_error_301_hint": "Son seçiminiz, bir değer seçili kalmasını sağlamak için yeniden seçildi. Seçimi kaldırmak için önce başka bir değer seçin.",
   "language_picker_scroll_hint": "Daha fazla dili görmek için kaydırın",
-  "listenerStarting": "Starting listener...",
+  "listenerStarting": "Dinleyici başlatılıyor...",
   "howItWorksTitle": "Nasıl çalışır",
   "howItWorksBody": "Cihazınızı piyanonuzun üzerine yerleştirin. Her kart için gösterilen akoru çalın. Dinleyici etkinse (Yapılandırma) ve zamanlayıcı bitmeden doğru tuşları çalarsanız (zamanlayıcı etkinse), FlashChords™ bunu doğru olarak işaretler ve bir sonraki kartı gösterir. Dinleyici kapalıysa kendiniz işaretleyin: doğru için onay işareti veya sağa kaydırma, yanlış için X veya sola kaydırma. Beklenen tuşları görmek için karta dokunun.\n\nNot: Çok düşük oktavlardaki akorlar bazı cihazlarda veya klavyelerde daha zor algılanabilir.",
   "upgradeReenableListener": "Dinleyiciyi yeniden etkinleştirmek için yükselt",
-  "configShowCorrectOnError": "Hata algılandığında doğru tuşları göster"
+  "configShowCorrectOnError": "Hata algılandığında doğru tuşları göster",
+  "detectedLabel": "Algılandı",
+  "missingLabel": "Eksik"
 }

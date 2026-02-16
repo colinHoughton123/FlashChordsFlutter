@@ -11,6 +11,7 @@ import 'package:flashchords/features/debug/key_calibration_screen.dart';
 import 'package:flashchords/features/flashcard/flashcard_screen.dart';
 import 'package:flashchords/features/welcome/language_picker_dialog.dart';
 import 'package:flashchords/widgets/upgrade_dialog.dart';
+import 'package:flashchords/services/purchase_service.dart';
 
 import 'package:flashchords/models/flashcard_item.dart';
 import 'package:flashchords/data/chord_xml_parser.dart';
@@ -55,6 +56,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       await _loadListenerUsage();
     });
 
+    PurchaseService.instance.upgraded.addListener(_handleUpgradeChanged);
+
     _loadChords();
   }
 
@@ -62,6 +65,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    _loadListenerUsage();
+  }
+
+  @override
+  void dispose() {
+    PurchaseService.instance.upgraded.removeListener(_handleUpgradeChanged);
+    super.dispose();
+  }
+
+  void _handleUpgradeChanged() {
     _loadListenerUsage();
   }
 
@@ -160,6 +173,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           onPressed: () {
             showDialog(
               context: context,
+              barrierDismissible: false,
               builder: (_) => LanguagePickerDialog(
                 onSelected: (code) async {
                   final prefs = await SharedPreferences.getInstance();

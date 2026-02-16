@@ -281,10 +281,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get flash_next => '次へ';
 
   @override
-  String get detectedLabel => 'Detected';
+  String get detectedLabel => '検出';
 
   @override
-  String get missingLabel => 'Missing';
+  String get missingLabel => '未検出';
 
   @override
   String get summary_title => 'まとめ';
@@ -377,7 +377,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get language_picker_scroll_hint => '他の言語を見るにはスクロールしてください';
 
   @override
-  String get listenerStarting => 'Starting listener...';
+  String get listenerStarting => 'リスナーを起動中...';
 
   @override
   String get howItWorksTitle => '使い方';

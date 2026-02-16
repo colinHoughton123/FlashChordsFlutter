@@ -118,9 +118,11 @@
   "flash_error_301": "Pelo menos um valor deve ser selecionado.",
   "flash_error_301_hint": "Sua última desmarcação foi selecionada novamente para garantir que um valor esteja selecionado. Para desmarcá-lo, selecione outro valor primeiro.",
   "language_picker_scroll_hint": "Role para ver mais idiomas",
-  "listenerStarting": "Starting listener...",
+  "listenerStarting": "Iniciando a escuta...",
   "howItWorksTitle": "Como funciona",
   "howItWorksBody": "Coloque seu dispositivo no piano. Para cada cartão, toque o acorde mostrado. Se o ouvinte estiver ativado (Configuração) e você tocar as teclas corretas antes do timer acabar (se estiver ativado), o FlashChords™ marcará como correto e mostrará o próximo cartão. Se o ouvinte estiver desativado, marque você mesmo: marca de verificação ou deslize para a direita para correto, X ou deslize para a esquerda para incorreto. Toque no cartão para ver as teclas esperadas.\n\nObservação: acordes em oitavas muito baixas podem ser mais difíceis de detectar em alguns dispositivos ou teclados.",
   "upgradeReenableListener": "Faça upgrade para reativar o ouvinte",
-  "configShowCorrectOnError": "Mostrar teclas corretas quando um erro for detectado"
+  "configShowCorrectOnError": "Mostrar teclas corretas quando um erro for detectado",
+  "detectedLabel": "Detectado",
+  "missingLabel": "Ausente"
 }

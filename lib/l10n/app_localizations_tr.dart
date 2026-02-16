@@ -281,10 +281,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get flash_next => 'Sonraki';
 
   @override
-  String get detectedLabel => 'Detected';
+  String get detectedLabel => 'Algılandı';
 
   @override
-  String get missingLabel => 'Missing';
+  String get missingLabel => 'Eksik';
 
   @override
   String get summary_title => 'Özet';
@@ -377,7 +377,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get language_picker_scroll_hint => 'Daha fazla dili görmek için kaydırın';
 
   @override
-  String get listenerStarting => 'Starting listener...';
+  String get listenerStarting => 'Dinleyici başlatılıyor...';
 
   @override
   String get howItWorksTitle => 'Nasıl çalışır';

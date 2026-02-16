@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app/app.dart';
 import 'package:flashchords/core/system_error.dart';
+import 'package:flashchords/services/purchase_service.dart';
 
 // 🔥 Firebase
 import 'package:firebase_core/firebase_core.dart';
@@ -59,6 +60,9 @@ Future<void> main() async {
   // ─────────────────────────────────────
   runZonedGuarded(() {
     debugPrint('✅ main() reached');
+
+    // Initialize in-app purchases (no-op if unavailable).
+    unawaited(PurchaseService.instance.init());
 
     runApp(
       const ProviderScope(

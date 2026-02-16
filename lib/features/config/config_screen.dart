@@ -9,6 +9,7 @@ import 'package:flashchords/widgets/upgrade_dialog.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:flashchords/core/free_listener_usage.dart';
+import 'package:flashchords/services/purchase_service.dart';
 
 enum _NavDecision { cancel, discard, save }
 
@@ -78,6 +79,17 @@ class _ConfigScreenState extends ConsumerState<ConfigScreen> {
     super.initState();
     _loadSavedConfig();
     _loadVersionLabel();
+    PurchaseService.instance.upgraded.addListener(_handleUpgradeChanged);
+  }
+
+  @override
+  void dispose() {
+    PurchaseService.instance.upgraded.removeListener(_handleUpgradeChanged);
+    super.dispose();
+  }
+
+  void _handleUpgradeChanged() {
+    _loadSavedConfig();
   }
 
   Future<void> _saveConfig({bool popAfter = false}) async {
@@ -96,6 +108,18 @@ class _ConfigScreenState extends ConsumerState<ConfigScreen> {
     }
     if (popAfter && mounted) {
       Navigator.pop(context);
+    }
+  }
+
+  Future<void> _restorePurchases() async {
+    final ok = await PurchaseService.instance.restorePurchases();
+    if (!mounted) return;
+    if (!ok) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Restore is not available right now.'),
+        ),
+      );
     }
   }
 
@@ -486,6 +510,16 @@ Future<void> _loadSavedConfig() async {
                 const Divider(),
 
                 _buildListenModeCheckbox(),
+                if (!_isUpgraded &&
+                    _listenerUsage != null &&
+                    _listenerUsage!.isLimitReached)
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextButton(
+                      onPressed: _restorePurchases,
+                      child: const Text('Restore Purchases'),
+                    ),
+                  ),
 
                 const SizedBox(height: 36),
 

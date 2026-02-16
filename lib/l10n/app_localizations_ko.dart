@@ -281,10 +281,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get flash_next => '다음';
 
   @override
-  String get detectedLabel => 'Detected';
+  String get detectedLabel => '감지됨';
 
   @override
-  String get missingLabel => 'Missing';
+  String get missingLabel => '없음';
 
   @override
   String get summary_title => '요약';
@@ -377,7 +377,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get language_picker_scroll_hint => '더 많은 언어를 보려면 스크롤하세요';
 
   @override
-  String get listenerStarting => 'Starting listener...';
+  String get listenerStarting => '리스너 시작 중...';
 
   @override
   String get howItWorksTitle => '사용 방법';

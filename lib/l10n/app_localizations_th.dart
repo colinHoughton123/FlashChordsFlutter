@@ -281,10 +281,10 @@ class AppLocalizationsTh extends AppLocalizations {
   String get flash_next => 'ถัดไป';
 
   @override
-  String get detectedLabel => 'Detected';
+  String get detectedLabel => 'ตรวจพบ';
 
   @override
-  String get missingLabel => 'Missing';
+  String get missingLabel => 'ไม่มี';
 
   @override
   String get summary_title => 'สรุป';
@@ -377,7 +377,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get language_picker_scroll_hint => 'เลื่อนเพื่อดูภาษาเพิ่มเติม';
 
   @override
-  String get listenerStarting => 'Starting listener...';
+  String get listenerStarting => 'กำลังเริ่มตัวฟัง...';
 
   @override
   String get howItWorksTitle => 'วิธีการใช้งาน';

@@ -238,41 +238,33 @@ debugPrint('   totalCards=${widget.totalCards}');
             if (_usage != null && !widget.hadErrors)
               Padding(
                 padding: const EdgeInsets.only(bottom: 12),
-                child: Text(
-                  _usage!.isLimitReached
-                      ? t.listenerLimitReachedBody(_usage!.limit)
-                      : t.freeUsageStatus(
-                          _usage!.limit,
-                          _usage!.played,
-                        ),
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: _usage!.isLimitReached
-                        ? Colors.redAccent
-                        : Colors.black54,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            if (_usage != null && _usage!.isLimitReached)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 12),
                 child: GestureDetector(
-                  onTap: () {
-                    showUpgradeRequiredDialog(
-                      context: context,
-                      t: t,
-                      limit: _usage!.limit,
-                    );
-                  },
+                  onTap: _usage!.isLimitReached
+                      ? () {
+                          showUpgradeRequiredDialog(
+                            context: context,
+                            t: t,
+                            limit: _usage!.limit,
+                          );
+                        }
+                      : null,
                   child: Text(
-                    t.upgradeReenableListener,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    _usage!.isLimitReached
+                        ? t.listenerLimitReachedBody(_usage!.limit)
+                        : t.freeUsageStatus(
+                            _usage!.limit,
+                            _usage!.played,
+                          ),
+                    style: TextStyle(
                       fontSize: 13,
-                      color: Colors.red,
-                      decoration: TextDecoration.underline,
+                      color: _usage!.isLimitReached
+                          ? Colors.redAccent
+                          : Colors.black54,
+                      decoration: _usage!.isLimitReached
+                          ? TextDecoration.underline
+                          : TextDecoration.none,
                     ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ),

@@ -118,9 +118,11 @@
   "flash_error_301": "至少必須選擇一個值。",
   "flash_error_301_hint": "已重新選取最後取消的項目以確保至少選擇一個值。若要取消它，請先選擇其他項目。",
   "language_picker_scroll_hint": "向下捲動以查看更多語言",
-  "listenerStarting": "Starting listener...",
+  "listenerStarting": "正在啟動監聽器...",
   "howItWorksTitle": "使用說明",
   "howItWorksBody": "將裝置放在鋼琴上。每張閃卡會顯示一個和弦，請演奏該和弦。若已啟用聆聽（設定），且你在計時結束前彈對了琴鍵（若計時器啟用），FlashChords™ 會標示為正確並顯示下一張卡片。若未啟用聆聽，請自行標記：正確按勾選或向右滑，錯誤按 X 或向左滑。點擊卡片可查看應彈的琴鍵。\n\n注意：非常低的音域和弦在某些裝置或鍵盤上可能較難偵測。",
   "upgradeReenableListener": "升級以重新啟用聆聽",
-  "configShowCorrectOnError": "偵測到錯誤時顯示正確按鍵"
+  "configShowCorrectOnError": "偵測到錯誤時顯示正確按鍵",
+  "detectedLabel": "已偵測",
+  "missingLabel": "缺失"
 }
